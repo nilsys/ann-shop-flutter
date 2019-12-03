@@ -1,2 +1,3 @@
-# ann-shop-flutter
-Quần Áo Sĩ ANN - Flutter APP
+# ANN Shop Flutter
+- Quần Áo Sĩ ANN
+- Flutter APP
