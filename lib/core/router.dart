@@ -1,5 +1,5 @@
-import 'package:ann_shop_flutter/view/empty_view.dart';
-import 'package:ann_shop_flutter/view/home_view.dart';
+import 'package:ann_shop_flutter/view/utility/empty_view.dart';
+import 'package:ann_shop_flutter/view/home_view/home_view.dart';
 import 'package:flutter/material.dart';
 
 class Router {

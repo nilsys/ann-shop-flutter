@@ -14,4 +14,7 @@ class GlobalConfig {
 
   var language = 'en';
 
+  final domainAPI = 'http://xuongann.com/api/v1/';
+  final domain = 'http://xuongann.com/';
+
 }

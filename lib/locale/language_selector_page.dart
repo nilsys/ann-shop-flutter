@@ -46,7 +46,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
           children: <Widget>[
             Text(
               AppTranslations.of(context).text("setting_language_title"),
-              style: AppStyles.title(),
+              style: Theme.of(context).textTheme.title,
             ),
             Padding(
               padding: EdgeInsets.only(top: 10),
@@ -77,7 +77,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
           },
           child: Text(
             languagesMap[code],
-            style: AppStyles.title(),
+            style: Theme.of(context).textTheme.title,
           ),
         ),
       ],

@@ -41,11 +41,12 @@ class WebViewRouter extends StatelessWidget {
 
   _toasterJavascriptChannel(BuildContext context) {
     return JavascriptChannel(
-        name: 'ABCD',
-        onMessageReceived: (JavascriptMessage message) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
-        });
+      name: 'ABCD',
+      onMessageReceived: (JavascriptMessage message) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text(message.message)),
+        );
+      },
+    );
   }
 }

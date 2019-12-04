@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/router.dart';
+import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,53 +30,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-//  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(
-//      analytics: AppAnalytics.instance.firebase,
-//      nameExtractor: Router.getNameExtractor);
-
-//  AppTranslationsDelegate _newLocaleDelegate;
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider.value(value: ThemeManager()),
-        StreamProvider<ThemeData>(
-            builder: (context) =>
-                Provider.of<ThemeManager>(context, listen: false).theme)
+        ChangeNotifierProvider.value(value: NavigationProvider()),
       ],
-      child: Consumer<ThemeData>(builder: (context, theme, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-//          localizationsDelegates: [
-//            _newLocaleDelegate,
-//            const AppTranslationsDelegate(),
-//            GlobalMaterialLocalizations.delegate,
-//            GlobalWidgetsLocalizations.delegate,
-//          ],
-//          supportedLocales: Application.instance.supportedLocales(),
-          navigatorKey: MyApp.navKey,
-          title: 'My Flutter App',
-          theme: theme,
-          initialRoute: '/',
-          onGenerateRoute: Router.generateRoute,
-//          navigatorObservers: [observer],
-        );
-      }),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        navigatorKey: MyApp.navKey,
+        title: 'ANN App',
+        theme: primaryTheme(),
+        initialRoute: '/',
+        onGenerateRoute: Router.generateRoute,
+      ),
     );
   }
-
-  @override
-  void initState() {
-    super.initState();
-//    _newLocaleDelegate = AppTranslationsDelegate(newLocale: null);
-//    Application.instance.onLocaleChanged.stream.listen(onLocaleChange);
-  }
-
-//  void onLocaleChange(Locale locale) {
-//    setState(() {
-//      _newLocaleDelegate = AppTranslationsDelegate(newLocale: locale);
-//    });
-//  }
 }
