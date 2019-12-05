@@ -142,7 +142,9 @@ class ProductSlide extends StatelessWidget {
       width: imageWidth + 15,
       padding: EdgeInsets.only(left: 15),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, '/product-detail', arguments: product);
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

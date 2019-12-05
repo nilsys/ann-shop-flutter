@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 
 class Product {
@@ -21,7 +20,7 @@ class Product {
     if(Utility.isNullOrEmpty(thumbnails)){
       return '';
     }else{
-      return thumbnails[0].url;
+      return thumbnails[thumbnails.length - 1].url;
     }
   }
 

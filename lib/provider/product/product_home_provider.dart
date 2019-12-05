@@ -6,16 +6,19 @@ import 'package:flutter/material.dart';
 class ProductHomeProvider extends ChangeNotifier {
   ProductHomeProvider() {
     // instructor
-    categories = new List();
-    for (int i = 0; i < categoryIDs.length; i++) {
-      categories.add(ResponseProvider<List<Product>>());
+    if(_categories == null) {
+      _categories = new List();
+      for (int i = 0; i < categoryIDs.length; i++) {
+        categories.add(ResponseProvider<List<Product>>());
+      }
     }
     loadCategories();
   }
 
   var categoryIDs = ['bao-li-xi-tet','vay-dam','do-bo-nu'];
 
-  List<ResponseProvider<List<Product>>> categories;
+  static List<ResponseProvider<List<Product>>> _categories;
+  List<ResponseProvider<List<Product>>> get categories => _categories;
 
   loadCategories({force = false}) {
     for (int i = 0; i < categoryIDs.length; i++) {
