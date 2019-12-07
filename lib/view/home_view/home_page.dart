@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                           child: SearchTitle('Bạn tìm gì hôm nay?')),
                       titleSpacing: 0,
                       actions: <Widget>[
-                        ButtonFavorite(),
+                        ButtonFavorite(color: Colors.white,),
                       ],
                     ),
                     SliverList(

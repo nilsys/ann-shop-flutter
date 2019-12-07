@@ -46,7 +46,7 @@ class _ProductSlideState extends State<ProductSlide> {
           ),
           Consumer<CategoryProductProvider>(
             builder: (_, provider, child) {
-              var products = provider.categories[code];
+              var products = provider.getByCategory(code);
               if (products.isLoading) {
                 return buildLoading(context);
               } else if (products.isError) {

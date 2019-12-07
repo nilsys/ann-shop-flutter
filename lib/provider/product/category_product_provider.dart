@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 class CategoryProductProvider extends ChangeNotifier {
   CategoryProductProvider() {
     // instructor
-    categories = new Map();
   }
 
-  Map<String, ResponseProvider<List<Product>>> categories;
+  static Map<String, ResponseProvider<List<Product>>> categories = new Map();
 
   ResponseProvider<List<Product>> getByCategory(String code){
 

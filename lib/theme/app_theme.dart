@@ -51,10 +51,10 @@ ThemeData primaryTheme() {
           caption: TextStyle(color: Colors.black87),
         ),
         actionsIconTheme: IconThemeData(
-          color: Colors.white,
+          color: Colors.grey,
         ),
         iconTheme: IconThemeData(
-          color: Colors.white,
+          color: Colors.grey,
         ),
       ),
 

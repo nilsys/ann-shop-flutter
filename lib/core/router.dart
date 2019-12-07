@@ -14,7 +14,7 @@ class Router {
       case '/product-detail':
         var data = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => ProductDetailView(product: data,), settings: settings);
+            builder: (_) => ProductDetailView(info: data,), settings: settings);
       case '/search':
         return MaterialPageRoute(
             builder: (_) => SearchPage(), settings: settings);
