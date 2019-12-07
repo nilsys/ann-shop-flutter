@@ -1,15 +1,15 @@
+import 'package:ann_shop_flutter/core/config.dart';
+import 'package:ann_shop_flutter/model/category.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
-class RoundedButton extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final GestureTapCallback onTap;
+class CategoryButton extends StatelessWidget {
+  final Category item;
 
-  RoundedButton({this.title, this.icon, this.onTap});
+  CategoryButton(this.item);
 
   @override
   Widget build(BuildContext context) {
-    var _color = Theme.of(context).primaryColor.withAlpha(150);
     return Container(
       height: 100,
       width: 80,
@@ -18,20 +18,16 @@ class RoundedButton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           InkWell(
-            onTap: onTap,
+            onTap: () {},
             child: Container(
               width: 50,
               height: 50,
-              decoration: BoxDecoration(
-                //color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(width: 1, color: _color),
-                color: _color,
-              ),
-              child: Icon(
-                this.icon,
-                color: Colors.white,
-                size: 25,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: ExtendedImage.network(
+                  domain + this.item.icon,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -39,7 +35,7 @@ class RoundedButton extends StatelessWidget {
             height: 10,
           ),
           Text(
-            this.title,
+            this.item.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,

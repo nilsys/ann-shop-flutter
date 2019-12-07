@@ -34,27 +34,27 @@ class ThemeManager {
 
 ThemeData primaryTheme() {
   var title = TextStyle(
-      color: Colors.purple,
+      color: Colors.black87,
       fontWeight: FontWeight.w500,
       fontSize: 18,
       letterSpacing: 0.15);
   return ThemeData(
       brightness: Brightness.light,
-      primarySwatch: Colors.purple,
-      primaryColor: Colors.purple,
+      primarySwatch: Colors.orange,
+      primaryColor: Colors.orange,
 
       /// App bar theme
       appBarTheme: AppBarTheme(
         color: Colors.white,
         textTheme: TextTheme(
           title: title,
-          caption: TextStyle(color: Colors.purple),
+          caption: TextStyle(color: Colors.black87),
         ),
         actionsIconTheme: IconThemeData(
-          color: Colors.purple,
+          color: Colors.white,
         ),
         iconTheme: IconThemeData(
-          color: Colors.purple,
+          color: Colors.white,
         ),
       ),
 

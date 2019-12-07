@@ -1,9 +1,11 @@
-import 'package:ann_shop_flutter/provider/product/product_home_provider.dart';
+import 'package:ann_shop_flutter/core/config.dart';
+import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
-import 'package:ann_shop_flutter/ui/home_page/home_buttons.dart';
+import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
+import 'package:ann_shop_flutter/ui/utility/button_favorite.dart';
+import 'package:ann_shop_flutter/ui/utility/search_title.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,10 +28,10 @@ class _HomePageState extends State<HomePage> {
       child: Stack(
         children: <Widget>[
           Container(
-            height: 200.0,
+            height: 400.0,
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.purple[200], Colors.purple[600]])),
+              color: Colors.orange,
+            ),
           ),
           RefreshIndicator(
             onRefresh: _refreshHomepage,
@@ -37,13 +39,21 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 child: CustomScrollView(
                   controller: scrollController,
-                  physics: ClampingScrollPhysics(),
+                  physics: BouncingScrollPhysics(),
                   slivers: <Widget>[
+                    SliverAppBar(
+                      pinned: true,
+                      backgroundColor: Colors.orange,
+                      title: Padding(
+                          padding: EdgeInsets.only(left: defaultPadding),
+                          child: SearchTitle('Bạn tìm gì hôm nay?')),
+                      titleSpacing: 0,
+                      actions: <Widget>[
+                        ButtonFavorite(),
+                      ],
+                    ),
                     SliverList(
                       delegate: SliverChildListDelegate([
-                        Container(
-                          height: 40,
-                        ),
                         // banner
                         HomeBanner(),
                         // button
@@ -51,24 +61,25 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.white,
                           height: 20,
                         ),
-                        HomeButtons(),
-                        //
+                        // category
+                        HomeCategory(),
                       ]),
                     ),
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
-                          return ProductSlide(index: index);
+                          return ProductSlide(CategoryRepository
+                              .instance.categoryGroups[index]);
                         },
-                        childCount: Provider.of<ProductHomeProvider>(context)
-                            .categoryIDs
-                            .length,
+                        childCount:
+                            CategoryRepository.instance.categoryGroups.length,
                       ),
                     ),
                     SliverToBoxAdapter(
                       child: Container(
                         color: Colors.white,
-                        height: 30,),
+                        height: 30,
+                      ),
                     )
                   ],
                 ),

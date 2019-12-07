@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/provider/product/product_home_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/view/home_view/account_page.dart';
 import 'package:ann_shop_flutter/view/home_view/basket_page.dart';
@@ -28,7 +27,6 @@ class _HomeViewState extends State<HomeView>
     final navigation = Provider.of<NavigationProvider>(context);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: ProductHomeProvider())
       ],
       child: WillPopScope(
         onWillPop: () async {

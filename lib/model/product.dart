@@ -159,3 +159,10 @@ class ProductSize {
     return data;
   }
 }
+
+class ProductSort{
+  int id;
+  String title;
+
+  ProductSort({this.id,this.title});
+}

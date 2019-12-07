@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/router.dart';
+import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: NavigationProvider()),
+        ChangeNotifierProvider.value(value: CategoryProductProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/view/home_view/search_page.dart';
 import 'package:ann_shop_flutter/view/product/product_detail_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';
@@ -14,6 +15,9 @@ class Router {
         var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ProductDetailView(product: data,), settings: settings);
+      case '/search':
+        return MaterialPageRoute(
+            builder: (_) => SearchPage(), settings: settings);
       default:
         return MaterialPageRoute(
             builder: (_) => EmptyView(title: settings.name));
