@@ -2,6 +2,7 @@ import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_full.dart';
+import 'package:ann_shop_flutter/ui/product/product_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class FavoriteView extends StatelessWidget {
               delegate: SliverChildBuilderDelegate((context, index) {
                 return Column(
                   children: <Widget>[
-                    ProductFull(data[index].product),
+                    ProductTitle(data[index].product),
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       height: 12,
