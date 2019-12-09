@@ -1,8 +1,9 @@
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/category.dart';
-import 'package:ann_shop_flutter/model/product.dart';
+import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
-import 'package:ann_shop_flutter/ui/home_page/product_item.dart';
+import 'package:ann_shop_flutter/repository/category_repository.dart';
+import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
@@ -19,19 +20,19 @@ class ProductSlide extends StatefulWidget {
 }
 
 class _ProductSlideState extends State<ProductSlide> {
-  String code;
-
+  String currentCode;
+  final double itemHeight = 340;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    code = widget.group.code;
+    currentCode = widget.group.code;
   }
 
   @override
   Widget build(BuildContext context) {
     CategoryProductProvider provider = Provider.of(context);
-    var products = provider.getByCategory(code);
+    var products = provider.getByCategory(currentCode);
     return Container(
       color: Colors.white,
       child: Column(
@@ -44,22 +45,55 @@ class _ProductSlideState extends State<ProductSlide> {
             title: widget.group.title,
             onPressed: () {},
           ),
-          Consumer<CategoryProductProvider>(
-            builder: (_, provider, child) {
-              var products = provider.getByCategory(code);
-              if (products.isLoading) {
-                return buildLoading(context);
-              } else if (products.isError) {
-                return buildError(context);
-              } else {
-                if (Utility.isNullOrEmpty(products.data)) {
-                  return buildEmpty(context);
-                } else {
-                  return buildProductList(context, products.data);
-                }
-              }
-            },
-          ),
+          Column(
+            children: <Widget>[
+              Utility.isNullOrEmpty(widget.group.children)
+                  ? Container()
+                  : Container(
+                margin: EdgeInsets.only(bottom: 10),
+                height: 30,
+                width: double.infinity,
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    index-=2;
+                    if (index < -1 || index == widget.group.children.length) {
+                      return SizedBox(
+                        width: 5,
+                      );
+                    }
+                    if (index < 0) {
+                      return _buildCategoryButton(widget.group.code, 'Tất cả');
+                    } else {
+                      var _code = widget.group.children[index];
+                      var _name =
+                          CategoryRepository.instance.getCategory(_code).title;
+                      return _buildCategoryButton(_code, _name);
+                    }
+                  },
+                  separatorBuilder:(context, index){
+                    return SizedBox(width: 10,);
+                  },
+                  itemCount: widget.group.children.length + 3,
+                  scrollDirection: Axis.horizontal,
+                ),
+              ),
+              Consumer<CategoryProductProvider>(
+                builder: (_, provider, child) {
+                  if (products.isLoading) {
+                    return buildLoading(context);
+                  } else if (products.isError) {
+                    return buildError(context);
+                  } else {
+                    if (Utility.isNullOrEmpty(products.data)) {
+                      return buildEmpty(context);
+                    } else {
+                      return buildProductList(context, products.data);
+                    }
+                  }
+                },
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -85,8 +119,7 @@ class _ProductSlideState extends State<ProductSlide> {
   Widget buildError(BuildContext context) {
     return buildBox(
       child: SomethingWentWrong(onReload: () {
-        Provider.of<CategoryProductProvider>(context)
-            .loadCategory(code);
+        Provider.of<CategoryProductProvider>(context).loadCategory(currentCode);
       }),
     );
   }
@@ -99,7 +132,7 @@ class _ProductSlideState extends State<ProductSlide> {
 
   Widget buildBox({@required child}) {
     return Container(
-      height: 200,
+      height: itemHeight,
       margin: EdgeInsets.fromLTRB(15, 0, 15, 10),
       decoration: BoxDecoration(
         color: Colors.grey[50],
@@ -111,12 +144,11 @@ class _ProductSlideState extends State<ProductSlide> {
   }
 
   final imageWidth = 150.0;
-
   final imageHeight = 200.0;
 
   Widget buildProductList(BuildContext context, List<Product> data) {
     return Container(
-      height: 400,
+      height: itemHeight,
       padding: EdgeInsets.only(left: 0, right: 0),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -134,6 +166,31 @@ class _ProductSlideState extends State<ProductSlide> {
             height: imageHeight,
           );
         },
+      ),
+    );
+  }
+
+  _buildCategoryButton(String _code, String _name) {
+    bool isSelect = _code == currentCode;
+    return InkWell(
+      onTap: () {
+        setState(() {
+          currentCode = _code;
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: isSelect ? Colors.black : null,
+          borderRadius: BorderRadius.circular(5),
+          border: isSelect ? null : Border.all(color: Colors.grey, width: 1),
+        ),
+        child: Text(
+          _name,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: isSelect ? Colors.white : Colors.grey),
+        ),
       ),
     );
   }

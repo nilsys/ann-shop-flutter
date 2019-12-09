@@ -28,7 +28,8 @@ class HomeCategory extends StatelessWidget {
                 return CategoryButton(data[index]);
               },
               gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2),
+                crossAxisCount: 2,
+              ),
             ),
           ),
         ],

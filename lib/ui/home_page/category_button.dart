@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/core/config.dart';
-import 'package:ann_shop_flutter/model/category.dart';
+import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
@@ -34,11 +34,14 @@ class CategoryButton extends StatelessWidget {
           Container(
             height: 10,
           ),
-          Text(
-            this.item.title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
+          Container(
+            width: 80,
+            child: Text(
+              this.item.title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),

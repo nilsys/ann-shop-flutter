@@ -1,6 +1,5 @@
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/view/home_view/account_page.dart';
-import 'package:ann_shop_flutter/view/home_view/basket_page.dart';
 import 'package:ann_shop_flutter/view/home_view/category_page.dart';
 import 'package:ann_shop_flutter/view/home_view/home_page.dart';
 import 'package:ann_shop_flutter/view/home_view/search_page.dart';
@@ -20,7 +19,7 @@ class _HomeViewState extends State<HomeView>
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController = new TabController(length: 5, vsync: this);
+    tabController = new TabController(length: 4, vsync: this);
   }
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,6 @@ class _HomeViewState extends State<HomeView>
               CategoryPage(),
               SearchPage(),
               AccountPage(),
-              BasketPage(),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -67,14 +65,10 @@ class _HomeViewState extends State<HomeView>
                 icon: Icon(Icons.account_box),
                 title: Text('Account'),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                title: Text('Basket'),
-              ),
             ],
             currentIndex: navigation.index,
             selectedItemColor: Theme.of(context).primaryColor,
-            unselectedItemColor: Colors.black87,
+            unselectedItemColor: Colors.grey,
             onTap: _onItemTapped,
           ),
         ),

@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/model/product.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
 
 class ProductDetail {
   int id;
@@ -15,10 +15,10 @@ class ProductDetail {
   String content;
   String slug;
   List<String> images;
-  List<ProductColors> colors;
+  List<ProductColor> colors;
   List<ProductSize> sizes;
   int badge;
-  List<String> tags;
+  List<ProductTag> tags;
 
   ProductDetail(
       {this.id,
@@ -61,9 +61,9 @@ class ProductDetail {
     slug = json['slug'];
     images = json['images'].cast<String>();
     if (json['colors'] != null) {
-      colors = new List<ProductColors>();
+      colors = new List<ProductColor>();
       json['colors'].forEach((v) {
-        colors.add(new ProductColors.fromJson(v));
+        colors.add(new ProductColor.fromJson(v));
       });
     }
     if (json['sizes'] != null) {
@@ -73,7 +73,12 @@ class ProductDetail {
       });
     }
     badge = json['badge'];
-    tags = json['tags'].cast<String>();
+    if (json['tags'] != null) {
+      tags = new List<ProductTag>();
+      json['tags'].forEach((v) {
+        tags.add(new ProductTag.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -101,7 +106,9 @@ class ProductDetail {
       data['sizes'] = this.sizes.map((v) => v.toJson()).toList();
     }
     data['badge'] = this.badge;
-    data['tags'] = this.tags;
+    if (this.tags != null) {
+      data['tags'] = this.tags.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

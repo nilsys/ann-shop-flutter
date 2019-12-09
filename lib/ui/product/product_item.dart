@@ -1,8 +1,11 @@
 import 'package:ann_shop_flutter/core/config.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/product.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
+import 'package:ann_shop_flutter/ui/favorite/add_favorite_button.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductItem extends StatelessWidget {
   ProductItem(this.product, {this.width = 150, this.height = 200});
@@ -25,13 +28,19 @@ class ProductItem extends StatelessWidget {
           children: <Widget>[
             Container(
               height: height,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: ExtendedImage.network(
-                  domain + product.getCover,
-                  fit: BoxFit.cover,
-                  cache: true,
-                ),
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: ExtendedImage.network(
+                      domain + product.getCover,
+                      fit: BoxFit.cover,
+                      cache: true,
+                    ),
+                  ),
+                  //Provider.value(value: product, child: AddFavoriteButton(),)
+                ],
               ),
             ),
             SizedBox(

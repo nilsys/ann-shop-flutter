@@ -6,7 +6,7 @@ class Product {
   String name;
   String slug;
   String materials;
-  List<ProductColors> colors;
+  List<ProductColor> colors;
   List<ProductSize> sizes;
   int badge;
   bool availability;
@@ -47,9 +47,9 @@ class Product {
     slug = json['slug'];
     materials = json['materials'];
     if (json['colors'] != null) {
-      colors = new List<ProductColors>();
+      colors = new List<ProductColor>();
       json['colors'].forEach((v) {
-        colors.add(new ProductColors.fromJson(v));
+        colors.add(new ProductColor.fromJson(v));
       });
     }
     if (json['sizes'] != null) {
@@ -98,22 +98,19 @@ class Product {
   }
 }
 
-class ProductColors {
-  int productID;
+class ProductColor {
   int id;
   String name;
 
-  ProductColors({this.productID, this.id, this.name});
+  ProductColor({this.id, this.name});
 
-  ProductColors.fromJson(Map<String, dynamic> json) {
-    productID = json['productID'];
+  ProductColor.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['productID'] = this.productID;
     data['id'] = this.id;
     data['name'] = this.name;
     return data;
@@ -139,21 +136,18 @@ class ProductThumbnails {
   }
 }
 class ProductSize {
-  int productID;
   int id;
   String name;
 
-  ProductSize({this.productID, this.id, this.name});
+  ProductSize({this.id, this.name});
 
   ProductSize.fromJson(Map<String, dynamic> json) {
-    productID = json['productID'];
     id = json['id'];
     name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['productID'] = this.productID;
     data['id'] = this.id;
     data['name'] = this.name;
     return data;
@@ -165,4 +159,26 @@ class ProductSort{
   String title;
 
   ProductSort({this.id,this.title});
+}
+
+class ProductTag {
+  int id;
+  String name;
+  String slug;
+
+  ProductTag({this.id, this.name, this.slug});
+
+  ProductTag.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    slug = json['slug'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['slug'] = this.slug;
+    return data;
+  }
 }

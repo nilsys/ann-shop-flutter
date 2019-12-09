@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/model/category.dart';
+import 'package:ann_shop_flutter/model/product/category.dart';
 
 class CategoryRepository {
 
@@ -78,21 +78,7 @@ class CategoryRepository {
       'icon': 'assets/images/categories/bao-li-xi-tet.jpg',
       'code':'bao-li-xi-tet/product',
       'children': []
-    },
-    {
-      'title': 'Hàng Order',
-      'description': 'Tất cả hàng Order',
-      'icon': 'assets/images/categories/new-product.png',
-      'code':'ao-quan-nam/product/hang-order',
-      'children': ['ao-quan-nam/product/hang-order', 'quan-ao-nu/product/hang-order']
-    },
-    {
-      'title': 'Hàng sale',
-      'description': 'Tất cả hàng sale',
-      'icon': 'assets/images/categories/sale-product.png',
-      'code':'quan-ao-nu/product/hang-sale',
-      'children': ['quan-ao-nu/product/hang-sale', 'ao-quan-nam/product/hang-sale']
-    },
+    }
   ];
 
   var _dataMap = [

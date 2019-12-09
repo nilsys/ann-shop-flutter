@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/config.dart';
-import 'package:ann_shop_flutter/model/product.dart';
-import 'package:ann_shop_flutter/model/product_detail.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/model/product/product_detail.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ProductRepository {
@@ -19,12 +20,31 @@ class ProductRepository {
       ProductSort(id: 3, title: 'Giá giảm dần'),
       ProductSort(id: 4, title: 'Mẫu mới nhất'),
     ];
+
+    _productColors = {
+      10: Colors.black,
+      23: Colors.red[800],//Đỏ đô
+      32: Colors.deepOrangeAccent[100],//Hồng cam
+      38: Colors.orangeAccent[100],//Hồng phấn
+      51: Colors.brown,//Kem đậm
+      52: Colors.deepOrangeAccent[100],//Kem nhạt
+      88: Colors.yellow,
+      96: Colors.blueGrey[100],//Vỏ đậu
+      108: Colors.grey,//Xám tiêu
+      123: Colors.blueGrey,//Xanh đen
+      128: Colors.green,//Xanh lá
+      132: Colors.cyan,//Xanh lông công
+    };
   }
 
   List<ProductSort> productSorts;
+  Map<int, Color> _productColors;
+  Color getColorByID(id){
+    return _productColors[id]??Colors.red;
+  }
 
   /// http://xuongann.com/api/v1/home/category/vay-dam?pageSize=8
-  Future<List<Product>> loadByHomeCategory(String name, {pageSize=8}) async {
+  Future<List<Product>> loadByHomeCategory(String name, {pageSize = 8}) async {
     try {
       final url = domainAPI + 'home/category/' + name + '?pageSize=$pageSize';
       final response = await http.get(url).timeout(Duration(seconds: 10));
@@ -43,11 +63,13 @@ class ProductRepository {
   }
 
   /// http://xuongann.com/api/v1/category/quan-ao-nam/product?pageNumber=1&pageSize=28&sort=4
-  Future<List<Product>> loadByCategory(String name, {page=1, pageSize = 10, sort = 4}) async {
+  Future<List<Product>> loadByCategory(String name,
+      {page = 1, pageSize = 10, sort = 4}) async {
     try {
-      final url = domainAPI + 'category/$name?pageNumber=$page&pageSize=$pageSize&sort=$sort';
+      final url = domainAPI +
+          'category/$name?pageNumber=$page&pageSize=$pageSize&sort=$sort';
       final response = await http.get(url).timeout(Duration(seconds: 10));
-      print('category $name: ' +response.body);
+      print('category $name: ' + response.body);
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
         List<Product> _data = new List();
@@ -61,7 +83,6 @@ class ProductRepository {
     }
     return null;
   }
-
 
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {

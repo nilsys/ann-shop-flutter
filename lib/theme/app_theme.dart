@@ -34,7 +34,7 @@ class ThemeManager {
 
 ThemeData primaryTheme() {
   var title = TextStyle(
-      color: Colors.black87,
+      color: Colors.white,
       fontWeight: FontWeight.w500,
       fontSize: 18,
       letterSpacing: 0.15);
@@ -45,16 +45,16 @@ ThemeData primaryTheme() {
 
       /// App bar theme
       appBarTheme: AppBarTheme(
-        color: Colors.white,
+//        color: Colors.white,
         textTheme: TextTheme(
           title: title,
-          caption: TextStyle(color: Colors.black87),
+          caption: TextStyle(color: Colors.white),
         ),
         actionsIconTheme: IconThemeData(
-          color: Colors.grey,
+          color: Colors.white,
         ),
         iconTheme: IconThemeData(
-          color: Colors.grey,
+          color: Colors.white,
         ),
       ),
 

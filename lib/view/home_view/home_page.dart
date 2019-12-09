@@ -3,7 +3,7 @@ import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
-import 'package:ann_shop_flutter/ui/utility/button_favorite.dart';
+import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/search_title.dart';
 import 'package:flutter/material.dart';
 
@@ -49,18 +49,13 @@ class _HomePageState extends State<HomePage> {
                           child: SearchTitle('Bạn tìm gì hôm nay?')),
                       titleSpacing: 0,
                       actions: <Widget>[
-                        ButtonFavorite(color: Colors.white,),
+                        FavoriteButton(color: Colors.white,),
                       ],
                     ),
                     SliverList(
                       delegate: SliverChildListDelegate([
                         // banner
                         HomeBanner(),
-                        // button
-                        Container(
-                          color: Colors.white,
-                          height: 20,
-                        ),
                         // category
                         HomeCategory(),
                       ]),

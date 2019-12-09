@@ -1,12 +1,12 @@
 
 
-class GlobalConfig {
+class Core {
 
-  static final GlobalConfig instance = GlobalConfig._internal();
+  static final Core instance = Core._internal();
 
-  factory GlobalConfig() => instance;
+  factory Core() => instance;
 
-  GlobalConfig._internal() {
+  Core._internal() {
     /// init
   }
 

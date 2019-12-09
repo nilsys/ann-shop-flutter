@@ -1,9 +1,10 @@
 import 'package:ann_shop_flutter/core/config.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/product.dart';
-import 'package:ann_shop_flutter/model/product_detail.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/model/product/product_detail.dart';
+import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
-import 'package:ann_shop_flutter/ui/utility/button_favorite.dart';
+import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
@@ -27,15 +28,12 @@ class _ProductDetailViewState extends State<ProductDetailView>
   @override
   Widget build(BuildContext context) {
     ProductProvider provider = Provider.of(context);
-//    var data = provider.getBySlug(widget.info.slug);
-    var data = provider.getBySlug('ao-khoac-nu-dinh-da-vo-sac-size-60-70kg');
+    var data = provider.getBySlug(widget.info.slug);
     product = data.data;
 
     if (data.isLoading) {
       return Scaffold(
-        appBar: AppBar(
-//          backgroundColor: Colors.transparent,
-        ),
+        appBar: AppBar(backgroundColor: Colors.white),
         body: Center(
           child: UIManager.defaultIndicator(),
         ),
@@ -43,6 +41,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
     } else if (data.isCompleted) {
       return Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.grey),
+          backgroundColor: Colors.white,
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.search),
@@ -50,7 +50,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             IconButton(
               icon: Icon(Icons.home),
             ),
-            ButtonFavorite(),
+            FavoriteButton(),
             IconButton(
               icon: Icon(Icons.sort),
             )
@@ -59,15 +59,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
         bottomNavigationBar: _buildButtonControl(),
         body: CustomScrollView(
           slivers: <Widget>[
-
             /// page view image
             SliverList(
               delegate: SliverChildListDelegate([
                 Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height / 2,
+                  height: MediaQuery.of(context).size.height / 2,
                   child: ExtendedImage.network(
                     domain + product.images[indexImage],
                     fit: BoxFit.contain,
@@ -80,16 +76,22 @@ class _ProductDetailViewState extends State<ProductDetailView>
               ]),
             ),
             SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  _buildProductColor(),
+                  _buildProductSize(),
+                ]),
+              ),
+            ),
+            SliverPadding(
               padding: EdgeInsets.symmetric(
                   horizontal: defaultPadding, vertical: 15),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   Text(
                     product.name,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .title,
+                    style: Theme.of(context).textTheme.title,
                   ),
                   _buildMaterials(),
                   Container(
@@ -103,8 +105,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   ),
                   Text(
                     'Giá sỉ: ' + Utility.formatPrice(product.regularPrice),
-                    style: Theme
-                        .of(context)
+                    style: Theme.of(context)
                         .textTheme
                         .title
                         .merge(TextStyle(color: Colors.red)),
@@ -116,30 +117,25 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   ),
                   Text(
                     'Giá lẻ: ' + Utility.formatPrice(product.retailPrice),
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .title,
+                    style: Theme.of(context).textTheme.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  _buildTags(),
                 ]),
               ),
             ),
 
             SliverToBoxAdapter(
                 child: Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(defaultPadding),
-                  child: Text(
-                    'Thông tin sản phẩm',
-                    textAlign: TextAlign.center,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .title,
-                  ),
-                )),
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(defaultPadding),
+              child: Text(
+                'Thông tin sản phẩm',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.title,
+              ),
+            )),
             SliverPadding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               sliver: SliverList(
@@ -150,30 +146,14 @@ class _ProductDetailViewState extends State<ProductDetailView>
             ),
 
             /// List image (button download)
-            SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 0),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 15),
-                      child: ExtendedImage.network(
-                        domain + product.images[index],
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  },
-                  childCount: product.images.length,
-                ),
-              ),
-            ),
+//            _buildListImage(),
           ],
         ),
       );
     } else {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
         ),
         body: Center(
           child: SomethingWentWrong(
@@ -217,12 +197,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
         color: Colors.white,
         border: isSelect
             ? new Border.all(
-          color: Theme
-              .of(context)
-              .primaryColor,
-          width: 2,
-          style: BorderStyle.solid,
-        )
+                color: Theme.of(context).primaryColor,
+                width: 2,
+                style: BorderStyle.solid,
+              )
             : null,
         borderRadius: BorderRadius.all(
           Radius.circular(7),
@@ -257,15 +235,22 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  Widget buildIconButton(icon, {onPressed}) {
-    return Container(
-      color: Colors.orange,
-      child: IconButton(
-        icon: Icon(
-          icon,
-          size: 20,
+  Widget _buildListImage() {
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 0),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            return Container(
+              margin: EdgeInsets.only(bottom: 15),
+              child: ExtendedImage.network(
+                domain + product.images[index],
+                fit: BoxFit.cover,
+              ),
+            );
+          },
+          childCount: product.images.length,
         ),
-        onPressed: () {},
       ),
     );
   }
@@ -281,6 +266,44 @@ class _ProductDetailViewState extends State<ProductDetailView>
         padding: EdgeInsets.only(top: 5),
       );
     }
+  }
+
+  Widget _buildTags() {
+    if (Utility.isNullOrEmpty(product.tags)) {
+      return Container();
+    } else {
+      List<Widget> children = [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Text('TAG: '),
+        ),
+      ];
+      for (var _tag in product.tags) {
+        children.add(_buildTag(_tag));
+      }
+
+      return Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: Wrap(
+          children: children,
+        ),
+      );
+    }
+  }
+
+  Widget _buildTag(ProductTag _tag) {
+    return InkWell(
+        onTap: () {},
+        child: Container(
+          padding: EdgeInsets.all(5),
+          child: Text(
+            _tag.name,
+            style: Theme.of(context)
+                .textTheme
+                .body2
+                .merge(TextStyle(color: Colors.blue)),
+          ),
+        ));
   }
 
   Widget _buildOtherInfo() {
@@ -310,6 +333,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   Widget _buildButtonControl() {
+    var textTheme =
+        Theme.of(context).textTheme.body2.merge(TextStyle(color: Colors.white));
+    bool favorite = Provider.of<FavoriteProvider>(context)
+        .containsInFavorite(widget.info.productID);
     return BottomAppBar(
       color: Colors.white,
       child: Container(
@@ -317,13 +344,159 @@ class _ProductDetailViewState extends State<ProductDetailView>
         padding: EdgeInsets.all(5),
         child: Row(
           children: <Widget>[
-            Expanded(flex: 1,child: RaisedButton(color:Theme.of(context).primaryColor,child: Text('Add to cart'),onPressed: (){},)),
-            SizedBox(width: 5,),
-            Expanded(flex: 1,child: RaisedButton(color:Theme.of(context).primaryColor,child: Text('Download'),onPressed: (){},)),
-            SizedBox(width: 5,),
-            Expanded(flex: 1,child: RaisedButton(color:Theme.of(context).primaryColor,child: Text('Copy'),onPressed: (){},)),
+            Expanded(
+              flex: 2,
+              child: favorite
+                  ? IconButton(
+                      color: Theme.of(context).primaryColor,
+                      icon: Icon(Icons.favorite),
+                      onPressed: () {
+                        Provider.of<FavoriteProvider>(context)
+                            .removeProduct(widget.info.productID);
+                      },
+                    )
+                  : IconButton(
+                      color: Theme.of(context).primaryColor,
+                      icon: Icon(Icons.favorite_border),
+                      onPressed: () {
+                        Provider.of<FavoriteProvider>(context)
+                            .addNewProduct(widget.info, count: 1);
+                      },
+                    ),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Expanded(
+                flex: 3,
+                child: RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  child: Text(
+                    'Download',
+                    style: textTheme,
+                  ),
+                  onPressed: () {},
+                )),
+            SizedBox(
+              width: 5,
+            ),
+            Expanded(
+                flex: 3,
+                child: RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  child: Text(
+                    'Copy',
+                    style: textTheme,
+                  ),
+                  onPressed: () {},
+                )),
           ],
         ),
+      ),
+    );
+  }
+
+  ProductColor _currentColor;
+
+  Widget _buildProductColor() {
+    if (Utility.isNullOrEmpty(product.colors)) {
+      return Container();
+    }
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      alignment: Alignment.centerLeft,
+      height: 40,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.white10,
+            Color(0xfff4f4f4),
+            Color(0xffeaeaea),
+            Color(0xfff4f4f4)
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        border: new Border.all(
+          color: Colors.grey,
+          width: 1,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.grey),
+              children: [
+                TextSpan(text: 'Màu: '),
+                TextSpan(
+                    text: _currentColor == null
+                        ? 'Chưa chọn'
+                        : _currentColor.name,
+                    style: Theme.of(context).textTheme.body2)
+              ],
+            ),
+          ),
+          Icon(Icons.keyboard_arrow_down)
+        ],
+      ),
+    );
+  }
+
+  ProductSize _currentSize;
+
+  Widget _buildProductSize() {
+    if (Utility.isNullOrEmpty(product.sizes)) {
+      return Container();
+    }
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      alignment: Alignment.centerLeft,
+      height: 40,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.white10,
+            Color(0xfff4f4f4),
+            Color(0xffeaeaea),
+            Color(0xfff4f4f4)
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        border: new Border.all(
+          color: Colors.grey,
+          width: 1,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.grey),
+              children: [
+                TextSpan(text: 'Kích cỡ: '),
+                TextSpan(
+                    text:
+                        _currentSize == null ? 'Chưa chọn' : _currentSize.name,
+                    style: Theme.of(context).textTheme.body2)
+              ],
+            ),
+          ),
+          Icon(Icons.keyboard_arrow_down)
+        ],
       ),
     );
   }
