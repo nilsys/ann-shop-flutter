@@ -37,10 +37,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: NavigationProvider()),
-        ChangeNotifierProvider.value(value: CategoryProductProvider()),
-        ChangeNotifierProvider.value(value: ProductProvider()),
-        ChangeNotifierProvider.value(value: FavoriteProvider()),
+        ChangeNotifierProvider(create:(_)=> NavigationProvider()),
+        ChangeNotifierProvider(create:(_)=> CategoryProductProvider()),
+        ChangeNotifierProvider(create:(_)=> ProductProvider()),
+        ChangeNotifierProvider(create:(_)=> FavoriteProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

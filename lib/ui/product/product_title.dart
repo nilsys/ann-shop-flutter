@@ -1,91 +1,157 @@
 import 'package:ann_shop_flutter/core/config.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/model/product/product_favorite.dart';
+import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductTitle extends StatelessWidget {
-  ProductTitle(this.product);
+  ProductTitle(this.data);
 
-  final Product product;
+  final ProductFavorite data;
 
   @override
   Widget build(BuildContext context) {
     return Provider.value(
-      value: product,
+      value: data.product,
       child: Container(
         height: 150,
+        padding: EdgeInsets.all(defaultPadding),
         child: InkWell(
           onTap: () {
-            Navigator.pushNamed(context, '/product-detail', arguments: product);
+            Navigator.pushNamed(context, '/product-detail',
+                arguments: data.product);
           },
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(0),
-                    child: ExtendedImage.network(
-                      domain + product.getCover,
-                      fit: BoxFit.cover,
-                      cache: true,
-                    ),
+              Container(
+                width: 90,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(0),
+                  child: ExtendedImage.network(
+                    domain + data.product.getCover,
+                    fit: BoxFit.cover,
+                    cache: true,
                   ),
-                  //Provider.value(value: product, child: AddFavoriteButton(),)
-                ],
+                ),
               ),
               SizedBox(
-                height: 15,
+                width: 15,
               ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-                    child: Text(
-                      product.name,
-                      style: Theme.of(context).textTheme.body1,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+              Expanded(
+                flex: 1,
+                child: IntrinsicWidth(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: 40,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          data.product.name,
+                          textAlign: TextAlign.left,
+                          style: Theme.of(context).textTheme.body2,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'Mã: ' + data.product.sku,
+                        textAlign: TextAlign.left,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subhead
+                            .merge(TextStyle(color: Colors.grey)),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Container(
+                        height: 30,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Giá sỉ: ' +
+                                  Utility.formatPrice(
+                                      data.product.regularPrice),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .body2
+                                  .merge(TextStyle(color: Colors.red)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              'Giá lẻ: ' +
+                                  Utility.formatPrice(data.product.retailPrice),
+                              style: Theme.of(context).textTheme.body2,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Container(),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                            height: 40,
+                            color: Colors.grey[400],
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                InkWell(
+                                  onTap:(){
+                                    Provider.of<FavoriteProvider>(context).changeCount(data,data.count-1);
+                                  },
+                                  child: Container(
+                                      width: 30,
+                                      child: Icon(
+                                        Icons.remove,
+                                        size: 20,
+                                      )),
+                                ),
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  alignment: Alignment.center,
+                                  decoration:
+                                      BoxDecoration(color: Colors.grey[200]),
+                                  child: Text(
+                                    data.count.toString(),
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context).textTheme.subhead,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: (){
+                                    Provider.of<FavoriteProvider>(context).changeCount(data,data.count+1);
+                                  },
+                                  child: Container(
+                                    width: 30,
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        top: 8, left: defaultPadding, right: defaultPadding),
-                    child: Text(
-                      'Mã: ' + product.sku,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subhead
-                          .merge(TextStyle(color: Colors.grey)),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        top: 8, left: defaultPadding, right: defaultPadding),
-                    child: Text(
-                      'Giá sỉ: ' + Utility.formatPrice(product.regularPrice),
-                      style: Theme.of(context)
-                          .textTheme
-                          .body2
-                          .merge(TextStyle(color: Colors.red)),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        top: 8, left: defaultPadding, right: defaultPadding),
-                    child: Text(
-                      'Giá lẻ: ' + Utility.formatPrice(product.retailPrice),
-                      style: Theme.of(context).textTheme.body2,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
+                ),
               )
             ],
           ),

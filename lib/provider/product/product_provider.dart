@@ -8,8 +8,7 @@ class ProductProvider extends ChangeNotifier {
     // instructor
   }
 
-  // slug, productDetail
-  static Map<String, ResponseProvider<ProductDetail>> products = new Map();
+  Map<String, ResponseProvider<ProductDetail>> products = new Map();
 
   ResponseProvider<ProductDetail> getBySlug(String code){
 

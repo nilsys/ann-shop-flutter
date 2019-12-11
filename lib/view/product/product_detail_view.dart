@@ -50,7 +50,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             IconButton(
               icon: Icon(Icons.home),
             ),
-            FavoriteButton(),
+            FavoriteButton(color: Colors.grey,),
             IconButton(
               icon: Icon(Icons.sort),
             )

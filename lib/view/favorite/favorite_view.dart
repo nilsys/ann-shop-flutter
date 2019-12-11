@@ -15,6 +15,9 @@ class FavoriteView extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.close),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Text('Danh sách yêu thích'),
       ),
@@ -26,10 +29,9 @@ class FavoriteView extends StatelessWidget {
               delegate: SliverChildBuilderDelegate((context, index) {
                 return Column(
                   children: <Widget>[
-                    ProductTitle(data[index].product),
+                    ProductTitle(data[index]),
                     Container(
-                      margin: EdgeInsets.only(top: 10),
-                      height: 12,
+                      height: 2,
                       color: AppStyles.dividerColor,
                     )
                   ],

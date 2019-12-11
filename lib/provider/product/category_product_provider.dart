@@ -8,7 +8,7 @@ class CategoryProductProvider extends ChangeNotifier {
     // instructor
   }
 
-  static Map<String, ResponseProvider<List<Product>>> categories = new Map();
+  Map<String, ResponseProvider<List<Product>>> categories = new Map();
 
   ResponseProvider<List<Product>> getByCategory(String code){
 

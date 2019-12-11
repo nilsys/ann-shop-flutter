@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 
 class FavoriteProvider with ChangeNotifier {
   final String _keyLocaleFavorite = '_keyLocaleFavorite';
-  static List<ProductFavorite> _products;
-  List<ProductFavorite> get products => _products;
+  List<ProductFavorite> products;
 
   FavoriteProvider() {
     loadShoppingList();
@@ -17,35 +16,35 @@ class FavoriteProvider with ChangeNotifier {
 
   loadShoppingList() async {
     try {
-      if (_products == null) {
+      if (products == null) {
         /// shopping
         String response =
             await StorageManager.getObjectByKey(_keyLocaleFavorite);
         if (response == null || response.isEmpty) {
-          _products = new List();
+          products = new List();
         } else {
           var message = json.decode(response);
           var list = message as List;
-          _products =
+          products =
               list.map((item) => ProductFavorite.fromJson(item)).toList();
         }
       }
     } catch (e) {
-      _products = new List();
+      products = new List();
     }
   }
 
   saveShoppingList() {
     var myJsonString =
-        json.encode(_products.map((value) => value.toJson()).toList());
+        json.encode(products.map((value) => value.toJson()).toList());
     StorageManager.setObject(_keyLocaleFavorite, myJsonString);
   }
 
   addNewProduct(Product item, {int count = 1}) {
     List<ProductFavorite> array =
-        _products.where((p) => p.product.productID == item.productID).toList();
+        products.where((p) => p.product.productID == item.productID).toList();
     if (Utility.isNullOrEmpty(array)) {
-      _products.add(ProductFavorite(product: item, count: count));
+      products.add(ProductFavorite(product: item, count: count));
     } else {
       array[0].count = count;
     }
@@ -54,24 +53,31 @@ class FavoriteProvider with ChangeNotifier {
     print('Add $count productID ${item.productID}');
   }
 
+  changeCount(ProductFavorite favorite, int _count) {
+    if(_count<=0){
+      products.remove(favorite);
+    }else {
+      favorite.count = _count;
+    }
+    notifyListeners();
+  }
+
   removeAllProductProvider() {
-    _products = new List();
+    products = new List();
     saveShoppingList();
     notifyListeners();
   }
 
   removeProduct(int productID) {
-    _products.removeWhere((p) => p.product.productID == productID);
+    products.removeWhere((p) => p.product.productID == productID);
     saveShoppingList();
     notifyListeners();
     print('Remove productID $productID');
   }
 
   bool containsInFavorite(int productID) {
-
-    for(var m in _products){
-      if(m.product.productID == productID)
-        return true;
+    for (var m in products) {
+      if (m.product.productID == productID) return true;
     }
     return false;
   }
