@@ -1,4 +1,5 @@
-import 'package:ann_shop_flutter/core/config.dart';
+import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';

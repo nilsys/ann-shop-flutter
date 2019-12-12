@@ -130,6 +130,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.15.8"
+  loading_more_list:
+    dependency: "direct main"
+    description:
+      name: loading_more_list
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.7"
   matcher:
     dependency: transitive
     description:

@@ -16,18 +16,14 @@ class FavoriteProvider with ChangeNotifier {
 
   loadShoppingList() async {
     try {
-      if (products == null) {
-        /// shopping
-        String response =
-            await StorageManager.getObjectByKey(_keyLocaleFavorite);
-        if (response == null || response.isEmpty) {
-          products = new List();
-        } else {
-          var message = json.decode(response);
-          var list = message as List;
-          products =
-              list.map((item) => ProductFavorite.fromJson(item)).toList();
-        }
+      /// shopping
+      String response = await StorageManager.getObjectByKey(_keyLocaleFavorite);
+      if (response == null || response.isEmpty) {
+        products = new List();
+      } else {
+        var message = json.decode(response);
+        var list = message as List;
+        products = list.map((item) => ProductFavorite.fromJson(item)).toList();
       }
     } catch (e) {
       products = new List();
@@ -54,9 +50,9 @@ class FavoriteProvider with ChangeNotifier {
   }
 
   changeCount(ProductFavorite favorite, int _count) {
-    if(_count<=0){
+    if (_count <= 0) {
       products.remove(favorite);
-    }else {
+    } else {
       favorite.count = _count;
     }
     notifyListeners();

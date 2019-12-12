@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/view/favorite/favorite_view.dart';
 import 'package:ann_shop_flutter/view/home_view/search_page.dart';
+import 'package:ann_shop_flutter/view/list_product/list_product_by_category.dart';
 import 'package:ann_shop_flutter/view/product/product_detail_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';
@@ -22,6 +23,10 @@ class Router {
       case '/favorite':
         return MaterialPageRoute(
             builder: (_) => FavoriteView(), settings: settings);
+      case '/list-product-by-category':
+        var data = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => ListProductByCategory(data), settings: settings);
       default:
         return MaterialPageRoute(
             builder: (_) => EmptyView(title: settings.name));

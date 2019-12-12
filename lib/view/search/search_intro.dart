@@ -1,4 +1,5 @@
-import 'package:ann_shop_flutter/core/config.dart';
+import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/utility/seach_provider.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,19 @@ class SearchIntro extends StatefulWidget {
 }
 
 class _SearchIntroState extends State<SearchIntro> {
+  final hotKeys = [
+    'Quần áo nam',
+    'Quần áo nữ',
+    'Free size',
+    'Bao lì xì',
+    'Đầm nữ',
+    'Quần short',
+    'Nước hoa',
+    'Khuyến mãi',
+    'Hàng order',
+    'Hàng tồn kho'
+  ];
+
   @override
   Widget build(BuildContext context) {
     SearchProvider provider = Provider.of(context);
@@ -41,18 +55,7 @@ class _SearchIntroState extends State<SearchIntro> {
             ),
           ),
           Wrap(
-            children: <Widget>[
-              _buildHotKey('Quần áo nam'),
-              _buildHotKey('Quần áo nữ'),
-              _buildHotKey('Free size'),
-              _buildHotKey('Bao lì xì'),
-              _buildHotKey('Đầm nữ'),
-              _buildHotKey('Quần short'),
-              _buildHotKey('Nước hoa'),
-              _buildHotKey('Khuyến mãi'),
-              _buildHotKey('Hàng order'),
-              _buildHotKey('Hàng tồn kho'),
-            ],
+            children: hotKeys.map((title) => _buildHotKey(title)).toList(),
           ),
           Utility.isNullOrEmpty(provider.history)
               ? Container()
@@ -90,56 +93,13 @@ class _SearchIntroState extends State<SearchIntro> {
                 ),
           Utility.isNullOrEmpty(provider.history)
               ? Container()
-              : Column(
+              : Wrap(
                   children: provider.history
-                      .map((title) => _buildHistory(title))
+                      .map((title) => _buildHotKey(title))
                       .toList(),
                 )
         ],
       ),
-    );
-  }
-
-  Widget _buildHistory(String title) {
-    return InkWell(
-      onTap: () {
-        Provider.of<SearchProvider>(context).setText(text: title);
-      },
-      child: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.grey,
-                width: 1,
-                style: BorderStyle.solid,
-              ),
-            ),
-          ),
-          height: 35,
-          margin: EdgeInsets.symmetric(horizontal: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    title,
-                    textAlign: TextAlign.left,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.clear, size: 20,),
-                onPressed: () {
-                  Provider.of<SearchProvider>(context).removeHistoryUnit(title);
-                },
-              )
-            ],
-          )),
     );
   }
 

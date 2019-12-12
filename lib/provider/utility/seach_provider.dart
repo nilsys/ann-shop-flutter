@@ -33,9 +33,12 @@ class SearchProvider with ChangeNotifier {
     controller = new TextEditingController(text: text);
     if (text.isNotEmpty) {
       if (history.contains(text) == false) {
-        history.add(text);
-        StorageManager.setObject(_keyHistory, jsonEncode(history));
+        history.insert(0, text);
+      }else{
+        history.remove(text);
+        history.insert(0, text);
       }
+      StorageManager.setObject(_keyHistory, jsonEncode(history));
     }
     notifyListeners();
   }

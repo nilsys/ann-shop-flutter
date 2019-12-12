@@ -1,4 +1,5 @@
-import 'package:ann_shop_flutter/core/config.dart';
+import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/acount/account.dart';
 import 'package:flutter/material.dart';
 

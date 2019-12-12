@@ -1,4 +1,5 @@
-import 'package:ann_shop_flutter/core/config.dart';
+import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
@@ -34,7 +35,7 @@ class ProductItem extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: ExtendedImage.network(
-                      domain + product.getCover,
+                      Core.domain + product.getCover,
                       fit: BoxFit.cover,
                       cache: true,
                     ),

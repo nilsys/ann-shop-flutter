@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ann_shop_flutter/core/config.dart';
+import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class ProductRepository {
   /// http://xuongann.com/api/v1/home/category/vay-dam?pageSize=8
   Future<List<Product>> loadByHomeCategory(String name, {pageSize = 8}) async {
     try {
-      final url = domainAPI + 'home/category/' + name + '?pageSize=$pageSize';
+      final url = Core.domainAPI + 'home/category/' + name + '?pageSize=$pageSize';
       final response = await http.get(url).timeout(Duration(seconds: 10));
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
@@ -66,10 +67,11 @@ class ProductRepository {
   Future<List<Product>> loadByCategory(String name,
       {page = 1, pageSize = 10, sort = 4}) async {
     try {
-      final url = domainAPI +
+      final url = Core.domainAPI +
           'category/$name?pageNumber=$page&pageSize=$pageSize&sort=$sort';
       final response = await http.get(url).timeout(Duration(seconds: 10));
-      print('category $name: ' + response.body);
+      print(url);
+      print(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
         List<Product> _data = new List();
@@ -86,7 +88,7 @@ class ProductRepository {
 
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {
-      final url = domainAPI + 'product/' + slug;
+      final url = Core.domainAPI + 'product/' + slug;
       final response = await http.get(url).timeout(Duration(seconds: 10));
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {

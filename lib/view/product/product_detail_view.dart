@@ -1,4 +1,5 @@
-import 'package:ann_shop_flutter/core/config.dart';
+import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
@@ -65,7 +66,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 Container(
                   height: MediaQuery.of(context).size.height / 2,
                   child: ExtendedImage.network(
-                    domain + product.images[indexImage],
+                    Core.domain + product.images[indexImage],
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -218,7 +219,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: ExtendedImage.network(
-              domain + url,
+              Core.domain + url,
               fit: BoxFit.cover,
               cache: true,
               loadStateChanged: (ExtendedImageState state) {
@@ -244,7 +245,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             return Container(
               margin: EdgeInsets.only(bottom: 15),
               child: ExtendedImage.network(
-                domain + product.images[index],
+                Core.domain + product.images[index],
                 fit: BoxFit.cover,
               ),
             );
