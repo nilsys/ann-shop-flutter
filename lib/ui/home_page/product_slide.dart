@@ -169,7 +169,7 @@ class _ProductSlideState extends State<ProductSlide> {
           return ProductItem(
             data[index],
             width: imageWidth,
-            height: imageHeight,
+            imageHeight: imageHeight,
           );
         },
       ),

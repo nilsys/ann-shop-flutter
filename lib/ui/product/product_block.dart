@@ -4,8 +4,8 @@ import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:flutter/material.dart';
 
-class ProductItem extends StatelessWidget {
-  ProductItem(this.product, {this.width = 150, this.imageHeight = 200});
+class ProductBlock extends StatelessWidget {
+  ProductBlock(this.product, {this.width = 150, this.imageHeight = 200});
 
   final Product product;
   final double width;
@@ -14,8 +14,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width + 15,
-      padding: EdgeInsets.only(left: 15),
+      width: width,
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, '/product-detail', arguments: product);

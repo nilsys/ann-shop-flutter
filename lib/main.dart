@@ -29,6 +29,7 @@ void main() {
 
 class MyApp extends StatefulWidget {
   static final navKey = new GlobalKey<NavigatorState>();
+  static BuildContext get context => navKey.currentState.overlay.context;
 
   @override
   _MyAppState createState() => _MyAppState();

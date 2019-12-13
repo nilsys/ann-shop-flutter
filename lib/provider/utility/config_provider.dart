@@ -29,6 +29,15 @@ class ConfigProvider with ChangeNotifier {
     onFilterChanged.add(_filter);
   }
 
+  int _view;
+
+  int get view => _view;
+
+  set view(int view) {
+    _view = view;
+    saveConfig();
+  }
+
   CopySetting copySetting;
 
   ConfigProvider() {
@@ -79,4 +88,10 @@ class ConfigProvider with ChangeNotifier {
     data['copySetting'] = this.copySetting.toJson();
     return data;
   }
+}
+
+class ViewType{
+  static const list = 0;
+  static const grid = 1;
+  static const big = 2;
 }

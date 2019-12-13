@@ -86,6 +86,28 @@ class ProductRepository {
     return null;
   }
 
+  Future<List<Product>> loadBySearch(String text,
+      {page = 1, pageSize = 20, sort = 4}) async {
+    try {
+      String search = text.replaceAll(' ', '%20');
+      final url =Core.domainAPI + "search/search-product/$search?sort=$sort&pageNumber=$page&pageSize=$pageSize";
+      final response = await http.get(url).timeout(Duration(seconds: 10));
+      print(url);
+      print(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(response.body);
+        List<Product> _data = new List();
+        message.forEach((v) {
+          _data.add(new Product.fromJson(v));
+        });
+        return _data;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {
       final url = Core.domainAPI + 'product/' + slug;

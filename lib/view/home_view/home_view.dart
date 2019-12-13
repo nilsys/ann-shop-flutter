@@ -49,7 +49,7 @@ class _HomeViewState extends State<HomeView>
               children: <Widget>[
                 HomePage(),
                 CategoryPage(),
-                SearchPage(),
+                SearchPage(showIcon: true,),
                 AccountPage(),
               ],
             ),

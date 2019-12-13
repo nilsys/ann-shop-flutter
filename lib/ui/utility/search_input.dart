@@ -1,5 +1,7 @@
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/provider/utility/seach_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
+import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/view/search/search_intro.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,11 +43,10 @@ class _SearchInputState extends State<SearchInput> {
                     focusedBorder: InputBorder.none,
                     fillColor: Colors.transparent,
                     hintStyle: TextStyle(color: Colors.white),
-                    hintText: 'Sản phẩm, danh mục...'),
+                    hintText: 'Tên sản phẩm, Mã sản phẩm...'),
                 onSubmitted: (text) {
-                  Provider.of<SearchProvider>(context).setText(
-                      text:
-                          Provider.of<SearchProvider>(context).controller.text);
+                  Provider.of<SearchProvider>(context).onSearch(context,
+                      Provider.of<SearchProvider>(context).controller.text);
                 }),
           ),
           Utility.stringIsNullOrEmpty(Provider.of<SearchProvider>(context).text)

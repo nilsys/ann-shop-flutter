@@ -5,7 +5,7 @@ import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
-import 'package:ann_shop_flutter/ui/utility/search_title.dart';
+import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

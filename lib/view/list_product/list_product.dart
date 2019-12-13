@@ -1,16 +1,22 @@
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/repository/load_more_product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/ui/list_product/config_product_ui.dart';
+import 'package:ann_shop_flutter/ui/product/product_block.dart';
+import 'package:ann_shop_flutter/ui/product/product_full.dart';
 import 'package:ann_shop_flutter/ui/product/product_title.dart';
 import 'package:ann_shop_flutter/view/list_product/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
+import 'package:provider/provider.dart';
 
 class ListProduct extends StatefulWidget {
-  ListProduct({this.categoryCode, this.searchText});
+  ListProduct({this.categoryCode, this.searchText, this.initData});
 
   final categoryCode;
   final searchText;
+  final initData;
 
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
@@ -22,8 +28,10 @@ class _BuildAllViewState extends State<ListProduct> {
   @override
   void initState() {
     // TODO: implement initState
-    listSourceRepository =
-        new LoadMoreProductRepository(category: widget.categoryCode);
+    listSourceRepository = new LoadMoreProductRepository(
+        categoryCode: widget.categoryCode,
+        searchText: widget.searchText,
+        initData: widget.initData);
     super.initState();
   }
 
@@ -44,24 +52,34 @@ class _BuildAllViewState extends State<ListProduct> {
           slivers: <Widget>[
             SliverPersistentHeader(
                 pinned: false,
-                floating: false,
+                floating: true,
                 delegate: CommonSliverPersistentHeaderDelegate(
-                    Container(
-                      alignment: Alignment.center,
-                      color: Colors.transparent,
-                    ),
-                    1.0)),
-            LoadingMoreSliverList(
-              SliverListConfig<Product>(
-                itemBuilder: ItemBuilder.itemBuilder,
-                sourceList: listSourceRepository,
-                indicatorBuilder: _buildIndicator,
-              ),
-            )
+                    ConfigProductUI(), 60)),
+            LoadingMoreSliverList(_buildByView())
           ],
         ),
       ),
     );
+  }
+
+  SliverListConfig<Product> _buildByView() {
+    ConfigProvider config = Provider.of(context);
+    if (config.view == ViewType.grid) {
+      ItemBuilder.cacheGrid = [];
+      return SliverListConfig<Product>(
+        itemBuilder: ItemBuilder.itemBuilderGrid,
+        sourceList: listSourceRepository,
+        indicatorBuilder: _buildIndicator,
+      );
+    } else {
+      return SliverListConfig<Product>(
+        itemBuilder: config.view == ViewType.list
+            ? ItemBuilder.itemBuilderList
+            : ItemBuilder.itemBuilderBig,
+        sourceList: listSourceRepository,
+        indicatorBuilder: _buildIndicator,
+      );
+    }
   }
 
   Widget _buildIndicator(BuildContext context, IndicatorStatus status) {
@@ -74,7 +92,7 @@ class _BuildAllViewState extends State<ListProduct> {
 }
 
 class ItemBuilder {
-  static Widget itemBuilder(BuildContext context, Product item, int index) {
+  static Widget itemBuilderList(BuildContext context, Product item, int index) {
     return Container(
         decoration: BoxDecoration(
           border: Border(
@@ -84,5 +102,45 @@ class ItemBuilder {
           ),
         ),
         child: ProductTitle(item));
+  }
+
+  static Widget itemBuilderBig(BuildContext context, Product item, int index) {
+    return ProductFull(item);
+  }
+
+  static var cacheGrid = [];
+
+  static Widget itemBuilderGrid(BuildContext context, Product item, int index) {
+
+    final minWidth = 150.0;
+    final textHeight = 140.0;
+    final double padding = 15;
+    final screenWidth = MediaQuery.of(context).size.width - (padding * 2);
+    final countPerRow = (screenWidth / minWidth).round();
+    final width = (screenWidth - ((countPerRow - 1) * padding)) / countPerRow;
+    final imageHeight = width * 200 / 150;
+
+    print('countPerRow: $countPerRow');
+    if (cacheGrid.length < countPerRow) {
+      cacheGrid.add(item);
+      return Container();
+    } else {
+      var items = cacheGrid;
+      cacheGrid = [];
+      return Container(
+        height: imageHeight + textHeight,
+        padding: EdgeInsets.symmetric(horizontal: padding),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: items
+              .map((item) => ProductBlock(
+                    item,
+                    width: width,
+                    imageHeight: imageHeight,
+                  ))
+              .toList(),
+        ),
+      );
+    }
   }
 }

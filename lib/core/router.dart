@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/view/home_view/search_page.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product_by_category.dart';
 import 'package:ann_shop_flutter/view/list_product/seen_view.dart';
 import 'package:ann_shop_flutter/view/product/product_detail_view.dart';
+import 'package:ann_shop_flutter/view/search/seach_result_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,10 @@ class Router {
         var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ListProductByCategory(data), settings: settings);
+      case '/list-product-by-search':
+        var data = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => SearchResultView(data), settings: settings);
       default:
         return MaterialPageRoute(
             builder: (_) => EmptyView(title: settings.name));

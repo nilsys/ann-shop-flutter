@@ -1,7 +1,8 @@
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/provider/utility/seach_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
+import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -106,7 +107,7 @@ class _SearchIntroState extends State<SearchIntro> {
   Widget _buildHotKey(String title) {
     return InkWell(
       onTap: () {
-        Provider.of<SearchProvider>(context).setText(text: title);
+        Provider.of<SearchProvider>(context).onSearch(context, title);
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),

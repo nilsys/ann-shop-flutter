@@ -3,7 +3,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
-import 'package:ann_shop_flutter/ui/utility/search_title.dart';
+import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
 
 class CategoryPage extends StatelessWidget {

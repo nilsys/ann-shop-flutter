@@ -6,20 +6,30 @@ import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class LoadMoreProductRepository extends LoadingMoreBase<Product> {
-  LoadMoreProductRepository({this.category, this.searchText}) {
+  LoadMoreProductRepository({this.categoryCode, this.searchText, this.initData}) {
     // TODO:
-    pageIndex = 1;
+    if(this.initData == null) {
+      pageIndex = 1;
+    }else{
+      pageIndex = 2;
+      initData.forEach((item) {
+        this.add(item);
+      });
+    }
     listenSortConfig = ConfigProvider.onSortChanged.stream.listen((data) {
       sortID = data;
       this.refresh(false);
     });
   }
+
   @override
   void dispose() {
     listenSortConfig.cancel();
     super.dispose();
   }
-  final String category;
+
+  final List<Product> initData;
+  final String categoryCode;
   final String searchText;
   StreamSubscription listenSortConfig;
 
@@ -44,11 +54,14 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
   }
 
   @override
-  Future<bool> loadData([bool isloadMoreAction = false]) async {
+  Future<bool> loadData([bool isLoadMoreAction = false]) async {
     bool isSuccess = false;
     try {
-      List<Product> list = await ProductRepository.instance
-          .loadByCategory(category, page: pageIndex, pageSize: 20, sort: sortID);
+      List<Product> list = categoryCode != null
+          ? await ProductRepository.instance.loadByCategory(categoryCode,
+              page: pageIndex, pageSize: 20, sort: sortID)
+          : await ProductRepository.instance.loadBySearch(searchText,
+              page: pageIndex, pageSize: 20, sort: sortID);
 
       if (pageIndex == 1) {
         this.clear();
@@ -64,7 +77,7 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
     } catch (exception) {
       isSuccess = false;
       _hasMore = false;
-      print(exception);
+      print('load more exception: ' + exception.toString());
     }
     return isSuccess;
   }
