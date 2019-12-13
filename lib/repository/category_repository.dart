@@ -1,7 +1,6 @@
 import 'package:ann_shop_flutter/model/product/category.dart';
 
 class CategoryRepository {
-
   static final CategoryRepository instance = CategoryRepository._internal();
 
   factory CategoryRepository() => instance;
@@ -18,18 +17,16 @@ class CategoryRepository {
     });
   }
 
-
   List<Category> categories;
   List<CategoryGroup> categoryGroups;
 
-
-  Category getCategory(code){
-    try{
-      var item = categories.firstWhere((m){
-        return m.code==code;
+  Category getCategory(code) {
+    try {
+      var item = categories.firstWhere((m) {
+        return m.code == code;
       });
       return item;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
@@ -39,7 +36,7 @@ class CategoryRepository {
       'title': 'Quần áo nữ',
       'description': 'Quần áo nữ mới về',
       'icon': 'assets/images/categories/category-15.jpg',
-      'code':'quan-ao-nu/product',
+      'code': 'quan-ao-nu/product',
       'children': [
         'do-bo-nu/product',
         'vay-dam/product',
@@ -55,7 +52,7 @@ class CategoryRepository {
       'title': 'Quần áo nam',
       'description': 'Quần áo nam mới về',
       'icon': 'assets/images/categories/category-1.jpg',
-      'code':'quan-ao-nam/product',
+      'code': 'quan-ao-nam/product',
       'children': [
         'ao-thun-nam/product',
         'ao-so-mi-nam/product',
@@ -69,14 +66,14 @@ class CategoryRepository {
       'title': 'Nước hoa',
       'description': 'Nước hoa giá rẻ',
       'icon': 'assets/images/categories/category-44.jpg',
-      'code':'nuoc-hoa/product',
+      'code': 'nuoc-hoa/product',
       'children': []
     },
     {
       'title': 'Bao lì xì',
       'description': 'Bao lì xì tết 2020',
       'icon': 'assets/images/categories/bao-li-xi-tet.jpg',
-      'code':'bao-li-xi-tet/product',
+      'code': 'bao-li-xi-tet/product',
       'children': []
     }
   ];

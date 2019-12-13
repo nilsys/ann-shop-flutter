@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
@@ -6,6 +7,7 @@ import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
+import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
@@ -25,6 +27,15 @@ class ProductDetailView extends StatefulWidget {
 class _ProductDetailViewState extends State<ProductDetailView>
     with SingleTickerProviderStateMixin {
   ProductDetail product;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback) async {
+      Provider.of<SeenProvider>(context).addNewProduct(widget.info);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +62,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
             IconButton(
               icon: Icon(Icons.home),
             ),
-            FavoriteButton(color: Colors.grey,),
+            FavoriteButton(
+              color: Colors.grey,
+            ),
             IconButton(
               icon: Icon(Icons.sort),
             )
@@ -65,7 +78,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               delegate: SliverChildListDelegate([
                 Container(
                   height: MediaQuery.of(context).size.height / 2,
-                  child: ExtendedImage.network(
+                  child: AppImage(
                     Core.domain + product.images[indexImage],
                     fit: BoxFit.contain,
                   ),
@@ -218,18 +231,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
           opacity: isSelect ? 1 : 0.5,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            child: ExtendedImage.network(
-              Core.domain + url,
-              fit: BoxFit.cover,
-              cache: true,
-              loadStateChanged: (ExtendedImageState state) {
-                if (state.extendedImageLoadState == LoadState.loading) {
-                  return Container();
-                } else {
-                  return null;
-                }
-              },
-            ),
+            child: AppImage(Core.domain + url),
           ),
         ),
       ),
@@ -244,10 +246,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
           (BuildContext context, int index) {
             return Container(
               margin: EdgeInsets.only(bottom: 15),
-              child: ExtendedImage.network(
-                Core.domain + product.images[index],
-                fit: BoxFit.cover,
-              ),
+              child: AppImage(Core.domain + product.images[index]),
             );
           },
           childCount: product.images.length,

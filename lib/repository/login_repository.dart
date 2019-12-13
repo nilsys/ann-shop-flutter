@@ -25,12 +25,12 @@ class LoginRepository {
       if (response.statusCode == HttpStatus.ok) {
         final parsed = json.decode(response.body);
         var status = parsed['status'];
-        if(status == 'success') {
+        if (status == 'success') {
           var user = Account.fromJson(parsed['data']);
           return {'status': status, 'data': user};
-        }else if(status == 'wrong_otp'){
+        } else if (status == 'wrong_otp') {
           return {'status': 'OTP không chính xác', 'data': null};
-        }else if(status == 'otp_expired'){
+        } else if (status == 'otp_expired') {
           return {'status': 'OTP đã hết hạn', 'data': null};
         }
       }
@@ -40,7 +40,7 @@ class LoginRepository {
     return {'status': 'Có lỗi xãi ra', 'data': null};
   }
 
-   updateInformation(Object data) async {
+  updateInformation(Object data) async {
     try {
       final url = '';
       final response = await http.post(url, body: data);
@@ -51,10 +51,8 @@ class LoginRepository {
         }
       }
     } catch (e) {
-      print('updateInformation: ' +  e.toString());
+      print('updateInformation: ' + e.toString());
     }
     return false;
-   }
-
-
+  }
 }

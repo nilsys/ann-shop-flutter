@@ -9,11 +9,6 @@ class SearchProvider with ChangeNotifier {
 
   List<String> get history => _history;
 
-  set history(List<String> history) {
-    _history = history;
-    notifyListeners();
-  }
-
   SearchProvider() {
     controller = new TextEditingController();
     loadHistory();
@@ -23,20 +18,20 @@ class SearchProvider with ChangeNotifier {
 
   loadHistory() async {
     String response = await StorageManager.getObjectByKey(_keyHistory);
-    var json = jsonDecode(response);
-    if (json != null) {
-      history = json.cast<String>();
+    if (response != null) {
+      var json = jsonDecode(response);
+      _history = json.cast<String>();
     }
   }
 
   void setText({String text = ''}) {
     controller = new TextEditingController(text: text);
     if (text.isNotEmpty) {
-      if (history.contains(text) == false) {
-        history.insert(0, text);
+      if (_history.contains(text) == false) {
+        _history.insert(0, text);
       }else{
-        history.remove(text);
-        history.insert(0, text);
+        _history.remove(text);
+        _history.insert(0, text);
       }
       StorageManager.setObject(_keyHistory, jsonEncode(history));
     }
@@ -46,6 +41,10 @@ class SearchProvider with ChangeNotifier {
   void removeHistoryUnit(String title) {
     history.removeWhere((m) => m == title);
     StorageManager.setObject(_keyHistory, jsonEncode(history));
+    notifyListeners();
+  }
+  removeHistoryAll(){
+    _history=[];
     notifyListeners();
   }
 }

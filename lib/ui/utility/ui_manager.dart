@@ -100,7 +100,7 @@ class UIManager {
         height: radius * 2,
         child: CircularProgressIndicator(
           backgroundColor: Colors.white,
-          strokeWidth: 3,
+          strokeWidth: 1,
         ),
       );
     }

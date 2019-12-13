@@ -2,6 +2,7 @@ import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
+import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_theme.dart';
@@ -43,6 +44,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create:(_)=> ProductProvider()),
         ChangeNotifierProvider(create:(_)=> FavoriteProvider()),
         ChangeNotifierProvider(create:(_)=> ConfigProvider()),
+        ChangeNotifierProvider(create:(_)=> SeenProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -11,12 +11,10 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-
   @override
   void initState() {
     super.initState();
   }
-
 
   Widget build(BuildContext context) {
     bool isLogin = false;
@@ -39,19 +37,34 @@ class _AccountPageState extends State<AccountPage> {
             SliverList(
               delegate: SliverChildListDelegate([
                 SizedBox(height: 12),
-                _buildItemCommon('Quản lý đơn hàng', icon: Icon(Icons.description),),
-                _buildItemCommon('Sản phẩm đã xem', icon: Icon(Icons.remove_red_eye),),
-                _buildItemCommon('Sản phẩm yêu thích', icon: Icon(Icons.favorite),),
-                _buildItemCommon('Thông báo', icon: Icon(Icons.notifications),),
+                _buildItemCommon(
+                  'Quản lý đơn hàng',
+                  icon: Icon(Icons.description),
+                ),
+                _buildItemCommon('Sản phẩm đã xem',
+                    icon: Icon(Icons.remove_red_eye), onTap: () {
+                  Navigator.pushNamed(context, '/seen');
+                }),
+                _buildItemCommon('Sản phẩm yêu thích',
+                    icon: Icon(Icons.favorite), onTap: () {
+                  Navigator.pushNamed(context, '/favorite');
+                }),
+                _buildItemCommon(
+                  'Thông báo',
+                  icon: Icon(Icons.notifications),
+                ),
                 _buildItemCommon('Liên hệ', icon: Icon(Icons.headset_mic)),
-                _buildItemCommon('Cài đặt', icon: Icon(Icons.settings)),
+                _buildItemCommon('Cài đặt', icon: Icon(Icons.settings),
+                    onTap: () {
+                  Navigator.pushNamed(context, '/setting');
+                }),
               ]),
             ),
             SliverList(
               delegate: SliverChildListDelegate([
                 SizedBox(height: 12),
                 _buildItemCommon('Giới thiệu'),
-                _buildItemCommon('Hướng dẫn mua sĩ'),
+                _buildItemCommon('Hướng dẫn mua sỉ'),
                 _buildItemCommon('Chính sách vận chuyển'),
                 _buildItemCommon('Chính sách thanh toán'),
                 _buildItemCommon('Chính sách đổi trả'),
@@ -63,15 +76,16 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  Widget _buildItemCommon(String title, {Icon icon}) {
+  Widget _buildItemCommon(String title, {Icon icon, GestureTapCallback onTap}) {
     return Container(
       margin: EdgeInsets.only(bottom: 1),
       color: Colors.white,
       child: ListTile(
-        onTap: () {},
+        onTap: onTap,
         leading: icon,
         title: Text(title),
-        trailing: Icon(Icons.keyboard_arrow_right, color: AppStyles.dividerColor),
+        trailing:
+            Icon(Icons.keyboard_arrow_right, color: AppStyles.dividerColor),
       ),
     );
   }
@@ -84,7 +98,11 @@ class _AccountPageState extends State<AccountPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Icon(Icons.account_circle, size: 50, color: Theme.of(context).primaryColor,),
+          Icon(
+            Icons.account_circle,
+            size: 50,
+            color: Theme.of(context).primaryColor,
+          ),
           Expanded(
             flex: 1,
             child: Container(
@@ -100,13 +118,17 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                   Text(
                     'Đăng nhập/Đăng ký',
-                    style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                    style: Theme.of(context).textTheme.body2.merge(
+                        TextStyle(color: Theme.of(context).primaryColor)),
                   )
                 ],
               ),
             ),
           ),
-          Icon(Icons.navigate_next, color: Colors.grey,)
+          Icon(
+            Icons.navigate_next,
+            color: Colors.grey,
+          )
         ],
       ),
     );

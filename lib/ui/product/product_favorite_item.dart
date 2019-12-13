@@ -3,6 +3,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
+import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,11 +32,7 @@ class ProductFavoriteItem extends StatelessWidget {
                 width: 90,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(0),
-                  child: ExtendedImage.network(
-                    Core.domain + data.product.getCover,
-                    fit: BoxFit.cover,
-                    cache: true,
-                  ),
+                  child: AppImage(Core.domain + data.product.getCover),
                 ),
               ),
               SizedBox(
@@ -110,8 +107,9 @@ class ProductFavoriteItem extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 InkWell(
-                                  onTap:(){
-                                    Provider.of<FavoriteProvider>(context).changeCount(data,data.count-1);
+                                  onTap: () {
+                                    Provider.of<FavoriteProvider>(context)
+                                        .changeCount(data, data.count - 1);
                                   },
                                   child: Container(
                                       width: 30,
@@ -133,8 +131,9 @@ class ProductFavoriteItem extends StatelessWidget {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: (){
-                                    Provider.of<FavoriteProvider>(context).changeCount(data,data.count+1);
+                                  onTap: () {
+                                    Provider.of<FavoriteProvider>(context)
+                                        .changeCount(data, data.count + 1);
                                   },
                                   child: Container(
                                     width: 30,

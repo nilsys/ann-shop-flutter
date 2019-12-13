@@ -85,7 +85,7 @@ class _SearchIntroState extends State<SearchIntro> {
                               TextStyle(color: Theme.of(context).primaryColor),
                         ),
                         onPressed: () {
-                          provider.history = [];
+                          provider.removeHistoryAll();
                         },
                       )
                     ],

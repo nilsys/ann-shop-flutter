@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/repository/load_more_product_repository.dart';
+import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_title.dart';
 import 'package:ann_shop_flutter/view/list_product/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,10 @@ import 'package:loading_more_list/loading_more_list.dart';
 
 class ListProduct extends StatefulWidget {
   ListProduct({this.categoryCode, this.searchText});
+
   final categoryCode;
   final searchText;
+
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
 }
@@ -19,7 +22,8 @@ class _BuildAllViewState extends State<ListProduct> {
   @override
   void initState() {
     // TODO: implement initState
-    listSourceRepository = new LoadMoreProductRepository(category: widget.categoryCode);
+    listSourceRepository =
+        new LoadMoreProductRepository(category: widget.categoryCode);
     super.initState();
   }
 
@@ -71,6 +75,14 @@ class _BuildAllViewState extends State<ListProduct> {
 
 class ItemBuilder {
   static Widget itemBuilder(BuildContext context, Product item, int index) {
-    return ProductTitle(item);
+    return Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: AppStyles.dividerColor,
+            ),
+          ),
+        ),
+        child: ProductTitle(item));
   }
 }

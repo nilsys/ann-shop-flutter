@@ -21,12 +21,12 @@ class _HomeViewState extends State<HomeView>
     super.initState();
     tabController = new TabController(length: 4, vsync: this);
   }
+
   @override
   Widget build(BuildContext context) {
     final navigation = Provider.of<NavigationProvider>(context);
     return MultiProvider(
-      providers: [
-      ],
+      providers: [],
       child: WillPopScope(
         onWillPop: () async {
           if (navigation.index != 0) {
@@ -36,42 +36,49 @@ class _HomeViewState extends State<HomeView>
             return Future.value(true);
           }
         },
-        child: Scaffold(
-          body: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: tabController,
-            children: <Widget>[
-              HomePage(),
-              CategoryPage(),
-              SearchPage(),
-              AccountPage(),
-            ],
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                title: Text('Home'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.view_quilt),
-                title: Text('Category'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                title: Text('Search'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.account_box),
-                title: Text('Account'),
-              ),
-            ],
-            currentIndex: navigation.index,
-            selectedItemColor: Theme.of(context).primaryColor,
-            unselectedItemColor: Colors.grey,
-            onTap: _onItemTapped,
-          ),
-        ),
+        child: Consumer<NavigationProvider>(
+            builder: (context, navigationProvider, _) {
+          if (navigationProvider.index != 0) {
+            tabController.animateTo(navigationProvider.index);
+          }
+
+          return Scaffold(
+            body: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: tabController,
+              children: <Widget>[
+                HomePage(),
+                CategoryPage(),
+                SearchPage(),
+                AccountPage(),
+              ],
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text('Home'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.view_quilt),
+                  title: Text('Category'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  title: Text('Search'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_box),
+                  title: Text('Account'),
+                ),
+              ],
+              currentIndex: navigation.index,
+              selectedItemColor: Theme.of(context).primaryColor,
+              unselectedItemColor: Colors.grey,
+              onTap: _onItemTapped,
+            ),
+          );
+        }),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
@@ -17,14 +18,18 @@ class HomeBanner extends StatelessWidget {
             color: Colors.white,
             margin: EdgeInsets.only(top: height / 2),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(5),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: defaultPadding),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: ExtendedImage.network(
+              child: AppImage(
                 'https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png',
-                enableMemoryCache: true,
                 fit: BoxFit.cover,
+                showLoading: true,
               ),
             ),
           ),

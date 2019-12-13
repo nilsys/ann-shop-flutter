@@ -22,6 +22,7 @@ class ProductSlide extends StatefulWidget {
 class _ProductSlideState extends State<ProductSlide> {
   String currentCode;
   final double itemHeight = 340;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -50,33 +51,38 @@ class _ProductSlideState extends State<ProductSlide> {
               Utility.isNullOrEmpty(widget.group.children)
                   ? Container()
                   : Container(
-                margin: EdgeInsets.only(bottom: 10),
-                height: 30,
-                width: double.infinity,
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    index-=2;
-                    if (index < -1 || index == widget.group.children.length) {
-                      return SizedBox(
-                        width: 5,
-                      );
-                    }
-                    if (index < 0) {
-                      return _buildCategoryButton(widget.group.code, 'Tất cả');
-                    } else {
-                      var _code = widget.group.children[index];
-                      var _name =
-                          CategoryRepository.instance.getCategory(_code).title;
-                      return _buildCategoryButton(_code, _name);
-                    }
-                  },
-                  separatorBuilder:(context, index){
-                    return SizedBox(width: 10,);
-                  },
-                  itemCount: widget.group.children.length + 3,
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
+                      margin: EdgeInsets.only(bottom: 10),
+                      height: 30,
+                      width: double.infinity,
+                      child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          index -= 2;
+                          if (index < -1 ||
+                              index == widget.group.children.length) {
+                            return SizedBox(
+                              width: 5,
+                            );
+                          }
+                          if (index < 0) {
+                            return _buildCategoryButton(
+                                widget.group.code, 'Tất cả');
+                          } else {
+                            var _code = widget.group.children[index];
+                            var _name = CategoryRepository.instance
+                                .getCategory(_code)
+                                .title;
+                            return _buildCategoryButton(_code, _name);
+                          }
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(
+                            width: 10,
+                          );
+                        },
+                        itemCount: widget.group.children.length + 3,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
               Consumer<CategoryProductProvider>(
                 builder: (_, provider, child) {
                   if (products.isLoading) {
@@ -132,7 +138,7 @@ class _ProductSlideState extends State<ProductSlide> {
 
   Widget buildBox({@required child}) {
     return Container(
-      height: itemHeight,
+      height: itemHeight - 10,
       margin: EdgeInsets.fromLTRB(15, 0, 15, 10),
       decoration: BoxDecoration(
         color: Colors.grey[50],
