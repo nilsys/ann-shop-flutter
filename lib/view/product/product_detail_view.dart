@@ -1,5 +1,4 @@
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -11,7 +10,6 @@ import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,6 +38,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
   @override
   Widget build(BuildContext context) {
     ProductProvider provider = Provider.of(context);
+
+//    var data = provider.getBySlug('ao-thun-nam-ca-sau-adidas');
     var data = provider.getBySlug(widget.info.slug);
     product = data.data;
 
@@ -160,7 +160,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             ),
 
             /// List image (button download)
-//            _buildListImage(),
+            _buildListImage(),
           ],
         ),
       );

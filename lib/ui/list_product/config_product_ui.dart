@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/ui/list_product/popup_product_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,7 @@ class ConfigProductUI extends StatelessWidget {
           _buildIconButton(context, Icons.view_module, ViewType.grid),
           _buildIconButton(context, Icons.view_stream, ViewType.list),
           _buildIconButton(context, Icons.view_day, ViewType.big),
+          _buildFilter(context),
         ],
       ),
     );
@@ -60,22 +62,27 @@ class ConfigProductUI extends StatelessWidget {
   }
 
   Widget _buildFilter(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 5),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          left: BorderSide(width: 2, color: AppStyles.dividerColor),
-        ),
-      ),
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 10, right: 5),
-            child: Icon(Icons.sort),
+    return InkWell(
+      onTap: () {
+        showFilterPage(context);
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 5),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            left: BorderSide(width: 2, color: AppStyles.dividerColor),
           ),
-          Text(' Lọc'),
-        ],
+        ),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 5),
+              child: Icon(Icons.sort),
+            ),
+            Text(' Lọc'),
+          ],
+        ),
       ),
     );
   }
@@ -97,6 +104,33 @@ class ConfigProductUI extends StatelessWidget {
           child: Text(sort.title),
         );
       }).toList(),
+    );
+  }
+
+  showFilterPage(BuildContext context) {
+    Navigator.pushNamed(context, '/filter-product');
+  }
+
+  showFilterBottomBar(BuildContext context) {
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 15),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(height: 10),
+              Text(
+                'Lọc sản phẩm theo?',
+                style: Theme.of(context).textTheme.title,
+              ),
+              PopupProductFilter(),
+            ],
+          ),
+        );
+      },
     );
   }
 }

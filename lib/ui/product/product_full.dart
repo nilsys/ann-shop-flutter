@@ -31,69 +31,68 @@ class ProductFull extends StatelessWidget {
           Navigator.pushNamed(context, '/product-detail', arguments: product);
         },
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-                width: double.infinity,
-                child: AppImage(
-                  Core.domain + product.getCover,
-                  fit: null,
-                )),
-            SizedBox(
-              height: 15,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(
-                product.name,
-                style: Theme.of(context).textTheme.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              width: double.infinity,
+              child: AppImage(
+                Core.domain + product.getCover,
+                fit: BoxFit.fitWidth,
               ),
             ),
             Container(
-              padding: EdgeInsets.only(
-                  top: 8, left: defaultPadding, right: defaultPadding),
-              child: Text(
-                'Mã: ' + product.sku,
-                style: Theme.of(context)
-                    .textTheme
-                    .subhead
-                    .merge(TextStyle(color: Colors.grey)),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Container(
-              height: 30,
-              child: Row(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(
-                    width: 15,
+                  Padding(
+                    padding: EdgeInsets.only(top: 15, bottom: 10),
+                    child: Text(
+                      product.name,
+                      style: Theme.of(context).textTheme.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   Text(
-                    'Giá sỉ: ' + Utility.formatPrice(product.regularPrice),
+                    'Mã: ' + product.sku,
                     style: Theme.of(context)
                         .textTheme
-                        .body2
-                        .merge(TextStyle(color: Colors.red)),
+                        .subhead
+                        .merge(TextStyle(color: Colors.grey)),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                  ),
+                  Container(
+                    height: 30,
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'Giá sỉ: ' +
+                              Utility.formatPrice(product.regularPrice),
+                          style: Theme.of(context)
+                              .textTheme
+                              .body2
+                              .merge(TextStyle(color: Colors.red)),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Text(
+                          'Giá lẻ: ' + Utility.formatPrice(product.retailPrice),
+                          style: Theme.of(context).textTheme.body2,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
-                    width: 30,
-                  ),
-                  Text(
-                    'Giá lẻ: ' + Utility.formatPrice(product.retailPrice),
-                    style: Theme.of(context).textTheme.body2,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    height: 15,
                   ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 15,
             )
           ],
         ),

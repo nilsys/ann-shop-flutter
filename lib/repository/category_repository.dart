@@ -49,6 +49,16 @@ class CategoryRepository {
       ]
     },
     {
+      'title': 'ÁO thun nữ và áo sơ mi nữ',
+      'description': 'Quần áo nữ mới về',
+      'icon': 'assets/images/categories/category-15.jpg',
+      'code': 'quan-ao-nu/product',
+      'children': [
+        'ao-thun-nu/product',
+        'ao-so-mi-nu/product',
+      ]
+    },
+    {
       'title': 'Quần áo nam',
       'description': 'Quần áo nam mới về',
       'icon': 'assets/images/categories/category-1.jpg',

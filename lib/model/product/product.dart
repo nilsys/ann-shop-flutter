@@ -160,6 +160,12 @@ class ProductSort{
 
   ProductSort({this.id,this.title});
 }
+class ProductBadge{
+  int id;
+  String title;
+
+  ProductBadge({this.id,this.title});
+}
 
 class ProductTag {
   int id;

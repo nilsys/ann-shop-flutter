@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
@@ -22,6 +21,12 @@ class ProductRepository {
       ProductSort(id: 4, title: 'Mẫu mới nhất'),
     ];
 
+    productBadge = [
+      ProductBadge(id: 1, title: 'Hàng có sẳn'),
+      ProductBadge(id: 2, title: 'Hàng order'),
+      ProductBadge(id: 3, title: 'Hàng sale'),
+    ];
+
     _productColors = {
       10: Colors.black,
       23: Colors.red[800],//Đỏ đô
@@ -39,6 +44,7 @@ class ProductRepository {
   }
 
   List<ProductSort> productSorts;
+  List<ProductBadge> productBadge;
   Map<int, Color> _productColors;
   Color getColorByID(id){
     return _productColors[id]??Colors.red;

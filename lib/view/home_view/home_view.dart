@@ -60,7 +60,7 @@ class _HomeViewState extends State<HomeView>
                   title: Text('Home'),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.view_quilt),
+                  icon: Icon(Icons.view_module),
                   title: Text('Category'),
                 ),
                 BottomNavigationBarItem(

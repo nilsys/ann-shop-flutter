@@ -16,7 +16,7 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
         this.add(item);
       });
     }
-    listenSortConfig = ConfigProvider.onSortChanged.stream.listen((data) {
+    listenSortConfig = ConfigProvider.onFilterChanged.stream.listen((data) {
       sortID = data;
       this.refresh(false);
     });
@@ -59,9 +59,9 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
     try {
       List<Product> list = categoryCode != null
           ? await ProductRepository.instance.loadByCategory(categoryCode,
-              page: pageIndex, pageSize: 20, sort: sortID)
+              page: pageIndex, pageSize: 30, sort: sortID)
           : await ProductRepository.instance.loadBySearch(searchText,
-              page: pageIndex, pageSize: 20, sort: sortID);
+              page: pageIndex, pageSize: 30, sort: sortID);
 
       if (pageIndex == 1) {
         this.clear();
@@ -71,7 +71,7 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
         this.add(item);
       });
 
-      _hasMore = list.length < 20;
+      _hasMore = list.length == 30;
       pageIndex++;
       isSuccess = true;
     } catch (exception) {

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 class ConfigProvider with ChangeNotifier {
   final _keyConfig = '_keyConfig';
-  static StreamController onSortChanged = StreamController<int>.broadcast();
   static StreamController onFilterChanged = StreamController<int>.broadcast();
 
   int _sort;
@@ -16,17 +15,28 @@ class ConfigProvider with ChangeNotifier {
   set sort(int sort) {
     _sort = sort;
     saveConfig();
-    onSortChanged.add(_sort);
+    onFilterChanged.add(_sort);
   }
 
-  int _filter;
+  double priceMin;
 
-  int get filter => _filter;
+  double priceMax;
 
-  set filter(int filter) {
-    _filter = filter;
+  List<int> badge;
+
+  addBadge(id) {
+    badge.add(id);
+    notifyListeners();
+  }
+
+  removeBadge(id) {
+    badge.remove(id);
+    notifyListeners();
+  }
+
+  saveFilter() {
+    onFilterChanged.add(0);
     saveConfig();
-    onFilterChanged.add(_filter);
   }
 
   int _view;
@@ -46,7 +56,7 @@ class ConfigProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    onSortChanged.close();
+    onFilterChanged.close();
     super.dispose();
   }
 
@@ -55,24 +65,33 @@ class ConfigProvider with ChangeNotifier {
       /// shopping
       String response = await StorageManager.getObjectByKey(_keyConfig);
       if (response == null || response.isEmpty) {
-        _sort = 1;
-        _filter = 1;
-        copySetting = CopySetting(
-            productCode: true,
-            productName: true,
-            bonusPrice: 50000,
-            phoneNumber: '',
-            address: '');
+        reset();
       } else {
         var json = jsonDecode(response);
+        _view = json['view'] ?? ViewType.list;
         _sort = json['sort'] ?? 1;
-        _filter = json['filter'] ?? 1;
+        priceMin = json['priceMin'] ?? -1;
+        priceMax = json['priceMax'] ?? 501;
+        badge = json['badge'].cast<int>();
         copySetting = CopySetting.fromJson(json['copySetting']);
       }
     } catch (e) {
-      _sort = 1;
-      _filter = 1;
+      reset();
     }
+  }
+
+  reset() {
+    _view = ViewType.list;
+    _sort = 1;
+    priceMin = -1;
+    priceMax = 501;
+    badge = [];
+    copySetting = CopySetting(
+        productCode: true,
+        productName: true,
+        bonusPrice: 50000,
+        phoneNumber: '',
+        address: '');
   }
 
   saveConfig() {
@@ -83,14 +102,17 @@ class ConfigProvider with ChangeNotifier {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['view'] = this.view;
     data['sort'] = this.sort;
-    data['filter'] = this.filter;
+    data['badge'] = this.badge;
+    data['priceMin'] = this.priceMin;
+    data['priceMax'] = this.priceMax;
     data['copySetting'] = this.copySetting.toJson();
     return data;
   }
 }
 
-class ViewType{
+class ViewType {
   static const list = 0;
   static const grid = 1;
   static const big = 2;
