@@ -50,31 +50,13 @@ class ProductRepository {
     return _productColors[id]??Colors.red;
   }
 
-  /// http://xuongann.com/api/v1/home/category/vay-dam?pageSize=8
-  Future<List<Product>> loadByHomeCategory(String name, {pageSize = 8}) async {
-    try {
-      final url = Core.domainAPI + 'home/category/' + name + '?pageSize=$pageSize';
-      final response = await http.get(url).timeout(Duration(seconds: 10));
-      if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(response.body);
-        List<Product> _data = new List();
-        message.forEach((v) {
-          _data.add(new Product.fromJson(v));
-        });
-        return _data;
-      }
-    } catch (e) {
-      log(e.toString());
-    }
-    return null;
-  }
-
   /// http://xuongann.com/api/v1/category/quan-ao-nam/product?pageNumber=1&pageSize=28&sort=4
   Future<List<Product>> loadByCategory(String name,
       {page = 1, pageSize = 10, sort = 4}) async {
     try {
       final url = Core.domainAPI +
-          'category/$name?pageNumber=$page&pageSize=$pageSize&sort=$sort';
+          'category/$name/product?pageNumber=$page&pageSize=$pageSize&sort=$sort';
+      print(url);
       final response = await http.get(url).timeout(Duration(seconds: 10));
       print(url);
       print(response.body);

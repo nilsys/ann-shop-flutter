@@ -113,11 +113,8 @@ class _SearchIntroState extends State<SearchIntro> {
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5), color: Colors.grey[300]),
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-        ),
+            borderRadius: BorderRadius.circular(10), color: Colors.grey[300]),
+        child: Text(title, textAlign: TextAlign.center),
       ),
     );
   }

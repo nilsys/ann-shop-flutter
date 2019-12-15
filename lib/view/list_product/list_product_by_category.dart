@@ -11,9 +11,9 @@ class ListProductByCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(category.title),
+        title: Text(category.name),
       ),
-      body: ListProduct(categoryCode: category.code,),
+      body: ListProduct(categoryCode: category.slug,),
     );
   }
 }

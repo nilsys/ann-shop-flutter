@@ -2,7 +2,6 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
-import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
@@ -13,7 +12,7 @@ import 'package:provider/provider.dart';
 class ProductSlide extends StatefulWidget {
   ProductSlide(this.group);
 
-  final CategoryGroup group;
+  final Category group;
 
   @override
   _ProductSlideState createState() => _ProductSlideState();
@@ -27,7 +26,11 @@ class _ProductSlideState extends State<ProductSlide> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    currentCode = widget.group.code;
+    if (Utility.stringIsNullOrEmpty(widget.group.slug)) {
+      currentCode = widget.group.children[0].slug;
+    } else {
+      currentCode = widget.group.slug;
+    }
   }
 
   @override
@@ -43,7 +46,7 @@ class _ProductSlideState extends State<ProductSlide> {
             color: Colors.grey,
           ),
           TitleViewMore(
-            title: widget.group.title,
+            title: widget.group.name,
             onPressed: () {},
           ),
           Column(
@@ -65,13 +68,11 @@ class _ProductSlideState extends State<ProductSlide> {
                           }
                           if (index < 0) {
                             return _buildCategoryButton(
-                                widget.group.code, 'Tất cả');
+                                widget.group.slug, 'Tất cả');
                           } else {
-                            var _code = widget.group.children[index];
-                            var _name = CategoryRepository.instance
-                                .getCategory(_code)
-                                .title;
-                            return _buildCategoryButton(_code, _name);
+                            var _child = widget.group.children[index];
+                            return _buildCategoryButton(
+                                _child.slug, _child.name);
                           }
                         },
                         separatorBuilder: (context, index) {
@@ -125,7 +126,8 @@ class _ProductSlideState extends State<ProductSlide> {
   Widget buildError(BuildContext context) {
     return buildBox(
       child: SomethingWentWrong(onReload: () {
-        Provider.of<CategoryProductProvider>(context).loadCategory(currentCode);
+        Provider.of<CategoryProductProvider>(context)
+            .loadCategory(currentCode, refresh: true);
       }),
     );
   }
@@ -177,27 +179,31 @@ class _ProductSlideState extends State<ProductSlide> {
   }
 
   _buildCategoryButton(String _code, String _name) {
-    bool isSelect = _code == currentCode;
-    return InkWell(
-      onTap: () {
-        setState(() {
-          currentCode = _code;
-        });
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: isSelect ? Colors.black : null,
-          borderRadius: BorderRadius.circular(5),
-          border: isSelect ? null : Border.all(color: Colors.grey, width: 1),
+    if (Utility.stringIsNullOrEmpty(_code)) {
+      return Container();
+    } else {
+      bool isSelect = _code == currentCode;
+      return InkWell(
+        onTap: () {
+          setState(() {
+            currentCode = _code;
+          });
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: isSelect ? Colors.black : null,
+            borderRadius: BorderRadius.circular(5),
+            border: isSelect ? null : Border.all(color: Colors.grey, width: 1),
+          ),
+          child: Text(
+            _name,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: isSelect ? Colors.white : Colors.grey),
+          ),
         ),
-        child: Text(
-          _name,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: isSelect ? Colors.white : Colors.grey),
-        ),
-      ),
-    );
+      );
+    }
   }
 }

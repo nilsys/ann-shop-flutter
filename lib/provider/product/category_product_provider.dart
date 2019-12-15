@@ -19,9 +19,10 @@ class CategoryProductProvider extends ChangeNotifier {
     return categories[code];
   }
 
-  loadCategory(String code) async {
+  loadCategory(String code, {refresh = false}) async {
     try {
       categories[code].loading = 'Loading';
+      if(refresh)notifyListeners();
       var list = await ProductRepository.instance.loadByCategory(code);
       if (list == null) {
         categories[code].error = 'Load fail';

@@ -1,0 +1,150 @@
+[
+  {
+    "children": [],
+    "id": 46,
+    "name": "Bao lì xì tết",
+    "slug": "bao-li-xi-tet",
+    "icon": "assets/images/categories/bao-li-xi-tet.jpg",
+    "description": null
+  },
+  {
+    "children": [],
+    "id": 17,
+    "name": "Váy đầm nữ",
+    "slug": "vay-dam",
+    "icon": "assets/images/categories/category-17.jpg",
+    "description": null
+  },
+  {
+    "children": [],
+    "id": 18,
+    "name": "Đồ bộ nữ",
+    "slug": "do-bo-nu",
+    "icon": "assets/images/categories/category-18.jpg",
+    "description": null
+  },
+  {
+    "children": [],
+    "id": 16,
+    "name": "Áo dài cách tân",
+    "slug": "ao-dai-cach-tan",
+    "icon": "assets/images/categories/category-16.jpg",
+    "description": null
+  },
+  {
+    "children": [
+      {
+        "children": [],
+        "id": 19,
+        "name": "Áo thun nữ",
+        "slug": "ao-thun-nu",
+        "icon": "assets/images/categories/category-19.jpg",
+        "description": null
+      },
+      {
+        "children": [],
+        "id": 20,
+        "name": "Áo sơ mi nữ",
+        "slug": "ao-so-mi-nu",
+        "icon": "assets/images/categories/category-20.jpg",
+        "description": null
+      }
+    ],
+    "id": 0,
+    "name": "Áo thung nữ - Sơ mi nữ",
+    "slug": "",
+    "icon": "",
+    "description": ""
+  },
+  {
+    "children": [],
+    "id": 21,
+    "name": "Áo khoác nữ",
+    "slug": "ao-khoac-nu",
+    "icon": "assets/images/categories/category-21.jpg",
+    "description": null
+  },
+  {
+    "children": [
+      {
+        "children": [],
+        "id": 23,
+        "name": "Quần nữ",
+        "slug": "quan-nu",
+        "icon": "assets/images/categories/category-23.jpg",
+        "description": null
+      },
+      {
+        "children": [],
+        "id": 41,
+        "name": "Đồ lót nữ",
+        "slug": "do-lot-nu",
+        "icon": "assets/images/categories/category-41.jpg",
+        "description": ""
+      }
+    ],
+    "id": 0,
+    "name": "Quần nữ - Đồ lót nữ",
+    "slug": "",
+    "icon": "",
+    "description": ""
+  },
+  {
+    "children": [
+      {
+        "children": null,
+        "id": 4,
+        "name": "Áo thun cá sấu",
+        "slug": "ao-thun-ca-sau",
+        "icon": null,
+        "description": null
+      },
+      {
+        "children": null,
+        "id": 5,
+        "name": "Áo thun sọc ngang",
+        "slug": "ao-thun-soc-ngang",
+        "icon": null,
+        "description": null
+      },
+      {
+        "children": null,
+        "id": 6,
+        "name": "Áo thun thể thao",
+        "slug": "ao-thun-the-thao",
+        "icon": null,
+        "description": null
+      }
+    ],
+    "id": 3,
+    "name": "Áo thun nam",
+    "slug": "ao-thun-nam",
+    "icon": "assets/images/categories/category-3.jpg",
+    "description": null
+  },
+  {
+    "children": [
+      {
+        "children": [],
+        "id": 11,
+        "name": "Quần nam",
+        "slug": "quan-nam",
+        "icon": "assets/images/categories/category-11.jpg",
+        "description": null
+      },
+      {
+        "children": [],
+        "id": 42,
+        "name": "Quần lót nam",
+        "slug": "quan-lot-nam",
+        "icon": "assets/images/categories/category-42.jpg",
+        "description": ""
+      }
+    ],
+    "id": 0,
+    "name": "Quần nam - Quần lót nam",
+    "slug": "",
+    "icon": "",
+    "description": ""
+  }
+]

@@ -1,12 +1,12 @@
-import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
+import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
-import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
+import 'package:ann_shop_flutter/ui/home_page/home_product_slide.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -61,16 +61,7 @@ class _HomePageState extends State<HomePage> {
                         HomeCategory(),
                       ]),
                     ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          return ProductSlide(CategoryRepository
-                              .instance.categoryGroups[index]);
-                        },
-                        childCount:
-                            CategoryRepository.instance.categoryGroups.length,
-                      ),
-                    ),
+                    HomeProductSlide(),
                     SliverToBoxAdapter(
                       child: Container(
                         color: Colors.white,
@@ -87,5 +78,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _refreshHomepage() async {}
+  Future<void> _refreshHomepage() async {
+    Provider.of<CategoryProvider>(context).loadCategories();
+    // load banner
+    await Provider.of<CategoryProvider>(context).loadCategoryHome();
+  }
 }

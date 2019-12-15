@@ -9,6 +9,7 @@ import 'package:ann_shop_flutter/view/product/product_filter_view.dart';
 import 'package:ann_shop_flutter/view/search/seach_result_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';
+import 'package:ann_shop_flutter/view/utility/web_view.dart';
 import 'package:flutter/material.dart';
 
 class Router {
@@ -18,6 +19,10 @@ class Router {
       case '/':
         return MaterialPageRoute(
             builder: (_) => HomeView(), settings: settings);
+      case '/web-view':
+        var data = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => WebViewRouter(data), settings: settings);
       case '/product-detail':
         var data = settings.arguments;
         return MaterialPageRoute(

@@ -1,49 +1,35 @@
 class Category {
   String icon;
-  String title;
-  String code;
+  String name;
+  String slug;
+  String description;
+  List<Category> children;
 
-  Category({this.icon, this.title, this.code});
+  Category({this.icon, this.name, this.slug, this.description, this.children});
 
   Category.fromJson(Map<String, dynamic> json) {
-    icon = json['icon'];
-    title = json['title'];
-    code = json['code'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['icon'] = this.icon;
-    data['title'] = this.title;
-    data['code'] = this.code;
-    return data;
-  }
-}
-
-class CategoryGroup {
-  String title;
-  String description;
-  String icon;
-  String code;
-  List<String> children;
-
-  CategoryGroup({this.title, this.description, this.icon, this.children});
-
-  CategoryGroup.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
+    icon = json['icon'] ?? 'assets/images/categories/sale-product.png';
+    name = json['name'];
+    slug = json['slug'];
     description = json['description'];
-    icon = json['icon'];
-    code = json['code'];
-    children = json['children']!= null?json['children'].cast<String>():null;
+    if (json['children'] != null) {
+      children = new List<Category>();
+      json['children'].forEach((v) {
+        children.add(new Category.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['description'] = this.description;
     data['icon'] = this.icon;
-    data['code'] = this.code;
+    data['name'] = this.name;
+    data['slug'] = this.slug;
+    data['description'] = this.description;
     data['children'] = this.children;
+    if (this.children != null) {
+      data['children'] = this.children.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
