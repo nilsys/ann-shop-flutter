@@ -2,11 +2,13 @@
   {
     "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
     "type": "category",
-    "value": "bao-li-xi-tet"
+    "value": "bao-li-xi-tet",
+    "name": "Bao lì xì tết"
   },
   {
     "image": "https://khohangsiann.com/wp-content/uploads/si-nuoc-hoa-gia-re-1.png",
     "type": "category",
-    "value": "nuoc-hoa"
+    "value": "nuoc-hoa",
+    "name": "Nước hoa"
   }
 ]

@@ -71,7 +71,7 @@ class ConfigProvider with ChangeNotifier {
         _view = json['view'] ?? ViewType.list;
         _sort = json['sort'] ?? 1;
         priceMin = json['priceMin'] ?? -1;
-        priceMax = json['priceMax'] ?? 501;
+        priceMax = json['priceMax'] ?? 51;
         badge = json['badge'].cast<int>();
         copySetting = CopySetting.fromJson(json['copySetting']);
       }
@@ -84,7 +84,7 @@ class ConfigProvider with ChangeNotifier {
     _view = ViewType.list;
     _sort = 1;
     priceMin = -1;
-    priceMax = 501;
+    priceMax = 51;
     badge = [];
     copySetting = CopySetting(
         productCode: true,

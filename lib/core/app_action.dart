@@ -14,34 +14,36 @@ class AppAction {
 
   bool alreadySpam;
 
-  void onHandleActionInit(BuildContext context, String action, String value) {
+  void onHandleActionInit(
+      BuildContext context, String action, String value, String message) {
     if (alreadySpam == false) {
       alreadySpam = true;
-      onHandleAction(context, action, value);
+      onHandleAction(context, action, value, message);
     }
   }
 
-  void onHandleAction(BuildContext context, String action, String value) {
+  void onHandleAction(
+      BuildContext context, String action, String value, String message) {
     action = action.trim().toLowerCase();
     value = value.trim();
     switch (action) {
       case ActionType.linkToCategory:
-        linkToCategory(context, value);
+        linkToCategory(context, value, message);
         break;
       case ActionType.linkToProduct:
-        linkToProductDetail(context, value);
+        linkToProductDetail(context, value, message);
         break;
       case ActionType.linkToScreen:
-        linkToScreen(context, value);
+        linkToScreen(context, value, message);
         break;
       case ActionType.linkToWebPage:
-        linkToWebPage(context, value);
+        linkToWebPage(context, value, message);
         break;
       case ActionType.linkToWebView:
-        linkToWebView(context, value);
+        linkToWebView(context, value, message);
         break;
       case ActionType.openPopup:
-        linkToPopup(context, value);
+        linkToPopup(context, value, message);
         break;
       default:
         print("Type don't exist");
@@ -49,34 +51,36 @@ class AppAction {
     }
   }
 
-  void linkToProductDetail(BuildContext context, String value) async {
+  void linkToProductDetail(
+      BuildContext context, String value, String message) async {
     print('link to product detail: $value');
     Navigator.pushNamed(context, '/product-detail', arguments: value);
   }
 
-  void linkToCategory(BuildContext context, String value) async {
+  void linkToCategory(
+      BuildContext context, String value, String message) async {
     print('link to product by category: $value');
     Navigator.pushNamed(context, '/list-product-by-category',
-        arguments: Category(name: 'Danh sách sản phẩm', slug: value));
+        arguments: Category(name: message, slug: value));
   }
 
-  void linkToWebPage(BuildContext context, String value) {
+  void linkToWebPage(BuildContext context, String value, String message) {
     print('link to web page: $value');
     launch(value);
   }
 
-  void linkToPopup(BuildContext context, String value) {
+  void linkToPopup(BuildContext context, String value, String message) {
     print('link to popup');
     AppPopup.showCustomDialog(context,
         title: value, btnNormal: ButtonData(title: 'Close'));
   }
 
-  void linkToWebView(BuildContext context, String value) async {
+  void linkToWebView(BuildContext context, String value, String message) async {
     print('link to web view' + value);
     Navigator.pushNamed(context, '/web-view');
   }
 
-  void linkToScreen(BuildContext context, String value) {
+  void linkToScreen(BuildContext context, String value, String message) {
     print('link to scrren' + value);
     Navigator.pushNamed(context, '/$value');
   }

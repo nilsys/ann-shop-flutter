@@ -16,8 +16,8 @@ class ProductRepository {
     /// init
     productSorts = [
       ProductSort(id: 1, title: 'Mới nhập kho'),
-      ProductSort(id: 2, title: 'Giá tăng dần'),
-      ProductSort(id: 3, title: 'Giá giảm dần'),
+      ProductSort(id: 2, title: 'Giá giảm dần'),
+      ProductSort(id: 3, title: 'Giá tăng dần'),
       ProductSort(id: 4, title: 'Mẫu mới nhất'),
     ];
 

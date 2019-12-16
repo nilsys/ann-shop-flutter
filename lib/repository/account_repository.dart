@@ -4,7 +4,15 @@ import 'dart:io';
 import 'package:ann_shop_flutter/model/acount/account.dart';
 import 'package:http/http.dart' as http;
 
-class LoginRepository {
+class AccountRepository {
+  static final AccountRepository instance = AccountRepository._internal();
+
+  factory AccountRepository() => instance;
+
+  AccountRepository._internal() {
+    // todo
+  }
+
   requestOTP(Object data) async {
     try {
       final url = '';

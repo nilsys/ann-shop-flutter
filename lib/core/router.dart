@@ -1,5 +1,9 @@
-import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/view/account/add_information.dart';
+import 'package:ann_shop_flutter/view/account/login_view.dart';
+import 'package:ann_shop_flutter/view/account/notification_view.dart';
+import 'package:ann_shop_flutter/view/account/order_management_view.dart';
 import 'package:ann_shop_flutter/view/account/setting_view.dart';
+import 'package:ann_shop_flutter/view/account/shop_contact.dart';
 import 'package:ann_shop_flutter/view/favorite/favorite_view.dart';
 import 'package:ann_shop_flutter/view/home_view/search_page.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product_by_category.dart';
@@ -9,6 +13,7 @@ import 'package:ann_shop_flutter/view/product/product_filter_view.dart';
 import 'package:ann_shop_flutter/view/search/seach_result_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';
+import 'package:ann_shop_flutter/view/utility/file_view.dart';
 import 'package:ann_shop_flutter/view/utility/web_view.dart';
 import 'package:flutter/material.dart';
 
@@ -23,10 +28,15 @@ class Router {
         var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => WebViewRouter(data), settings: settings);
+      case '/file-view':
+        Map data = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => FileViewRouter(data['url'], data['name']),
+            settings: settings);
       case '/product-detail':
         var data = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => ProductDetailView(info: data,), settings: settings);
+            builder: (_) => ProductDetailView(info: data), settings: settings);
       case '/search':
         return MaterialPageRoute(
             builder: (_) => SearchPage(), settings: settings);
@@ -50,6 +60,21 @@ class Router {
         var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => SearchResultView(data), settings: settings);
+      case '/shop-contact':
+        return MaterialPageRoute(
+            builder: (_) => ShopContact(), settings: settings);
+      case '/login':
+        return MaterialPageRoute(
+            builder: (_) => LoginView(), settings: settings);
+      case '/add-information':
+        return MaterialPageRoute(
+            builder: (_) => AddInformation(), settings: settings);
+      case '/order-management':
+        return MaterialPageRoute(
+            builder: (_) => OrderManagementView(), settings: settings);
+      case '/notification':
+        return MaterialPageRoute(
+            builder: (_) => NotificationView(), settings: settings);
       default:
         return MaterialPageRoute(
             builder: (_) => EmptyView(title: settings.name));

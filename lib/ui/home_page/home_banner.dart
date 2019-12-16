@@ -20,9 +20,12 @@ class _HomeBannerState extends State<HomeBanner>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _pageController =
-        PageController(initialPage: 0, viewportFraction: 1, keepPage: false);
-    Timer.periodic(Duration(seconds: 5), (Timer timer) {
+//    Timer.periodic(Duration(seconds: 5), _autoChangePage);
+  }
+
+  void _autoChangePage(timer) {
+    if (_pageController == null) {
+    } else {
       if (_currentPage < 1) {
         _currentPage++;
       } else {
@@ -34,11 +37,12 @@ class _HomeBannerState extends State<HomeBanner>
         duration: Duration(milliseconds: 350),
         curve: Curves.easeIn,
       );
-    });
+    }
   }
 
   final height = 120.0;
-  PageController _pageController;
+  final PageController _pageController =
+      PageController(initialPage: 0, viewportFraction: 1, keepPage: false);
   int _currentPage = 0;
 
   @override
@@ -115,7 +119,8 @@ class _HomeBannerState extends State<HomeBanner>
   Widget _buildBanner(context, Cover item) {
     return InkWell(
       onTap: () {
-        AppAction.instance.onHandleAction(context, item.type, item.value);
+        AppAction.instance
+            .onHandleAction(context, item.type, item.value, item.name);
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(5),

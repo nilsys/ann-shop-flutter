@@ -20,4 +20,6 @@ class Core {
 
   static const domainAPI = 'http://xuongann.com/api/v1/';
   static const domain = 'http://xuongann.com/';
+
+  static bool get isLogin => false;
 }
