@@ -13,18 +13,17 @@ dependencies:
   #flutter_localizations:
     #sdk: flutter
   #  firebase_analytics: ^5.0.1
-  provider: ^3.1.0
-  connectivity: ^0.4.3+7
-  shared_preferences: ^0.5.3+4
+  provider: ^3.2.0
+  connectivity: ^0.4.6+1
+  shared_preferences: ^0.5.6
   http: ^0.12.0+2
-  webview_flutter: ^0.3.13
-  flushbar: ^1.9.0
+  webview_flutter: ^0.3.18+1
+  flushbar: ^1.9.1
   extended_image: ^0.6.8
-  intl: ^0.15.0
+  intl: ^0.16.0
   flutter_html: ^0.11.0
-  transparent_image: ^1.0.0
-  url_launcher: ^5.2.7
-  loading_more_list: ^0.3.7
+  url_launcher: ^5.4.1
+  loading_more_list: ^1.0.2
 
 dev_dependencies:
   flutter_test:

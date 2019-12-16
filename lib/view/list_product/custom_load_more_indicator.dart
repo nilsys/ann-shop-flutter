@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class CustomLoadMoreIndicator extends StatelessWidget {
-
   final LoadMoreProductRepository listSourceRepository;
   final IndicatorStatus status;
 
@@ -15,15 +14,11 @@ class CustomLoadMoreIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     bool isSliver = true;
 
     Widget widget;
     switch (status) {
-      case IndicatorStatus.None:
-        widget = Container(height: 0.0);
-        break;
-      case IndicatorStatus.LoadingMoreBusying:
+      case IndicatorStatus.loadingMoreBusying:
         widget = Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,7 +34,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
         );
         widget = _setbackground(false, widget, 35.0);
         break;
-      case IndicatorStatus.FullScreenBusying:
+      case IndicatorStatus.fullScreenBusying:
         widget = Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,7 +63,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
           );
         }
         break;
-      case IndicatorStatus.Error:
+      case IndicatorStatus.error:
         widget = Padding(
           padding: EdgeInsets.all(10),
           child: Column(
@@ -90,7 +85,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
         );
 
         break;
-      case IndicatorStatus.FullScreenError:
+      case IndicatorStatus.fullScreenError:
         widget = SomethingWentWrong();
         widget = _setbackground(true, widget, double.infinity);
         widget = GestureDetector(
@@ -113,14 +108,14 @@ class CustomLoadMoreIndicator extends StatelessWidget {
           );
         }
         break;
-      case IndicatorStatus.NoMoreLoad:
+      case IndicatorStatus.noMoreLoad:
         widget = Text("Đã hiển thị tất cả sản phẩm.");
         widget = _setbackground(false, widget, 25.0);
         break;
-      case IndicatorStatus.Empty:
-
-        widget =  EmptyListUI();
-        widget = _setbackground(true, widget, double.infinity, context:context);
+      case IndicatorStatus.empty:
+        widget = EmptyListUI();
+        widget =
+            _setbackground(true, widget, double.infinity, context: context);
 
         if (isSliver) {
           widget = SliverToBoxAdapter(
@@ -136,13 +131,21 @@ class CustomLoadMoreIndicator extends StatelessWidget {
           );
         }
         break;
+      default:
+        widget = Container(height: 0.0);
+        break;
     }
     return widget;
   }
 
-  Widget _setbackground(bool full, Widget widget, double height, {BuildContext context}) {
+  Widget _setbackground(bool full, Widget widget, double height,
+      {BuildContext context}) {
     widget = ConstrainedBox(
-      constraints: BoxConstraints(minWidth: double.infinity, minHeight:context!=null? MediaQuery.of(context).size.height - 140 : height),
+      constraints: BoxConstraints(
+          minWidth: double.infinity,
+          minHeight: context != null
+              ? MediaQuery.of(context).size.height - 140
+              : height),
       child: Container(
         /*width: double.infinity,
         height: height,*/
@@ -157,17 +160,18 @@ class CustomLoadMoreIndicator extends StatelessWidget {
   Widget getIndicator(BuildContext context) {
     return Platform.isIOS
         ? CupertinoActivityIndicator(
-      animating: true,
-      radius: 16.0,
-    )
+            animating: true,
+            radius: 16.0,
+          )
         : CircularProgressIndicator(
-      strokeWidth: 2.0,
-      valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-    );
+            strokeWidth: 2.0,
+            valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+          );
   }
 }
 
-class CommonSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+class CommonSliverPersistentHeaderDelegate
+    extends SliverPersistentHeaderDelegate {
   final Widget child;
   final double height;
 

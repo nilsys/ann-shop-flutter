@@ -16,11 +16,6 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
       .copyWith(statusBarIconBrightness: Brightness.light));
 
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-
 //  ErrorWidget.builder = (FlutterErrorDetails details) => Container(
 //    alignment: Alignment.center,
 //    child: Icon(Icons.error),
@@ -60,5 +55,16 @@ class _MyAppState extends State<MyApp> {
         onGenerateRoute: Router.generateRoute,
       ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
   }
 }
