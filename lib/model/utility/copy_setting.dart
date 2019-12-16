@@ -6,11 +6,11 @@ class CopySetting {
   String address;
 
   CopySetting(
-      {this.productCode,
-        this.productName,
-        this.bonusPrice,
-        this.phoneNumber,
-        this.address});
+      {this.productCode = true,
+      this.productName = true,
+      this.bonusPrice = 50000,
+      this.phoneNumber = '',
+      this.address = ''});
 
   CopySetting.fromJson(Map<String, dynamic> json) {
     productCode = json['productCode'];
@@ -30,4 +30,3 @@ class CopySetting {
     return data;
   }
 }
-

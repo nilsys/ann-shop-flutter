@@ -113,7 +113,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
         widget = _setbackground(false, widget, 25.0);
         break;
       case IndicatorStatus.empty:
-        widget = EmptyListUI();
+        widget = EmptyListUI(body: 'Không tìm thấy sản phẩm nào',);
         widget =
             _setbackground(true, widget, double.infinity, context: context);
 

@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/main.dart';
-import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SearchProvider with ChangeNotifier {
   final _keyHistory = '_historyKey';
@@ -27,6 +25,7 @@ class SearchProvider with ChangeNotifier {
     if (response != null) {
       var json = jsonDecode(response);
       _history = json.cast<String>();
+      notifyListeners();
     }
   }
 

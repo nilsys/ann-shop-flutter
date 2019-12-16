@@ -1,11 +1,9 @@
 
-
-
-
+import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 
 final double defaultPadding = 15;
-
-
+final int itemPerPage = 30;
+ConfigProvider appConfig;
 class Core {
 
   static final Core instance = Core._internal();

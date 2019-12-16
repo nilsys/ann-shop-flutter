@@ -23,7 +23,7 @@ class CategoryProductProvider extends ChangeNotifier {
     try {
       categories[code].loading = 'Loading';
       if(refresh)notifyListeners();
-      var list = await ProductRepository.instance.loadByCategory(code);
+      var list = await ProductRepository.instance.loadByCategory(code, page: 1, pageSize: 10);
       if (list == null) {
         categories[code].error = 'Load fail';
       } else {

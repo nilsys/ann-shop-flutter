@@ -120,7 +120,7 @@ class _PopupProductFilterState extends State<PopupProductFilter> {
       child: Row(
         children: <Widget>[
           Checkbox(
-            value: provider.badge.contains(badge.id),
+            value: provider.filter.badge.contains(badge.id),
             tristate: true,
             onChanged: (value) {
               if (value ?? false) {

@@ -12,10 +12,12 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:provider/provider.dart';
 
 class ListProduct extends StatefulWidget {
-  ListProduct({this.categoryCode, this.searchText, this.initData});
+  ListProduct(
+      {this.categoryCode, this.searchText, this.tagName, this.initData});
 
   final categoryCode;
   final searchText;
+  final tagName;
   final initData;
 
   @override
@@ -31,6 +33,7 @@ class _BuildAllViewState extends State<ListProduct> {
     listSourceRepository = new LoadMoreProductRepository(
         categoryCode: widget.categoryCode,
         searchText: widget.searchText,
+        tagName: widget.tagName,
         initData: widget.initData);
     super.initState();
   }
@@ -111,7 +114,6 @@ class ItemBuilder {
   static var cacheGrid = [];
 
   static Widget itemBuilderGrid(BuildContext context, Product item, int index) {
-
     final minWidth = 150.0;
     final textHeight = 140.0;
     final double padding = 15;

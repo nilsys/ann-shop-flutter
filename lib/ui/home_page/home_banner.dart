@@ -20,7 +20,7 @@ class _HomeBannerState extends State<HomeBanner>
   void initState() {
     // TODO: implement initState
     super.initState();
-//    Timer.periodic(Duration(seconds: 5), _autoChangePage);
+    time = Timer.periodic(Duration(seconds: 5), _autoChangePage);
   }
 
   void _autoChangePage(timer) {
@@ -40,6 +40,14 @@ class _HomeBannerState extends State<HomeBanner>
     }
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    time.cancel();
+    super.dispose();
+
+  }
+  Timer time;
   final height = 120.0;
   final PageController _pageController =
       PageController(initialPage: 0, viewportFraction: 1, keepPage: false);
