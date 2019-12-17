@@ -32,7 +32,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
             Text('Đang tải..') // load more item when scroll position at bottom
           ],
         );
-        widget = _setbackground(false, widget, 35.0);
+        widget = _setBackGround(false, widget, 35.0);
         break;
       case IndicatorStatus.fullScreenBusying:
         widget = Row(
@@ -48,7 +48,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
             Text('Đang tải..') // load more item when scroll position at bottom
           ],
         );
-        widget = _setbackground(true, widget, double.infinity);
+        widget = _setBackGround(true, widget, double.infinity);
         if (isSliver) {
           widget = SliverFillRemaining(
             child: widget,
@@ -75,7 +75,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
             ],
           ),
         );
-        widget = _setbackground(false, widget, 35.0);
+        widget = _setBackGround(false, widget, 35.0);
 
         widget = GestureDetector(
           onTap: () {
@@ -87,7 +87,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
         break;
       case IndicatorStatus.fullScreenError:
         widget = SomethingWentWrong();
-        widget = _setbackground(true, widget, double.infinity);
+        widget = _setBackGround(true, widget, double.infinity);
         widget = GestureDetector(
           onTap: () {
             listSourceRepository.errorRefresh();
@@ -110,12 +110,12 @@ class CustomLoadMoreIndicator extends StatelessWidget {
         break;
       case IndicatorStatus.noMoreLoad:
         widget = Text("Đã hiển thị tất cả sản phẩm.");
-        widget = _setbackground(false, widget, 25.0);
+        widget = _setBackGround(false, widget, 25.0);
         break;
       case IndicatorStatus.empty:
         widget = EmptyListUI(body: 'Không tìm thấy sản phẩm nào',);
         widget =
-            _setbackground(true, widget, double.infinity, context: context);
+            _setBackGround(true, widget, double.infinity, context: context);
 
         if (isSliver) {
           widget = SliverToBoxAdapter(
@@ -138,7 +138,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
     return widget;
   }
 
-  Widget _setbackground(bool full, Widget widget, double height,
+  Widget _setBackGround(bool full, Widget widget, double height,
       {BuildContext context}) {
     widget = ConstrainedBox(
       constraints: BoxConstraints(
@@ -147,8 +147,6 @@ class CustomLoadMoreIndicator extends StatelessWidget {
               ? MediaQuery.of(context).size.height - 140
               : height),
       child: Container(
-        /*width: double.infinity,
-        height: height,*/
         child: widget,
         color: Colors.transparent,
         alignment: Alignment.center,

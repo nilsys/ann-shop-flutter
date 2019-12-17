@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
@@ -26,6 +27,7 @@ void main() {
 
 class MyApp extends StatefulWidget {
   static final navKey = new GlobalKey<NavigatorState>();
+
   static BuildContext get context => navKey.currentState.overlay.context;
 
   @override
@@ -37,14 +39,14 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create:(_)=> NavigationProvider()),
-        ChangeNotifierProvider(create:(_)=> CategoryProductProvider()),
-        ChangeNotifierProvider(create:(_)=> ProductProvider()),
-        ChangeNotifierProvider(create:(_)=> FavoriteProvider()),
-        ChangeNotifierProvider(create:(_)=> ConfigProvider()),
-        ChangeNotifierProvider(create:(_)=> SeenProvider()),
-        ChangeNotifierProvider(create:(_)=> CategoryProvider()),
-        ChangeNotifierProvider(create:(_)=> CoverProvider()),
+        ChangeNotifierProvider(create: (_) => NavigationProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryProductProvider()),
+        ChangeNotifierProvider(create: (_) => ProductProvider()),
+        ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+        ChangeNotifierProvider(create: (_) => ConfigProvider()),
+        ChangeNotifierProvider(create: (_) => SeenProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        ChangeNotifierProvider(create: (_) => CoverProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -61,10 +63,10 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Core.loadCopySetting();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
   }
 }

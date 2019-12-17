@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
-import 'package:ann_shop_flutter/model/utility/copy_setting.dart';
 import 'package:flutter/material.dart';
 
 class ConfigProvider with ChangeNotifier {
@@ -14,8 +13,6 @@ class ConfigProvider with ChangeNotifier {
     _isEditFilter = false;
     loadConfig();
   }
-
-  CopySetting copySetting;
 
   AppFilter filter;
 
@@ -91,7 +88,6 @@ class ConfigProvider with ChangeNotifier {
       } else {
         var json = jsonDecode(response);
         _view = json['view'] ?? ViewType.list;
-        copySetting = CopySetting.fromJson(json['copySetting']);
         filter = AppFilter.fromJson(json['filter']);
       }
     } catch (e) {
@@ -101,7 +97,6 @@ class ConfigProvider with ChangeNotifier {
 
   reset() {
     _view = ViewType.list;
-    copySetting = CopySetting();
     filter = AppFilter();
   }
 
@@ -114,7 +109,6 @@ class ConfigProvider with ChangeNotifier {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['view'] = this.view;
-    data['copySetting'] = this.copySetting.toJson();
     data['filter'] = this.filter.toJson();
     return data;
   }

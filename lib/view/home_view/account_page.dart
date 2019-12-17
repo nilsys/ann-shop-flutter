@@ -19,7 +19,6 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   Widget build(BuildContext context) {
-    bool isLogin = false;
     return Scaffold(
       backgroundColor: AppStyles.dividerColor,
       appBar: AppBar(
@@ -39,69 +38,43 @@ class _AccountPageState extends State<AccountPage> {
             SliverList(
               delegate: SliverChildListDelegate([
                 SizedBox(height: 12),
-                _buildItemCommon('Quản lý đơn hàng',
-                    icon: Icon(Icons.description), onTap: () {
+                _buildItemCommon('Quản lý đơn hàng', icon: Icons.description,
+                    onTap: () {
                   if (Core.isLogin) {
                     Navigator.pushNamed(context, '/order-management');
                   } else {
                     _showLoginBottomSheet();
                   }
                 }),
-                _buildItemCommon('Sản phẩm đã xem',
-                    icon: Icon(Icons.remove_red_eye), onTap: () {
+                _buildItemCommon('Sản phẩm đã xem', icon: Icons.remove_red_eye,
+                    onTap: () {
                   Navigator.pushNamed(context, '/seen');
                 }),
-                _buildItemCommon('Sản phẩm yêu thích',
-                    icon: Icon(Icons.favorite), onTap: () {
+                _buildItemCommon('Sản phẩm yêu thích', icon: Icons.favorite,
+                    onTap: () {
                   Navigator.pushNamed(context, '/favorite');
                 }),
-                _buildItemCommon('Thông báo', icon: Icon(Icons.notifications),
+                _buildItemCommon('Thông báo', icon: Icons.notifications,
                     onTap: () {
                   Navigator.pushNamed(context, '/notification');
                 }),
-                _buildItemCommon('Liên hệ', icon: Icon(Icons.headset_mic),
-                    onTap: () {
+                SizedBox(height: 12),
+                _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {
                   Navigator.pushNamed(context, '/shop-contact');
                 }),
-                _buildItemCommon('Cài đặt', icon: Icon(Icons.settings),
-                    onTap: () {
+                _buildItemCommon('Chính sách bán hàng',
+                    icon: Icons.question_answer, onTap: () {
+                  Navigator.pushNamed(context, '/shop-policy');
+                }),
+                _buildItemCommon('Cài đặt', icon: Icons.settings, onTap: () {
                   Navigator.pushNamed(context, '/setting');
                 }),
-              ]),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                SizedBox(height: 12),
-                _buildItemCommon('Giới thiệu', onTap: () {
-                  Navigator.pushNamed(context, '/file-view', arguments: {
-                    'url': 'assets/offline/ann_intro.html',
-                    'name': 'Xưởng sỉ ANN'
-                  });
-                }),
-                _buildItemCommon('Hướng dẫn mua sỉ', onTap: () {
-                  Navigator.pushNamed(context, '/file-view', arguments: {
-                    'url': 'assets/offline/ann_wholesale.html',
-                    'name': 'Hướng dẫn mua sỉ'
-                  });
-                }),
-                _buildItemCommon('Chính sách vận chuyển', onTap: () {
-                  Navigator.pushNamed(context, '/file-view', arguments: {
-                    'url': 'assets/offline/ann_policy_delivery.html',
-                    'name': 'Chính sách vận chuyển'
-                  });
-                }),
-                _buildItemCommon('Chính sách thanh toán', onTap: () {
-                  Navigator.pushNamed(context, '/file-view', arguments: {
-                    'url': 'assets/offline/ann_policy_payment.html',
-                    'name': 'Chính sách thanh toán'
-                  });
-                }),
-                _buildItemCommon('Chính sách đổi trả', onTap: () {
-                  Navigator.pushNamed(context, '/file-view', arguments: {
-                    'url': 'assets/offline/ann_policy_refund.html',
-                    'name': 'Chính sách đổi trả'
-                  });
-                }),
+                Container(
+                  height: 50,
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                  child: Text('Version: ${Core.appVersion}'),
+                )
               ]),
             ),
           ],
@@ -110,13 +83,19 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  Widget _buildItemCommon(String title, {Icon icon, GestureTapCallback onTap}) {
+  Widget _buildItemCommon(String title,
+      {IconData icon, GestureTapCallback onTap}) {
     return Container(
       margin: EdgeInsets.only(bottom: 1),
       color: Colors.white,
       child: ListTile(
         onTap: onTap,
-        leading: icon,
+        leading: icon != null
+            ? Icon(
+                icon,
+                color: Theme.of(context).primaryColor,
+              )
+            : null,
         title: Text(title),
         trailing:
             Icon(Icons.keyboard_arrow_right, color: AppStyles.dividerColor),

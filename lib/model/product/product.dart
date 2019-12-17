@@ -6,8 +6,6 @@ class Product {
   String name;
   String slug;
   String materials;
-  List<ProductColor> colors;
-  List<ProductSize> sizes;
   int badge;
   bool availability;
   List<ProductThumbnails> thumbnails;
@@ -20,7 +18,7 @@ class Product {
     if(Utility.isNullOrEmpty(thumbnails)){
       return '';
     }else{
-      return thumbnails[thumbnails.length - 1].url;
+      return thumbnails[thumbnails.length - 1].url.replaceFirst(thumbnails[thumbnails.length - 1].size+'/', '');
     }
   }
 
@@ -30,8 +28,6 @@ class Product {
         this.name,
         this.slug,
         this.materials,
-        this.colors,
-        this.sizes,
         this.badge,
         this.availability,
         this.thumbnails,
@@ -46,18 +42,6 @@ class Product {
     name = json['name'];
     slug = json['slug'];
     materials = json['materials'];
-    if (json['colors'] != null) {
-      colors = new List<ProductColor>();
-      json['colors'].forEach((v) {
-        colors.add(new ProductColor.fromJson(v));
-      });
-    }
-    if (json['sizes'] != null) {
-      sizes = new List<ProductSize>();
-      json['sizes'].forEach((v) {
-        sizes.add(new ProductSize.fromJson(v));
-      });
-    }
     badge = json['badge'];
     availability = json['availability'];
     if (json['thumbnails'] != null) {
@@ -79,12 +63,6 @@ class Product {
     data['name'] = this.name;
     data['slug'] = this.slug;
     data['materials'] = this.materials;
-    if (this.colors != null) {
-      data['colors'] = this.colors.map((v) => v.toJson()).toList();
-    }
-    if (this.sizes != null) {
-      data['sizes'] = this.sizes.map((v) => v.toJson()).toList();
-    }
     data['badge'] = this.badge;
     data['availability'] = this.availability;
     if (this.thumbnails != null) {

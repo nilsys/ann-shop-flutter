@@ -1,11 +1,10 @@
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/ui/product/product_full.dart';
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';
-import 'package:ann_shop_flutter/ui/product/product_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 class FavoriteView extends StatelessWidget {
   @override
@@ -46,8 +45,25 @@ class FavoriteView extends StatelessWidget {
         color: Colors.white,
         child: Container(
           height: 50,
+          child: RaisedButton(
+            child: Text(
+              'Chia sẻ',
+              style: Theme.of(context)
+                  .textTheme
+                  .button
+                  .merge(TextStyle(color: Colors.white)),
+            ),
+            color: Theme.of(context).primaryColor,
+            onPressed: () {
+              _onShare(context);
+            },
+          ),
         ),
       ),
     );
+  }
+
+  _onShare(context) {
+    Share.share('abc');
   }
 }

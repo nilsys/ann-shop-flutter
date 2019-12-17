@@ -1,7 +1,5 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
-import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/view/search/search_intro.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +34,9 @@ class _SearchInputState extends State<SearchInput> {
             child: TextField(
                 controller: Provider.of<SearchProvider>(context).controller,
                 style: TextStyle(color: Colors.white),
+                autofocus: true,
+                showCursor: true,
+                cursorColor: Colors.white,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(top: 1),
                     border: InputBorder.none,

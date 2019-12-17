@@ -3,21 +3,21 @@ class AppFilter {
   double priceMin;
   double priceMax;
   List<int> badge;
-  static const maxOfMax = 500;
+  static const maxOfMax = 50;
 
   int get min {
-    if(priceMin <= 0){
+    if (priceMin <= 0) {
       return null;
-    }else{
-      return (priceMin*1000).round();
+    } else {
+      return (priceMin * 10000).round();
     }
-
   }
+
   int get max {
-    if(priceMax > maxOfMax){
+    if (priceMax > maxOfMax) {
       return null;
-    }else{
-      return (priceMax*1000).round();
+    } else {
+      return (priceMax * 10000).round();
     }
   }
 

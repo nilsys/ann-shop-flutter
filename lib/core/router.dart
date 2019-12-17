@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/view/account/notification_view.dart';
 import 'package:ann_shop_flutter/view/account/order_management_view.dart';
 import 'package:ann_shop_flutter/view/account/setting_view.dart';
 import 'package:ann_shop_flutter/view/account/shop_contact.dart';
+import 'package:ann_shop_flutter/view/account/shop_policy.dart';
 import 'package:ann_shop_flutter/view/favorite/favorite_view.dart';
 import 'package:ann_shop_flutter/view/home_view/search_page.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product_by_category.dart';
@@ -63,6 +64,9 @@ class Router {
       case '/shop-contact':
         return MaterialPageRoute(
             builder: (_) => ShopContact(), settings: settings);
+      case '/shop-policy':
+        return MaterialPageRoute(
+            builder: (_) => ShopPolicy(), settings: settings);
       case '/login':
         return MaterialPageRoute(
             builder: (_) => LoginView(), settings: settings);
