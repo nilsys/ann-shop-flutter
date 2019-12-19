@@ -19,7 +19,7 @@ class ProductSlide extends StatefulWidget {
 }
 
 class _ProductSlideState extends State<ProductSlide> {
-  String currentCode;
+  Category currentCategory;
   final double itemHeight = 340;
 
   @override
@@ -27,16 +27,16 @@ class _ProductSlideState extends State<ProductSlide> {
     // TODO: implement initState
     super.initState();
     if (Utility.stringIsNullOrEmpty(widget.group.slug)) {
-      currentCode = widget.group.children[0].slug;
+      currentCategory = widget.group.children[0];
     } else {
-      currentCode = widget.group.slug;
+      currentCategory = widget.group;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     CategoryProductProvider provider = Provider.of(context);
-    var products = provider.getByCategory(currentCode);
+    var products = provider.getByCategory(currentCategory.slug);
     return Container(
       color: Colors.white,
       child: Column(
@@ -47,7 +47,10 @@ class _ProductSlideState extends State<ProductSlide> {
           ),
           TitleViewMore(
             title: widget.group.name,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/list-product-by-category',
+                  arguments: currentCategory);
+            },
           ),
           Column(
             children: <Widget>[
@@ -67,12 +70,11 @@ class _ProductSlideState extends State<ProductSlide> {
                             );
                           }
                           if (index < 0) {
-                            return _buildCategoryButton(
-                                widget.group.slug, 'Tất cả');
+                            return _buildCategoryButton(widget.group,
+                                customName: 'Tất cả');
                           } else {
                             var _child = widget.group.children[index];
-                            return _buildCategoryButton(
-                                _child.slug, _child.name);
+                            return _buildCategoryButton(_child);
                           }
                         },
                         separatorBuilder: (context, index) {
@@ -127,7 +129,7 @@ class _ProductSlideState extends State<ProductSlide> {
     return buildBox(
       child: SomethingWentWrong(onReload: () {
         Provider.of<CategoryProductProvider>(context)
-            .loadCategory(currentCode, refresh: true);
+            .loadCategory(currentCategory.slug, refresh: true);
       }),
     );
   }
@@ -165,7 +167,39 @@ class _ProductSlideState extends State<ProductSlide> {
           if (index == data.length) {
             return Container(
               color: Colors.white,
-              width: 15,
+              width: imageWidth + 15,
+              padding: EdgeInsets.only(right: 15,bottom: 120),
+              child: Center(
+                child: InkWell(
+                  onTap: (){
+                    Navigator.pushNamed(context, '/list-product-by-category',
+                        arguments: currentCategory);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 30,
+                        height: 30,
+                        margin: EdgeInsets.only(bottom: 5),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.navigate_next,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        'Xem thêm',
+                        style: Theme.of(context).textTheme.button.merge(
+                            TextStyle(color: Theme.of(context).primaryColor)),
+                      )
+                    ],
+                  ),
+                ),
+              ),
             );
           }
           return ProductItem(
@@ -178,31 +212,28 @@ class _ProductSlideState extends State<ProductSlide> {
     );
   }
 
-  _buildCategoryButton(String _code, String _name) {
-    if (Utility.stringIsNullOrEmpty(_code)) {
+  _buildCategoryButton(Category item, {String customName}) {
+    String _name = customName ?? item.name;
+    if (Utility.stringIsNullOrEmpty(item.slug)) {
       return Container();
     } else {
-      bool isSelect = _code == currentCode;
-      return InkWell(
-        onTap: () {
-          setState(() {
-            currentCode = _code;
-          });
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: isSelect ? Colors.black : null,
-            borderRadius: BorderRadius.circular(5),
-            border: isSelect ? null : Border.all(color: Colors.grey, width: 1),
-          ),
-          child: Text(
-            _name,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: isSelect ? Colors.white : Colors.grey),
-          ),
+      bool isSelect = item == currentCategory;
+      return ChoiceChip(
+        label: Text(
+          _name,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: isSelect ? Colors.white : Colors.black87),
         ),
+        selected: isSelect,
+        onSelected: (selected) {
+          if (selected) {
+            setState(() {
+              currentCategory = item;
+            });
+          }
+        },
+        selectedColor: Colors.black87,
+        disabledColor: Colors.grey,
       );
     }
   }

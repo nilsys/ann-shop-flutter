@@ -122,7 +122,6 @@ class ItemBuilder {
     final width = (screenWidth - ((countPerRow - 1) * padding)) / countPerRow;
     final imageHeight = width * 200 / 150;
 
-    print('countPerRow: $countPerRow');
     if (cacheGrid.length < countPerRow) {
       cacheGrid.add(item);
       return Container();

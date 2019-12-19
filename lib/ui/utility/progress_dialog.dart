@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -100,28 +101,22 @@ class _MyDialogState extends State<_MyDialog> {
         children: <Widget>[
           Container(
             width: double.infinity,
-            height: 80,
-            padding: EdgeInsets.all(20),
+            height: 70,
+            padding: EdgeInsets.only(top: 20),
             alignment: Alignment.center,
-            child: Container(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.white,
-                strokeWidth: 5,
-              ),
-            ),
+            child: UIManager.defaultIndicator(),
           ),
 
           /// Bottom
           Container(
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 20),
             width: double.infinity,
             child: Text(
               _dialogMessage,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                fontSize: 14,
               ),
             ),
           ),

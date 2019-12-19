@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
+import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteProvider with ChangeNotifier {
@@ -36,7 +37,7 @@ class FavoriteProvider with ChangeNotifier {
     StorageManager.setObject(_keyLocaleFavorite, myJsonString);
   }
 
-  addNewProduct(Product item, {int count = 1}) {
+  addNewProduct(context, Product item, {int count = 1}) {
     List<ProductFavorite> array =
         products.where((p) => p.product.productID == item.productID).toList();
     if (Utility.isNullOrEmpty(array)) {
@@ -46,6 +47,7 @@ class FavoriteProvider with ChangeNotifier {
     }
     saveShoppingList();
     notifyListeners();
+    AppSnackBar.showHighlightTopMessage(context, 'Sản phẩm đã được lưu vào danh sách của bạn');
     print('Add $count productID ${item.productID}');
   }
 

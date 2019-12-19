@@ -1,4 +1,6 @@
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:html_unescape/html_unescape.dart';
 
 class Product {
   int productID;
@@ -13,28 +15,70 @@ class Product {
   double oldPrice;
   double retailPrice;
   String content;
+  List<String> contentImages;
 
   String get getCover {
-    if(Utility.isNullOrEmpty(thumbnails)){
+    if (Utility.isNullOrEmpty(thumbnails)) {
       return '';
-    }else{
-      return thumbnails[thumbnails.length - 1].url.replaceFirst(thumbnails[thumbnails.length - 1].size+'/', '');
+    } else {
+      return thumbnails[thumbnails.length - 1]
+          .url
+          .replaceFirst(thumbnails[thumbnails.length - 1].size + '/', '');
     }
+  }
+
+  final _save = '📌🌻🌸🌼👍👉🎋🐭🍀⭐🌟✨';
+
+  String getTextCopy({index, hasContent = true}) {
+    String value = index != null ? '$index: ' : '';
+    if (Core.copySetting.productCode) {
+      value += sku;
+      if (Core.copySetting.productName) {
+        value += ' - ';
+        value += name + '\n';
+      }
+    } else {
+      if (Core.copySetting.productName) {
+        value += name + '\n';
+      }
+    }
+
+    value += '💲 ' +
+        Utility.formatPrice(retailPrice + Core.copySetting.bonusPrice) +
+        ' vnđ\n';
+    if (Utility.stringIsNullOrEmpty(materials) == false) {
+      value += '🔖 $materials\n';
+    }
+    if(hasContent) {
+      String _getContent = getContent();
+      if (Utility.stringIsNullOrEmpty(_getContent) == false) {
+        _getContent = HtmlUnescape().convert(_getContent);
+        _getContent = _getContent.replaceAll("<br />", '\n');
+        value += '🔖 $_getContent\n';
+      }
+    }
+    return value;
+  }
+
+  String getContent() {
+    return this
+        .content
+        .replaceAllMapped(RegExp(r"<img[\w\W]+?>"), (match) => '');
   }
 
   Product(
       {this.productID,
-        this.sku,
-        this.name,
-        this.slug,
-        this.materials,
-        this.badge,
-        this.availability,
-        this.thumbnails,
-        this.regularPrice,
-        this.oldPrice,
-        this.retailPrice,
-        this.content});
+      this.sku,
+      this.name,
+      this.slug,
+      this.materials,
+      this.badge,
+      this.availability,
+      this.thumbnails,
+      this.regularPrice,
+      this.oldPrice,
+      this.retailPrice,
+      this.content});
 
   Product.fromJson(Map<String, dynamic> json) {
     productID = json['productID'];
@@ -54,6 +98,20 @@ class Product {
     oldPrice = json['oldPrice'];
     retailPrice = json['retailPrice'];
     content = json['content'];
+
+    List<RegExpMatch> matches =
+        RegExp(r"/uploads[\w\W]+?.jpg|/uploads[\w\W]+?.png")
+            .allMatches(content)
+            .toList();
+    if (Utility.isNullOrEmpty(matches) == false) {
+      contentImages = new List();
+      matches.forEach((f) {
+        String srcImage = f.group(0);
+        if (Utility.stringIsNullOrEmpty(srcImage) == false) {
+          this.contentImages.add(srcImage);
+        }
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -113,6 +171,7 @@ class ProductThumbnails {
     return data;
   }
 }
+
 class ProductSize {
   int id;
   String name;
@@ -132,17 +191,18 @@ class ProductSize {
   }
 }
 
-class ProductSort{
+class ProductSort {
   int id;
   String title;
 
-  ProductSort({this.id,this.title});
+  ProductSort({this.id, this.title});
 }
-class ProductBadge{
+
+class ProductBadge {
   int id;
   String title;
 
-  ProductBadge({this.id,this.title});
+  ProductBadge({this.id, this.title});
 }
 
 class ProductTag {

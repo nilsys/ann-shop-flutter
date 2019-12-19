@@ -45,23 +45,15 @@ class AppSnackBar {
       forwardAnimationCurve: Curves.easeOutQuart,
       animationDuration: const Duration(milliseconds: 500),
       messageText: Container(
-        color: Color(0xFFE5F6D1),
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-              alignment: AlignmentDirectional.center,
-              child: Text(
-                message,
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            Container(
-              color: Theme.of(context).primaryColor,
-              height: 1.5,
-            )
-          ],
+        decoration: BoxDecoration(
+            color: Colors.orangeAccent,
+            border:
+                Border(bottom: BorderSide(color: Colors.white, width: 1.5))),
+        padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+        alignment: AlignmentDirectional.center,
+        child: Text(
+          message,
+          style: TextStyle(color: Colors.white),
         ),
       ),
       backgroundColor: Colors.transparent,

@@ -11,10 +11,10 @@ class NavigationProvider extends ChangeNotifier{
     // todo
   }
 
-  switchTo(value) {
+  switchTo(int value) {
     this.index = value;
     notifyListeners();
   }
 }
 
-enum PageName { home, category, search, account, basket }
+enum PageName { home, category, search, account}

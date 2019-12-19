@@ -1,7 +1,7 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
-import 'package:extended_image/extended_image.dart';
+import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +28,7 @@ class ProductTitle extends StatelessWidget {
                 width: 90,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(0),
-                  child: ExtendedImage.network(Core.domain + product.getCover),
+                  child: AppImage(Core.domain + product.getCover),
                 ),
               ),
               SizedBox(

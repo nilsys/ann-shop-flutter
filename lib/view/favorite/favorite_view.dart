@@ -4,7 +4,7 @@ import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
+import 'package:share_extend/share_extend.dart';
 
 class FavoriteView extends StatelessWidget {
   @override
@@ -64,6 +64,6 @@ class FavoriteView extends StatelessWidget {
   }
 
   _onShare(context) {
-    Share.share('abc');
+    ShareExtend.share('abc', "text");
   }
 }

@@ -19,7 +19,7 @@ class AddFavoriteButton extends StatelessWidget {
                 .removeProduct(product.productID);
           } else {
             Provider.of<FavoriteProvider>(context)
-                .addNewProduct(product, count: 1);
+                .addNewProduct(context, product, count: 1);
           }
         },
         icon: Icon(

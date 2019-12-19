@@ -77,7 +77,9 @@ class _SettingViewState extends State<SettingView> {
                         value: valueCode,
                         activeColor: Theme.of(context).primaryColor,
                         onChanged: (value) {
-                          valueCode = value;
+                          setState(() {
+                            valueCode = value;
+                          });
                         },
                       )),
                   _buildItemCommon('Tên sản phẩm',

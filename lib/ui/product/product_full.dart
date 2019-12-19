@@ -34,9 +34,12 @@ class ProductFull extends StatelessWidget {
           children: <Widget>[
             Container(
               width: double.infinity,
-              child: AppImage(
-                Core.domain + product.getCover,
-                fit: BoxFit.fitWidth,
+              child: Hero(
+                tag: product.getCover + product.productID.toString(),
+                child: AppImage(
+                  Core.domain + product.getCover,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
             ),
             Container(
@@ -46,11 +49,14 @@ class ProductFull extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 15, bottom: 10),
-                    child: Text(
-                      product.name,
-                      style: Theme.of(context).textTheme.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    child: Hero(
+                      tag: product.name + product.productID.toString(),
+                      child: Text(
+                        product.name,
+                        style: Theme.of(context).textTheme.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                   Text(

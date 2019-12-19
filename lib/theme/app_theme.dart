@@ -57,13 +57,8 @@ ThemeData primaryTheme() {
           color: Colors.white,
         ),
       ),
-
-      /// Icon theme
       iconTheme: IconThemeData(
-        color: Colors.black87,
-      ),
-      primaryIconTheme: IconThemeData(
-        color: Colors.black87,
+        color: Colors.grey[900],
       ),
 
       /// Support swipe from edge to navigate the previous scene

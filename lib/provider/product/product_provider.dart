@@ -11,7 +11,6 @@ class ProductProvider extends ChangeNotifier {
   Map<String, ResponseProvider<ProductDetail>> products = new Map();
 
   ResponseProvider<ProductDetail> getBySlug(String code){
-
     if(products[code] == null){
       products[code] = ResponseProvider<ProductDetail>();
       loadProduct(code);
