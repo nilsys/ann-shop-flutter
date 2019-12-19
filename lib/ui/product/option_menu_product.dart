@@ -1,7 +1,16 @@
+import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OptionMenuProduct extends StatelessWidget {
+  OptionMenuProduct(
+      {this.onShare, this.onDownload, this.onCopy});
+
+  final VoidCallback onShare;
+  final VoidCallback onDownload;
+  final VoidCallback onCopy;
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<MenuOptions>(
@@ -9,7 +18,9 @@ class OptionMenuProduct extends StatelessWidget {
         Icons.sort,
         color: AppStyles.dartIcon,
       ),
-      onSelected: _onClickItem,
+      onSelected: (value) {
+        _onClickItem(context, value);
+      },
       itemBuilder: (BuildContext context) => <PopupMenuItem<MenuOptions>>[
         PopupMenuItem<MenuOptions>(
           value: MenuOptions.home,
@@ -50,29 +61,41 @@ class OptionMenuProduct extends StatelessWidget {
           icon,
           color: AppStyles.dartIcon,
         ),
-        SizedBox(width: 10,),
+        SizedBox(
+          width: 10,
+        ),
         Text(name),
       ],
     );
   }
 
-  _onClickItem(value) {
+  _onClickItem(context, value) {
     switch (value) {
       case MenuOptions.home:
+        Provider.of<NavigationProvider>(context).switchTo(PageName.home.index);
+        Navigator.popUntil(context, ModalRoute.withName('/'));
         break;
       case MenuOptions.category:
+        Provider.of<NavigationProvider>(context)
+            .switchTo(PageName.category.index);
+        Navigator.popUntil(context, ModalRoute.withName('/'));
         break;
       case MenuOptions.account:
+        Provider.of<NavigationProvider>(context)
+            .switchTo(PageName.account.index);
+        Navigator.popUntil(context, ModalRoute.withName('/'));
         break;
       case MenuOptions.favorite:
+        Navigator.pushNamed(context, '/favorite');
         break;
       case MenuOptions.share:
+        if (onShare != null) onShare();
         break;
       case MenuOptions.download:
-        break;
-      case MenuOptions.download:
+        if (onDownload != null) onDownload();
         break;
       case MenuOptions.copy:
+        if (onCopy != null) onCopy();
         break;
     }
   }

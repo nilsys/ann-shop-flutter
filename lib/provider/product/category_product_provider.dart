@@ -4,11 +4,17 @@ import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 
 class CategoryProductProvider extends ChangeNotifier {
+
   CategoryProductProvider() {
     // instructor
   }
 
   Map<String, ResponseProvider<List<Product>>> categories = new Map();
+
+  forceRefresh(){
+    categories = new Map();
+    notifyListeners();
+  }
 
   ResponseProvider<List<Product>> getByCategory(String code){
 
@@ -23,7 +29,7 @@ class CategoryProductProvider extends ChangeNotifier {
     try {
       categories[code].loading = 'Loading';
       if(refresh)notifyListeners();
-      var list = await ProductRepository.instance.loadByCategory(code, page: 1, pageSize: 10);
+      var list = await ProductRepository.instance.loadByCategory(code, page: 1, pageSize: 10, cache: true);
       if (list == null) {
         categories[code].error = 'Load fail';
       } else {

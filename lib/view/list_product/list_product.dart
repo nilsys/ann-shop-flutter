@@ -1,8 +1,9 @@
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/repository/load_more_product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/ui/list_product/config_product_ui.dart';
+import 'package:ann_shop_flutter/ui/product/config_product_ui.dart';
 import 'package:ann_shop_flutter/ui/product/product_block.dart';
 import 'package:ann_shop_flutter/ui/product/product_full.dart';
 import 'package:ann_shop_flutter/ui/product/product_title.dart';
@@ -22,6 +23,22 @@ class ListProduct extends StatefulWidget {
 
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
+
+  static showByCategory(context, data){
+    Provider.of<ConfigProvider>(context).refreshFilter();
+    Navigator.pushNamed(context, '/list-product-by-category',
+        arguments: data);
+  }
+  static showByTag(context, data){
+    Provider.of<ConfigProvider>(context).refreshFilter();
+    Navigator.pushNamed(context, '/list-product-by-tag', arguments: data);
+  }
+  static showBySearch(context, data){
+    Provider.of<SearchProvider>(context).setText();
+    Provider.of<ConfigProvider>(context).refreshFilter();
+    Navigator.pushNamed(context, '/list-product-by-search',
+        arguments: data);
+  }
 }
 
 class _BuildAllViewState extends State<ListProduct> {

@@ -3,9 +3,10 @@ import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
+import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
-import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
+import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -48,8 +49,7 @@ class _ProductSlideState extends State<ProductSlide> {
           TitleViewMore(
             title: widget.group.name,
             onPressed: () {
-              Navigator.pushNamed(context, '/list-product-by-category',
-                  arguments: currentCategory);
+              ListProduct.showByCategory(context, currentCategory);
             },
           ),
           Column(
@@ -136,7 +136,7 @@ class _ProductSlideState extends State<ProductSlide> {
 
   Widget buildLoading(BuildContext context) {
     return buildBox(
-      child: UIManager.defaultIndicator(),
+      child: Indicator(),
     );
   }
 
@@ -145,7 +145,7 @@ class _ProductSlideState extends State<ProductSlide> {
       height: itemHeight - 10,
       margin: EdgeInsets.fromLTRB(15, 0, 15, 10),
       decoration: BoxDecoration(
-        color: Colors.grey[50],
+        color: Colors.grey[300],
         borderRadius: BorderRadius.circular(15),
       ),
       alignment: Alignment.center,
@@ -165,42 +165,7 @@ class _ProductSlideState extends State<ProductSlide> {
         itemCount: data.length + 1,
         itemBuilder: (context, index) {
           if (index == data.length) {
-            return Container(
-              color: Colors.white,
-              width: imageWidth + 15,
-              padding: EdgeInsets.only(right: 15,bottom: 120),
-              child: Center(
-                child: InkWell(
-                  onTap: (){
-                    Navigator.pushNamed(context, '/list-product-by-category',
-                        arguments: currentCategory);
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 30,
-                        height: 30,
-                        margin: EdgeInsets.only(bottom: 5),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.navigate_next,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        'Xem thêm',
-                        style: Theme.of(context).textTheme.button.merge(
-                            TextStyle(color: Theme.of(context).primaryColor)),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
+            return _buildViewMoreButton();
           }
           return ProductItem(
             data[index],
@@ -236,5 +201,44 @@ class _ProductSlideState extends State<ProductSlide> {
         disabledColor: Colors.grey,
       );
     }
+  }
+
+  _buildViewMoreButton(){
+    return Container(
+      color: Colors.white,
+      width: imageWidth + 15,
+      padding: EdgeInsets.only(right: 15,bottom: 120),
+      child: Center(
+        child: InkWell(
+          onTap: (){
+            ListProduct.showByCategory(context, currentCategory);
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: 30,
+                height: 30,
+                margin: EdgeInsets.only(bottom: 5),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.navigate_next,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                'Xem thêm',
+                style: Theme.of(context).textTheme.button.merge(
+                    TextStyle(color: Theme.of(context).primaryColor)),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
   }
 }

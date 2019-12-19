@@ -87,21 +87,4 @@ class UIManager {
       ),
     );
   }
-
-  static defaultIndicator({double radius: 15}) {
-    if (Platform.isIOS) {
-      return CupertinoActivityIndicator(
-        radius: radius,
-      );
-    } else {
-      return SizedBox(
-        width: radius * 2,
-        height: radius * 2,
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.white,
-          strokeWidth: 1,
-        ),
-      );
-    }
-  }
 }

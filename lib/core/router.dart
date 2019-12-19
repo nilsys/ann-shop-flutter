@@ -8,10 +8,12 @@ import 'package:ann_shop_flutter/view/account/shop_policy.dart';
 import 'package:ann_shop_flutter/view/favorite/favorite_view.dart';
 import 'package:ann_shop_flutter/view/home_view/search_page.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product_by_category.dart';
+import 'package:ann_shop_flutter/view/list_product/list_product_by_tag.dart';
 import 'package:ann_shop_flutter/view/list_product/seen_view.dart';
 import 'package:ann_shop_flutter/view/product/product_detail_view.dart';
 import 'package:ann_shop_flutter/view/product/product_filter_view.dart';
-import 'package:ann_shop_flutter/view/search/seach_result_view.dart';
+import 'package:ann_shop_flutter/view/list_product/list_product_by_search.dart';
+import 'package:ann_shop_flutter/view/product/product_image_fancy_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';
 import 'package:ann_shop_flutter/view/utility/file_view.dart';
@@ -38,6 +40,10 @@ class Router {
         var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ProductDetailView(info: data), settings: settings);
+      case '/product-fancy-image':
+        var data = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => ProductImageFancyView(data), settings: settings);
       case '/search':
         return MaterialPageRoute(
             builder: (_) => SearchPage(), settings: settings);
@@ -60,7 +66,11 @@ class Router {
       case '/list-product-by-search':
         var data = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => SearchResultView(data), settings: settings);
+            builder: (_) => ListProductBySearch(data), settings: settings);
+      case '/list-product-by-tag':
+        var data = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => ListProductByTag(data), settings: settings);
       case '/shop-contact':
         return MaterialPageRoute(
             builder: (_) => ShopContact(), settings: settings);

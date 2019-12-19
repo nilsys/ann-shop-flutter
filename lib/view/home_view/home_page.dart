@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_product_slide.dart';
@@ -81,6 +82,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _refreshHomepage() async {
     Provider.of<CategoryProvider>(context).loadCategories();
     // load banner
+    Provider.of<CategoryProductProvider>(context).forceRefresh();
     await Provider.of<CategoryProvider>(context).loadCategoryHome();
   }
 }

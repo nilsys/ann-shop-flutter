@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,7 @@ class _MyDialogState extends State<_MyDialog> {
             height: 70,
             padding: EdgeInsets.only(top: 20),
             alignment: Alignment.center,
-            child: UIManager.defaultIndicator(),
+            child: Indicator(),
           ),
 
           /// Bottom

@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class AppImage extends StatelessWidget {
 //            if (this.showLoading) {
 //              return Container(
 //                alignment: Alignment.center,
-//                child: UIManager.defaultIndicator(),
+//                child: Indicator(),
 //              );
 //            } else {
 //              return Container();
@@ -54,7 +55,7 @@ class AppImage extends StatelessWidget {
       placeholder: showLoading
           ? (context, url) {
               return Center(
-                child: UIManager.defaultIndicator(),
+                child: Indicator(),
               );
             }
           : null,

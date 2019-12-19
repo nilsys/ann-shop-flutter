@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/main.dart';
+import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
+import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 
 class SearchProvider with ChangeNotifier {
@@ -35,14 +37,12 @@ class SearchProvider with ChangeNotifier {
       ProgressDialog loading =
           ProgressDialog(MyApp.context, message: 'Tìm kiếm sản phẩm...')
             ..show();
-      var data = await ProductRepository.instance.loadBySearch(text);
+      var data = await ProductRepository.instance.loadBySearch(text, filter: AppFilter());
       loading.hide(contextHide: MyApp.context);
       if (data == null) {
         AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm.');
       } else {
-        AppSnackBar.showFlushbar(context, 'Tìm thấy sản phẩm.');
-        Navigator.pushNamed(context, '/list-product-by-search',
-            arguments: {'title': value, 'products': data});
+        ListProduct.showBySearch(context, {'title': value, 'products': data});
       }
     }
   }

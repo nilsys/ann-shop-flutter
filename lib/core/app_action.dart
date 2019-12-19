@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
+import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -60,8 +61,7 @@ class AppAction {
   void linkToCategory(
       BuildContext context, String value, String message) async {
     print('link to product by category: $value');
-    Navigator.pushNamed(context, '/list-product-by-category',
-        arguments: Category(name: message, slug: value));
+    ListProduct.showByCategory(context, Category(name: message, slug: value));
   }
 
   void linkToWebPage(BuildContext context, String value, String message) {

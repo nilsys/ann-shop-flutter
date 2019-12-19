@@ -12,9 +12,10 @@ import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
+import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
-import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
+import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -95,7 +96,24 @@ class _ProductDetailViewState extends State<ProductDetailView>
               FavoriteButton(
                 color: AppStyles.dartIcon,
               ),
-              OptionMenuProduct(),
+              OptionMenuProduct(
+                onCopy: () {
+                  Clipboard.setData(
+                      new ClipboardData(text: widget.info.getTextCopy()));
+                  AppSnackBar.showFlushbar(context, 'Copy',
+                      duration: Duration(seconds: 1));
+                },
+                onDownload: () {
+                  if (data.isCompleted) {
+                    _onAksBeforeDownload(data.data);
+                  }
+                },
+                onShare: () {
+                  if (data.isCompleted) {
+                    _onShare(data.data);
+                  }
+                },
+              ),
             ],
           ),
 
@@ -104,11 +122,27 @@ class _ProductDetailViewState extends State<ProductDetailView>
             delegate: SliverChildListDelegate([
               Container(
                 height: MediaQuery.of(context).size.height / 2,
-                child: Hero(
-                  tag: images[0] + widget.info.productID.toString(),
-                  child: AppImage(
-                    Core.domain + images[indexImage],
-                    fit: BoxFit.contain,
+                child: InkWell(
+                  onTap: () {
+                    if (data.isCompleted) {
+                      Navigator.pushNamed(context, '/product-fancy-image',
+                          arguments: {
+                            'index': indexImage,
+                            'data': data.data
+                          }).then((value) {
+                        List param = value;
+                        setState(() {
+                          indexImage = param[0];
+                        });
+                      });
+                    }
+                  },
+                  child: Hero(
+                    tag: images[0] + widget.info.productID.toString(),
+                    child: AppImage(
+                      Core.domain + images[indexImage],
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
@@ -211,7 +245,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     } else if (data.isLoading) {
       return SliverFillRemaining(
         child: Center(
-          child: UIManager.defaultIndicator(),
+          child: Indicator(),
         ),
       );
     } else {
@@ -412,7 +446,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
       for (var _tag in tags) {
         children.add(
           InkWell(
-            onTap: () {},
+            onTap: () {
+              ListProduct.showByTag(context, _tag);
+            },
             child: Container(
               padding: EdgeInsets.all(5),
               child: Text(

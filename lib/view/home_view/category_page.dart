@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
+import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:ann_shop_flutter/view/search/search_title.dart';
@@ -49,7 +50,7 @@ class _CategoryPageState extends State<CategoryPage> {
   _buildCategory() {
     var provider = Provider.of<CategoryProvider>(context);
     if (provider.categories.isLoading) {
-      _buildBox(UIManager.defaultIndicator());
+      _buildBox(Indicator());
     } else if (provider.categories.isError) {
       return _buildBox(
         SomethingWentWrong(

@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
+import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 
 class CategoryButton extends StatelessWidget {
@@ -19,8 +20,7 @@ class CategoryButton extends StatelessWidget {
         children: <Widget>[
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, '/list-product-by-category',
-                  arguments: item);
+              ListProduct.showByCategory(context, item);
             },
             child: Container(
               width: 50,

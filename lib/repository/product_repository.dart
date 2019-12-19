@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/storage_manager.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
+import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,10 +19,10 @@ class ProductRepository {
   ProductRepository._internal() {
     /// init
     productSorts = [
-      ProductSort(id: 1, title: 'Mới nhập kho'),
+      ProductSort(id: 4, title: 'Mới nhập kho'),
       ProductSort(id: 2, title: 'Giá giảm dần'),
-      ProductSort(id: 3, title: 'Giá tăng dần'),
-      ProductSort(id: 4, title: 'Mẫu mới nhất'),
+      ProductSort(id: 1, title: 'Giá tăng dần'),
+      ProductSort(id: 3, title: 'Mẫu mới nhất'),
     ];
 
     productBadge = [
@@ -52,9 +55,27 @@ class ProductRepository {
     return _productColors[id] ?? Colors.red;
   }
 
+  final _prefixCategoryKey = 'key_product_by_category_';
+
+  List<Product> listProductByString(String body) {
+    try {
+      if(Utility.stringIsNullOrEmpty(body)){
+        return [];
+      }
+      var message = jsonDecode(body);
+      List<Product> _data = new List();
+      message.forEach((v) {
+        _data.add(new Product.fromJson(v));
+      });
+      return _data;
+    } catch (e) {
+      return null;
+    }
+  }
+
   /// http://xuongann.com/api/v1/category/quan-ao-nam/product?pageNumber=1&pageSize=28&sort=4
   Future<List<Product>> loadByCategory(String name,
-      {page = 1, pageSize = 10, AppFilter filter}) async {
+      {page = 1, pageSize = 10, AppFilter filter, cache = false}) async {
     try {
       var url = Core.domainAPI +
           'category/$name/product?pageNumber=$page&pageSize=$pageSize';
@@ -77,23 +98,28 @@ class ProductRepository {
       print(url);
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(response.body);
-        List<Product> _data = new List();
-        message.forEach((v) {
-          _data.add(new Product.fromJson(v));
-        });
-        return _data;
+        if (cache) {
+          StorageManager.setObject(_prefixCategoryKey + name, response.body);
+        }
+        return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
       }
     } catch (e) {
       log(e.toString());
     }
+    if (cache) {
+      String body = await StorageManager.getObjectByKey(_prefixCategoryKey + name);
+      log('Cache: ' + body);
+      if(Utility.stringIsNullOrEmpty(body) == false){
+        return listProductByString(body);
+      }
+    }
     return null;
   }
 
   Future<List<Product>> loadBySearch(String text,
-      {page = 1, pageSize = 20, AppFilter filter}) async {
+      {page = 1, pageSize = 30, AppFilter filter}) async {
     try {
       String search = text.replaceAll(' ', '%20');
       var url = Core.domainAPI +
@@ -116,12 +142,7 @@ class ProductRepository {
       print(url);
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(response.body);
-        List<Product> _data = new List();
-        message.forEach((v) {
-          _data.add(new Product.fromJson(v));
-        });
-        return _data;
+        return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
       }
@@ -154,12 +175,7 @@ class ProductRepository {
       print(url);
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(response.body);
-        List<Product> _data = new List();
-        message.forEach((v) {
-          _data.add(new Product.fromJson(v));
-        });
-        return _data;
+        return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
       }

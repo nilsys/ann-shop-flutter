@@ -61,6 +61,7 @@ class ConfigProvider with ChangeNotifier {
   }
 
   refreshFilter() {
+    _isEditFilter = true;
     filter = AppFilter();
   }
 
@@ -84,20 +85,17 @@ class ConfigProvider with ChangeNotifier {
       /// shopping
       String response = await StorageManager.getObjectByKey(_keyConfig);
       if (response == null || response.isEmpty) {
-        reset();
+        _view = ViewType.list;
+        filter = AppFilter();
       } else {
         var json = jsonDecode(response);
         _view = json['view'] ?? ViewType.list;
         filter = AppFilter.fromJson(json['filter']);
       }
     } catch (e) {
-      reset();
+      _view = ViewType.list;
+      filter = AppFilter();
     }
-  }
-
-  reset() {
-    _view = ViewType.list;
-    filter = AppFilter();
   }
 
   saveConfig() {

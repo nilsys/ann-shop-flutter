@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:ann_shop_flutter/repository/load_more_product_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
+import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
+import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -27,7 +29,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
               margin: EdgeInsets.only(right: 7.0),
               height: 15.0,
               width: 15.0,
-              child: getIndicator(context),
+              child: Indicator(),
             ),
             Text('Đang tải..') // load more item when scroll position at bottom
           ],
@@ -43,7 +45,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
               margin: EdgeInsets.only(right: 7.0),
               height: 30.0,
               width: 30.0,
-              child: getIndicator(context),
+              child: Indicator(),
             ),
             Text('Đang tải..') // load more item when scroll position at bottom
           ],
@@ -153,18 +155,6 @@ class CustomLoadMoreIndicator extends StatelessWidget {
       ),
     );
     return widget;
-  }
-
-  Widget getIndicator(BuildContext context) {
-    return Platform.isIOS
-        ? CupertinoActivityIndicator(
-            animating: true,
-            radius: 16.0,
-          )
-        : CircularProgressIndicator(
-            strokeWidth: 2.0,
-            valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-          );
   }
 }
 

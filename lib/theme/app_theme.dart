@@ -1,14 +1,8 @@
-import 'dart:async';
-
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:flutter/material.dart';
 
 class ThemeManager {
   int _currentTheme = 0;
-
-  StreamController<ThemeData> _themeController = StreamController<ThemeData>();
-
-  Stream<ThemeData> get theme => _themeController.stream;
 
   ThemeManager() {
     loadUserTheme();
@@ -25,9 +19,6 @@ class ThemeManager {
 
   changeTheme(int index) async {
     _currentTheme = index;
-
-    _themeController
-        .add(_currentTheme == 0 ? primaryTheme() : _secondaryTheme());
     await StorageManager.setObject("user_theme", index);
   }
 }

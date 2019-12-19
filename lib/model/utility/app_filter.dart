@@ -21,6 +21,13 @@ class AppFilter {
     }
   }
 
+  int get countSet {
+    int _count = badge == null ? 0 : badge.length;
+    if (priceMin > 0) _count++;
+    if (priceMax < maxOfMax) _count++;
+    return _count;
+  }
+
   AppFilter(
       {this.sort = 4, this.priceMin = 0, this.priceMax = 51, this.badge}) {
     if (badge == null) {

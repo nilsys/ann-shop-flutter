@@ -5,7 +5,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
-import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
+import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -74,7 +74,7 @@ class _HomeBannerState extends State<HomeBanner>
             child: provider.covers.isCompleted
                 ? _buildPageView(context)
                 : Center(
-                    child: UIManager.defaultIndicator(),
+                    child: Indicator(),
                   ),
           ),
           provider.covers.isCompleted ? _buildDot(context) : Container(),
