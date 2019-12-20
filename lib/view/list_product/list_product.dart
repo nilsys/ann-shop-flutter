@@ -33,8 +33,8 @@ class ListProduct extends StatefulWidget {
     Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-tag', arguments: data);
   }
-  static showBySearch(context, data){
-    Provider.of<SearchProvider>(context).setText();
+  static showBySearch(context, data, {bool refreshSearch = true}){
+   if(refreshSearch) Provider.of<SearchProvider>(context).setText();
     Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-search',
         arguments: data);

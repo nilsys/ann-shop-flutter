@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
@@ -5,9 +6,11 @@ import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
+import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/product/option_menu_product.dart';
+import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -66,6 +69,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
   Widget build(BuildContext context) {
     ProductProvider provider = Provider.of(context);
     var data = provider.getBySlug(widget.info.slug);
+    var related = provider.getRelatedBySlug(widget.info.slug);
 
     List images = data.isCompleted ? data.data.images : [widget.info.getCover];
 
@@ -138,7 +142,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     }
                   },
                   child: Hero(
-                    tag: images[0] + widget.info.productID.toString(),
+                    tag: images[0] + indexImage.toString() + widget.info.sku,
                     child: AppImage(
                       Core.domain + images[indexImage],
                       fit: BoxFit.contain,
@@ -232,6 +236,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
           isFull && data.isCompleted
               ? _buildListImage(data.data.contentImages)
               : SliverToBoxAdapter(),
+          _buildRelated(related),
         ],
       ),
     );
@@ -380,14 +385,20 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     Colors.white.withAlpha(0),
                   ],
                 ),
+                border: new Border(
+                    bottom: BorderSide(
+                  color: Colors.grey,
+                  width: 3,
+                  style: BorderStyle.solid,
+                )),
               ),
               alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.only(bottom: 50),
+              padding: EdgeInsets.only(bottom: 30),
               child: Text(
-                'Xem thêm >',
+                'XEM THÊM >',
                 style: Theme.of(context)
                     .textTheme
-                    .button
+                    .title
                     .merge(TextStyle(color: Theme.of(context).primaryColor)),
                 textAlign: TextAlign.center,
               ),
@@ -717,5 +728,33 @@ class _ProductDetailViewState extends State<ProductDetailView>
         ],
       ),
     );
+  }
+
+  _buildRelated(ResponseProvider<List<ProductRelated>> provider) {
+    List<ProductRelated> related = provider.data;
+    if (Utility.isNullOrEmpty(related) == false) {
+      return SliverToBoxAdapter(
+        child: Container(
+          height: 140 + 30.0,
+          padding: EdgeInsets.symmetric(vertical: 15),
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: related.length + 2,
+            itemBuilder: (context, index) {
+              if (index == 0 || index > related.length) {
+                return Container();
+              } else {
+                return ProductRelatedItem(related[index - 1]);
+              }
+            },
+            separatorBuilder: (context, index) {
+              return SizedBox(width: defaultPadding);
+            },
+          ),
+        ),
+      );
+    } else {
+      return SliverToBoxAdapter();
+    }
   }
 }

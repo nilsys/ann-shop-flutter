@@ -35,7 +35,7 @@ class ProductFull extends StatelessWidget {
             Container(
               width: double.infinity,
               child: Hero(
-                tag: product.getCover + product.productID.toString(),
+                tag: product.getCover + '0' + product.sku,
                 child: AppImage(
                   Core.domain + product.getCover,
                   fit: BoxFit.fitWidth,

@@ -6,6 +6,7 @@ import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
+import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class ProductRepository {
 
   List<Product> listProductByString(String body) {
     try {
-      if(Utility.stringIsNullOrEmpty(body)){
+      if (Utility.stringIsNullOrEmpty(body)) {
         return [];
       }
       var message = jsonDecode(body);
@@ -109,9 +110,10 @@ class ProductRepository {
       log(e.toString());
     }
     if (cache) {
-      String body = await StorageManager.getObjectByKey(_prefixCategoryKey + name);
+      String body =
+          await StorageManager.getObjectByKey(_prefixCategoryKey + name);
       log('Cache: ' + body);
-      if(Utility.stringIsNullOrEmpty(body) == false){
+      if (Utility.stringIsNullOrEmpty(body) == false) {
         return listProductByString(body);
       }
     }
@@ -185,6 +187,7 @@ class ProductRepository {
     return null;
   }
 
+  /// http://xuongann.com/api/v1/product/ao-thun-nam-ca-sau-adidas
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {
       final url = Core.domainAPI + 'product/' + slug;
@@ -200,6 +203,28 @@ class ProductRepository {
     return null;
   }
 
+  /// http://xuongann.com/api/v1/product/ao-thun-nam-ca-sau-adidas/related?pageNumber=1&pageSize=30
+  Future<List<ProductRelated>> loadRelatedOfProduct(String slug) async {
+    try {
+      final url =
+          Core.domainAPI + 'product/$slug/related?pageNumber=1&pageSize=30';
+      final response = await http.get(url).timeout(Duration(seconds: 10));
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(response.body);
+        List<ProductRelated> _data = new List();
+        message.forEach((v) {
+          _data.add(new ProductRelated.fromJson(v));
+        });
+        return _data;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
+  /// LOG
   log(object) {
     print('product_repository: ' + object.toString());
   }

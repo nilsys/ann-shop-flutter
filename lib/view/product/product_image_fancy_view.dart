@@ -13,10 +13,12 @@ class ProductImageFancyView extends StatefulWidget {
   _ProductImageFancyViewState createState() => _ProductImageFancyViewState();
 }
 
-class _ProductImageFancyViewState extends State<ProductImageFancyView> {
+class _ProductImageFancyViewState extends State<ProductImageFancyView>
+{
   int indexImage = 0;
   List<String> images;
   ProductDetail detail;
+  PageController controller;
 
   @override
   void initState() {
@@ -25,6 +27,7 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView> {
     indexImage = widget.data['index'];
     detail = widget.data['data'];
     images = detail.images;
+    controller = new PageController(initialPage: indexImage);
   }
 
   @override
@@ -34,16 +37,28 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              child: Hero(
-                tag: images[0] + detail.productID.toString(),
-                child: AppImage(
-                  Core.domain + images[indexImage],
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
+            PageView.builder(
+                itemCount: images.length,
+                controller: controller,
+                onPageChanged: (index) {
+                  setState(() {
+                    indexImage = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: Hero(
+                      tag: images[0] +
+                          index.toString() +
+                          detail.sku,
+                      child: AppImage(
+                        Core.domain + images[index],
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  );
+                }),
             Positioned(
               right: 15,
               top: 15,
@@ -90,7 +105,7 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView> {
         border: isSelect
             ? new Border.all(
                 color: Theme.of(context).primaryColor,
-                width: 2,
+                width: 3,
                 style: BorderStyle.solid,
               )
             : null,
@@ -101,9 +116,7 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView> {
       margin: EdgeInsets.symmetric(horizontal: 5),
       child: InkWell(
         onTap: () {
-          setState(() {
-            indexImage = index;
-          });
+          controller.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.easeIn);
         },
         child: Opacity(
           opacity: isSelect ? 1 : 0.5,

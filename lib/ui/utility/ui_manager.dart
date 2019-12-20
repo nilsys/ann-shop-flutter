@@ -6,21 +6,21 @@ import 'package:flutter/material.dart';
 class UIManager {
   static get decorationBorder => BoxDecoration(
         color: Colors.white,
-        border: new Border.all(
-          color: Color(0xFFEDEDED),
-          width: 1,
-          style: BorderStyle.solid,
-        ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black.withAlpha(70),
-            offset: Offset(1.0, 4.0),
-            blurRadius: 5.0,
+          border: new Border.all(
+            color: Color(0xFFEDEDED),
+            width: 1,
+            style: BorderStyle.solid,
           ),
-        ],
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black.withAlpha(70),
+              offset: Offset(1.0, 4.0),
+              blurRadius: 5.0,
+            ),
+          ],
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
       );
 
   static Widget btnClose({VoidCallback onPressed}) {
