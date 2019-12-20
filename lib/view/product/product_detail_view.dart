@@ -101,9 +101,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 color: AppStyles.dartIcon,
               ),
               OptionMenuProduct(
-                onCopy: () {
-                  Clipboard.setData(
-                      new ClipboardData(text: widget.info.getTextCopy()));
+                onCopy: (){
+                  _onCopy();
                   AppSnackBar.showFlushbar(context, 'Copy',
                       duration: Duration(seconds: 1));
                 },
@@ -240,6 +239,14 @@ class _ProductDetailViewState extends State<ProductDetailView>
         ],
       ),
     );
+  }
+
+  _onCopy(){
+    var _text = widget.info.getTextCopy(hasContent: true);
+    _text+='\n';
+    _text+=Core.copySetting.getUserInfo();
+    Clipboard.setData(
+        new ClipboardData(text: _text));
   }
 
   _buildFillRemaining(data) {
@@ -388,7 +395,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 border: new Border(
                     bottom: BorderSide(
                   color: Colors.grey,
-                  width: 3,
+                  width: 2,
                   style: BorderStyle.solid,
                 )),
               ),
@@ -431,7 +438,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   Widget _buildMaterials() {
-    if (Utility.stringIsNullOrEmpty(widget.info.materials)) {
+    if (Utility.isNullOrEmpty(widget.info.materials)) {
       return SizedBox(
         height: 5,
       );
@@ -568,9 +575,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 Icons.content_copy,
                 color: iconColor,
               ),
-              onPressed: () {
-                Clipboard.setData(
-                    new ClipboardData(text: detail.getTextCopy()));
+              onPressed: (){
+                _onCopy();
                 AppSnackBar.showFlushbar(context, 'Copy',
                     duration: Duration(seconds: 1));
               },
@@ -621,7 +627,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
       imageList.add(file.path);
     }
     loading.hide(contextHide: context);
-    Clipboard.setData(new ClipboardData(text: detail.getTextCopy()));
+    _onCopy();
     ShareExtend.shareMultiple(imageList, "image");
   }
 

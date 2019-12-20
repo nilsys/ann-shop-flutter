@@ -7,6 +7,12 @@ class ProductFavorite {
 
   ProductFavorite({this.product, this.count});
 
+  String getTextCopy({index}){
+    String _value = product.getTextCopy(index:index, hasContent: false);
+    _value =_value+ '\n' + '👉 Số lượng: $count';
+    return _value;
+  }
+
   ProductFavorite.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     product = Product.fromJson(json['product']);

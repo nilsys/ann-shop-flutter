@@ -1,3 +1,5 @@
+import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
@@ -64,6 +66,16 @@ class FavoriteView extends StatelessWidget {
   }
 
   _onShare(context) {
-    ShareExtend.share('abc', "text");
+    List<ProductFavorite> data =
+        Provider.of<FavoriteProvider>(context).products;
+    String _value = '';
+    for (int i = 0; i < data.length; i++) {
+      _value+=data[i].getTextCopy(index: i + 1);
+      _value += '\n\n';
+    }
+    _value += '\n';
+
+    _value += Core.copySetting.getUserInfo();
+    ShareExtend.share(_value, "text");
   }
 }

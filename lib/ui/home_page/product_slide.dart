@@ -27,7 +27,7 @@ class _ProductSlideState extends State<ProductSlide> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (Utility.stringIsNullOrEmpty(widget.group.slug)) {
+    if (Utility.isNullOrEmpty(widget.group.slug)) {
       currentCategory = widget.group.children[0];
     } else {
       currentCategory = widget.group;
@@ -179,7 +179,7 @@ class _ProductSlideState extends State<ProductSlide> {
 
   _buildCategoryButton(Category item, {String customName}) {
     String _name = customName ?? item.name;
-    if (Utility.stringIsNullOrEmpty(item.slug)) {
+    if (Utility.isNullOrEmpty(item.slug)) {
       return Container();
     } else {
       bool isSelect = item == currentCategory;

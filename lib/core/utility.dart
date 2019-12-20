@@ -2,12 +2,12 @@ import 'package:intl/intl.dart';
 
 class Utility {
 
-  static bool isNullOrEmpty<T>(Iterable<T> array) {
-    return array == null || array.length == 0;
-  }
-
-  static bool stringIsNullOrEmpty(String value) {
-    return (value?.trim()?.isEmpty ?? true);
+  static bool isNullOrEmpty(object) {
+    if (object == null) return true;
+    if (object is String) return object.trim().isEmpty;
+    if (object is Iterable) return object.length == 0;
+    if (object is Map) return object.keys.length == 0;
+    return false;
   }
 
   static String formatPrice(dynamic number) {

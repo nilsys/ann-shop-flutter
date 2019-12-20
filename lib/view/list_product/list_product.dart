@@ -1,4 +1,7 @@
+import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/repository/load_more_product_repository.dart';
@@ -24,20 +27,20 @@ class ListProduct extends StatefulWidget {
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
 
-  static showByCategory(context, data){
+  static showByCategory(context, data) {
     Provider.of<ConfigProvider>(context).refreshFilter();
-    Navigator.pushNamed(context, '/list-product-by-category',
-        arguments: data);
+    Navigator.pushNamed(context, '/list-product-by-category', arguments: data);
   }
-  static showByTag(context, data){
+
+  static showByTag(context, data) {
     Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-tag', arguments: data);
   }
-  static showBySearch(context, data, {bool refreshSearch = true}){
-   if(refreshSearch) Provider.of<SearchProvider>(context).setText();
+
+  static showBySearch(context, data, {bool refreshSearch = true}) {
+    if (refreshSearch) Provider.of<SearchProvider>(context).setText();
     Provider.of<ConfigProvider>(context).refreshFilter();
-    Navigator.pushNamed(context, '/list-product-by-search',
-        arguments: data);
+    Navigator.pushNamed(context, '/list-product-by-search', arguments: data);
   }
 }
 
@@ -52,8 +55,21 @@ class _BuildAllViewState extends State<ListProduct> {
         searchText: widget.searchText,
         tagName: widget.tagName,
         initData: widget.initData);
+
+    WidgetsBinding.instance.addPostFrameCallback((callback) async {
+      if (Utility.isNullOrEmpty(widget.categoryCode) == false) {
+        categories = Provider.of<CategoryProvider>(context)
+            .getCategoryRelated(widget.categoryCode);
+        if (Utility.isNullOrEmpty(categories) == false) {
+          setState(() {});
+        }
+      }
+    });
+
     super.initState();
   }
+
+  List<Category> categories;
 
   @override
   void dispose() {
@@ -64,6 +80,7 @@ class _BuildAllViewState extends State<ListProduct> {
 
   @override
   Widget build(BuildContext context) {
+    bool hasCategory = Utility.isNullOrEmpty(categories) == false;
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: Material(
@@ -74,12 +91,66 @@ class _BuildAllViewState extends State<ListProduct> {
                 pinned: false,
                 floating: true,
                 delegate: CommonSliverPersistentHeaderDelegate(
-                    ConfigProductUI(), 60)),
+                    Column(
+                      children: <Widget>[
+                        ConfigProductUI(),
+                        hasCategory
+                            ? _buildCategoryButtonList()
+                            : Container(),
+                      ],
+                    ),
+                    hasCategory ? 110 : 60)),
             LoadingMoreSliverList(_buildByView())
           ],
         ),
       ),
     );
+  }
+
+  _buildCategoryButtonList() {
+    return Container(
+      height: 45,
+      color: Colors.white,
+      padding: EdgeInsets.only(top: 10, bottom: 5),
+      width: double.infinity,
+      child: ListView.separated(
+        itemBuilder: (context, index) {
+          index -= 1;
+          if (index < 0 ||
+              index == categories.length) {
+            return SizedBox(
+              width: 5,
+            );
+          }
+          return _buildCategoryButton(
+              categories[index]);
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            width: 10,
+          );
+        },
+        itemCount: categories.length + 2,
+        scrollDirection: Axis.horizontal,
+      ),
+    );
+  }
+
+  _buildCategoryButton(Category item) {
+    if (Utility.isNullOrEmpty(item.slug)) {
+      return Container();
+    } else {
+      return ActionChip(
+        label: Text(
+          item.name,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.black87),
+        ),
+        onPressed: () {
+          ListProduct.showByCategory(context, item);
+        },
+      );
+    }
   }
 
   SliverListConfig<Product> _buildByView() {

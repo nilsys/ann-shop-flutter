@@ -27,9 +27,9 @@ class Product {
     }
   }
 
-  final _save = '📌🌻🌸🌼👍👉🎋🐭🍀⭐🌟✨';
+  final _save = '📌🌻🌸🌼👍👉🎋🐭🍀⭐🌟✨✆';
 
-  String getTextCopy({index, hasContent = true}) {
+  String getTextCopy({index, hasContent = true, hasInfo = false}) {
     String value = index != null ? '$index: ' : '';
     if (Core.copySetting.productCode) {
       value += sku;
@@ -46,12 +46,12 @@ class Product {
     value += '💲 ' +
         Utility.formatPrice(retailPrice + Core.copySetting.bonusPrice) +
         ' vnđ\n';
-    if (Utility.stringIsNullOrEmpty(materials) == false) {
+    if (Utility.isNullOrEmpty(materials) == false) {
       value += '🔖 $materials\n';
     }
     if(hasContent) {
       String _getContent = getContent();
-      if (Utility.stringIsNullOrEmpty(_getContent) == false) {
+      if (Utility.isNullOrEmpty(_getContent) == false) {
         _getContent = HtmlUnescape().convert(_getContent);
         _getContent = _getContent.replaceAll("<br />", '\n');
         value += '🔖 $_getContent\n';
@@ -107,7 +107,7 @@ class Product {
       contentImages = new List();
       matches.forEach((f) {
         String srcImage = f.group(0);
-        if (Utility.stringIsNullOrEmpty(srcImage) == false) {
+        if (Utility.isNullOrEmpty(srcImage) == false) {
           this.contentImages.add(srcImage);
         }
       });

@@ -37,7 +37,7 @@ class Core {
     try {
       String response = await StorageManager.getObjectByKey(_keyCopySetting);
       print('loadCopySetting: ' + response);
-      if (Utility.stringIsNullOrEmpty(response)) {
+      if (Utility.isNullOrEmpty(response)) {
         copySetting = CopySetting();
       } else {
         var json = jsonDecode(response);

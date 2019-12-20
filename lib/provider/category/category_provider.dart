@@ -28,6 +28,21 @@ class CategoryProvider extends ChangeNotifier {
     }
   }
 
+  List<Category> getCategoryRelated(code) {
+    try {
+      if (categories.isCompleted) {
+        for (var item in categories.data) {
+          print(item.name);
+          print(item.children.length);
+          if (item.slug == code) {
+            return item.children;
+          }
+        }
+      }
+    } catch (e) {}
+    return null;
+  }
+
   loadCategories() async {
     try {
       categories.loading = 'try load categories';
@@ -36,7 +51,7 @@ class CategoryProvider extends ChangeNotifier {
       if (data != null) {
         categories.completed = data;
       } else {
-        data = await CategoryRepository.instance.loadCategoryHomeOffline();
+        data = await CategoryRepository.instance.loadCategoriesOffline();
         categories.completed = data;
       }
     } catch (e) {
@@ -70,7 +85,7 @@ class CategoryProvider extends ChangeNotifier {
     allCategory = new List();
     if (categories.isCompleted) {
       for (var item in categories.data) {
-        if (Utility.stringIsNullOrEmpty(item.slug) == false) {
+        if (Utility.isNullOrEmpty(item.slug) == false) {
           allCategory.add(item);
         }
         if (Utility.isNullOrEmpty(item.children) == false) {

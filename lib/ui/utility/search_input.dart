@@ -50,7 +50,7 @@ class _SearchInputState extends State<SearchInput> {
                       Provider.of<SearchProvider>(context).controller.text);
                 }),
           ),
-          Utility.stringIsNullOrEmpty(Provider.of<SearchProvider>(context).text)
+          Utility.isNullOrEmpty(Provider.of<SearchProvider>(context).text)
               ? Container()
               : IconButton(
                   icon: Icon(

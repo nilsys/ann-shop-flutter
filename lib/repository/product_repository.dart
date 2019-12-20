@@ -60,7 +60,7 @@ class ProductRepository {
 
   List<Product> listProductByString(String body) {
     try {
-      if (Utility.stringIsNullOrEmpty(body)) {
+      if (Utility.isNullOrEmpty(body)) {
         return [];
       }
       var message = jsonDecode(body);
@@ -113,7 +113,7 @@ class ProductRepository {
       String body =
           await StorageManager.getObjectByKey(_prefixCategoryKey + name);
       log('Cache: ' + body);
-      if (Utility.stringIsNullOrEmpty(body) == false) {
+      if (Utility.isNullOrEmpty(body) == false) {
         return listProductByString(body);
       }
     }

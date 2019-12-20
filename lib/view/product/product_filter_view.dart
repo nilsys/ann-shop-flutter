@@ -203,7 +203,7 @@ class _ProductFilterViewState extends State<ProductFilterView> {
         ),
         onEditingComplete: () {
           print(controller.text);
-          int result = Utility.stringIsNullOrEmpty(controller.text)
+          int result = Utility.isNullOrEmpty(controller.text)
               ? -1
               : int.parse(controller.text);
           if (isMin) {

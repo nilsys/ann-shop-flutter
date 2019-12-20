@@ -39,7 +39,7 @@ class AppTranslations {
     try {
       final response = await http.get(pathRemote).timeout(Duration(seconds: 5));
       if (response.statusCode == HttpStatus.ok) {
-        if (Utility.stringIsNullOrEmpty(response.body) == false) {
+        if (Utility.isNullOrEmpty(response.body) == false) {
           _tmpLocale = json.decode(utf8.decode(response.bodyBytes));
           _localisedValues.addAll(_tmpLocale);
         }

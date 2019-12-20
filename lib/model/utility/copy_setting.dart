@@ -1,9 +1,22 @@
+import 'package:ann_shop_flutter/core/utility.dart';
+
 class CopySetting {
   bool productCode;
   bool productName;
   int bonusPrice;
   String phoneNumber;
   String address;
+
+  String getUserInfo(){
+    String _value = '';
+    if (Utility.isNullOrEmpty(phoneNumber) == false) {
+      _value+='\n⭐SDT: $phoneNumber';
+    }
+    if (Utility.isNullOrEmpty(address) == false) {
+      _value+='\n⭐Địa chỉ: $address';
+    }
+    return _value;
+  }
 
   CopySetting(
       {this.productCode = true,
