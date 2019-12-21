@@ -7,6 +7,7 @@ import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/product/option_menu_product.dart';
@@ -14,6 +15,7 @@ import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/utility/button_gradient.dart';
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -22,7 +24,6 @@ import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
@@ -101,19 +102,25 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 color: AppStyles.dartIcon,
               ),
               OptionMenuProduct(
-                onCopy: (){
-                  _onCopy();
+                onCopy: () {
+                  _onCopy(data.data);
                   AppSnackBar.showFlushbar(context, 'Copy',
                       duration: Duration(seconds: 1));
                 },
                 onDownload: () {
                   if (data.isCompleted) {
                     _onAksBeforeDownload(data.data);
+                  } else {
+                    AppSnackBar.showFlushbar(
+                        context, 'Đang tải dữ liệu. Thử lại sau');
                   }
                 },
                 onShare: () {
                   if (data.isCompleted) {
                     _onShare(data.data);
+                  } else {
+                    AppSnackBar.showFlushbar(
+                        context, 'Đang tải dữ liệu. Thử lại sau');
                   }
                 },
               ),
@@ -160,8 +167,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   padding: EdgeInsets.symmetric(horizontal: defaultPadding),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
-                      _buildProductColor(data.data),
-                      _buildProductSize(data.data),
+                      _buildProductColorSize(data.data),
                     ]),
                   ),
                 )
@@ -241,12 +247,13 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  _onCopy(){
-    var _text = widget.info.getTextCopy(hasContent: true);
-    _text+='\n';
-    _text+=Core.copySetting.getUserInfo();
-    Clipboard.setData(
-        new ClipboardData(text: _text));
+  _onCopy(detail) {
+    var _text = detail == null
+        ? widget.info.getTextCopy(hasContent: true)
+        : detail.getTextCopy(hasContent: true);
+    _text += '\n';
+    _text += Core.copySetting.getUserInfo();
+    Clipboard.setData(new ClipboardData(text: _text));
   }
 
   _buildFillRemaining(data) {
@@ -525,66 +532,104 @@ class _ProductDetailViewState extends State<ProductDetailView>
     return BottomAppBar(
       color: Colors.white,
       child: Container(
-        height: 50,
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            favorite
-                ? IconButton(
-                    color: iconColor,
-                    icon: Icon(Icons.favorite),
+            Container(
+              height: 50,
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  favorite
+                      ? IconButton(
+                          color: iconColor,
+                          icon: Icon(Icons.favorite),
+                          onPressed: () {
+                            Provider.of<FavoriteProvider>(context)
+                                .removeProduct(widget.info.productID);
+                          },
+                        )
+                      : IconButton(
+                          color: iconColor,
+                          icon: Icon(Icons.favorite_border),
+                          onPressed: () {
+                            Provider.of<FavoriteProvider>(context)
+                                .addNewProduct(context, widget.info, count: 1);
+                          },
+                        ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.cloud_download,
+                      color: iconColor,
+                    ),
                     onPressed: () {
-                      Provider.of<FavoriteProvider>(context)
-                          .removeProduct(widget.info.productID);
-                    },
-                  )
-                : IconButton(
-                    color: iconColor,
-                    icon: Icon(Icons.favorite_border),
-                    onPressed: () {
-                      Provider.of<FavoriteProvider>(context)
-                          .addNewProduct(context, widget.info, count: 1);
+                      if (detail != null) {
+                        _onAksBeforeDownload(detail);
+                      } else {
+                        AppSnackBar.showFlushbar(
+                            context, 'Đang tải dữ liệu. Thử lại sau');
+                      }
                     },
                   ),
-            IconButton(
-              icon: Icon(
-                Icons.cloud_download,
-                color: iconColor,
+                  IconButton(
+                    icon: Icon(
+                      Icons.share,
+                      color: iconColor,
+                    ),
+                    onPressed: () {
+                      if (detail != null) {
+                        _onShare(detail);
+                      } else {
+                        AppSnackBar.showFlushbar(
+                            context, 'Đang tải dữ liệu. Thử lại sau');
+                      }
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.content_copy,
+                      color: iconColor,
+                    ),
+                    onPressed: () {
+                      _onCopy(detail);
+                      AppSnackBar.showFlushbar(context, 'Copy',
+                          duration: Duration(seconds: 1));
+                    },
+                  ),
+                ],
               ),
-              onPressed: () {
-                if (detail != null) {
-                  _onAksBeforeDownload(detail);
-                }
-              },
             ),
-            IconButton(
-              icon: Icon(
-                Icons.share,
-                color: iconColor,
-              ),
-              onPressed: () {
-                if (detail != null) {
-                  _onShare(detail);
-                }
-              },
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.content_copy,
-                color: iconColor,
-              ),
-              onPressed: (){
-                _onCopy();
-                AppSnackBar.showFlushbar(context, 'Copy',
-                    duration: Duration(seconds: 1));
-              },
-            ),
+            _buildDownload(),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildDownload() {
+    DownloadImageProvider provider = Provider.of(context);
+    String message = provider.currentMessage;
+    if (Utility.isNullOrEmpty(message)) {
+      return Container();
+    } else {
+      return Container(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Indicator(
+              radius: 8,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(message),
+          ],
+        ),
+      );
+    }
   }
 
   _onAksBeforeDownload(ProductDetail detail) {
@@ -598,22 +643,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
         btnHighlight: ButtonData(
             title: 'Lưu',
             callback: () {
-              _onDownLoad(detail);
+              Provider.of<DownloadImageProvider>(context).images =
+                  detail.images;
             }),
         btnNormal: ButtonData(title: 'Không', callback: null));
-  }
-
-  _onDownLoad(ProductDetail detail) async {
-    ProgressDialog loading = ProgressDialog(context,
-        message: 'Download ${detail.images.length} images')
-      ..show();
-    for (int i = 0; i < detail.images.length; i++) {
-      var file = await DefaultCacheManager()
-          .getSingleFile(Core.domain + detail.images[i]);
-      await ImageGallerySaver.saveFile(file.path);
-    }
-    loading.hide(contextHide: context);
-    AppSnackBar.showFlushbar(context, 'Lưu hình thành công.');
   }
 
   _onShare(ProductDetail detail) async {
@@ -622,117 +655,46 @@ class _ProductDetailViewState extends State<ProductDetailView>
       ..show();
     var imageList = List<String>();
     for (int i = 0; i < detail.images.length; i++) {
-      var file = await DefaultCacheManager()
-          .getSingleFile(Core.domain + detail.images[i]);
-      imageList.add(file.path);
+      try {
+        var file = await DefaultCacheManager()
+            .getSingleFile(Core.domain + detail.images[i])
+            .timeout(Duration(seconds: 5));
+        imageList.add(file.path);
+      } catch (e) {
+        // skip
+      }
     }
+
     loading.hide(contextHide: context);
-    _onCopy();
+    _onCopy(detail);
     ShareExtend.shareMultiple(imageList, "image");
   }
 
-  ProductColor _currentColor;
-
-  Widget _buildProductColor(ProductDetail detail) {
-    if (Utility.isNullOrEmpty(detail.colors)) {
+  Widget _buildProductColorSize(ProductDetail detail) {
+    if (Utility.isNullOrEmpty(detail.colors) &&
+        Utility.isNullOrEmpty(detail.sizes)) {
       return Container();
     }
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      alignment: Alignment.centerLeft,
-      height: 40,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.white10,
-            Color(0xfff4f4f4),
-            Color(0xffeaeaea),
-            Color(0xfff4f4f4)
+    return ButtonGradient(
+      child: RichText(
+        text: TextSpan(
+          style: TextStyle(color: Colors.grey),
+          children: [
+            TextSpan(
+                text: 'Chọn màu / Chọn size',
+                style: Theme.of(context).textTheme.body2)
           ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        border: new Border.all(
-          color: Colors.grey,
-          width: 1,
-          style: BorderStyle.solid,
-        ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          RichText(
-            text: TextSpan(
-              style: TextStyle(color: Colors.grey),
-              children: [
-                TextSpan(text: 'Màu: '),
-                TextSpan(
-                    text: _currentColor == null
-                        ? 'Chưa chọn'
-                        : _currentColor.name,
-                    style: Theme.of(context).textTheme.body2)
-              ],
-            ),
-          ),
-          Icon(Icons.keyboard_arrow_down)
-        ],
-      ),
-    );
-  }
-
-  ProductSize _currentSize;
-
-  Widget _buildProductSize(ProductDetail detail) {
-    if (Utility.isNullOrEmpty(detail.sizes)) {
-      return Container();
-    }
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      alignment: Alignment.centerLeft,
-      height: 40,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.white10,
-            Color(0xfff4f4f4),
-            Color(0xffeaeaea),
-            Color(0xfff4f4f4)
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        border: new Border.all(
-          color: Colors.grey,
-          width: 1,
-          style: BorderStyle.solid,
-        ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          RichText(
-            text: TextSpan(
-              style: TextStyle(color: Colors.grey),
-              children: [
-                TextSpan(text: 'Kích cỡ: '),
-                TextSpan(
-                    text:
-                        _currentSize == null ? 'Chưa chọn' : _currentSize.name,
-                    style: Theme.of(context).textTheme.body2)
-              ],
-            ),
-          ),
-          Icon(Icons.keyboard_arrow_down)
-        ],
-      ),
+      onTap: () {
+        Navigator.pushNamed(context, '/product-image-by-size-and-image',
+            arguments: {'index': indexImage, 'data': detail}).then((value) {
+          List param = value;
+          setState(() {
+            indexImage = param[0];
+          });
+        });
+      },
     );
   }
 
@@ -741,21 +703,19 @@ class _ProductDetailViewState extends State<ProductDetailView>
     if (Utility.isNullOrEmpty(related) == false) {
       return SliverToBoxAdapter(
         child: Container(
-          height: 140 + 30.0,
+          height: 300,
           padding: EdgeInsets.symmetric(vertical: 15),
-          child: ListView.separated(
+          child: GridView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: related.length + 2,
+            itemCount: related.length,
+
             itemBuilder: (context, index) {
-              if (index == 0 || index > related.length) {
-                return Container();
-              } else {
-                return ProductRelatedItem(related[index - 1]);
-              }
+              return ProductRelatedItem(related[index]);
             },
-            separatorBuilder: (context, index) {
-              return SizedBox(width: defaultPadding);
-            },
+            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 0.45,
+              crossAxisCount: 2,
+            ),
           ),
         ),
       );

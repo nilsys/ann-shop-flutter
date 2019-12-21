@@ -78,7 +78,7 @@ class ProductRepository {
   Future<List<Product>> loadByCategory(String name,
       {page = 1, pageSize = 10, AppFilter filter, cache = false}) async {
     try {
-      var url = Core.domainAPI +
+      var url = Core.domain + 'api/v1/' +
           'category/$name/product?pageNumber=$page&pageSize=$pageSize';
       if (filter != null) {
         if (filter.sort > 0) {
@@ -124,7 +124,7 @@ class ProductRepository {
       {page = 1, pageSize = 30, AppFilter filter}) async {
     try {
       String search = text.replaceAll(' ', '%20');
-      var url = Core.domainAPI +
+      var url = Core.domain + 'api/v1/' +
           "search/search-product/$search?pageNumber=$page&pageSize=$pageSize";
       if (filter != null) {
         if (filter.sort > 0) {
@@ -157,7 +157,7 @@ class ProductRepository {
   Future<List<Product>> loadByTag(String text,
       {page = 1, pageSize = 20, AppFilter filter}) async {
     try {
-      var url = Core.domainAPI +
+      var url = Core.domain + 'api/v1/' +
           "tag/$text/product?pageNumber=$page&pageSize=$pageSize";
       if (filter != null) {
         if (filter.sort > 0) {
@@ -190,7 +190,7 @@ class ProductRepository {
   /// http://xuongann.com/api/v1/product/ao-thun-nam-ca-sau-adidas
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {
-      final url = Core.domainAPI + 'product/' + slug;
+      final url = Core.domain + 'api/v1/' + 'product/' + slug;
       final response = await http.get(url).timeout(Duration(seconds: 10));
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -207,7 +207,7 @@ class ProductRepository {
   Future<List<ProductRelated>> loadRelatedOfProduct(String slug) async {
     try {
       final url =
-          Core.domainAPI + 'product/$slug/related?pageNumber=1&pageSize=30';
+          Core.domain + 'api/v1/' + 'product/$slug/related?pageNumber=1&pageSize=100';
       final response = await http.get(url).timeout(Duration(seconds: 10));
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -224,6 +224,23 @@ class ProductRepository {
     return null;
   }
 
+
+  Future<String> loadProductImageSize(int id, int color, int size) async {
+    try {
+      final url =
+          Core.domain + 'api/v1/' + 'product/$id/image?color=$color&size=$size';
+      final response = await http.get(url).timeout(Duration(seconds: 10)).timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(response.body);
+        return message;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
   /// LOG
   log(object) {
     print('product_repository: ' + object.toString());

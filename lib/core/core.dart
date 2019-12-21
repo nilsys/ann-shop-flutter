@@ -18,7 +18,6 @@ class Core {
 
   static const appVersion = '1.0.0';
 
-  static const domainAPI = 'http://xuongann.com/api/v1/';
   static const domain = 'http://xuongann.com/';
 
   static bool get isLogin => false;

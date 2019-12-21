@@ -34,7 +34,6 @@ hs_err_pid*
 .svn/
 
 # IntelliJ related
-*.iml
 *.ipr
 *.iws
 .idea/

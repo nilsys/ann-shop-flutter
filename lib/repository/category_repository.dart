@@ -19,7 +19,7 @@ class CategoryRepository {
   /// http://ann-shop-server.com/api/v1/categories
   Future<List<Category>> loadCategories() async {
     try {
-      final url = Core.domainAPI + 'categories';
+      final url = Core.domain + 'api/' + 'flutter/categories';
       final response = await http.get(url).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
@@ -56,7 +56,7 @@ class CategoryRepository {
   /// http://ann-shop-server.com/api/v1/home/categories
   Future<List<Category>> loadCategoryHome() async {
     try {
-      final url = Core.domainAPI + 'home/categories';
+      final url = Core.domain + 'api/' + 'home/categories';
       final response = await http.get(url).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);

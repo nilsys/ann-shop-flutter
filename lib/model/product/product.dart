@@ -27,9 +27,9 @@ class Product {
     }
   }
 
-  final _save = '📌🌻🌸🌼👍👉🎋🐭🍀⭐🌟✨✆';
+  final _save = '📌🌻🌸🌼👍👉🎋🐭🍀⭐🌟✨📚';
 
-  String getTextCopy({index, hasContent = true, hasInfo = false}) {
+  String getTextCopy({index, hasContent = true}) {
     String value = index != null ? '$index: ' : '';
     if (Core.copySetting.productCode) {
       value += sku;

@@ -11,8 +11,7 @@ class ProductRelatedItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
-      height: 140,
+      margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         border: new Border.all(
@@ -32,7 +31,7 @@ class ProductRelatedItem extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Container(
-                width: 100,
+                width: 80,
                 padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
                 child: AppImage(Core.domain + product.avatar),
               ),
@@ -46,7 +45,7 @@ class ProductRelatedItem extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         product.name,
-                        style: Theme.of(context).textTheme.title,
+                        style: Theme.of(context).textTheme.subtitle,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),

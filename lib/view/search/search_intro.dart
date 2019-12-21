@@ -31,75 +31,84 @@ class _SearchIntroState extends State<SearchIntro> {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-      child: ListView(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(top: 15, bottom: 5),
-            child: Row(
-              children: <Widget>[
-                Icon(
-                  Icons.star,
-                  color: Colors.red,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    'Từ Khoá Hot',
-                    style: Theme.of(context).textTheme.title,
-                    maxLines: 1,
+      child: RefreshIndicator(
+        onRefresh: () async {
+          print('Check keyboard: ${MediaQuery.of(context).viewInsets.bottom}');
+          if(MediaQuery.of(context).viewInsets.bottom > 100 || true){
+            print('Close keyboard');
+            FocusScope.of(context).requestFocus(FocusNode());
+          }
+        },
+        child: ListView(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 15, bottom: 5),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.star,
+                    color: Colors.red,
                   ),
-                )
-              ],
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      'Từ Khoá Hot',
+                      style: Theme.of(context).textTheme.title,
+                      maxLines: 1,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          Wrap(
-            children: hotKeys.map((title) => _buildHotKey(title)).toList(),
-          ),
-          Utility.isNullOrEmpty(provider.history)
-              ? Container()
-              : Container(
-                  padding: EdgeInsets.only(top: 15),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.watch_later,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          'Lịch Sử',
-                          style: Theme.of(context).textTheme.title,
-                          maxLines: 1,
+            Wrap(
+              children: hotKeys.map((title) => _buildHotKey(title)).toList(),
+            ),
+            Utility.isNullOrEmpty(provider.history)
+                ? Container()
+                : Container(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.watch_later,
+                          color: Colors.grey,
                         ),
-                      ),
-                      FlatButton(
-                        child: Text(
-                          'XOÁ',
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
+                        SizedBox(
+                          width: 10,
                         ),
-                        onPressed: () {
-                          provider.removeHistoryAll();
-                        },
-                      )
-                    ],
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            'Lịch Sử',
+                            style: Theme.of(context).textTheme.title,
+                            maxLines: 1,
+                          ),
+                        ),
+                        FlatButton(
+                          child: Text(
+                            'XOÁ',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          ),
+                          onPressed: () {
+                            provider.removeHistoryAll();
+                          },
+                        )
+                      ],
+                    ),
                   ),
-                ),
-          Utility.isNullOrEmpty(provider.history)
-              ? Container()
-              : Wrap(
-                  children: provider.history
-                      .map((title) => _buildHotKey(title))
-                      .toList(),
-                )
-        ],
+            Utility.isNullOrEmpty(provider.history)
+                ? Container()
+                : Wrap(
+                    children: provider.history
+                        .map((title) => _buildHotKey(title))
+                        .toList(),
+                  )
+          ],
+        ),
       ),
     );
   }

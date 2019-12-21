@@ -58,19 +58,19 @@ class _HomeViewState extends State<HomeView>
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
-                  title: Text('Home'),
+                  title: Text('Trang chủ'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.view_module),
-                  title: Text('Category'),
+                  title: Text('Danh mục'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.search),
-                  title: Text('Search'),
+                  title: Text('Tìm kiếm'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.account_box),
-                  title: Text('Account'),
+                  title: Text('Cá nhân'),
                 ),
               ],
               currentIndex: navigation.index,

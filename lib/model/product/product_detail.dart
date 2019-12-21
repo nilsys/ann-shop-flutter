@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 
 class ProductDetail extends Product {
@@ -16,6 +17,24 @@ class ProductDetail extends Product {
       this.colors,
       this.sizes,
       this.tags});
+
+  String getTextCopy({index, hasContent = true}) {
+    String value =
+        super.getTextCopy(index: index, hasContent: hasContent);
+    if (Utility.isNullOrEmpty(colors) == false) {
+      value += '\n📚 Màu: ';
+      for (var item in colors) {
+        value += item.name + '; ';
+      }
+    }
+    if (Utility.isNullOrEmpty(sizes) == false) {
+      value += '\n📚 Size: ';
+      for (var item in sizes) {
+        value += item.name + '; ';
+      }
+    }
+    return value;
+  }
 
   ProductDetail.fromProduct(Product product) {
     productID = product.productID;

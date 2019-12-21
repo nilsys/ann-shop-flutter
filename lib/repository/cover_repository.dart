@@ -18,7 +18,7 @@ class CoverRepository {
   /// http://xuongann.com/api/v1/home/banner
   Future<List<Cover>> loadCoverHome() async {
     try {
-      final url = Core.domainAPI + 'home/banner';
+      final url = Core.domain + 'api/v1/' + 'home/banner';
       final response = await http.get(url).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
