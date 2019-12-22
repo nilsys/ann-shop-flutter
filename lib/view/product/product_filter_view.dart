@@ -62,22 +62,16 @@ class _ProductFilterViewState extends State<ProductFilterView> {
             height: 20,
           ),
           RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                 text: 'Giá sản phẩm: ',
-                  style: Theme.of(context).textTheme.subtitle,
-                ),
-                TextSpan(
-                  text: '$_textMin -> $_textMax',
-                  style: Theme.of(context).textTheme.subtitle.merge(TextStyle(color: Theme.of(context).primaryColor)),
-                ),
-              ]
-            ),
+            text: TextSpan(children: [
+              TextSpan(
+                text: 'Giá sản phẩm: ',
+                style: Theme.of(context).textTheme.subtitle,
+              ),
+//                _buildCurrentPriceText()
+            ]),
           ),
           SizedBox(height: 10),
-          _buildPriceRecommendWrap(),
-          _buildSliderRangePrice(),
+          _buildPriceCheckBoxList(),
           SizedBox(height: 10),
           Text(
             'Sản phẩm:',
@@ -108,6 +102,16 @@ class _ProductFilterViewState extends State<ProductFilterView> {
                 )
         ],
       ),
+    );
+  }
+
+  _buildCurrentPriceText() {
+    return TextSpan(
+      text: '$_textMin -> $_textMax',
+      style: Theme.of(context)
+          .textTheme
+          .subtitle
+          .merge(TextStyle(color: Theme.of(context).primaryColor)),
     );
   }
 
@@ -145,16 +149,63 @@ class _ProductFilterViewState extends State<ProductFilterView> {
         ? 'Dưới ${max * 10}k'
         : max > 50 ? 'Trên ${min * 10}k' : 'Từ ${min * 10}k - ${max * 10}k';
     bool isChoose = provider.priceMin == min && provider.priceMax == max;
-    Color _color = isChoose?Theme.of(context).primaryColor:Colors.black87;
+    Color _color = isChoose ? Theme.of(context).primaryColor : Colors.black87;
     return ActionChip(
-      avatar: Icon(Icons.attach_money, color: _color,),
-      label: Text(_text, style: TextStyle(color: _color),),
+      avatar: Icon(
+        Icons.attach_money,
+        color: _color,
+      ),
+      label: Text(
+        _text,
+        style: TextStyle(color: _color),
+      ),
       onPressed: () {
         setState(() {
           provider.priceMin = min.toDouble();
           provider.priceMax = max.toDouble();
         });
       },
+    );
+  }
+
+  Widget _buildPriceCheckBoxList() {
+    return Column(
+      children: <Widget>[
+        _buildCheckBoxPriceItem(0, 5),
+        _buildCheckBoxPriceItem(5, 8),
+        _buildCheckBoxPriceItem(8, 10),
+        _buildCheckBoxPriceItem(10, 12),
+        _buildCheckBoxPriceItem(12, 15),
+        _buildCheckBoxPriceItem(15, 18),
+        _buildCheckBoxPriceItem(18, 51),
+      ],
+    );
+  }
+
+  Widget _buildCheckBoxPriceItem(int min, int max) {
+    ConfigProvider provider = Provider.of(context);
+    String _text = min <= 0
+        ? 'Dưới ${max * 10}k'
+        : max > 50 ? 'Trên ${min * 10}k' : 'Từ ${min * 10}k - ${max * 10}k';
+    bool isChoose = provider.priceMin == min && provider.priceMax == max;
+    return Container(
+      height: 40,
+      child: Row(
+        children: <Widget>[
+          Radio(
+            value: isChoose,
+            groupValue: true,
+            onChanged: (value) {
+              print(value);
+              setState(() {
+                  provider.priceMin = min.toDouble();
+                  provider.priceMax = max.toDouble();
+              });
+            },
+          ),
+          Text(_text),
+        ],
+      ),
     );
   }
 
@@ -225,7 +276,6 @@ class _ProductFilterViewState extends State<ProductFilterView> {
         children: <Widget>[
           Checkbox(
             value: provider.filter.badge.contains(badge.id),
-            tristate: true,
             onChanged: (value) {
               if (value ?? false) {
                 provider.addBadge(badge.id);

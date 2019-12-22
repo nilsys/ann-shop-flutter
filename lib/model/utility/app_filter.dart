@@ -23,8 +23,7 @@ class AppFilter {
 
   int get countSet {
     int _count = badge == null ? 0 : badge.length;
-    if (priceMin > 0) _count++;
-    if (priceMax < maxOfMax) _count++;
+    if (priceMin > 0 || priceMax < maxOfMax) _count++;
     return _count;
   }
 

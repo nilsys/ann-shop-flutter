@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -6,7 +7,6 @@ import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
-import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,11 +23,12 @@ class ProductSlide extends StatefulWidget {
 
 class _ProductSlideState extends State<ProductSlide> {
   Category currentCategory;
-
+  ScrollController controller;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    controller = new ScrollController();
     if (Utility.isNullOrEmpty(widget.group.slug)) {
       currentCategory = widget.group.children[0];
     } else {
@@ -48,11 +49,16 @@ class _ProductSlideState extends State<ProductSlide> {
             height: 10,
             color: AppStyles.dividerColor,
           ),
-          TitleViewMore(
-            title: widget.customName??widget.group.name,
-            onPressed: () {
-              ListProduct.showByCategory(context, currentCategory);
-            },
+          Container(
+            height: 60,
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              widget.customName ?? widget.group.name,
+              style: Theme.of(context).textTheme.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           Column(
             children: <Widget>[
@@ -103,6 +109,33 @@ class _ProductSlideState extends State<ProductSlide> {
                   }
                 },
               ),
+              Container(
+                height: 45,
+                decoration: BoxDecoration(
+                    border: Border(
+                        top: BorderSide(
+                            color: AppStyles.dividerColor, width: 1))),
+                child: MaterialButton(
+                  onPressed: () {
+                    ListProduct.showByCategory(context, currentCategory);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'XEM THÊM',
+                        style: Theme.of(context).textTheme.button.merge(
+                              TextStyle(color: Theme.of(context).primaryColor),
+                            ),
+                      ),
+                      Icon(
+                        Icons.navigate_next,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           )
         ],
@@ -157,6 +190,7 @@ class _ProductSlideState extends State<ProductSlide> {
 
   final imageWidth = 150.0;
   final imageHeight = 200.0;
+
   double get itemHeight => imageHeight + 140;
 
   Widget buildProductList(BuildContext context, List<Product> data) {
@@ -164,6 +198,7 @@ class _ProductSlideState extends State<ProductSlide> {
       height: itemHeight,
       padding: EdgeInsets.only(left: 0, right: 0),
       child: ListView.builder(
+        controller: controller,
         scrollDirection: Axis.horizontal,
         itemCount: data.length + 1,
         itemBuilder: (context, index) {
@@ -197,6 +232,9 @@ class _ProductSlideState extends State<ProductSlide> {
           if (selected) {
             setState(() {
               currentCategory = item;
+              if(controller.hasClients){
+                controller.jumpTo(0);
+              }
             });
           }
         },
@@ -206,14 +244,14 @@ class _ProductSlideState extends State<ProductSlide> {
     }
   }
 
-  _buildViewMoreButton(){
+  _buildViewMoreButton() {
     return Container(
       color: Colors.white,
       width: imageWidth + 15,
-      padding: EdgeInsets.only(right: 15,bottom: 120),
+      padding: EdgeInsets.only(right: 15, bottom: 120),
       child: Center(
         child: InkWell(
-          onTap: (){
+          onTap: () {
             ListProduct.showByCategory(context, currentCategory);
           },
           child: Column(
@@ -234,14 +272,15 @@ class _ProductSlideState extends State<ProductSlide> {
               ),
               Text(
                 'Xem thêm',
-                style: Theme.of(context).textTheme.button.merge(
-                    TextStyle(color: Theme.of(context).primaryColor)),
+                style: Theme.of(context)
+                    .textTheme
+                    .button
+                    .merge(TextStyle(color: Theme.of(context).primaryColor)),
               )
             ],
           ),
         ),
       ),
     );
-
   }
 }

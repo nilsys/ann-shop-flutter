@@ -66,6 +66,20 @@ class Product {
         .replaceAllMapped(RegExp(r"<img[\w\W]+?>"), (match) => '');
   }
 
+  String getBadgeName(){
+    switch(this.badge){
+      case 2:
+        return 'Order';
+        break;
+      case 3:
+        return 'Sale';
+        break;
+      default:
+        return 'Có sẳn';
+        break;
+    }
+  }
+
   Product(
       {this.productID,
       this.sku,
