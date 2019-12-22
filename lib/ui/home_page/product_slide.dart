@@ -2,6 +2,7 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
+import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
@@ -11,9 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductSlide extends StatefulWidget {
-  ProductSlide(this.group);
+  ProductSlide(this.group, {this.customName});
 
   final Category group;
+  final customName;
 
   @override
   _ProductSlideState createState() => _ProductSlideState();
@@ -21,7 +23,6 @@ class ProductSlide extends StatefulWidget {
 
 class _ProductSlideState extends State<ProductSlide> {
   Category currentCategory;
-  final double itemHeight = 340;
 
   @override
   void initState() {
@@ -38,16 +39,17 @@ class _ProductSlideState extends State<ProductSlide> {
   Widget build(BuildContext context) {
     CategoryProductProvider provider = Provider.of(context);
     var products = provider.getByCategory(currentCategory.slug);
+
     return Container(
       color: Colors.white,
       child: Column(
         children: <Widget>[
           Container(
             height: 10,
-            color: Colors.grey,
+            color: AppStyles.dividerColor,
           ),
           TitleViewMore(
-            title: widget.group.name,
+            title: widget.customName??widget.group.name,
             onPressed: () {
               ListProduct.showByCategory(context, currentCategory);
             },
@@ -155,6 +157,7 @@ class _ProductSlideState extends State<ProductSlide> {
 
   final imageWidth = 150.0;
   final imageHeight = 200.0;
+  double get itemHeight => imageHeight + 140;
 
   Widget buildProductList(BuildContext context, List<Product> data) {
     return Container(

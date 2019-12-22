@@ -1,4 +1,6 @@
+import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
+import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
@@ -10,7 +12,9 @@ import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
+import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/product/option_menu_product.dart';
+import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
@@ -20,6 +24,7 @@ import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
+import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,7 +75,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
   Widget build(BuildContext context) {
     ProductProvider provider = Provider.of(context);
     var data = provider.getBySlug(widget.info.slug);
-    var related = provider.getRelatedBySlug(widget.info.slug);
 
     List images = data.isCompleted ? data.data.images : [widget.info.getCover];
 
@@ -238,10 +242,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
 
           /// List image
           _buildFillRemaining(data),
-          isFull && data.isCompleted
-              ? _buildListImage(data.data.contentImages)
-              : SliverToBoxAdapter(),
-          _buildRelated(related),
+          _buildRelated(),
+          _buildSeen(),
+          _buildByCatalog(data.data),
         ],
       ),
     );
@@ -256,11 +259,22 @@ class _ProductDetailViewState extends State<ProductDetailView>
     Clipboard.setData(new ClipboardData(text: _text));
   }
 
-  _buildFillRemaining(data) {
+  _buildFillRemaining(ResponseProvider<ProductDetail> data) {
     if (data.isCompleted) {
-      return isFull
-          ? _buildListImage(data.data.images)
-          : _buildViewMore(data.data);
+      List<String> images = [];
+      if (Utility.isNullOrEmpty(data.data.contentImages) == false) {
+        images.addAll(data.data.contentImages);
+      }
+      if (Utility.isNullOrEmpty(data.data.images) == false) {
+        images.addAll(data.data.images);
+      }
+      if (Utility.isNullOrEmpty(images)) {
+        return SliverToBoxAdapter();
+      } else if (isFull || images.length == 1) {
+        return _buildListImage(images);
+      } else {
+        return _buildViewMore(images[0]);
+      }
     } else if (data.isLoading) {
       return SliverFillRemaining(
         child: Center(
@@ -376,12 +390,12 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  Widget _buildViewMore(ProductDetail detail) {
+  Widget _buildViewMore(String image) {
     return SliverToBoxAdapter(
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          AppImage(Core.domain + detail.images[0]),
+          AppImage(Core.domain + image),
           InkWell(
             onTap: () {
               setState(() {
@@ -396,25 +410,34 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   end: Alignment.topCenter,
                   colors: [
                     Colors.white,
+                    Colors.white.withAlpha(180),
                     Colors.white.withAlpha(0),
                   ],
                 ),
                 border: new Border(
                     bottom: BorderSide(
                   color: Colors.grey,
-                  width: 2,
+                  width: 1,
                   style: BorderStyle.solid,
                 )),
               ),
               alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.only(bottom: 30),
-              child: Text(
-                'XEM THÊM >',
-                style: Theme.of(context)
-                    .textTheme
-                    .title
-                    .merge(TextStyle(color: Theme.of(context).primaryColor)),
-                textAlign: TextAlign.center,
+              padding: EdgeInsets.only(bottom: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Xem thêm',
+                    style: Theme.of(context).textTheme.title.merge(
+                        TextStyle(color: Theme.of(context).primaryColor)),
+                    textAlign: TextAlign.center,
+                  ),
+                  Icon(
+                    Icons.navigate_next,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ],
               ),
             ),
           ),
@@ -698,28 +721,116 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  _buildRelated(ResponseProvider<List<ProductRelated>> provider) {
-    List<ProductRelated> related = provider.data;
+  Widget _buildRelated() {
+    List<ProductRelated> related = Provider.of<ProductProvider>(context)
+        .getRelatedBySlug(widget.info.slug)
+        .data;
     if (Utility.isNullOrEmpty(related) == false) {
       return SliverToBoxAdapter(
-        child: Container(
-          height: 300,
-          padding: EdgeInsets.symmetric(vertical: 15),
-          child: GridView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: related.length,
-
-            itemBuilder: (context, index) {
-              return ProductRelatedItem(related[index]);
-            },
-            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 0.45,
-              crossAxisCount: 2,
+          child: Container(
+        decoration: BoxDecoration(
+          border: new Border(
+            top: BorderSide(
+              color: AppStyles.dividerColor,
+              width: 10,
+              style: BorderStyle.solid,
             ),
           ),
         ),
-      );
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
+              child: Text(
+                'Sản phẩm liên quan',
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Container(
+              height: related.length>3?270:135,
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: related.length,
+                itemBuilder: (context, index) {
+                  return ProductRelatedItem(related[index]);
+                },
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 0.45,
+                  crossAxisCount: related.length>3?2:1,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            )
+          ],
+        ),
+      ));
     } else {
+      return SliverToBoxAdapter();
+    }
+  }
+
+  Widget _buildSeen() {
+    final imageWidth = 150.0;
+    final imageHeight = 200.0;
+    SeenProvider provider = Provider.of(context);
+    return SliverToBoxAdapter(
+      child: Container(
+        decoration: BoxDecoration(
+          border: new Border(
+            top: BorderSide(
+              color: AppStyles.dividerColor,
+              width: 10,
+              style: BorderStyle.solid,
+            ),
+          ),
+        ),
+        child: Column(
+          children: <Widget>[
+            TitleViewMore(
+              title: 'Sản phẩm đã xem',
+              onPressed: () {
+                Navigator.pushNamed(context, '/seen');
+              },
+            ),
+            Container(
+              height: imageHeight + 140,
+              padding: EdgeInsets.only(left: 0, right: 0),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: provider.products.length,
+                itemBuilder: (context, index) {
+                  if (provider.products[index].productID ==
+                      widget.info.productID) {
+                    return Container();
+                  }
+                  return ProductItem(
+                    provider.products[index],
+                    width: imageWidth,
+                    imageHeight: imageHeight,
+                  );
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildByCatalog(ProductDetail detail) {
+    if (detail != null && Utility.isNullOrEmpty(detail.categorySlug) == false) {
+      var category = Provider.of<CategoryProvider>(context).getCategory(detail.categorySlug);
+      if(category == null){
+        category = Category(slug: detail.categorySlug);
+      }
+      return SliverToBoxAdapter(child: ProductSlide(category, customName: 'Sản phẩm cùng danh mục',));
+    }else{
       return SliverToBoxAdapter();
     }
   }

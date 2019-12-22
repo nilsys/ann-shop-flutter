@@ -9,6 +9,7 @@ class SeenProvider with ChangeNotifier {
   final String _keyLocaleSeenProduct = '_keyLocaleSeenProduct';
   List<Product> products;
   final int maxItem = 20;
+
   SeenProvider() {
     loadListProduct();
   }
@@ -16,7 +17,8 @@ class SeenProvider with ChangeNotifier {
   loadListProduct() async {
     try {
       /// shopping
-      String response = await StorageManager.getObjectByKey(_keyLocaleSeenProduct);
+      String response =
+          await StorageManager.getObjectByKey(_keyLocaleSeenProduct);
       if (response == null || response.isEmpty) {
         products = new List();
       } else {
@@ -31,20 +33,15 @@ class SeenProvider with ChangeNotifier {
 
   saveListProduct() {
     var myJsonString =
-    json.encode(products.map((value) => value.toJson()).toList());
+        json.encode(products.map((value) => value.toJson()).toList());
     StorageManager.setObject(_keyLocaleSeenProduct, myJsonString);
   }
 
   addNewProduct(Product item) {
-    List<Product> array =
-    products.where((product) => product.productID == item.productID).toList();
-    if (Utility.isNullOrEmpty(array)) {
-      products.insert(0, item);
-    }else{
-      products.remove(item);
-      products.insert(0, item);
-    }
-    if(products.length > maxItem){
+    products.removeWhere((product) =>
+        (product.productID == item.productID || product.sku == item.sku));
+    products.insert(0, item);
+    if (products.length > maxItem) {
       products.removeLast();
     }
     saveListProduct();

@@ -8,7 +8,6 @@ import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
-import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
