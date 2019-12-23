@@ -1,8 +1,10 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
+import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:gesture_zoom_box/gesture_zoom_box.dart';
 
 class ProductImageFancyView extends StatefulWidget {
   ProductImageFancyView(this.data);
@@ -52,9 +54,12 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView>
                       tag: images[0] +
                           index.toString() +
                           detail.sku,
-                      child: AppImage(
-                        Core.domain + images[index],
-                        fit: BoxFit.contain,
+                      child: GestureZoomBox(
+                        child: AppImage(
+                          Core.domain + images[index],
+                          fit: BoxFit.contain,
+                        ),
+
                       ),
                     ),
                   );
@@ -66,6 +71,7 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView>
                 Navigator.pop(context, indexImage);
               }),
             ),
+            ButtonDownload(imageName: images[indexImage],),
           ],
         ),
       ),

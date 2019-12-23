@@ -1,7 +1,7 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
-import 'package:ann_shop_flutter/ui/product/badge_product_tag.dart';
+import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +29,7 @@ class ProductBlock extends StatelessWidget {
                 Positioned(
                   left: 0,
                   top: 0,
-                  child: BadgeProductTag(product.badge),
+                  child: BadgeTagProductUI(product.badge),
                 ),
               ],
             ),

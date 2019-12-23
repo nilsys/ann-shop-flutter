@@ -45,10 +45,10 @@ class _HomeBannerState extends State<HomeBanner>
     // TODO: implement dispose
     time.cancel();
     super.dispose();
-
   }
+
   Timer time;
-  final height = 120.0;
+  final ratio = 25 / 80;
   final PageController _pageController =
       PageController(initialPage: 0, viewportFraction: 1, keepPage: false);
   int _currentPage = 0;
@@ -56,6 +56,8 @@ class _HomeBannerState extends State<HomeBanner>
   @override
   Widget build(BuildContext context) {
     CoverProvider provider = Provider.of(context);
+    final width = MediaQuery.of(context).size.width - (defaultPadding * 2);
+    final height = width * ratio;
     return Container(
       height: height,
       child: Stack(
@@ -77,7 +79,7 @@ class _HomeBannerState extends State<HomeBanner>
                     child: Indicator(),
                   ),
           ),
-          provider.covers.isCompleted ? _buildDot(context) : Container(),
+          (provider.covers.isCompleted && provider.covers.data.length > 1) ? _buildDot(context) : Container(),
         ],
       ),
     );
@@ -103,13 +105,13 @@ class _HomeBannerState extends State<HomeBanner>
 
   Widget _buildDot(context) {
     CoverProvider provider = Provider.of(context);
-    List indexs = List.generate(provider.covers.data.length, (index) => index);
+    List listIndex = List.generate(provider.covers.data.length, (index) => index);
     return Positioned(
       right: 30,
       bottom: 15,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: indexs.map((index) {
+        children: listIndex.map((index) {
           return Container(
             width: 8,
             height: 8,

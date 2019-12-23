@@ -1,8 +1,8 @@
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:flutter/material.dart';
 
-class BadgeProductTag extends StatelessWidget {
-  BadgeProductTag(this.badge);
+class BadgeTagProductUI extends StatelessWidget {
+  BadgeTagProductUI(this.badge);
 
   final badge;
 

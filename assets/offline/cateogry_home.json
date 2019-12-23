@@ -1,6 +1,11 @@
 [
   {
-    "banner": "",
+    "banner": {
+      "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
+      "type": "category",
+      "value": "bao-li-xi-tet",
+      "name": "Bao lì xì tết"
+    },
     "category": {
       "id": 46,
       "name": "Bao lì xì tết",
@@ -21,7 +26,7 @@
     }
   },
   {
-    "banner": "",
+    "banner": null,
     "category": {
       "id": 17,
       "name": "Váy đầm nữ",
@@ -42,7 +47,7 @@
     }
   },
   {
-    "banner": "",
+    "banner": null,
     "category": {
       "id": 18,
       "name": "Đồ bộ nữ",
@@ -63,7 +68,7 @@
     }
   },
   {
-    "banner": "",
+    "banner": null,
     "category": {
       "id": 16,
       "name": "Áo dài cách tân",
@@ -84,7 +89,12 @@
     }
   },
   {
-    "banner": "",
+    "banner": {
+      "image": "https://khohangsiann.com/wp-content/uploads/si-nuoc-hoa-gia-re-1.png",
+      "type": "category",
+      "value": "nuoc-hoa",
+      "name": "Nước hoa"
+    },
     "category": {
       "id": 0,
       "name": "Áo thung nữ - Sơ mi nữ",
@@ -145,7 +155,7 @@
     }
   },
   {
-    "banner": "",
+    "banner": null,
     "category": {
       "id": 21,
       "name": "Áo khoác nữ",
@@ -166,7 +176,7 @@
     }
   },
   {
-    "banner": "",
+    "banner": null,
     "category": {
       "id": 0,
       "name": "Quần nữ - Đồ lót nữ",
@@ -227,7 +237,7 @@
     }
   },
   {
-    "banner": "",
+    "banner": null,
     "category": {
       "id": 3,
       "name": "Áo thun nam",
@@ -303,7 +313,7 @@
     }
   },
   {
-    "banner": "",
+    "banner": null,
     "category": {
       "id": 0,
       "name": "Quần nam - Quần lót nam",

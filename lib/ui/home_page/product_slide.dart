@@ -1,10 +1,13 @@
+import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
+import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
@@ -12,8 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductSlide extends StatefulWidget {
-  ProductSlide(this.group, {this.customName});
+  ProductSlide(this.group, {this.customName, this.banner});
 
+  final Cover banner;
   final Category group;
   final customName;
 
@@ -24,6 +28,7 @@ class ProductSlide extends StatefulWidget {
 class _ProductSlideState extends State<ProductSlide> {
   Category currentCategory;
   ScrollController controller;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -62,38 +67,8 @@ class _ProductSlideState extends State<ProductSlide> {
           ),
           Column(
             children: <Widget>[
-              Utility.isNullOrEmpty(widget.group.children)
-                  ? Container()
-                  : Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      height: 30,
-                      width: double.infinity,
-                      child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          index -= 2;
-                          if (index < -1 ||
-                              index == widget.group.children.length) {
-                            return SizedBox(
-                              width: 5,
-                            );
-                          }
-                          if (index < 0) {
-                            return _buildCategoryButton(widget.group,
-                                customName: 'Tất cả');
-                          } else {
-                            var _child = widget.group.children[index];
-                            return _buildCategoryButton(_child);
-                          }
-                        },
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            width: 10,
-                          );
-                        },
-                        itemCount: widget.group.children.length + 3,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ),
+              _buildBanner(),
+              _buildCategoryButtonList(),
               Consumer<CategoryProductProvider>(
                 builder: (_, provider, child) {
                   if (products.isLoading) {
@@ -215,7 +190,73 @@ class _ProductSlideState extends State<ProductSlide> {
     );
   }
 
-  _buildCategoryButton(Category item, {String customName}) {
+  Widget _buildBanner() {
+    if (widget.banner == null) {
+      return Container();
+    } else {
+      Cover item = widget.banner;
+      final ratio = 25 / 80;
+      final width = MediaQuery.of(context).size.width - (defaultPadding * 2);
+      final height = width * ratio;
+      return Container(
+        margin: EdgeInsets.only(bottom: 15),
+        height: height,
+        padding: EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 0),
+        child: InkWell(
+          onTap: () {
+            AppAction.instance
+                .onHandleAction(context, item.type, item.value, item.name);
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: AppImage(
+              item.image,
+              fit: BoxFit.cover,
+              showLoading: true,
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget _buildCategoryButtonList() {
+    var children = widget.group.children;
+    if (Utility.isNullOrEmpty(children)) {
+      return Container();
+    } else {
+      return Container(
+        margin: EdgeInsets.only(bottom: 15),
+        height: 30,
+        width: double.infinity,
+        child: ListView.separated(
+          itemBuilder: (context, index) {
+            index -= 2;
+            if (index < -1 || index == children.length) {
+              return SizedBox(
+                width: 5,
+              );
+            }
+            if (index < 0) {
+              return _buildCategoryButton(widget.group, customName: 'Tất cả');
+            } else {
+              var _child = children[index];
+              return _buildCategoryButton(_child);
+            }
+          },
+          separatorBuilder: (context, index) {
+            return SizedBox(
+              width: 10,
+            );
+          },
+          itemCount: children.length + 3,
+          scrollDirection: Axis.horizontal,
+        ),
+      );
+    }
+  }
+
+  Widget _buildCategoryButton(Category item, {String customName}) {
     String _name = customName ?? item.name;
     if (Utility.isNullOrEmpty(item.slug)) {
       return Container();
@@ -232,7 +273,7 @@ class _ProductSlideState extends State<ProductSlide> {
           if (selected) {
             setState(() {
               currentCategory = item;
-              if(controller.hasClients){
+              if (controller.hasClients) {
                 controller.jumpTo(0);
               }
             });

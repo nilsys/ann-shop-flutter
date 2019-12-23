@@ -13,7 +13,8 @@ import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
-import 'package:ann_shop_flutter/ui/product/option_menu_product.dart';
+import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
+import 'package:ann_shop_flutter/ui/product_ui/option_menu_product.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
@@ -44,7 +45,8 @@ class ProductDetailView extends StatefulWidget {
 class _ProductDetailViewState extends State<ProductDetailView>
     with SingleTickerProviderStateMixin {
   bool isFull;
-  ScrollController controller;
+  ScrollController controllerScroll;
+  PageController controllerPage;
 
   double oldOffset = 0;
   final double pointCheck = 1000;
@@ -54,10 +56,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
     // TODO: implement initState
     super.initState();
     isFull = false;
-    controller = new ScrollController();
-    controller.addListener(() {
-      if (controller.hasClients && isFull) {
-        var offset = controller.offset;
+    controllerPage = new PageController(initialPage: 0);
+    controllerScroll = new ScrollController();
+    controllerScroll.addListener(() {
+      if (controllerScroll.hasClients && isFull) {
+        var offset = controllerScroll.offset;
         if ((offset >= pointCheck && oldOffset < pointCheck) ||
             (oldOffset >= pointCheck && offset < pointCheck)) {
           setState(() {
@@ -82,7 +85,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
       floatingActionButton: _buildFloatButton(),
       bottomNavigationBar: _buildButtonControl(data.data),
       body: CustomScrollView(
-        controller: controller,
+        controller: controllerScroll,
         slivers: <Widget>[
           /// app bar
           SliverAppBar(
@@ -107,9 +110,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               ),
               OptionMenuProduct(
                 onCopy: () {
-                  _onCopy(data.data);
-                  AppSnackBar.showFlushbar(context, 'Copy',
-                      duration: Duration(seconds: 1));
+                  _onCheckAndCopy(data.data);
                 },
                 onDownload: () {
                   if (data.isCompleted) {
@@ -140,22 +141,38 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   onTap: () {
                     if (data.isCompleted) {
                       Navigator.pushNamed(context, '/product-fancy-image',
-                          arguments: {
-                            'index': indexImage,
-                            'data': data.data
-                          }).then((value) {
-                        setState(() {
-                          indexImage = value;
-                        });
-                      });
+                          arguments: {'index': indexImage, 'data': data.data});
                     }
                   },
-                  child: Hero(
-                    tag: images[0] + indexImage.toString() + widget.info.sku,
-                    child: AppImage(
-                      Core.domain + images[indexImage],
-                      fit: BoxFit.contain,
-                    ),
+                  child: Stack(
+                    children: <Widget>[
+                      PageView.builder(
+                        itemCount: images.length,
+                        controller: controllerPage,
+                        onPageChanged: (index) {
+                          setState(() {
+                            indexImage = index;
+                          });
+                        },
+                        itemBuilder: (context, index) {
+                          return Container(
+                            alignment: Alignment.center,
+                            child: Hero(
+                              tag: images[0] +
+                                  index.toString() +
+                                  widget.info.sku,
+                              child: AppImage(
+                                Core.domain + images[index],
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      ButtonDownload(
+                        imageName: images[indexImage],
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -249,6 +266,17 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
+  _onCheckAndCopy(detail){
+    print(Core.copySetting.showed);
+    if(Core.copySetting.showed) {
+      _onCopy(detail);
+      AppSnackBar.showFlushbar(context, 'Copy',
+          duration: Duration(seconds: 1));
+    }else{
+      Navigator.pushNamed(context, '/setting');
+    }
+  }
+
   _onCopy(detail) {
     var _text = detail == null
         ? widget.info.getTextCopy(hasContent: true)
@@ -295,8 +323,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   _buildFloatButton() {
-    if (controller.hasClients == false ||
-        controller.offset < pointCheck ||
+    if (controllerScroll.hasClients == false ||
+        controllerScroll.offset < pointCheck ||
         isFull == false) {
       return null;
     } else {
@@ -304,9 +332,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           FloatingActionButton(
+            heroTag: 'floating_arrow_upward',
             child: Icon(Icons.arrow_upward, color: Colors.white),
             onPressed: () {
-              controller.animateTo(0,
+              controllerScroll.animateTo(0,
                   duration: Duration(milliseconds: 300), curve: Curves.easeIn);
             },
           ),
@@ -314,6 +343,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             height: 10,
           ),
           FloatingActionButton(
+            heroTag: 'floating_unfold_less',
             child: Icon(
               Icons.unfold_less,
               color: Colors.white,
@@ -372,7 +402,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
       child: InkWell(
         onTap: () {
           setState(() {
-            indexImage = index;
+            controllerPage.animateToPage(index,
+                duration: Duration(milliseconds: 500), curve: Curves.easeIn);
           });
         },
         child: Opacity(
@@ -454,9 +485,25 @@ class _ProductDetailViewState extends State<ProductDetailView>
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 15),
-                child: AppImage(Core.domain + images[index]),
+              var tag = 'list_image$index';
+              return InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/image-view',
+                      arguments: {'url': images[index], 'tag': tag});
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 15),
+                  child: Stack(
+                    children: <Widget>[
+                      Hero(                    tag: images[index] + tag,
+                          child: AppImage(Core.domain + images[index])),
+                      ButtonDownload(
+                        imageName: images[index],
+                        cache: true,
+                      ),
+                    ],
+                  ),
+                ),
               );
             },
             childCount: images.length,
@@ -615,9 +662,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                       color: iconColor,
                     ),
                     onPressed: () {
-                      _onCopy(detail);
-                      AppSnackBar.showFlushbar(context, 'Copy',
-                          duration: Duration(seconds: 1));
+                      _onCheckAndCopy(detail);
                     },
                   ),
                 ],
@@ -710,11 +755,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
       ),
       onTap: () {
         Navigator.pushNamed(context, '/product-image-by-size-and-image',
-            arguments: {'index': indexImage, 'data': detail}).then((value) {
-          setState(() {
-            indexImage = value;
-          });
-        });
+            arguments: {'index': indexImage, 'data': detail});
       },
     );
   }
@@ -749,7 +790,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               ),
             ),
             Container(
-              height: related.length>3?270:135,
+              height: related.length > 3 ? 270 : 135,
               child: GridView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: related.length,
@@ -758,7 +799,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 },
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: 0.45,
-                  crossAxisCount: related.length>3?2:1,
+                  crossAxisCount: related.length > 3 ? 2 : 1,
                 ),
               ),
             ),
@@ -823,12 +864,17 @@ class _ProductDetailViewState extends State<ProductDetailView>
 
   Widget _buildByCatalog(ProductDetail detail) {
     if (detail != null && Utility.isNullOrEmpty(detail.categorySlug) == false) {
-      var category = Provider.of<CategoryProvider>(context).getCategory(detail.categorySlug);
-      if(category == null){
+      var category = Provider.of<CategoryProvider>(context)
+          .getCategory(detail.categorySlug);
+      if (category == null) {
         category = Category(slug: detail.categorySlug);
       }
-      return SliverToBoxAdapter(child: ProductSlide(category, customName: 'Sản phẩm cùng danh mục',));
-    }else{
+      return SliverToBoxAdapter(
+          child: ProductSlide(
+        category,
+        customName: 'Sản phẩm cùng danh mục',
+      ));
+    } else {
       return SliverToBoxAdapter();
     }
   }

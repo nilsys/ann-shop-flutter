@@ -6,14 +6,15 @@ class CopySetting {
   int bonusPrice;
   String phoneNumber;
   String address;
+  bool showed;
 
-  String getUserInfo(){
+  String getUserInfo() {
     String _value = '';
     if (Utility.isNullOrEmpty(phoneNumber) == false) {
-      _value+='\n⭐SDT: $phoneNumber';
+      _value += '\n⭐SDT: $phoneNumber';
     }
     if (Utility.isNullOrEmpty(address) == false) {
-      _value+='\n⭐Địa chỉ: $address';
+      _value += '\n⭐Địa chỉ: $address';
     }
     return _value;
   }
@@ -23,7 +24,8 @@ class CopySetting {
       this.productName = true,
       this.bonusPrice = 50000,
       this.phoneNumber = '',
-      this.address = ''});
+      this.address = '',
+      this.showed = false});
 
   CopySetting.fromJson(Map<String, dynamic> json) {
     productCode = json['productCode'];

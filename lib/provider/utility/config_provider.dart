@@ -85,15 +85,15 @@ class ConfigProvider with ChangeNotifier {
       /// shopping
       String response = await StorageManager.getObjectByKey(_keyConfig);
       if (response == null || response.isEmpty) {
-        _view = ViewType.list;
+        _view = ViewType.grid;
         filter = AppFilter();
       } else {
         var json = jsonDecode(response);
-        _view = json['view'] ?? ViewType.list;
+        _view = json['view'] ?? ViewType.grid;
         filter = AppFilter.fromJson(json['filter']);
       }
     } catch (e) {
-      _view = ViewType.list;
+      _view = ViewType.grid;
       filter = AppFilter();
     }
   }

@@ -43,6 +43,7 @@ class _SettingViewState extends State<SettingView> {
       address: controllerAddress.text,
       phoneNumber: controllerPhone.text,
       bonusPrice: _bonus,
+      showed: true,
     );
     Core.updateCopySetting(copy);
   }

@@ -3,6 +3,7 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:flutter/material.dart';
@@ -95,31 +96,34 @@ class _ProductImageBySizeAndColorState
     return ListView(
       children: <Widget>[
         Container(
-          height: MediaQuery
-              .of(context)
-              .size
-              .height / 2,
-          child: PageView.builder(
-              itemCount: images.length,
-              controller: controller,
-              onPageChanged: (index) {
-                setState(() {
-                  indexImage = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Hero(
-                    tag: images[0] + index.toString() + detail.sku,
-                    child: AppImage(
-                      Core.domain + images[index],
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                );
-              }),
-        ),
+            height: MediaQuery.of(context).size.height / 2,
+            child: Stack(
+              children: <Widget>[
+                PageView.builder(
+                    itemCount: images.length,
+                    controller: controller,
+                    onPageChanged: (index) {
+                      setState(() {
+                        indexImage = index;
+                      });
+                    },
+                    itemBuilder: (context, index) {
+                      return Container(
+                        alignment: Alignment.center,
+                        child: Hero(
+                          tag: images[0] + index.toString() + detail.sku,
+                          child: AppImage(
+                            Core.domain + images[index],
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      );
+                    }),
+                ButtonDownload(
+                  imageName: images[indexImage],
+                ),
+              ],
+            )),
         _buildImageSelect(images),
         _buildSizesSelect(),
         _buildColorsSelect(),
@@ -156,12 +160,10 @@ class _ProductImageBySizeAndColorState
         color: Colors.white,
         border: isSelect
             ? new Border.all(
-          color: Theme
-              .of(context)
-              .primaryColor,
-          width: 3,
-          style: BorderStyle.solid,
-        )
+                color: Theme.of(context).primaryColor,
+                width: 3,
+                style: BorderStyle.solid,
+              )
             : null,
         borderRadius: BorderRadius.all(
           Radius.circular(7),
@@ -198,7 +200,7 @@ class _ProductImageBySizeAndColorState
             _buildTitle('Chọn màu:'),
             Wrap(
               children:
-              detail.colors.map((item) => _buildChipColor(item)).toList(),
+                  detail.colors.map((item) => _buildChipColor(item)).toList(),
             )
           ],
         ),
@@ -218,7 +220,7 @@ class _ProductImageBySizeAndColorState
             _buildTitle('Chọn size:'),
             Wrap(
               children:
-              detail.sizes.map((item) => _buildChipSize(item)).toList(),
+                  detail.sizes.map((item) => _buildChipSize(item)).toList(),
             )
           ],
         ),
@@ -229,10 +231,7 @@ class _ProductImageBySizeAndColorState
   Widget _buildTitle(name) {
     return Text(
       name,
-      style: Theme
-          .of(context)
-          .textTheme
-          .subtitle,
+      style: Theme.of(context).textTheme.subtitle,
     );
   }
 

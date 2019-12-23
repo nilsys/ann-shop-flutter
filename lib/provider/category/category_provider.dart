@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/product/category_home.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,10 @@ class CategoryProvider extends ChangeNotifier {
   }
 
   ResponseProvider<List<Category>> categories;
-  ResponseProvider<List<Category>> categoryHome;
+  ResponseProvider<List<CategoryHome>> categoryHome;
 
   List<Category> allCategory;
+  List<Category> allCategoryHome;
 
   Category getCategory(code) {
     try {
@@ -54,11 +56,11 @@ class CategoryProvider extends ChangeNotifier {
         data = await CategoryRepository.instance.loadCategoriesOffline();
         categories.completed = data;
       }
+      refreshCategoriesByList();
     } catch (e) {
       log(e);
       categories.error = 'exception: ' + e.toString();
     }
-    refreshCategoriesByList();
     notifyListeners();
   }
 
@@ -66,7 +68,7 @@ class CategoryProvider extends ChangeNotifier {
     try {
       categoryHome.loading = 'try load categories';
       notifyListeners();
-      List<Category> data =
+      List<CategoryHome> data =
           await CategoryRepository.instance.loadCategoryHome();
       if (data != null) {
         categoryHome.completed = data;
@@ -74,6 +76,7 @@ class CategoryProvider extends ChangeNotifier {
         data = await CategoryRepository.instance.loadCategoryHomeOffline();
         categoryHome.completed = data;
       }
+      refreshCategoryHomeByList();
     } catch (e) {
       log(e);
       categoryHome.error = 'exception: ' + e.toString();
@@ -81,7 +84,7 @@ class CategoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void refreshCategoriesByList() {
+  refreshCategoriesByList() {
     allCategory = new List();
     if (categories.isCompleted) {
       for (var item in categories.data) {
@@ -91,6 +94,21 @@ class CategoryProvider extends ChangeNotifier {
         if (Utility.isNullOrEmpty(item.children) == false) {
           for (var child in item.children) {
             allCategory.add(child);
+          }
+        }
+      }
+    }
+  }
+  refreshCategoryHomeByList() {
+    allCategoryHome = new List();
+    if (categoryHome.isCompleted) {
+      for (var item in categoryHome.data) {
+        if (Utility.isNullOrEmpty(item.category.slug) == false) {
+          allCategoryHome.add(item.category);
+        }
+        if (Utility.isNullOrEmpty(item.category.children) == false) {
+          for (var child in item.category.children) {
+            allCategoryHome.add(child);
           }
         }
       }

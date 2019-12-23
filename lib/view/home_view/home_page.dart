@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _refreshHomepage() async {
-    Provider.of<CategoryProvider>(context).loadCategories();
+    Provider.of<CategoryProvider>(context).loadCategoryHome();
     // load banner
     Provider.of<CategoryProductProvider>(context).forceRefresh();
     await Provider.of<CategoryProvider>(context).loadCategoryHome();

@@ -12,7 +12,7 @@ class HomeCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CategoryProvider provider = Provider.of(context);
-    var data = provider.allCategory;
+    var data = provider.allCategoryHome;
     if (Utility.isNullOrEmpty(data)) {
       return Container();
     } else {
@@ -23,7 +23,8 @@ class HomeCategory extends StatelessWidget {
             TitleViewMore(
               title: 'Danh mục sản phẩm',
               onPressed: () {
-                Provider.of<NavigationProvider>(context).switchTo(PageName.category.index);
+                Provider.of<NavigationProvider>(context)
+                    .switchTo(PageName.category.index);
               },
             ),
             Container(

@@ -10,6 +10,7 @@ import 'package:ann_shop_flutter/view/home_view/search_page.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product_by_category.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product_by_tag.dart';
 import 'package:ann_shop_flutter/view/list_product/seen_view.dart';
+import 'package:ann_shop_flutter/view/product/image_view.dart';
 import 'package:ann_shop_flutter/view/product/product_detail_view.dart';
 import 'package:ann_shop_flutter/view/product/product_filter_view.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product_by_search.dart';
@@ -45,6 +46,10 @@ class Router {
         var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ProductImageFancyView(data), settings: settings);
+      case '/image-view':
+        var data = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => ImageView(data), settings: settings);
       case '/product-image-by-size-and-image':
         var data = settings.arguments;
         return MaterialPageRoute(

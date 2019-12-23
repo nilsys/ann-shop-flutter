@@ -9,7 +9,7 @@ class HomeProductSlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CategoryProvider provider = Provider.of(context);
-    var data = provider.categories.data;
+    var data = provider.categoryHome.data;
     if (Utility.isNullOrEmpty(data)) {
       return SliverFillRemaining(
         child: Container(
@@ -23,7 +23,8 @@ class HomeProductSlide extends StatelessWidget {
       return SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            return ProductSlide(data[index]);
+            return ProductSlide(data[index].category,
+                banner: data[index].banner);
           },
           childCount: data.length,
         ),

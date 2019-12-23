@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:ann_shop_flutter/core/storage_manager.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/copy_setting.dart';
 
 final double defaultPadding = 15;
@@ -22,8 +21,6 @@ class Core {
 
   static bool get isLogin => false;
 
-
-
   static CopySetting copySetting;
   static const _keyCopySetting = '_keyCopySetting';
 
@@ -34,18 +31,20 @@ class Core {
 
   static loadCopySetting() async {
     try {
-      String response = await StorageManager.getObjectByKey(_keyCopySetting);
-      print('loadCopySetting: ' + response);
-      if (Utility.isNullOrEmpty(response)) {
+      print('loadCopySetting');
+      var response = await StorageManager.getObjectByKey(_keyCopySetting);
+      if (response == null) {
         copySetting = CopySetting();
       } else {
+        print('loadCopySetting: ' + response);
         var json = jsonDecode(response);
         copySetting = CopySetting.fromJson(json);
       }
     } catch (e) {
-      print('loadCopySetting: ' + e);
+      print('loadCopySetting Exception: ' + e.toString());
       copySetting = CopySetting();
     }
+    saveCopySetting();
   }
 
   static saveCopySetting() {
