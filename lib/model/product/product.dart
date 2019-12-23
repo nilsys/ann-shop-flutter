@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:flutter/material.dart';
 import 'package:html_unescape/html_unescape.dart';
 
 class Product {
@@ -66,8 +67,11 @@ class Product {
         .replaceAllMapped(RegExp(r"<img[\w\W]+?>"), (match) => '');
   }
 
-  String getBadgeName(){
-    switch(this.badge){
+  static String getBadgeName(badge) {
+    switch (badge) {
+      case 1:
+        return 'Có sẳn';
+        break;
       case 2:
         return 'Order';
         break;
@@ -75,7 +79,24 @@ class Product {
         return 'Sale';
         break;
       default:
-        return 'Có sẳn';
+        return 'Hết hàng';
+        break;
+    }
+  }
+
+  static Color getBadgeColor(badge) {
+    switch (badge) {
+      case 1:
+        return Colors.orange;
+        break;
+      case 2:
+        return Colors.purple;
+        break;
+      case 3:
+        return Colors.grey;
+        break;
+      default:
+        return Colors.grey[700];
         break;
     }
   }

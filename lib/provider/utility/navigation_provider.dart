@@ -17,4 +17,4 @@ class NavigationProvider extends ChangeNotifier{
   }
 }
 
-enum PageName { home, category, search, account}
+enum PageName { home, category, search,notification, account}

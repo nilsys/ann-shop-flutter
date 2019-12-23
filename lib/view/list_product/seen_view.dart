@@ -1,6 +1,5 @@
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,15 +24,7 @@ class SeenView extends StatelessWidget {
           slivers: <Widget>[
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                return Column(
-                  children: <Widget>[
-                    ProductTitle(data[index]),
-                    Container(
-                      height: 2,
-                      color: AppStyles.dividerColor,
-                    )
-                  ],
-                );
+                return ProductTitle(data[index]);
               }, childCount: data.length),
             )
           ],

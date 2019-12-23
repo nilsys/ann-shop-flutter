@@ -82,7 +82,7 @@ class _ProductImageBySizeAndColorState
               right: 15,
               top: 15,
               child: UIManager.btnClose(onPressed: () {
-                Navigator.pop(context, [indexImage]);
+                Navigator.pop(context, indexImage);
               }),
             ),
           ],
@@ -207,7 +207,7 @@ class _ProductImageBySizeAndColorState
   }
 
   Widget _buildSizesSelect() {
-    if (Utility.isNullOrEmpty(detail.colors)) {
+    if (Utility.isNullOrEmpty(detail.sizes)) {
       return Container();
     } else {
       return Container(

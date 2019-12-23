@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AccountPage extends StatefulWidget {
@@ -56,7 +58,8 @@ class _AccountPageState extends State<AccountPage> {
                 }),
                 _buildItemCommon('Thông báo', icon: Icons.notifications,
                     onTap: () {
-                  Navigator.pushNamed(context, '/notification');
+                  Provider.of<NavigationProvider>(context)
+                      .switchTo(PageName.notification.index);
                 }),
                 SizedBox(height: 12),
                 _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {

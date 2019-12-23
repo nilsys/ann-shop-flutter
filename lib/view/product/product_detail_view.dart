@@ -144,9 +144,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                             'index': indexImage,
                             'data': data.data
                           }).then((value) {
-                        List param = value;
                         setState(() {
-                          indexImage = param[0];
+                          indexImage = value;
                         });
                       });
                     }
@@ -712,9 +711,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
       onTap: () {
         Navigator.pushNamed(context, '/product-image-by-size-and-image',
             arguments: {'index': indexImage, 'data': detail}).then((value) {
-          List param = value;
           setState(() {
-            indexImage = param[0];
+            indexImage = value;
           });
         });
       },

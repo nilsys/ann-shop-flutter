@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/view/account/notification_view.dart';
 import 'package:ann_shop_flutter/view/home_view/account_page.dart';
 import 'package:ann_shop_flutter/view/home_view/category_page.dart';
 import 'package:ann_shop_flutter/view/home_view/home_page.dart';
@@ -16,11 +17,12 @@ class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
   TabController tabController;
 
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController = new TabController(length: 4, vsync: this);
+    tabController = new TabController(length: 5, vsync: this);
   }
 
   @override
@@ -51,6 +53,7 @@ class _HomeViewState extends State<HomeView>
                 HomePage(),
                 CategoryPage(),
                 SearchPage(showIcon: true,),
+                NotificationView(),
                 AccountPage(),
               ],
             ),
@@ -67,6 +70,10 @@ class _HomeViewState extends State<HomeView>
                 BottomNavigationBarItem(
                   icon: Icon(Icons.search),
                   title: Text('Tìm kiếm'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.notifications_none),
+                  title: Text('Thông báo'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.account_box),

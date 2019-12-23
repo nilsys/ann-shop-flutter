@@ -63,7 +63,7 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView>
               right: 15,
               top: 15,
               child: UIManager.btnClose(onPressed: () {
-                Navigator.pop(context, [indexImage]);
+                Navigator.pop(context, indexImage);
               }),
             ),
           ],

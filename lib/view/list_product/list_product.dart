@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -5,7 +6,6 @@ import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/repository/load_more_product_repository.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/config_product_ui.dart';
 import 'package:ann_shop_flutter/ui/product/product_block.dart';
 import 'package:ann_shop_flutter/ui/product/product_full.dart';
@@ -81,6 +81,8 @@ class _BuildAllViewState extends State<ListProduct> {
   @override
   Widget build(BuildContext context) {
     bool hasCategory = Utility.isNullOrEmpty(categories) == false;
+    ConfigProvider config = Provider.of(context);
+
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: Material(
@@ -94,13 +96,15 @@ class _BuildAllViewState extends State<ListProduct> {
                     Column(
                       children: <Widget>[
                         ConfigProductUI(),
-                        hasCategory
-                            ? _buildCategoryButtonList()
-                            : Container(),
+                        hasCategory ? _buildCategoryButtonList() : Container(),
                       ],
                     ),
                     hasCategory ? 110 : 60)),
-            LoadingMoreSliverList(_buildByView())
+            SliverPadding(
+                padding: (config.view == ViewType.grid)
+                    ? EdgeInsets.symmetric(horizontal: defaultPadding)
+                    : EdgeInsets.symmetric(horizontal: 0),
+                sliver: LoadingMoreSliverList(_buildByView()))
           ],
         ),
       ),
@@ -116,14 +120,12 @@ class _BuildAllViewState extends State<ListProduct> {
       child: ListView.separated(
         itemBuilder: (context, index) {
           index -= 1;
-          if (index < 0 ||
-              index == categories.length) {
+          if (index < 0 || index == categories.length) {
             return SizedBox(
               width: 5,
             );
           }
-          return _buildCategoryButton(
-              categories[index]);
+          return _buildCategoryButton(categories[index]);
         },
         separatorBuilder: (context, index) {
           return SizedBox(
@@ -156,11 +158,24 @@ class _BuildAllViewState extends State<ListProduct> {
   SliverListConfig<Product> _buildByView() {
     ConfigProvider config = Provider.of(context);
     if (config.view == ViewType.grid) {
-      ItemBuilder.cacheGrid = [];
+      final textHeight = 140.0;
+      final double screenWidth = MediaQuery.of(context).size.width;
+      final countPerRow = screenWidth < 450 ? 2 : 3;
+      final imageWidth =
+          (screenWidth - ((countPerRow + 1) * defaultPadding)) / countPerRow;
+      final imageHeight = imageWidth * 4 / 3;
+      final childAspectRatio =
+          imageWidth / (imageHeight + textHeight);
       return SliverListConfig<Product>(
         itemBuilder: ItemBuilder.itemBuilderGrid,
         sourceList: listSourceRepository,
         indicatorBuilder: _buildIndicator,
+        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: countPerRow,
+          mainAxisSpacing: defaultPadding,
+          crossAxisSpacing: defaultPadding,
+          childAspectRatio: childAspectRatio,
+        ),
       );
     } else {
       return SliverListConfig<Product>(
@@ -184,52 +199,23 @@ class _BuildAllViewState extends State<ListProduct> {
 
 class ItemBuilder {
   static Widget itemBuilderList(BuildContext context, Product item, int index) {
-    return Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: AppStyles.dividerColor,
-            ),
-          ),
-        ),
-        child: ProductTitle(item));
+    return Container(child: ProductTitle(item));
   }
 
   static Widget itemBuilderBig(BuildContext context, Product item, int index) {
     return ProductFull(item);
   }
 
-  static var cacheGrid = [];
-
   static Widget itemBuilderGrid(BuildContext context, Product item, int index) {
-    final minWidth = 150.0;
-    final textHeight = 140.0;
-    final double padding = 15;
-    final screenWidth = MediaQuery.of(context).size.width - (padding * 2);
-    final countPerRow = (screenWidth / minWidth).round();
-    final width = (screenWidth - ((countPerRow - 1) * padding)) / countPerRow;
-    final imageHeight = width * 200 / 150;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final countPerRow = screenWidth < 450 ? 2 : 3;
+    final imageWidth =
+        (screenWidth - ((countPerRow + 1) * defaultPadding)) / countPerRow;
+    final imageHeight = imageWidth * 4 / 3;
 
-    if (cacheGrid.length < countPerRow) {
-      cacheGrid.add(item);
-      return Container();
-    } else {
-      var items = cacheGrid;
-      cacheGrid = [];
-      return Container(
-        height: imageHeight + textHeight,
-        padding: EdgeInsets.symmetric(horizontal: padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: items
-              .map((item) => ProductBlock(
-                    item,
-                    width: width,
-                    imageHeight: imageHeight,
-                  ))
-              .toList(),
-        ),
-      );
-    }
+    return ProductBlock(
+      item,
+      imageHeight: imageHeight,
+    );
   }
 }
