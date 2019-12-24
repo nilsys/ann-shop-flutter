@@ -78,10 +78,15 @@ class ConfigProductUI extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 5),
-              child: Icon(Icons.sort),
+              child: Icon(Icons.filter_list),
             ),
             Text(' Lọc'),
-            _count == 0?Container(): Text(' ($_count)', style: TextStyle(color: Theme.of(context).primaryColor),),
+            _count == 0
+                ? Container()
+                : Text(
+                    ' ($_count)',
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
           ],
         ),
       ),
@@ -90,22 +95,39 @@ class ConfigProductUI extends StatelessWidget {
 
   Widget _buildSort(BuildContext context) {
     ConfigProvider config = Provider.of(context);
-    return DropdownButton<int>(
-      value: config.sort,
-      icon: Icon(Icons.keyboard_arrow_down),
-      iconSize: 24,
-      underline: Container(),
-      onChanged: (newValue) {
-        config.sort = newValue;
-      },
-      items: ProductRepository.instance.productSorts
-          .map<DropdownMenuItem<int>>((sort) {
-        return DropdownMenuItem<int>(
-          value: sort.id,
-          child: Text(sort.title),
-        );
-      }).toList(),
-    );
+    if (MediaQuery.of(context).size.width > 350) {
+      return DropdownButton<int>(
+        value: config.sort,
+        icon: Icon(Icons.keyboard_arrow_down),
+        iconSize: 24,
+        underline: Container(),
+        onChanged: (newValue) {
+          config.sort = newValue;
+        },
+        items: ProductRepository.instance.productSorts
+            .map<DropdownMenuItem<int>>((sort) {
+          return DropdownMenuItem<int>(
+            value: sort.id,
+            child: Text(sort.title),
+          );
+        }).toList(),
+      );
+    } else {
+      return PopupMenuButton<int>(
+        icon: Icon(Icons.sort),
+        onSelected: (newValue) {
+          config.sort = newValue;
+        },
+        itemBuilder: (BuildContext context) => ProductRepository
+            .instance.productSorts
+            .map<PopupMenuItem<int>>((sort) {
+          return PopupMenuItem<int>(
+            value: sort.id,
+            child: Text(sort.title),
+          );
+        }).toList(),
+      );
+    }
   }
 
   showFilterPage(BuildContext context) {

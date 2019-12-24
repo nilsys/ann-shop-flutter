@@ -41,65 +41,67 @@ class _ProductFilterViewState extends State<ProductFilterView> {
   Widget _buildBody() {
     ConfigProvider provider = Provider.of(context);
     int _count = provider.filter.countSet;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          SizedBox(
-            height: 20,
-          ),
-          RichText(
-            text: TextSpan(children: [
-              TextSpan(
-                text: 'Giá sản phẩm: ',
-                style: Theme.of(context).textTheme.subtitle,
-              ),
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            SizedBox(
+              height: 20,
+            ),
+            RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                  text: 'Giá sản phẩm: ',
+                  style: Theme.of(context).textTheme.subtitle,
+                ),
 //                _buildCurrentPriceText()
-            ]),
-          ),
-          SizedBox(height: 10),
-          Column(
-            children: <Widget>[
-              _buildCheckBoxPriceItem(0, 50),
-              _buildCheckBoxPriceItem(50, 80),
-              _buildCheckBoxPriceItem(80, 100),
-              _buildCheckBoxPriceItem(100, 120),
-              _buildCheckBoxPriceItem(120, 150),
-              _buildCheckBoxPriceItem(150, 180),
-              _buildCheckBoxPriceItem(180, 0),
-            ],
-          ),
-          SizedBox(height: 10),
-          Text(
-            'Sản phẩm:',
-            style: Theme.of(context).textTheme.subtitle,
-          ),
-          Column(
-            children: ProductRepository.instance.productBadge
-                .map((item) => _buildCheckBoxBadge(item))
-                .toList(),
-          ),
-          _count == 0
-              ? Container()
-              : FlatButton(
-                  child: Text(
-                    'Xoá bộ lọc ($_count)',
-                    style: Theme.of(context).textTheme.button.merge(
-                          TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            decoration: TextDecoration.underline,
+              ]),
+            ),
+            SizedBox(height: 10),
+            Column(
+              children: <Widget>[
+                _buildCheckBoxPriceItem(0, 50),
+                _buildCheckBoxPriceItem(50, 80),
+                _buildCheckBoxPriceItem(80, 100),
+                _buildCheckBoxPriceItem(100, 120),
+                _buildCheckBoxPriceItem(120, 150),
+                _buildCheckBoxPriceItem(150, 180),
+                _buildCheckBoxPriceItem(180, 0),
+              ],
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Sản phẩm:',
+              style: Theme.of(context).textTheme.subtitle,
+            ),
+            Column(
+              children: ProductRepository.instance.productBadge
+                  .map((item) => _buildCheckBoxBadge(item))
+                  .toList(),
+            ),
+            _count == 0
+                ? Container()
+                : FlatButton(
+                    child: Text(
+                      'Xoá bộ lọc ($_count)',
+                      style: Theme.of(context).textTheme.button.merge(
+                            TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
-                        ),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      provider.refreshFilter();
-                    });
-                  },
-                )
-        ],
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        provider.refreshFilter();
+                      });
+                    },
+                  )
+          ],
+        ),
       ),
     );
   }

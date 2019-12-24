@@ -57,6 +57,7 @@ class FavoriteProvider with ChangeNotifier {
     } else {
       favorite.count = _count;
     }
+    saveShoppingList();
     notifyListeners();
   }
 

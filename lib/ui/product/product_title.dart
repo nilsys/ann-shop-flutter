@@ -14,7 +14,6 @@ class ProductTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
@@ -33,9 +32,10 @@ class ProductTitle extends StatelessWidget {
           children: <Widget>[
             Container(
               width: 90,
+              height: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(0),
-                child: AppImage(Core.domain + product.getCover),
+                child: AppImage(Core.domain + product.getCover, fit: BoxFit.contain,),
               ),
             ),
             SizedBox(
@@ -71,10 +71,9 @@ class ProductTitle extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Container(
-                      height: 30,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Wrap(
                         children: <Widget>[
                           Text(
                             'Giá sỉ: ' +

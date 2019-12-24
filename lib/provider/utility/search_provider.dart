@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/main.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
@@ -39,7 +40,7 @@ class SearchProvider with ChangeNotifier {
             ..show();
       var data = await ProductRepository.instance.loadBySearch(text, filter: AppFilter());
       loading.hide(contextHide: MyApp.context);
-      if (data == null) {
+      if (Utility.isNullOrEmpty(data)) {
         AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm.');
       } else {
         ListProduct.showBySearch(context, {'title': value, 'products': data});

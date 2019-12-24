@@ -16,7 +16,6 @@ class ProductFavoriteItem extends StatelessWidget {
     return Provider.value(
       value: data.product,
       child: Container(
-        height: 150,
         padding: EdgeInsets.all(defaultPadding),
         child: InkWell(
           onTap: () {
@@ -28,9 +27,13 @@ class ProductFavoriteItem extends StatelessWidget {
             children: <Widget>[
               Container(
                 width: 90,
+                height: 120,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(0),
-                  child: AppImage(Core.domain + data.product.getCover),
+                  child: AppImage(
+                    Core.domain + data.product.getCover,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
               SizedBox(
@@ -41,9 +44,9 @@ class ProductFavoriteItem extends StatelessWidget {
                 child: IntrinsicWidth(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                        height: 40,
                         alignment: Alignment.centerLeft,
                         child: Text(
                           data.product.name,
@@ -66,85 +69,57 @@ class ProductFavoriteItem extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Container(
-                        height: 30,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Giá sỉ: ' +
-                                  Utility.formatPrice(
-                                      data.product.regularPrice),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .body2
-                                  .merge(TextStyle(color: Colors.red)),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              'Giá lẻ: ' +
-                                  Utility.formatPrice(data.product.retailPrice),
-                              style: Theme.of(context).textTheme.body2,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Container(),
-                          ],
-                        ),
+                      SizedBox(height: 5,),
+                      Wrap(
+                        children: <Widget>[
+                          Text(
+                            'Giá sỉ: ' +
+                                Utility.formatPrice(
+                                    data.product.regularPrice),
+                            style: Theme.of(context)
+                                .textTheme
+                                .body2
+                                .merge(TextStyle(color: Colors.red)),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            'Giá lẻ: ' +
+                                Utility.formatPrice(data.product.retailPrice),
+                            style: Theme.of(context).textTheme.body2,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Container(),
+                        ],
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          alignment: Alignment.bottomLeft,
-                          child: Container(
-                            height: 40,
-                            color: Colors.grey[400],
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: () {
-                                    Provider.of<FavoriteProvider>(context)
-                                        .changeCount(data, data.count - 1);
-                                  },
-                                  child: Container(
-                                      width: 30,
-                                      child: Icon(
-                                        Icons.remove,
-                                        size: 20,
-                                      )),
-                                ),
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  alignment: Alignment.center,
-                                  decoration:
-                                      BoxDecoration(color: Colors.grey[200]),
-                                  child: Text(
-                                    data.count.toString(),
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context).textTheme.subhead,
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Provider.of<FavoriteProvider>(context)
-                                        .changeCount(data, data.count + 1);
-                                  },
-                                  child: Container(
-                                    width: 30,
-                                    child: Icon(
-                                      Icons.add,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.remove_circle_outline),
+                            onPressed: () {
+                              Provider.of<FavoriteProvider>(context)
+                                  .changeCount(data, data.count - 1);
+                            },
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              data.count.toString(),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.subhead,
                             ),
                           ),
-                        ),
+                          IconButton(
+                            icon: Icon(Icons.add_circle_outline),
+                            onPressed: () {
+                              Provider.of<FavoriteProvider>(context)
+                                  .changeCount(data, data.count + 1);
+                            },
+                          ),
+                        ],
                       )
                     ],
                   ),

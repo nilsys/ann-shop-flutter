@@ -110,12 +110,12 @@ class ProductRepository {
     return loadByCategory(category.slug, pageSize: 10, cache: cache);
   }
 
-  /// http://xuongann.com/api/v1/category/quan-ao-nam/product?pageNumber=1&pageSize=28&sort=4
+  /// http://xuongann.com/api/flutter/products?categorySlug=bao-li-xi-tet&pageNumber=1&pageSize=28&sort=4
   Future<List<Product>> loadByCategory(String name,
       {page = 1, pageSize = 30, AppFilter filter, cache = false}) async {
     try {
       var url = Core.domain +
-          'api/v1/category/$name/product?pageNumber=$page&pageSize=$pageSize';
+          'api/flutter/products?categorySlug=$name&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
       print(url);
       final response = await http.get(url).timeout(Duration(seconds: 10));
@@ -143,13 +143,13 @@ class ProductRepository {
     return null;
   }
 
+  /// http://xuongann.com/api/flutter/products?productSearch
   Future<List<Product>> loadBySearch(String text,
       {page = 1, pageSize = 30, AppFilter filter}) async {
     try {
-      String search = text.replaceAll(' ', '%20');
+//      String search = text.replaceAll(' ', '%20');
       var url = Core.domain +
-          'api/v1/' +
-          "search/search-product/$search?pageNumber=$page&pageSize=$pageSize";
+          'api/flutter/products?productSearch=$text&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
       final response = await http.get(url).timeout(Duration(seconds: 10));
       print(url);
@@ -169,8 +169,7 @@ class ProductRepository {
       {page = 1, pageSize = 20, AppFilter filter}) async {
     try {
       var url = Core.domain +
-          'api/v1/' +
-          "tag/$text/product?pageNumber=$page&pageSize=$pageSize";
+          'api/flutter/products?tagSlug=$text&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
       final response = await http.get(url).timeout(Duration(seconds: 10));
       print(url);
@@ -186,7 +185,7 @@ class ProductRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/v1/product/ao-thun-nam-ca-sau-adidas
+  /// http://xuongann.com/api/flutter/product/ao-thun-nam-ca-sau-adidas
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {
       final url = Core.domain + 'api/flutter/product/$slug';

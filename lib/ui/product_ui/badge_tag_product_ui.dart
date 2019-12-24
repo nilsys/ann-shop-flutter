@@ -11,12 +11,46 @@ class BadgeTagProductUI extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: Product.getBadgeColor(badge),
+        color: getBadgeColor(badge),
       ),
       child: Text(
-        Product.getBadgeName(badge),
+        getBadgeName(badge),
         style: TextStyle(color: Colors.white),
       ),
     );
+  }
+
+  String getBadgeName(badge) {
+    switch (badge) {
+      case 1:
+        return 'Có sẳn';
+        break;
+      case 2:
+        return 'Order';
+        break;
+      case 3:
+        return 'Sale';
+        break;
+      default:
+        return 'Hết hàng';
+        break;
+    }
+  }
+
+  Color getBadgeColor(badge) {
+    switch (badge) {
+      case 1:
+        return Colors.orange;
+        break;
+      case 2:
+        return Colors.purple;
+        break;
+      case 3:
+        return Colors.grey;
+        break;
+      default:
+        return Colors.grey[700];
+        break;
+    }
   }
 }

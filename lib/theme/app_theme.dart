@@ -34,6 +34,7 @@ ThemeData primaryTheme() {
       primarySwatch: Colors.orange,
       primaryColor: Colors.orange,
 
+      buttonColor: Colors.orange,
       /// App bar theme
       appBarTheme: AppBarTheme(
 //        color: Colors.white,

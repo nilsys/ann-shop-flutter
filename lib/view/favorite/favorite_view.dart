@@ -2,8 +2,10 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';
+import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
@@ -27,39 +29,70 @@ class FavoriteView extends StatelessWidget {
         child: CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: <Widget>[
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Column(
-                  children: <Widget>[
-                    ProductFavoriteItem(data[index]),
-                    Container(
-                      height: 2,
-                      color: AppStyles.dividerColor,
-                    )
-                  ],
-                );
-              }, childCount: data.length),
-            )
+            Utility.isNullOrEmpty(data)
+                ? _buildEmpty(context)
+                : SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return Column(
+                        children: <Widget>[
+                          ProductFavoriteItem(data[index]),
+                          Container(
+                            height: 2,
+                            color: AppStyles.dividerColor,
+                          )
+                        ],
+                      );
+                    }, childCount: data.length),
+                  )
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        child: Container(
-          height: 50,
-          child: RaisedButton(
-            child: Text(
-              'Chia sẻ',
-              style: Theme.of(context)
-                  .textTheme
-                  .button
-                  .merge(TextStyle(color: Colors.white)),
+      bottomNavigationBar: Utility.isNullOrEmpty(data)
+          ? null
+          : BottomAppBar(
+              color: Colors.white,
+              child: Container(
+                height: 50,
+                child: RaisedButton(
+                  child: Text(
+                    'Chia sẻ',
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .merge(TextStyle(color: Colors.white)),
+                  ),
+                  color: Theme.of(context).primaryColor,
+                  onPressed: () {
+                    _onShare(context);
+                  },
+                ),
+              ),
             ),
-            color: Theme.of(context).primaryColor,
-            onPressed: () {
-              _onShare(context);
-            },
-          ),
+    );
+  }
+
+  _buildEmpty(context) {
+    return SliverFillRemaining(
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            EmptyListUI(
+              image: Icon(Icons.redeem),
+              title: 'Bạn chưa có sản phẩm nào',
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            RaisedButton(
+              child: Text('Thêm ngay', style: TextStyle(color: Colors.white),),
+              onPressed: () {
+                Provider.of<NavigationProvider>(context)
+                    .switchTo(PageName.category.index);
+                Navigator.popUntil(context, ModalRoute.withName('/'),);
+              },
+            )
+          ],
         ),
       ),
     );

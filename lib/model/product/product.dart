@@ -1,7 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:flutter/material.dart';
-import 'package:html_unescape/html_unescape.dart';
 
 class Product {
   int productID;
@@ -11,20 +9,22 @@ class Product {
   String materials;
   int badge;
   bool availability;
-  List<ProductThumbnails> thumbnails;
+  String avatar;
+
   double regularPrice;
   double oldPrice;
   double retailPrice;
-  String content;
-  List<String> contentImages;
+
+  List<String> images;
+
+  Product({this.productID});
 
   String get getCover {
-    if (Utility.isNullOrEmpty(thumbnails)) {
-      return '';
+    return avatar;
+    if (Utility.isNullOrEmpty(images)) {
+      return avatar;
     } else {
-      return thumbnails[thumbnails.length - 1]
-          .url
-          .replaceFirst(thumbnails[thumbnails.length - 1].size + '/', '');
+      return images[0];
     }
   }
 
@@ -43,77 +43,14 @@ class Product {
         value += name + '\n';
       }
     }
-
     value += '💲 ' +
         Utility.formatPrice(retailPrice + Core.copySetting.bonusPrice) +
         ' vnđ\n';
     if (Utility.isNullOrEmpty(materials) == false) {
       value += '🔖 $materials\n';
     }
-    if(hasContent) {
-      String _getContent = getContent();
-      if (Utility.isNullOrEmpty(_getContent) == false) {
-        _getContent = HtmlUnescape().convert(_getContent);
-        _getContent = _getContent.replaceAll("<br />", '\n');
-        value += '🔖 $_getContent\n';
-      }
-    }
     return value;
   }
-
-  String getContent() {
-    return this
-        .content
-        .replaceAllMapped(RegExp(r"<img[\w\W]+?>"), (match) => '');
-  }
-
-  static String getBadgeName(badge) {
-    switch (badge) {
-      case 1:
-        return 'Có sẳn';
-        break;
-      case 2:
-        return 'Order';
-        break;
-      case 3:
-        return 'Sale';
-        break;
-      default:
-        return 'Hết hàng';
-        break;
-    }
-  }
-
-  static Color getBadgeColor(badge) {
-    switch (badge) {
-      case 1:
-        return Colors.orange;
-        break;
-      case 2:
-        return Colors.purple;
-        break;
-      case 3:
-        return Colors.grey;
-        break;
-      default:
-        return Colors.grey[700];
-        break;
-    }
-  }
-
-  Product(
-      {this.productID,
-      this.sku,
-      this.name,
-      this.slug,
-      this.materials,
-      this.badge,
-      this.availability,
-      this.thumbnails,
-      this.regularPrice,
-      this.oldPrice,
-      this.retailPrice,
-      this.content});
 
   Product.fromJson(Map<String, dynamic> json) {
     productID = json['productID'];
@@ -123,30 +60,11 @@ class Product {
     materials = json['materials'];
     badge = json['badge'];
     availability = json['availability'];
-    if (json['thumbnails'] != null) {
-      thumbnails = new List<ProductThumbnails>();
-      json['thumbnails'].forEach((v) {
-        thumbnails.add(new ProductThumbnails.fromJson(v));
-      });
-    }
+    avatar = json['avatar'];
+    images = json['images'].cast<String>();
     regularPrice = json['regularPrice'];
     oldPrice = json['oldPrice'];
     retailPrice = json['retailPrice'];
-    content = json['content'];
-
-    List<RegExpMatch> matches =
-        RegExp(r"/uploads[\w\W]+?.jpg|/uploads[\w\W]+?.png")
-            .allMatches(content)
-            .toList();
-    if (Utility.isNullOrEmpty(matches) == false) {
-      contentImages = new List();
-      matches.forEach((f) {
-        String srcImage = f.group(0);
-        if (Utility.isNullOrEmpty(srcImage) == false) {
-          this.contentImages.add(srcImage);
-        }
-      });
-    }
   }
 
   Map<String, dynamic> toJson() {
@@ -158,13 +76,11 @@ class Product {
     data['materials'] = this.materials;
     data['badge'] = this.badge;
     data['availability'] = this.availability;
-    if (this.thumbnails != null) {
-      data['thumbnails'] = this.thumbnails.map((v) => v.toJson()).toList();
-    }
+    data['avatar'] = this.avatar;
+    data['images'] = this.images;
     data['regularPrice'] = this.regularPrice;
     data['oldPrice'] = this.oldPrice;
     data['retailPrice'] = this.retailPrice;
-    data['content'] = this.content;
     return data;
   }
 }

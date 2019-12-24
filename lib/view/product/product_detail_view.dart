@@ -27,6 +27,7 @@ import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -79,7 +80,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     ProductProvider provider = Provider.of(context);
     var data = provider.getBySlug(widget.info.slug);
 
-    List images = data.isCompleted ? data.data.images : [widget.info.getCover];
+    List images = data.isCompleted ? data.data.images : Utility.isNullOrEmpty(widget.info.images) ? [widget.info.avatar] : [widget.info.avatar];
 
     return Scaffold(
       floatingActionButton: _buildFloatButton(),
@@ -247,17 +248,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
               style: Theme.of(context).textTheme.title,
             ),
           )),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                HtmlContent(widget.info.getContent()),
-              ]),
-            ),
-          ),
+          _buildContent(data),
 
           /// List image
-          _buildFillRemaining(data),
+          _buildListImageOrLoadMore(data.data),
           _buildRelated(),
           _buildSeen(),
           _buildByCatalog(data.data),
@@ -285,29 +279,16 @@ class _ProductDetailViewState extends State<ProductDetailView>
     Clipboard.setData(new ClipboardData(text: _text));
   }
 
-  _buildFillRemaining(ResponseProvider<ProductDetail> data) {
+  _buildContent(ResponseProvider<ProductDetail> data) {
     if (data.isCompleted) {
-      List<String> images = [];
-      if (Utility.isNullOrEmpty(data.data.contentImages) == false) {
-        images.addAll(data.data.contentImages);
-      }
-      if (Utility.isNullOrEmpty(data.data.images) == false) {
-        if ((Utility.isNullOrEmpty(data.data.contentImages) == false)) {
-          for (var item in data.data.images) {
-            if (images.contains(item) == false) {
-              images.remove(item);
-            }
-          }
-        }
-        images.addAll(data.data.images);
-      }
-      if (Utility.isNullOrEmpty(images)) {
-        return SliverToBoxAdapter();
-      } else if (isFull || images.length == 1) {
-        return _buildListImage(images);
-      } else {
-        return _buildViewMore(images[0]);
-      }
+      return SliverPadding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        sliver: SliverList(
+          delegate: SliverChildListDelegate([
+            HtmlContent(data.data.getContent()),
+          ]),
+        ),
+      );
     } else if (data.isLoading) {
       return SliverFillRemaining(
         child: Center(
@@ -325,6 +306,34 @@ class _ProductDetailViewState extends State<ProductDetailView>
           ),
         ),
       );
+    }
+  }
+
+  _buildListImageOrLoadMore(ProductDetail detail) {
+    if (detail != null) {
+      List<String> images = [];
+      if (Utility.isNullOrEmpty(detail.contentImages) == false) {
+        images.addAll(detail.contentImages);
+      }
+      if (Utility.isNullOrEmpty(detail.images) == false) {
+        if ((Utility.isNullOrEmpty(detail.contentImages) == false)) {
+          for (var item in detail.images) {
+            if (images.contains(item) == false) {
+              images.remove(item);
+            }
+          }
+        }
+        images.addAll(detail.images);
+      }
+      if (Utility.isNullOrEmpty(images)) {
+        return SliverToBoxAdapter();
+      } else if (isFull || images.length == 1) {
+        return _buildListImage(images);
+      } else {
+        return _buildViewMore(images[0]);
+      }
+    } else {
+      return SliverToBoxAdapter();
     }
   }
 
@@ -593,13 +602,19 @@ class _ProductDetailViewState extends State<ProductDetailView>
           text: '${widget.info.sku}', style: TextStyle(color: Colors.grey)),
     ]);
 
-    return RichText(
-      text: TextSpan(
-        style: TextStyle(color: Colors.grey),
-        children: children,
+    return InkWell(
+      onTap: (){
+        controllerScroll.animateTo(controllerScroll.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+      },
+      child: RichText(
+        text: TextSpan(
+          style: TextStyle(color: Colors.grey),
+          children: children,
+        ),
       ),
     );
   }
+
 
   Widget _buildButtonControl(ProductDetail detail) {
     bool favorite = Provider.of<FavoriteProvider>(context)
