@@ -44,7 +44,7 @@ class _ProductSlideState extends State<ProductSlide> {
   @override
   Widget build(BuildContext context) {
     CategoryProductProvider provider = Provider.of(context);
-    var products = provider.getByCategory(currentCategory.slug);
+    var products = provider.getByCategory(currentCategory);
 
     return Container(
       color: Colors.white,
@@ -139,7 +139,7 @@ class _ProductSlideState extends State<ProductSlide> {
     return buildBox(
       child: SomethingWentWrong(onReload: () {
         Provider.of<CategoryProductProvider>(context)
-            .loadCategory(currentCategory.slug, refresh: true);
+            .loadCategory(currentCategory, refresh: true);
       }),
     );
   }

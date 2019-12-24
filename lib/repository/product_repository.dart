@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
@@ -55,6 +56,25 @@ class ProductRepository {
     return _productColors[id] ?? Colors.red;
   }
 
+  static String getFilterParams(AppFilter filter) {
+    var params = '';
+    if (filter != null) {
+      if (filter.sort > 0) {
+        params += '&sort=${filter.sort}';
+      }
+      if (filter.priceMin > 0) {
+        params += '&priceMin=${filter.priceMin}';
+      }
+      if (filter.priceMax > 0) {
+        params += '&priceMax=${filter.priceMax}';
+      }
+      if (filter.badge > 0) {
+        params += '&badge=${filter.badge}';
+      }
+    }
+    return params;
+  }
+
   final _prefixCategoryKey = 'key_product_by_category_';
 
   List<Product> listProductByString(String body) {
@@ -73,26 +93,30 @@ class ProductRepository {
     }
   }
 
+  Future<List<Product>> loadByCategoryFilter(Category category,
+      {cache = false}) {
+    if (category.filter != null) {
+      AppFilter filter = AppFilter.fromCategoryFilter(category.filter);
+      if (Utility.isNullOrEmpty(category.filter.categorySlug) == false) {
+        return loadByCategory(category.filter.categorySlug,
+            filter: filter, cache: cache);
+      } else if (Utility.isNullOrEmpty(category.filter.productSearch) ==
+          false) {
+        return loadBySearch(category.filter.productSearch, filter: filter);
+      } else if (Utility.isNullOrEmpty(category.filter.tagSlug) == false) {
+        return loadByTag(category.filter.tagSlug, filter: filter);
+      }
+    }
+    return loadByCategory(category.slug, pageSize: 10, cache: cache);
+  }
+
   /// http://xuongann.com/api/v1/category/quan-ao-nam/product?pageNumber=1&pageSize=28&sort=4
   Future<List<Product>> loadByCategory(String name,
-      {page = 1, pageSize = 10, AppFilter filter, cache = false}) async {
+      {page = 1, pageSize = 30, AppFilter filter, cache = false}) async {
     try {
-      var url = Core.domain + 'api/v1/' +
-          'category/$name/product?pageNumber=$page&pageSize=$pageSize';
-      if (filter != null) {
-        if (filter.sort > 0) {
-          url += '&sort=${filter.sort}';
-        }
-        if (filter.min != null) {
-          url += '&priceMin=${filter.min}';
-        }
-        if (filter.max != null) {
-          url += '&priceMax=${filter.max}';
-        }
-        for (int i = 0; i < filter.badge.length; i++) {
-          url += '&badge[$i]=${filter.badge[i]}';
-        }
-      }
+      var url = Core.domain +
+          'api/v1/category/$name/product?pageNumber=$page&pageSize=$pageSize';
+      url += getFilterParams(filter);
       print(url);
       final response = await http.get(url).timeout(Duration(seconds: 10));
       print(url);
@@ -123,22 +147,10 @@ class ProductRepository {
       {page = 1, pageSize = 30, AppFilter filter}) async {
     try {
       String search = text.replaceAll(' ', '%20');
-      var url = Core.domain + 'api/v1/' +
+      var url = Core.domain +
+          'api/v1/' +
           "search/search-product/$search?pageNumber=$page&pageSize=$pageSize";
-      if (filter != null) {
-        if (filter.sort > 0) {
-          url += '&sort=${filter.sort}';
-        }
-        if (filter.min != null) {
-          url += '&priceMin=${filter.min}';
-        }
-        if (filter.max != null) {
-          url += '&priceMax=${filter.max}';
-        }
-        for (int i = 0; i < filter.badge.length; i++) {
-          url += '&badge[$i]=${filter.badge[i]}';
-        }
-      }
+      url += getFilterParams(filter);
       final response = await http.get(url).timeout(Duration(seconds: 10));
       print(url);
       print(response.body);
@@ -156,22 +168,10 @@ class ProductRepository {
   Future<List<Product>> loadByTag(String text,
       {page = 1, pageSize = 20, AppFilter filter}) async {
     try {
-      var url = Core.domain + 'api/v1/' +
+      var url = Core.domain +
+          'api/v1/' +
           "tag/$text/product?pageNumber=$page&pageSize=$pageSize";
-      if (filter != null) {
-        if (filter.sort > 0) {
-          url += '&sort=${filter.sort}';
-        }
-        if (filter.min != null) {
-          url += '&priceMin=${filter.min}';
-        }
-        if (filter.max != null) {
-          url += '&priceMax=${filter.max}';
-        }
-        for (int i = 0; i < filter.badge.length; i++) {
-          url += '&badge[$i]=${filter.badge[i]}';
-        }
-      }
+      url += getFilterParams(filter);
       final response = await http.get(url).timeout(Duration(seconds: 10));
       print(url);
       print(response.body);
@@ -189,8 +189,9 @@ class ProductRepository {
   /// http://xuongann.com/api/v1/product/ao-thun-nam-ca-sau-adidas
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {
-      final url = Core.domain + 'api/v1/' + 'product/' + slug;
+      final url = Core.domain + 'api/flutter/product/$slug';
       final response = await http.get(url).timeout(Duration(seconds: 10));
+      log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
@@ -202,11 +203,10 @@ class ProductRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/v1/product/ao-thun-nam-ca-sau-adidas/related?pageNumber=1&pageSize=30
+  /// http://xuongann.com/api/flutter/product/ao-thun-nam-ca-sau-adidas/related
   Future<List<ProductRelated>> loadRelatedOfProduct(String slug) async {
     try {
-      final url =
-          Core.domain + 'api/v1/' + 'product/$slug/related?pageNumber=1&pageSize=100';
+      final url = Core.domain + 'api/flutter/product/$slug/related';
       final response = await http.get(url).timeout(Duration(seconds: 10));
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -223,12 +223,12 @@ class ProductRepository {
     return null;
   }
 
-
+  /// http://xuongann.com/api/flutter/product/1/image?color=10&size=178
   Future<String> loadProductImageSize(int id, int color, int size) async {
     try {
       final url =
-          Core.domain + 'api/v1/' + 'product/$id/image?color=$color&size=$size';
-      final response = await http.get(url).timeout(Duration(seconds: 10)).timeout(Duration(seconds: 5));
+          Core.domain + 'api/flutter/product/$id/image?color=$color&size=$size';
+      final response = await http.get(url).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -240,6 +240,17 @@ class ProductRepository {
     }
     return null;
   }
+
+  /// http://xuongann.com/api/flutter/product-sort
+  getProductSort() async {
+    try {
+      final url = Core.domain + 'api/flutter/product-sort';
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+    } catch (e) {}
+  }
+
   /// LOG
   log(object) {
     print('product_repository: ' + object.toString());

@@ -12,7 +12,7 @@ class HomeCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CategoryProvider provider = Provider.of(context);
-    var data = provider.allCategoryHome;
+    var data = provider.categoryHome.data;
     if (Utility.isNullOrEmpty(data)) {
       return Container();
     } else {

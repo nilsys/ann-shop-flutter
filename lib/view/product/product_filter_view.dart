@@ -1,5 +1,4 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
@@ -39,18 +38,8 @@ class _ProductFilterViewState extends State<ProductFilterView> {
     );
   }
 
-  String _textMin;
-  String _textMax;
-
   Widget _buildBody() {
     ConfigProvider provider = Provider.of(context);
-    _textMin = provider.priceMin < 0
-        ? '0'
-        : Utility.formatPrice(provider.priceMin.round() * 10000);
-    _textMax = provider.priceMax > 50
-        ? 'không giới hạn'
-        : Utility.formatPrice((provider.priceMax.round() * 10000));
-
     int _count = provider.filter.countSet;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -71,7 +60,17 @@ class _ProductFilterViewState extends State<ProductFilterView> {
             ]),
           ),
           SizedBox(height: 10),
-          _buildPriceCheckBoxList(),
+          Column(
+            children: <Widget>[
+              _buildCheckBoxPriceItem(0, 50),
+              _buildCheckBoxPriceItem(50, 80),
+              _buildCheckBoxPriceItem(80, 100),
+              _buildCheckBoxPriceItem(100, 120),
+              _buildCheckBoxPriceItem(120, 150),
+              _buildCheckBoxPriceItem(150, 180),
+              _buildCheckBoxPriceItem(180, 0),
+            ],
+          ),
           SizedBox(height: 10),
           Text(
             'Sản phẩm:',
@@ -105,101 +104,36 @@ class _ProductFilterViewState extends State<ProductFilterView> {
     );
   }
 
-  _buildCurrentPriceText() {
-    return TextSpan(
-      text: '$_textMin -> $_textMax',
-      style: Theme.of(context)
-          .textTheme
-          .subtitle
-          .merge(TextStyle(color: Theme.of(context).primaryColor)),
-    );
-  }
-
-  _buildPriceRecommendWrap() {
-    return Wrap(
-      children: <Widget>[
-        _buildPriceRecommendItem(0, 5),
-        SizedBox(
-          width: 5,
-        ),
-        _buildPriceRecommendItem(5, 10),
-        SizedBox(
-          width: 5,
-        ),
-        _buildPriceRecommendItem(10, 20),
-        SizedBox(
-          width: 5,
-        ),
-        _buildPriceRecommendItem(20, 30),
-        SizedBox(
-          width: 5,
-        ),
-        _buildPriceRecommendItem(30, 40),
-        SizedBox(
-          width: 5,
-        ),
-        _buildPriceRecommendItem(40, 51),
-      ],
-    );
-  }
-
-  _buildPriceRecommendItem(int min, int max) {
-    ConfigProvider provider = Provider.of(context);
-    String _text = min <= 0
-        ? 'Dưới ${max * 10}k'
-        : max > 50 ? 'Trên ${min * 10}k' : 'Từ ${min * 10}k - ${max * 10}k';
-    bool isChoose = provider.priceMin == min && provider.priceMax == max;
-    Color _color = isChoose ? Theme.of(context).primaryColor : Colors.black87;
-    return ActionChip(
-      avatar: Icon(
-        Icons.attach_money,
-        color: _color,
-      ),
-      label: Text(
-        _text,
-        style: TextStyle(color: _color),
-      ),
-      onPressed: () {
-        setState(() {
-          provider.priceMin = min.toDouble();
-          provider.priceMax = max.toDouble();
-        });
-      },
-    );
-  }
-
-  Widget _buildPriceCheckBoxList() {
-    return Column(
-      children: <Widget>[
-        _buildCheckBoxPriceItem(0, 5),
-        _buildCheckBoxPriceItem(5, 8),
-        _buildCheckBoxPriceItem(8, 10),
-        _buildCheckBoxPriceItem(10, 12),
-        _buildCheckBoxPriceItem(12, 15),
-        _buildCheckBoxPriceItem(15, 18),
-        _buildCheckBoxPriceItem(18, 51),
-      ],
-    );
-  }
-
   Widget _buildCheckBoxPriceItem(int min, int max) {
     ConfigProvider provider = Provider.of(context);
     String _text = min <= 0
-        ? 'Dưới ${max * 10}k'
-        : max > 50 ? 'Trên ${min * 10}k' : 'Từ ${min * 10}k - ${max * 10}k';
-    bool isChoose = provider.priceMin == min && provider.priceMax == max;
+        ? 'Dưới ${max}k'
+        : max == 0 ? 'Trên ${min}k' : 'Từ ${min}k - ${max}k';
+
+    int priceMin = min * 1000;
+    int priceMax = max * 1000;
+    bool isChoose =
+        provider.filter.priceMin == priceMin && provider.filter.priceMax == priceMax;
     return Container(
       height: 40,
       child: Row(
         children: <Widget>[
-          Radio(
-            value: isChoose,
-            groupValue: true,
-            onChanged: (value) {
-              print(value);
+          IconButton(
+            icon: isChoose
+                ? Icon(
+                    Icons.radio_button_checked,
+                    color: Theme.of(context).primaryColor,
+                  )
+                : Icon(Icons.radio_button_unchecked),
+            onPressed: () {
               setState(() {
-                  provider.priceMin = min.toDouble();
-                  provider.priceMax = max.toDouble();
+                if (isChoose) {
+                  provider.priceMin = 0;
+                  provider.priceMax = 0;
+                } else {
+                  provider.priceMin = priceMin;
+                  provider.priceMax = priceMax;
+                }
               });
             },
           ),
@@ -209,79 +143,28 @@ class _ProductFilterViewState extends State<ProductFilterView> {
     );
   }
 
-  Widget _buildSliderRangePrice() {
-    ConfigProvider provider = Provider.of(context);
-    return SliderTheme(
-      data: SliderThemeData(showValueIndicator: ShowValueIndicator.always),
-      child: RangeSlider(
-        min: -1,
-        max: 51,
-        values: RangeValues(provider.priceMin, provider.priceMax),
-        onChanged: (newValue) {
-          setState(() {
-            if ((newValue.end - newValue.start) >= 3) {
-              provider.priceMin = newValue.start;
-              provider.priceMax = newValue.end;
-            } else {
-              if (provider.priceMin == newValue.start) {
-                provider.priceMax = newValue.start + 3;
-              } else {
-                provider.priceMin = newValue.end - 3;
-              }
-            }
-          });
-        },
-        onChangeStart: (newValue) {},
-        onChangeEnd: (newValue) {},
-        labels: RangeLabels('Min: $_textMin', 'Max: $_textMax'),
-      ),
-    );
-  }
-
-  Widget _buildInputPrice(bool isMin) {
-    String labelText = isMin ? 'Min' : 'Max';
-    ConfigProvider provider = Provider.of(context);
-    double price = isMin ? provider.priceMin : provider.priceMax;
-    String value = price < 0 ? null : price.toString();
-    final TextEditingController controller = TextEditingController(text: value);
-    return Container(
-      width: 80,
-      child: TextField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          labelText: labelText,
-        ),
-        onEditingComplete: () {
-          print(controller.text);
-          int result = Utility.isNullOrEmpty(controller.text)
-              ? -1
-              : int.parse(controller.text);
-          if (isMin) {
-            provider.priceMin = result.toDouble();
-          } else {
-            provider.priceMax = result.toDouble();
-          }
-        },
-      ),
-    );
-  }
-
   Widget _buildCheckBoxBadge(ProductBadge badge) {
     ConfigProvider provider = Provider.of(context);
-
+    bool isChoose = badge.id == provider.filter.badge;
     return Container(
       height: 40,
       child: Row(
         children: <Widget>[
-          Checkbox(
-            value: provider.filter.badge.contains(badge.id),
-            onChanged: (value) {
-              if (value ?? false) {
-                provider.addBadge(badge.id);
-              } else {
-                provider.removeBadge(badge.id);
-              }
+          IconButton(
+            icon: isChoose
+                ? Icon(
+                    Icons.radio_button_checked,
+                    color: Theme.of(context).primaryColor,
+                  )
+                : Icon(Icons.radio_button_unchecked),
+            onPressed: () {
+              setState(() {
+                if (isChoose) {
+                  provider.filter.badge = 0;
+                } else {
+                  provider.filter.badge = badge.id;
+                }
+              });
             },
           ),
           Text(badge.title),

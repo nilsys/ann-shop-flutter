@@ -27,17 +27,17 @@ class ListProduct extends StatefulWidget {
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
 
-  static showByCategory(context, data) {
+  static showByCategory(context,Category data) {
     Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-category', arguments: data);
   }
 
-  static showByTag(context, data) {
+  static showByTag(context,ProductTag data) {
     Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-tag', arguments: data);
   }
 
-  static showBySearch(context, data, {bool refreshSearch = true}) {
+  static showBySearch(context,Map data, {bool refreshSearch = true}) {
     if (refreshSearch) Provider.of<SearchProvider>(context).setText();
     Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-search', arguments: data);

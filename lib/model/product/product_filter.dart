@@ -1,7 +1,7 @@
 class ProductFilter {
   String categorySlug;
   List<String> categorySlugList;
-  List<int> productBadge;
+  int productBadge;
   String productSearch;
   int productSort;
   String tagSlug;
@@ -23,8 +23,7 @@ class ProductFilter {
     categorySlugList = json['categorySlugList'] != null
         ? json['categorySlugList'].cast<String>()
         : null;
-    productBadge =
-        json['productBadge'] != null ? json['productBadge'].cast<int>() : null;
+    productBadge = json['productBadge'];
     productSearch = json['productSearch'];
     productSort = json['productSort'];
     tagSlug = json['tagSlug'];

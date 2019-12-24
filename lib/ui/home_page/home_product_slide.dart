@@ -9,7 +9,7 @@ class HomeProductSlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CategoryProvider provider = Provider.of(context);
-    var data = provider.categoryHome.data;
+    var data = provider.dataHome.data;
     if (Utility.isNullOrEmpty(data)) {
       return SliverFillRemaining(
         child: Container(

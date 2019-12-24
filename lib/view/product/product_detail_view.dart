@@ -266,13 +266,12 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  _onCheckAndCopy(detail){
+  _onCheckAndCopy(detail) {
     print(Core.copySetting.showed);
-    if(Core.copySetting.showed) {
+    if (Core.copySetting.showed) {
       _onCopy(detail);
-      AppSnackBar.showFlushbar(context, 'Copy',
-          duration: Duration(seconds: 1));
-    }else{
+      AppSnackBar.showFlushbar(context, 'Copy', duration: Duration(seconds: 1));
+    } else {
       Navigator.pushNamed(context, '/setting');
     }
   }
@@ -293,6 +292,13 @@ class _ProductDetailViewState extends State<ProductDetailView>
         images.addAll(data.data.contentImages);
       }
       if (Utility.isNullOrEmpty(data.data.images) == false) {
+        if ((Utility.isNullOrEmpty(data.data.contentImages) == false)) {
+          for (var item in data.data.images) {
+            if (images.contains(item) == false) {
+              images.remove(item);
+            }
+          }
+        }
         images.addAll(data.data.images);
       }
       if (Utility.isNullOrEmpty(images)) {
@@ -495,7 +501,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   margin: EdgeInsets.only(bottom: 15),
                   child: Stack(
                     children: <Widget>[
-                      Hero(                    tag: images[index] + tag,
+                      Hero(
+                          tag: images[index] + tag,
                           child: AppImage(Core.domain + images[index])),
                       ButtonDownload(
                         imageName: images[index],

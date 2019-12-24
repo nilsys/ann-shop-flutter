@@ -15,10 +15,10 @@ class CoverRepository {
     /// init
   }
 
-  /// http://xuongann.com/api/v1/home/banner
+  /// http://xuongann.com/api/flutter/home/banners
   Future<List<Cover>> loadCoverHome() async {
     try {
-      final url = Core.domain + 'api/v1/' + 'home/banner';
+      final url = Core.domain + 'api/flutter/home/banners';
       final response = await http.get(url).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);

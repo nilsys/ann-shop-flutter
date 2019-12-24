@@ -24,29 +24,20 @@ class ConfigProvider with ChangeNotifier {
     onFilterChanged.add(filter);
   }
 
-  double get priceMin => filter.priceMin;
 
-  set priceMin(double priceMin) {
-    filter.priceMin = priceMin;
+  set priceMin(value) {
+    filter.priceMin = value;
     _isEditFilter = true;
   }
 
-  double get priceMax => filter.priceMax;
-
-  set priceMax(double priceMax) {
-    filter.priceMax = priceMax;
+  set priceMax(value) {
+    filter.priceMax = value;
     _isEditFilter = true;
   }
 
-  addBadge(id) {
+  set badge(value){
     _isEditFilter = true;
-    filter.badge.add(id);
-    notifyListeners();
-  }
-
-  removeBadge(id) {
-    _isEditFilter = true;
-    filter.badge.remove(id);
+    filter.badge = value;
     notifyListeners();
   }
 

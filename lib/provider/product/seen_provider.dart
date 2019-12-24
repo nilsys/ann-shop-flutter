@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:flutter/material.dart';
 
 class SeenProvider with ChangeNotifier {
   final String _keyLocaleSeenProduct = '_keyLocaleSeenProduct';
   List<Product> products;
-  final int maxItem = 20;
+  final int maxItem = 100;
 
   SeenProvider() {
     loadListProduct();

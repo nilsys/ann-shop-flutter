@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,16 @@ class AppAction {
     ListProduct.showByCategory(context, Category(name: message, slug: value));
   }
 
+
+  void linkToTag(BuildContext context, String value, String message) {
+    print('link to tag' + value);
+    ListProduct.showByTag(context, ProductTag(name: message, slug: value));
+  }
+  void linkToSearch(BuildContext context, String value, String message) {
+    print('link to search' + value);
+    ListProduct.showBySearch(context, {'title': value});
+  }
+
   void linkToWebPage(BuildContext context, String value, String message) {
     print('link to web page: $value');
     launch(value);
@@ -84,11 +95,14 @@ class AppAction {
     print('link to scrren' + value);
     Navigator.pushNamed(context, '/$value');
   }
+
 }
 
 class ActionType {
   static const String linkToProduct = "product";
   static const String linkToCategory = "category";
+  static const String linkToTag = "tag";
+  static const String linkToSearch = "search";
   static const String linkToWebPage = "webpage";
   static const String linkToWebView = "webview";
   static const String openPopup = "openpopup";

@@ -8,16 +8,18 @@ import 'package:flutter/material.dart';
 class CategoryProvider extends ChangeNotifier {
   CategoryProvider() {
     categories = ResponseProvider();
+    dataHome = ResponseProvider();
     categoryHome = ResponseProvider();
     loadCategoryHome();
     loadCategories();
+    loadCDataHome();
   }
 
   ResponseProvider<List<Category>> categories;
-  ResponseProvider<List<CategoryHome>> categoryHome;
+  ResponseProvider<List<CategoryHome>> dataHome;
+  ResponseProvider<List<Category>> categoryHome;
 
   List<Category> allCategory;
-  List<Category> allCategoryHome;
 
   Category getCategory(code) {
     try {
@@ -68,18 +70,36 @@ class CategoryProvider extends ChangeNotifier {
     try {
       categoryHome.loading = 'try load categories';
       notifyListeners();
-      List<CategoryHome> data =
+      List<Category> data =
           await CategoryRepository.instance.loadCategoryHome();
       if (data != null) {
         categoryHome.completed = data;
       } else {
-        data = await CategoryRepository.instance.loadCategoryHomeOffline();
+        data = await CategoryRepository.instance.loadCategoriesOffline();
         categoryHome.completed = data;
       }
-      refreshCategoryHomeByList();
     } catch (e) {
       log(e);
       categoryHome.error = 'exception: ' + e.toString();
+    }
+    notifyListeners();
+  }
+
+  loadCDataHome() async {
+    try {
+      dataHome.loading = 'try load categories';
+      notifyListeners();
+      List<CategoryHome> data =
+      await CategoryRepository.instance.loadDataHome();
+      if (data != null) {
+        dataHome.completed = data;
+      } else {
+        data = await CategoryRepository.instance.loadDataHomeOffline();
+        dataHome.completed = data;
+      }
+    } catch (e) {
+      log(e);
+      dataHome.error = 'exception: ' + e.toString();
     }
     notifyListeners();
   }
@@ -94,21 +114,6 @@ class CategoryProvider extends ChangeNotifier {
         if (Utility.isNullOrEmpty(item.children) == false) {
           for (var child in item.children) {
             allCategory.add(child);
-          }
-        }
-      }
-    }
-  }
-  refreshCategoryHomeByList() {
-    allCategoryHome = new List();
-    if (categoryHome.isCompleted) {
-      for (var item in categoryHome.data) {
-        if (Utility.isNullOrEmpty(item.category.slug) == false) {
-          allCategoryHome.add(item.category);
-        }
-        if (Utility.isNullOrEmpty(item.category.children) == false) {
-          for (var child in item.category.children) {
-            allCategoryHome.add(child);
           }
         }
       }
