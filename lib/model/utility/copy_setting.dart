@@ -33,6 +33,7 @@ class CopySetting {
     bonusPrice = json['bonusPrice'];
     phoneNumber = json['phoneNumber'];
     address = json['address'];
+    showed = json['showed']??false;
   }
 
   Map<String, dynamic> toJson() {
@@ -42,6 +43,7 @@ class CopySetting {
     data['bonusPrice'] = this.bonusPrice;
     data['phoneNumber'] = this.phoneNumber;
     data['address'] = this.address;
+    data['showed'] = this.showed;
     return data;
   }
 }

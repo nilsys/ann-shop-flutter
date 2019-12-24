@@ -21,6 +21,7 @@ import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/button_gradient.dart';
+import 'package:ann_shop_flutter/ui/utility/download_background.dart';
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -198,12 +199,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 15),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                Hero(
-                  tag: widget.info.name + widget.info.productID.toString(),
-                  child: Text(
-                    widget.info.name,
-                    style: Theme.of(context).textTheme.title,
-                  ),
+                Text(
+                  widget.info.name,
+                  style: Theme.of(context).textTheme.title,
                 ),
                 _buildMaterials(),
                 Container(
@@ -690,35 +688,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 ],
               ),
             ),
-            _buildDownload(),
+            DownLoadBackground(),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildDownload() {
-    DownloadImageProvider provider = Provider.of(context);
-    String message = provider.currentMessage;
-    if (Utility.isNullOrEmpty(message)) {
-      return Container();
-    } else {
-      return Container(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Indicator(
-              radius: 8,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(message),
-          ],
-        ),
-      );
-    }
   }
 
   _onAksBeforeDownload(ProductDetail detail) {
@@ -749,8 +723,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
             .getSingleFile(Core.domain + detail.images[i])
             .timeout(Duration(seconds: 5));
         imageList.add(file.path);
+        loading.update('Download ${i+1}/${detail.images.length} images');
       } catch (e) {
-        // skip
+        // fail 1
       }
     }
 

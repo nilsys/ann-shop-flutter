@@ -21,7 +21,8 @@ class Core {
 
   static bool get isLogin => false;
 
-  static CopySetting copySetting;
+
+  static CopySetting copySetting = CopySetting();
   static const _keyCopySetting = '_keyCopySetting';
 
   static updateCopySetting(_value) {
