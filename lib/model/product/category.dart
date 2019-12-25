@@ -1,4 +1,4 @@
-
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 
 class Category {
@@ -9,6 +9,21 @@ class Category {
   String description;
   List<Category> children;
   ProductFilter filter;
+
+  bool get vailable {
+    if (Utility.isNullOrEmpty(slug) == false) {
+      return true;
+    }
+    if (filter != null) {
+      if (Utility.isNullOrEmpty(filter.categorySlug) == false ||
+          Utility.isNullOrEmpty(filter.categorySlugList) == false ||
+          Utility.isNullOrEmpty(filter.tagSlug) == false ||
+          Utility.isNullOrEmpty(filter.productSearch) == false){
+        return true;
+      }
+    }
+    return false;
+  }
 
   Category({this.icon, this.name, this.slug, this.description, this.children});
 

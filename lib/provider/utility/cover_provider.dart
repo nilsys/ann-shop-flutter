@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 class CoverProvider extends ChangeNotifier {
   CoverProvider() {
     covers = ResponseProvider();
+    spam = ResponseProvider();
     loadCoverHome();
+    loadSpamHome();
   }
 
   ResponseProvider<List<Cover>> covers;
+  ResponseProvider<List<Cover>> spam;
 
   loadCoverHome() async {
     try {
@@ -25,6 +28,23 @@ class CoverProvider extends ChangeNotifier {
     } catch (e) {
       log(e);
       covers.error = 'exception: ' + e.toString();
+    }
+    notifyListeners();
+  }
+
+  loadSpamHome() async {
+    try {
+      spam.loading = 'try load';
+      notifyListeners();
+      List<Cover> data = await CoverRepository.instance.loadSpamHome();
+      if (data != null) {
+        spam.completed = data;
+      } else {
+        spam.completed = [];
+      }
+    } catch (e) {
+      log(e);
+      spam.error = 'exception: ' + e.toString();
     }
     notifyListeners();
   }

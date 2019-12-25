@@ -16,13 +16,15 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:provider/provider.dart';
 
 class ListProduct extends StatefulWidget {
-  ListProduct(
-      {this.categoryCode, this.searchText, this.tagName, this.initData});
+  ListProduct({this.appBar, this.categoryCode, this.categoryList, this.searchText, this.tagName, this.initData});
 
   final categoryCode;
   final searchText;
   final tagName;
+  final categoryList;
   final initData;
+
+  final SliverPersistentHeaderDelegate appBar;
 
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
@@ -49,24 +51,14 @@ class _BuildAllViewState extends State<ListProduct> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
+
     listSourceRepository = new LoadMoreProductRepository(
         categoryCode: widget.categoryCode,
+        categoryList: widget.categoryList,
         searchText: widget.searchText,
         tagName: widget.tagName,
         initData: widget.initData);
-
-    WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      if (Utility.isNullOrEmpty(widget.categoryCode) == false) {
-        categories = Provider.of<CategoryProvider>(context)
-            .getCategoryRelated(widget.categoryCode);
-        if (Utility.isNullOrEmpty(categories) == false) {
-          setState(() {});
-        }
-      }
-    });
-
-    super.initState();
   }
 
   List<Category> categories;
@@ -80,8 +72,10 @@ class _BuildAllViewState extends State<ListProduct> {
 
   @override
   Widget build(BuildContext context) {
-    bool hasCategory = Utility.isNullOrEmpty(categories) == false;
     ConfigProvider config = Provider.of(context);
+
+    SliverPersistentHeaderDelegate appbar = widget.appBar ?? CommonSliverPersistentHeaderDelegate(
+            ConfigProductUI(),60);
 
     return RefreshIndicator(
       onRefresh: onRefresh,
@@ -92,14 +86,7 @@ class _BuildAllViewState extends State<ListProduct> {
             SliverPersistentHeader(
                 pinned: false,
                 floating: true,
-                delegate: CommonSliverPersistentHeaderDelegate(
-                    Column(
-                      children: <Widget>[
-                        ConfigProductUI(),
-                        hasCategory ? _buildCategoryButtonList() : Container(),
-                      ],
-                    ),
-                    hasCategory ? 110 : 60)),
+                delegate: appbar,),
             SliverPadding(
                 padding: (config.view == ViewType.grid)
                     ? EdgeInsets.symmetric(horizontal: defaultPadding)
@@ -109,50 +96,6 @@ class _BuildAllViewState extends State<ListProduct> {
         ),
       ),
     );
-  }
-
-  _buildCategoryButtonList() {
-    return Container(
-      height: 45,
-      color: Colors.white,
-      padding: EdgeInsets.only(top: 10, bottom: 5),
-      width: double.infinity,
-      child: ListView.separated(
-        itemBuilder: (context, index) {
-          index -= 1;
-          if (index < 0 || index == categories.length) {
-            return SizedBox(
-              width: 5,
-            );
-          }
-          return _buildCategoryButton(categories[index]);
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(
-            width: 10,
-          );
-        },
-        itemCount: categories.length + 2,
-        scrollDirection: Axis.horizontal,
-      ),
-    );
-  }
-
-  _buildCategoryButton(Category item) {
-    if (Utility.isNullOrEmpty(item.slug)) {
-      return Container();
-    } else {
-      return ActionChip(
-        label: Text(
-          item.name,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black87),
-        ),
-        onPressed: () {
-          ListProduct.showByCategory(context, item);
-        },
-      );
-    }
   }
 
   SliverListConfig<Product> _buildByView() {

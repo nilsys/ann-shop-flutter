@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
@@ -9,7 +10,7 @@ import 'package:loading_more_list/loading_more_list.dart';
 
 class LoadMoreProductRepository extends LoadingMoreBase<Product> {
   LoadMoreProductRepository(
-      {this.categoryCode, this.searchText, this.tagName, this.initData}) {
+      {this.categoryCode, this.searchText, this.tagName, this.initData, this.categoryList}) {
     // TODO:
     if (this.initData == null) {
       pageIndex = 1;
@@ -19,6 +20,7 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
         this.add(item);
       });
     }
+    filter=AppFilter();
     listenSortConfig = ConfigProvider.onFilterChanged.stream.listen((data) {
       filter = data;
       this.refresh(false);
@@ -33,6 +35,7 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
 
   final List<Product> initData;
   final String categoryCode;
+  final List<String> categoryList;
   final String searchText;
   final String tagName;
   StreamSubscription listenSortConfig;
@@ -86,7 +89,11 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
       var list = await ProductRepository.instance.loadByCategory(categoryCode,
           page: pageIndex, pageSize: itemPerPage, filter: filter);
       return list;
-    } else if (searchText != null) {
+    } else  if (Utility.isNullOrEmpty(categoryList) == false) {
+      var list = await ProductRepository.instance.loadByListCategory(categoryList,
+          page: pageIndex, pageSize: itemPerPage, filter: filter);
+      return list;
+    } else  if (searchText != null) {
       var list = await ProductRepository.instance.loadBySearch(searchText,
           page: pageIndex, pageSize: itemPerPage, filter: filter);
       return list;

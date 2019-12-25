@@ -34,10 +34,10 @@ class _ProductSlideState extends State<ProductSlide> {
     // TODO: implement initState
     super.initState();
     controller = new ScrollController();
-    if (Utility.isNullOrEmpty(widget.group.slug)) {
-      currentCategory = widget.group.children[0];
-    } else {
+    if (widget.group.vailable) {
       currentCategory = widget.group;
+    } else {
+      currentCategory = widget.group.children[0];
     }
   }
 
@@ -258,7 +258,7 @@ class _ProductSlideState extends State<ProductSlide> {
 
   Widget _buildCategoryButton(Category item, {String customName}) {
     String _name = customName ?? item.name;
-    if (Utility.isNullOrEmpty(item.slug)) {
+    if (Utility.isNullOrEmpty(item.vailable == false)) {
       return Container();
     } else {
       bool isSelect = item == currentCategory;

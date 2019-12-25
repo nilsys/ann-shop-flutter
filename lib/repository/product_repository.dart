@@ -134,6 +134,10 @@ class ProductRepository {
       if (Utility.isNullOrEmpty(category.filter.categorySlug) == false) {
         return loadByCategory(category.filter.categorySlug,
             filter: filter, cache: cache);
+      } else if (Utility.isNullOrEmpty(category.filter.categorySlugList) ==
+          false) {
+        return loadByListCategory(category.filter.categorySlugList,
+            filter: filter, cache: cache);
       } else if (Utility.isNullOrEmpty(category.filter.productSearch) ==
           false) {
         return loadBySearch(category.filter.productSearch, filter: filter);
@@ -142,6 +146,44 @@ class ProductRepository {
       }
     }
     return loadByCategory(category.slug, pageSize: 10, cache: cache);
+  }
+
+  /// http://xuongann.com/api/flutter/products?categorySlugList[0]=ao-thun-nu&categorySlugList[1]=so-mi-nu
+  Future<List<Product>> loadByListCategory(List<String> names,
+      {page = 1, pageSize = 30, AppFilter filter, cache = false}) async {
+    var categorySlugList = 'categorySlugList[0]=${names[0]}';
+    for (int i = 1; i < names.length; i++) {
+      categorySlugList += '&categorySlugList[$i]=${names[i]}';
+    }
+    try {
+      var url = Core.domain +
+          'api/flutter/products?$categorySlugList&pageNumber=$page&pageSize=$pageSize';
+      url += getFilterParams(filter);
+      print(url);
+      final response = await http.get(url).timeout(Duration(seconds: 10));
+      print(url);
+      print(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        if (cache) {
+          StorageManager.setObject(
+              _prefixCategoryKey + categorySlugList, response.body);
+        }
+        return listProductByString(response.body);
+      } else if (response.statusCode == HttpStatus.notFound) {
+        return [];
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    if (cache) {
+      String body = await StorageManager.getObjectByKey(
+          _prefixCategoryKey + categorySlugList);
+      log('Cache: ' + body);
+      if (Utility.isNullOrEmpty(body) == false) {
+        return listProductByString(body);
+      }
+    }
+    return null;
   }
 
   /// http://xuongann.com/api/flutter/products?categorySlug=bao-li-xi-tet&pageNumber=1&pageSize=28&sort=4
@@ -273,11 +315,11 @@ class ProductRepository {
     }
     return null;
   }
+
   /// http://xuongann.com/api/flutter/product/1/advertisement-image
   Future<List<String>> loadProductAdvertisementImage(int id) async {
     try {
-      final url =
-          Core.domain + 'api/flutter/product/$id/advertisement-image';
+      final url = Core.domain + 'api/flutter/product/$id/advertisement-image';
       final response = await http.get(url).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);

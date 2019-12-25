@@ -18,16 +18,16 @@ class CategoryProductProvider extends ChangeNotifier {
   }
 
   ResponseProvider<List<Product>> getByCategory(Category category){
-
-    if(categories[category.slug] == null){
-      categories[category.slug] = ResponseProvider<List<Product>>();
+    String code = category.slug + category.name;
+    if(categories[code] == null){
+      categories[code] = ResponseProvider<List<Product>>();
       loadCategory(category);
     }
-    return categories[category.slug];
+    return categories[code];
   }
 
   loadCategory(Category category, {refresh = false}) async {
-    String code = category.slug;
+    String code = category.slug + category.name;
     try {
       categories[code].loading = 'Loading';
       if(refresh)notifyListeners();

@@ -233,7 +233,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
             ),
           ),
           PolicyProductBlock(),
-          _buildTitle('Thông tin chi tiết'),
+          data.isCompleted
+              ? _buildTitle('Thông tin chi tiết')
+              : SliverToBoxAdapter(),
           _buildDetailInfo(data.data),
           _buildTitle('Thông tin sản phẩm'),
           _buildContent(data),
@@ -297,14 +299,16 @@ class _ProductDetailViewState extends State<ProductDetailView>
         ),
       );
     } else if (data.isLoading) {
-      return SliverFillRemaining(
-        child: Center(
+      return SliverToBoxAdapter(
+        child: Container(
+          height: 200,
           child: Indicator(),
         ),
       );
     } else {
-      return SliverFillRemaining(
-        child: Center(
+      return SliverToBoxAdapter(
+        child: Container(
+          height: 200,
           child: SomethingWentWrong(
             onReload: () {
               Provider.of<ProductProvider>(context)
@@ -810,8 +814,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
         btnHighlight: ButtonData(
             title: 'Lưu',
             callback: () {
-              Provider.of<DownloadImageProvider>(context).images =
-                  detail.images;
+              Provider.of<DownloadImageProvider>(context).downloadImages(detail.images);
             }),
         btnNormal: ButtonData(title: 'Không', callback: null));
   }

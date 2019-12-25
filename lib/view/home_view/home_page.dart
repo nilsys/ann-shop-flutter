@@ -1,10 +1,14 @@
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_product_slide.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
+import 'package:ann_shop_flutter/ui/home_page/home_spam.dart';
+import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +30,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var dataSpam = Provider.of<CoverProvider>(context).spam.data;
+
     return Container(
       child: Stack(
         children: <Widget>[
@@ -51,7 +57,9 @@ class _HomePageState extends State<HomePage> {
                           child: SearchTitle('Bạn tìm gì hôm nay?')),
                       titleSpacing: 0,
                       actions: <Widget>[
-                        FavoriteButton(color: Colors.white,),
+                        FavoriteButton(
+                          color: Colors.white,
+                        ),
                       ],
                     ),
                     SliverList(
@@ -62,6 +70,7 @@ class _HomePageState extends State<HomePage> {
                         HomeCategory(),
                       ]),
                     ),
+                    HomeSpam(),
                     HomeProductSlide(),
                     SliverToBoxAdapter(
                       child: Container(
@@ -80,8 +89,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _refreshHomepage() async {
-    Provider.of<CategoryProvider>(context).loadCategoryHome();
-    // load banner
+    Provider.of<CoverProvider>(context).loadSpamHome();
+    Provider.of<CoverProvider>(context).loadCoverHome();
+    Provider.of<CategoryProvider>(context).loadCDataHome();
     Provider.of<CategoryProductProvider>(context).forceRefresh();
     await Provider.of<CategoryProvider>(context).loadCategoryHome();
   }

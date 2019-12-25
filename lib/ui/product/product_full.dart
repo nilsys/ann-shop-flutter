@@ -11,7 +11,6 @@ import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
@@ -26,6 +25,8 @@ class ProductFull extends StatefulWidget {
 
 class _ProductFullState extends State<ProductFull> {
   int currentPage = 0;
+
+  bool isDownload = false;
 
   @override
   Widget build(BuildContext context) {
@@ -219,11 +220,16 @@ class _ProductFullState extends State<ProductFull> {
           IconButton(
             icon: Icon(
               Icons.cloud_download,
-              color: iconColor,
+              color: isDownload ? Colors.grey : iconColor,
             ),
-            onPressed: () {
-              _onDownLoad(context);
-            },
+            onPressed: isDownload
+                ? null
+                : () {
+                    _onDownLoad(context);
+                    setState(() {
+                      isDownload = true;
+                    });
+                  },
           ),
           IconButton(
             icon: Icon(
@@ -291,7 +297,7 @@ class _ProductFullState extends State<ProductFull> {
         AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
             duration: Duration(seconds: 1));
       } else {
-        Provider.of<DownloadImageProvider>(context).images = images;
+        Provider.of<DownloadImageProvider>(context).downloadImages(images);
       }
     } catch (e) {
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',

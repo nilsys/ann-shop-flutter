@@ -11,11 +11,16 @@ class DownloadImageProvider extends ChangeNotifier {
 
   List<String> get images => _images;
 
-  set images(List<String> images) {
-    _images = images;
-    if(Utility.isNullOrEmpty(images) == false){
-      countFail = 0;
-      _saveImage(0);
+  bool downloadImages(List<String> images) {
+    if(_images!=null){
+      return false;
+    }else {
+      _images = images;
+      if (Utility.isNullOrEmpty(images) == false) {
+        countFail = 0;
+        _saveImage(0);
+      }
+      return true;
     }
   }
 
