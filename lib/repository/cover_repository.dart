@@ -52,10 +52,31 @@ class CoverRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/flutter/home/banners
-  Future<List<Cover>> loadSpamHome() async {
+  /// http://xuongann.com/api/flutter/home/notification
+  Future<List<Cover>> loadHomeNotification() async {
     try {
-      final url = Core.domain + 'api/flutter/home/banners';
+      final url = Core.domain + 'api/flutter/home/posts';
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(response.body);
+        List<Cover> _data = new List();
+        message.forEach((v) {
+          _data.add(new Cover.fromJson(v));
+        });
+        return _data;
+      }
+    } catch (e) {
+      log(e);
+    }
+    return null;
+  }
+
+  /// http://xuongann.com/api/flutter/home/posts
+  Future<List<Cover>> loadHomePost() async {
+    try {
+      final url = Core.domain + 'api/flutter/home/posts';
       final response = await http.get(url).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);

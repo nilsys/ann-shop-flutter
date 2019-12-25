@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 
 class ConfigProvider with ChangeNotifier {
   final _keyConfig = '_keyConfig';
-  static StreamController onFilterChanged =
-      StreamController<AppFilter>.broadcast();
 
   ConfigProvider() {
     _isEditFilter = false;
@@ -21,7 +19,6 @@ class ConfigProvider with ChangeNotifier {
   set sort(int sort) {
     filter.sort = sort;
     saveConfig();
-    onFilterChanged.add(filter);
   }
 
 
@@ -45,7 +42,6 @@ class ConfigProvider with ChangeNotifier {
 
   saveFilter() {
     if (_isEditFilter) {
-      onFilterChanged.add(filter);
       saveConfig();
       _isEditFilter = false;
     }
@@ -67,7 +63,6 @@ class ConfigProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    onFilterChanged.close();
     super.dispose();
   }
 

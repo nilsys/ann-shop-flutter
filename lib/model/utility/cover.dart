@@ -3,6 +3,7 @@ class Cover {
   String image;
   String type;
   String value;
+  String message;
 
   Cover({this.image, this.type, this.value, this.name});
 
@@ -11,6 +12,7 @@ class Cover {
     image = json['image'];
     type = json['type'];
     value = json['value'];
+    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +21,7 @@ class Cover {
     data['image'] = this.image;
     data['type'] = this.type;
     data['value'] = this.value;
+    data['message'] = this.message;
     return data;
   }
 }

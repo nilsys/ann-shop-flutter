@@ -29,16 +29,18 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
     var message = Provider.of<DownloadImageProvider>(context).currentMessage;
     bool hasCategory = Utility.isNullOrEmpty(widget.category.children) == false;
 
-    String categorySlug = widget.category.slug;
+    Category current = widget.category;
+    String categorySlug = current.slug;
     List<String> categorySlugList;
     String productSearch;
     String tagSlug;
-    if (widget.category.filter != null) {
-      categorySlug = widget.category.filter.categorySlug;
-      categorySlugList = widget.category.filter.categorySlugList;
-      productSearch = widget.category.filter.productSearch;
-      tagSlug = widget.category.filter.tagSlug;
+    if (current.filter != null) {
+      categorySlug = current.filter.categorySlug;
+      categorySlugList = current.filter.categorySlugList;
+      productSearch = current.filter.productSearch;
+      tagSlug = current.filter.tagSlug;
     }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.category.name),

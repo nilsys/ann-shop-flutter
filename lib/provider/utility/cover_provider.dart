@@ -5,46 +5,66 @@ import 'package:flutter/material.dart';
 
 class CoverProvider extends ChangeNotifier {
   CoverProvider() {
-    covers = ResponseProvider();
-    spam = ResponseProvider();
+    coversHome = ResponseProvider();
+    postsHome = ResponseProvider();
+    notificationHome = ResponseProvider();
     loadCoverHome();
-    loadSpamHome();
+    loadNotificationHome();
+    loadPostHome();
   }
 
-  ResponseProvider<List<Cover>> covers;
-  ResponseProvider<List<Cover>> spam;
+  ResponseProvider<List<Cover>> coversHome;
+  ResponseProvider<List<Cover>> postsHome;
+  ResponseProvider<List<Cover>> notificationHome;
 
   loadCoverHome() async {
     try {
-      covers.loading = 'try load';
+      coversHome.loading = 'try load';
       notifyListeners();
       List<Cover> data = await CoverRepository.instance.loadCoverHome();
       if (data != null) {
-        covers.completed = data;
+        coversHome.completed = data;
       } else {
         data = await CoverRepository.instance.loadCoverHomeOffline();
-        covers.completed = data;
+        coversHome.completed = data;
       }
     } catch (e) {
       log(e);
-      covers.error = 'exception: ' + e.toString();
+      coversHome.error = 'exception: ' + e.toString();
     }
     notifyListeners();
   }
 
-  loadSpamHome() async {
+  loadNotificationHome() async {
     try {
-      spam.loading = 'try load';
+      notificationHome.loading = 'try load';
       notifyListeners();
-      List<Cover> data = await CoverRepository.instance.loadSpamHome();
+      List<Cover> data = await CoverRepository.instance.loadHomeNotification();
       if (data != null) {
-        spam.completed = data;
+        notificationHome.completed = data;
       } else {
-        spam.completed = [];
+        notificationHome.completed = [];
       }
     } catch (e) {
       log(e);
-      spam.error = 'exception: ' + e.toString();
+      notificationHome.error = 'exception: ' + e.toString();
+    }
+    notifyListeners();
+  }
+
+  loadPostHome() async {
+    try {
+      postsHome.loading = 'try load';
+      notifyListeners();
+      List<Cover> data = await CoverRepository.instance.loadHomePost();
+      if (data != null) {
+        postsHome.completed = data;
+      } else {
+        postsHome.completed = [];
+      }
+    } catch (e) {
+      log(e);
+      postsHome.error = 'exception: ' + e.toString();
     }
     notifyListeners();
   }

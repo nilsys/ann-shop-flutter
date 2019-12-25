@@ -73,13 +73,13 @@ class _HomeBannerState extends State<HomeBanner>
               borderRadius: BorderRadius.circular(5),
             ),
             margin: EdgeInsets.symmetric(horizontal: defaultPadding),
-            child: provider.covers.isCompleted
+            child: provider.coversHome.isCompleted
                 ? _buildPageView(context)
                 : Center(
                     child: Indicator(),
                   ),
           ),
-          (provider.covers.isCompleted && provider.covers.data.length > 1) ? _buildDot(context) : Container(),
+          (provider.coversHome.isCompleted && provider.coversHome.data.length > 1) ? _buildDot(context) : Container(),
         ],
       ),
     );
@@ -97,15 +97,15 @@ class _HomeBannerState extends State<HomeBanner>
         });
       },
       itemBuilder: (context, index) {
-        return _buildBanner(context, provider.covers.data[index]);
+        return _buildBanner(context, provider.coversHome.data[index]);
       },
-      itemCount: provider.covers.data.length,
+      itemCount: provider.coversHome.data.length,
     );
   }
 
   Widget _buildDot(context) {
     CoverProvider provider = Provider.of(context);
-    List listIndex = List.generate(provider.covers.data.length, (index) => index);
+    List listIndex = List.generate(provider.coversHome.data.length, (index) => index);
     return Positioned(
       right: 30,
       bottom: 15,

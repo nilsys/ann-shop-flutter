@@ -7,7 +7,7 @@ import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_product_slide.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
-import 'package:ann_shop_flutter/ui/home_page/home_spam.dart';
+import 'package:ann_shop_flutter/ui/home_page/home_list_banner.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var dataSpam = Provider.of<CoverProvider>(context).spam.data;
 
     return Container(
       child: Stack(
@@ -70,7 +69,15 @@ class _HomePageState extends State<HomePage> {
                         HomeCategory(),
                       ]),
                     ),
-                    HomeSpam(),
+                    HomeListBanner(
+                        title: 'Home Post',
+                        data:
+                            Provider.of<CoverProvider>(context).postsHome.data),
+                    HomeListBanner(
+                        title: 'Home Notification',
+                        data: Provider.of<CoverProvider>(context)
+                            .notificationHome
+                            .data),
                     HomeProductSlide(),
                     SliverToBoxAdapter(
                       child: Container(
@@ -89,7 +96,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _refreshHomepage() async {
-    Provider.of<CoverProvider>(context).loadSpamHome();
+    Provider.of<CoverProvider>(context).loadNotificationHome();
+    Provider.of<CoverProvider>(context).loadPostHome();
     Provider.of<CoverProvider>(context).loadCoverHome();
     Provider.of<CategoryProvider>(context).loadCDataHome();
     Provider.of<CategoryProductProvider>(context).forceRefresh();

@@ -16,7 +16,13 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:provider/provider.dart';
 
 class ListProduct extends StatefulWidget {
-  ListProduct({this.appBar, this.categoryCode, this.categoryList, this.searchText, this.tagName, this.initData});
+  ListProduct(
+      {this.appBar,
+      this.categoryCode,
+      this.categoryList,
+      this.searchText,
+      this.tagName,
+      this.initData});
 
   final categoryCode;
   final searchText;
@@ -29,17 +35,17 @@ class ListProduct extends StatefulWidget {
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
 
-  static showByCategory(context,Category data) {
+  static showByCategory(context, Category data) {
     Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-category', arguments: data);
   }
 
-  static showByTag(context,ProductTag data) {
+  static showByTag(context, ProductTag data) {
     Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-tag', arguments: data);
   }
 
-  static showBySearch(context,Map data, {bool refreshSearch = true}) {
+  static showBySearch(context, Map data, {bool refreshSearch = true}) {
     if (refreshSearch) Provider.of<SearchProvider>(context).setText();
     Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-search', arguments: data);
@@ -73,9 +79,9 @@ class _BuildAllViewState extends State<ListProduct> {
   @override
   Widget build(BuildContext context) {
     ConfigProvider config = Provider.of(context);
-
-    SliverPersistentHeaderDelegate appbar = widget.appBar ?? CommonSliverPersistentHeaderDelegate(
-            ConfigProductUI(),60);
+    SliverPersistentHeaderDelegate appbar = widget.appBar ??
+        CommonSliverPersistentHeaderDelegate(ConfigProductUI(), 60);
+    listSourceRepository.setFilter(config.filter);
 
     return RefreshIndicator(
       onRefresh: onRefresh,
@@ -84,9 +90,10 @@ class _BuildAllViewState extends State<ListProduct> {
           showGlowLeading: false,
           slivers: <Widget>[
             SliverPersistentHeader(
-                pinned: false,
-                floating: true,
-                delegate: appbar,),
+              pinned: false,
+              floating: true,
+              delegate: appbar,
+            ),
             SliverPadding(
                 padding: (config.view == ViewType.grid)
                     ? EdgeInsets.symmetric(horizontal: defaultPadding)
@@ -107,8 +114,7 @@ class _BuildAllViewState extends State<ListProduct> {
       final imageWidth =
           (screenWidth - ((countPerRow + 1) * defaultPadding)) / countPerRow;
       final imageHeight = imageWidth * 4 / 3;
-      final childAspectRatio =
-          imageWidth / (imageHeight + textHeight);
+      final childAspectRatio = imageWidth / (imageHeight + textHeight);
       return SliverListConfig<Product>(
         itemBuilder: ItemBuilder.itemBuilderGrid,
         sourceList: listSourceRepository,

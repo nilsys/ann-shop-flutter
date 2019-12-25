@@ -12,7 +12,6 @@ class AppFilter {
     return _count;
   }
 
-
   AppFilter({
     this.sort = 4,
     this.priceMin = 0,
@@ -25,6 +24,13 @@ class AppFilter {
     priceMin = json['priceMin'];
     priceMax = json['priceMax'];
     badge = json['badge'];
+  }
+
+  AppFilter.clone(AppFilter filter) {
+    sort = filter.sort;
+    priceMin = filter.priceMin;
+    priceMax = filter.priceMax;
+    badge = filter.badge;
   }
 
   AppFilter.fromCategoryFilter(ProductFilter filter) {
@@ -41,5 +47,18 @@ class AppFilter {
     data['priceMax'] = this.priceMax;
     data['badge'] = this.badge;
     return data;
+  }
+
+  bool compare(AppFilter _other) {
+    if (_other == null) {
+      return false;
+    }
+    if (sort != _other.sort ||
+        badge != _other.badge ||
+        priceMin != _other.priceMin ||
+        priceMax != _other.priceMax) {
+      return false;
+    }
+    return true;
   }
 }
