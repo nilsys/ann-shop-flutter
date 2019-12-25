@@ -17,7 +17,6 @@ class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
   TabController tabController;
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -28,6 +27,7 @@ class _HomeViewState extends State<HomeView>
   @override
   Widget build(BuildContext context) {
     final navigation = Provider.of<NavigationProvider>(context);
+    bool bigScreen = MediaQuery.of(context).size.width >= 320;
     return MultiProvider(
       providers: [],
       child: WillPopScope(
@@ -52,12 +52,20 @@ class _HomeViewState extends State<HomeView>
               children: <Widget>[
                 HomePage(),
                 CategoryPage(),
-                SearchPage(showIcon: true,),
+                SearchPage(
+                  showIcon: true,
+                ),
                 NotificationView(),
                 AccountPage(),
               ],
             ),
             bottomNavigationBar: BottomNavigationBar(
+              showUnselectedLabels: bigScreen,
+              selectedFontSize: 12,
+              unselectedFontSize: 12,
+              type: bigScreen
+                  ? BottomNavigationBarType.fixed
+                  : BottomNavigationBarType.shifting,
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),

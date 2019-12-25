@@ -52,11 +52,45 @@ class ProductRepository {
   List<ProductBadge> productBadge;
   Map<int, Color> _productColors;
 
+  String getBadgeName(badge) {
+    switch (badge) {
+      case 1:
+        return 'Có sẳn';
+        break;
+      case 2:
+        return 'Order';
+        break;
+      case 3:
+        return 'Sale';
+        break;
+      default:
+        return 'Hết hàng';
+        break;
+    }
+  }
+
+  Color getBadgeColor(badge) {
+    switch (badge) {
+      case 1:
+        return Colors.orange;
+        break;
+      case 2:
+        return Colors.purple;
+        break;
+      case 3:
+        return Colors.grey;
+        break;
+      default:
+        return Colors.grey[700];
+        break;
+    }
+  }
+
   Color getColorByID(id) {
     return _productColors[id] ?? Colors.red;
   }
 
-  static String getFilterParams(AppFilter filter) {
+  String getFilterParams(AppFilter filter) {
     var params = '';
     if (filter != null) {
       if (filter.sort > 0) {

@@ -10,6 +10,7 @@ import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
+import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
@@ -17,6 +18,7 @@ import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
 import 'package:ann_shop_flutter/ui/product_ui/option_menu_product.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
+import 'package:ann_shop_flutter/ui/product_ui/policy_product_block.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -28,7 +30,6 @@ import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -81,7 +82,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
     ProductProvider provider = Provider.of(context);
     var data = provider.getBySlug(widget.info.slug);
 
-    List images = data.isCompleted ? data.data.images : Utility.isNullOrEmpty(widget.info.images) ? [widget.info.avatar] : [widget.info.avatar];
+    List images = data.isCompleted
+        ? data.data.images
+        : Utility.isNullOrEmpty(widget.info.images)
+            ? [widget.info.avatar]
+            : [widget.info.avatar];
 
     return Scaffold(
       floatingActionButton: _buildFloatButton(),
@@ -203,13 +208,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   widget.info.name,
                   style: Theme.of(context).textTheme.title,
                 ),
-                _buildMaterials(),
-                Container(
-                  height: 1,
-                  color: Colors.grey,
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                ),
-                _buildOtherInfo(data.data),
                 SizedBox(
                   height: 10,
                 ),
@@ -231,21 +229,13 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                _buildTags(data.data),
               ]),
             ),
           ),
-
-          SliverToBoxAdapter(
-              child: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(defaultPadding),
-            child: Text(
-              'Thông tin sản phẩm',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.title,
-            ),
-          )),
+          PolicyProductBlock(),
+          _buildTitle('Thông tin chi tiết'),
+          _buildDetailInfo(data.data),
+          _buildTitle('Thông tin sản phẩm'),
           _buildContent(data),
 
           /// List image
@@ -275,6 +265,25 @@ class _ProductDetailViewState extends State<ProductDetailView>
     _text += '\n';
     _text += Core.copySetting.getUserInfo();
     Clipboard.setData(new ClipboardData(text: _text));
+  }
+
+  _buildTitle(title) {
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        Container(
+          height: 10,
+          color: AppStyles.dividerColor,
+        ),
+        Container(
+          padding: EdgeInsets.all(defaultPadding),
+          child: Text(
+            title,
+            textAlign: TextAlign.left,
+            style: Theme.of(context).textTheme.title,
+          ),
+        )
+      ]),
+    );
   }
 
   _buildContent(ResponseProvider<ProductDetail> data) {
@@ -365,6 +374,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
               setState(() {
                 isFull = false;
               });
+              controllerScroll.animateTo(0,
+                  duration: Duration(milliseconds: 300), curve: Curves.easeIn);
             },
           ),
         ],
@@ -527,92 +538,185 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  Widget _buildMaterials() {
-    if (Utility.isNullOrEmpty(widget.info.materials)) {
-      return SizedBox(
-        height: 5,
-      );
-    } else {
-      return Padding(
-        child: Text(widget.info.materials),
-        padding: EdgeInsets.only(top: 5),
-      );
+  Widget _buildDetailInfo(ProductDetail detail) {
+    if (detail == null) {
+      return SliverToBoxAdapter();
     }
-  }
 
-  Widget _buildTags(ProductDetail detail) {
-    var tags = detail != null ? detail.tags : null;
-    if (Utility.isNullOrEmpty(tags)) {
-      return Container();
-    } else {
-      List<Widget> children = [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Text('TAG: '),
-        ),
-      ];
-      for (var _tag in tags) {
-        children.add(
-          InkWell(
-            onTap: () {
-              ListProduct.showByTag(context, _tag);
-            },
-            child: Container(
-              padding: EdgeInsets.all(5),
-              child: Text(
-                _tag.name,
-                style: Theme.of(context).textTheme.body2.merge(
-                      TextStyle(color: Colors.blue),
-                    ),
-              ),
+    var styleButton =
+        Theme.of(context).textTheme.button.merge(TextStyle(color: Colors.blue));
+
+    /// 0 Title
+    List<Widget> children = [
+      Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Text('SKU'),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              detail.sku,
             ),
           ),
-        );
-      }
-
-      return Padding(
-        padding: const EdgeInsets.only(top: 5),
-        child: Wrap(
-          children: children,
-        ),
-      );
-    }
-  }
-
-  Widget _buildOtherInfo(ProductDetail detail) {
-    List<TextSpan> children = [
-      TextSpan(text: 'Trạng thái: '),
-      widget.info.availability
-          ? TextSpan(text: 'Có sẵn', style: TextStyle(color: Colors.green))
-          : TextSpan(text: 'Hết hàng', style: TextStyle(color: Colors.red)),
+        ],
+      )
     ];
-    if (detail != null) {
-      children.addAll([
-        TextSpan(text: '\t\t\tDanh mục: '),
-        TextSpan(
-            text: '${detail.categoryName}',
-            style: TextStyle(color: Colors.blue)),
-      ]);
-    }
-    children.addAll([
-      TextSpan(text: '\t\t\tMã: '),
-      TextSpan(
-          text: '${widget.info.sku}', style: TextStyle(color: Colors.grey)),
-    ]);
 
-    return InkWell(
-      onTap: (){
-        controllerScroll.animateTo(controllerScroll.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
-      },
-      child: RichText(
-        text: TextSpan(
-          style: TextStyle(color: Colors.grey),
-          children: children,
+    /// 1 Category
+    children.add(Row(
+      children: <Widget>[
+        Expanded(
+          flex: 2,
+          child: Text('Danh mục'),
         ),
-      ),
-    );
-  }
+        Expanded(
+          flex: 3,
+          child: InkWell(
+            onTap: () {
+              controllerScroll.animateTo(
+                  controllerScroll.position.maxScrollExtent,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeIn);
+            },
+            child: Text('${detail.categoryName}', style: styleButton),
+          ),
+        )
+      ],
+    ));
 
+    /// 2 TAG
+    if (Utility.isNullOrEmpty(detail.tags) == false) {
+      children.add(Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Text('TAG'),
+          ),
+          Expanded(
+            flex: 3,
+            child: Wrap(
+              children: detail.tags
+                  .map((item) => InkWell(
+                        onTap: () {
+                          ListProduct.showByTag(context, item);
+                        },
+                        child: Text(
+                          item.name + ', ',
+                          style: styleButton,
+                        ),
+                      ))
+                  .toList(),
+            ),
+          )
+        ],
+      ));
+    }
+
+    /// 3 Color
+    if (Utility.isNullOrEmpty(detail.colors) == false) {
+      children.add(Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Text('Màu'),
+          ),
+          Expanded(
+            flex: 3,
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/product-image-by-size-and-image',
+                    arguments: {'index': indexImage, 'data': detail});
+              },
+              child: Wrap(
+                children: detail.colors
+                    .map((item) => Text(
+                          item.name + ', ',
+                          style: styleButton,
+                        ))
+                    .toList(),
+              ),
+            ),
+          )
+        ],
+      ));
+    }
+
+    /// 4 Size
+    if (Utility.isNullOrEmpty(detail.sizes) == false) {
+      children.add(Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Text('Size'),
+          ),
+          Expanded(
+            flex: 3,
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/product-image-by-size-and-image',
+                    arguments: {'index': indexImage, 'data': detail});
+              },
+              child: Wrap(
+                children: detail.sizes
+                    .map((item) => Text(
+                          item.name,
+                          style: styleButton,
+                        ))
+                    .toList(),
+              ),
+            ),
+          )
+        ],
+      ));
+    }
+
+    /// 5 Materials
+    if (Utility.isNullOrEmpty(detail.materials) == false) {
+      children.add(Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Text('Chất liệu'),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(detail.materials),
+          ),
+        ],
+      ));
+    }
+
+    /// 5 Status
+    children.add(Row(
+      children: <Widget>[
+        Expanded(
+          flex: 2,
+          child: Text('Trạng thái'),
+        ),
+        Expanded(
+          flex: 3,
+          child: Text(widget.info.availability ? 'Còn hàng' : 'Hết hàng'),
+        ),
+      ],
+    ));
+
+    return SliverList(
+        delegate: SliverChildBuilderDelegate(
+      (_, index) {
+        return Container(
+          decoration: index % 2 != 0
+              ? BoxDecoration()
+              : BoxDecoration(color: Colors.grey[200]),
+          padding:
+              EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 12),
+          child: children[index],
+        );
+      },
+      childCount: children.length,
+    ));
+  }
 
   Widget _buildButtonControl(ProductDetail detail) {
     bool favorite = Provider.of<FavoriteProvider>(context)
@@ -723,7 +827,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             .getSingleFile(Core.domain + detail.images[i])
             .timeout(Duration(seconds: 5));
         imageList.add(file.path);
-        loading.update('Download ${i+1}/${detail.images.length} images');
+        loading.update('Download ${i + 1}/${detail.images.length} images');
       } catch (e) {
         // fail 1
       }

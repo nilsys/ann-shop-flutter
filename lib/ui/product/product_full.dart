@@ -117,6 +117,11 @@ class _ProductFullState extends State<ProductFull> {
                   top: 0,
                   child: BadgeTagProductUI(widget.product.badge),
                 ),
+                Positioned(
+                  width: width,
+                  child: _buildListDot(widget.product.images.length + 1),
+                  bottom: 15,
+                ),
               ],
             ),
             Container(
