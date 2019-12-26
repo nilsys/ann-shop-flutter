@@ -46,7 +46,7 @@ class _HomeListBannerState extends State<HomeListBanner> {
           child: Text(
             item.name,
             style: Theme.of(context).textTheme.title,
-            maxLines: 1,
+            maxLines: 5,
             overflow: TextOverflow.ellipsis,
           ),
         ),

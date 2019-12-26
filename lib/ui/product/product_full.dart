@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -25,8 +27,14 @@ class ProductFull extends StatefulWidget {
 
 class _ProductFullState extends State<ProductFull> {
   int currentPage = 0;
-
   bool isDownload = false;
+  int itemCount = 4;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    itemCount = min(widget.product.images.length + 1, 4);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +72,9 @@ class _ProductFullState extends State<ProductFull> {
                         currentPage = index;
                       });
                     },
-                    itemCount: widget.product.images.length + 1,
+                    itemCount: itemCount,
                     itemBuilder: (context, index) {
-                      if (index == widget.product.images.length) {
+                      if (index == (itemCount - 1)) {
                         return Container(
                           color: Colors.grey,
                           child: Stack(

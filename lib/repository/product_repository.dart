@@ -28,8 +28,8 @@ class ProductRepository {
 
     productBadge = [
       ProductBadge(id: 1, title: 'Hàng có sẳn'),
-      ProductBadge(id: 2, title: 'Hàng order'),
-      ProductBadge(id: 3, title: 'Hàng sale'),
+      ProductBadge(id: 3, title: 'Hàng order'),
+      ProductBadge(id: 4, title: 'Hàng sale'),
     ];
 
     _productColors = {
@@ -57,10 +57,10 @@ class ProductRepository {
       case 1:
         return 'Có sẳn';
         break;
-      case 2:
+      case 3:
         return 'Order';
         break;
-      case 3:
+      case 4:
         return 'Sale';
         break;
       default:
@@ -74,10 +74,10 @@ class ProductRepository {
       case 1:
         return Colors.orange;
         break;
-      case 2:
+      case 3:
         return Colors.purple;
         break;
-      case 3:
+      case 4:
         return Colors.grey;
         break;
       default:
