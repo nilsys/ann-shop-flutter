@@ -79,17 +79,21 @@ class FavoriteView extends StatelessWidget {
           children: <Widget>[
             EmptyListUI(
               image: Icon(Icons.redeem),
-              title: 'Bạn chưa có sản phẩm nào',
+              body: 'Bạn chưa có sản phẩm nào',
             ),
-            SizedBox(
-              height: 5,
-            ),
+            SizedBox(height: 5),
             RaisedButton(
-              child: Text('Thêm ngay', style: TextStyle(color: Colors.white),),
+              child: Text(
+                'Thêm sản phẩm',
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () {
                 Provider.of<NavigationProvider>(context)
                     .switchTo(PageName.category.index);
-                Navigator.popUntil(context, ModalRoute.withName('/'),);
+                Navigator.popUntil(
+                  context,
+                  ModalRoute.withName('/'),
+                );
               },
             )
           ],

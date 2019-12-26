@@ -8,6 +8,7 @@ import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => SeenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => CoverProvider()),
+        ChangeNotifierProvider(create: (_) => InAppProvider()),
         ChangeNotifierProvider(create: (_) => DownloadImageProvider()),
       ],
       child: MaterialApp(

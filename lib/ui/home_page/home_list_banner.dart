@@ -67,7 +67,7 @@ class _HomeListBannerState extends State<HomeListBanner> {
 //          padding: EdgeInsets.only(bottom: 10),
           child: InkWell(
             onTap: (){
-              AppAction.instance.onHandleAction(context, item.type, item.value, item.message);
+              AppAction.instance.onHandleAction(context, item.type, item.value, 'Banner');
             },
             child: AppImage(
               item.image,

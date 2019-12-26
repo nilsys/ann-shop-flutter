@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
+import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
@@ -88,6 +89,27 @@ class CoverRepository {
         List<Cover> _data = new List();
         message.forEach((v) {
           _data.add(new Cover.fromJson(v));
+        });
+        return _data;
+      }
+    } catch (e) {
+      log(e);
+    }
+    return null;
+  }
+
+  /// http://xuongann.com/api/flutter/home/banners
+  Future<List<InApp>> loadInAppNotification() async {
+    try {
+      final url = Core.domain + 'api/flutter/home/banners';
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(response.body);
+        List<InApp> _data = new List();
+        message.forEach((v) {
+          _data.add(new InApp.fromJson(v));
         });
         return _data;
       }

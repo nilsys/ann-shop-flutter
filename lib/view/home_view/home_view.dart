@@ -28,74 +28,71 @@ class _HomeViewState extends State<HomeView>
   Widget build(BuildContext context) {
     final navigation = Provider.of<NavigationProvider>(context);
     bool bigScreen = MediaQuery.of(context).size.width >= 320;
-    return MultiProvider(
-      providers: [],
-      child: WillPopScope(
-        onWillPop: () async {
-          if (navigation.index != 0) {
-            _onItemTapped(0);
-            return Future.value(false);
-          } else {
-            return Future.value(true);
-          }
-        },
-        child: Consumer<NavigationProvider>(
-            builder: (context, navigationProvider, _) {
-          if (navigationProvider.index != 0) {
-            tabController.animateTo(navigationProvider.index);
-          }
+    return WillPopScope(
+      onWillPop: () async {
+        if (navigation.index != 0) {
+          _onItemTapped(0);
+          return Future.value(false);
+        } else {
+          return Future.value(true);
+        }
+      },
+      child: Consumer<NavigationProvider>(
+          builder: (context, navigationProvider, _) {
+        if (navigationProvider.index != 0) {
+          tabController.animateTo(navigationProvider.index);
+        }
 
-          return Scaffold(
-            body: TabBarView(
-              physics: NeverScrollableScrollPhysics(),
-              controller: tabController,
-              children: <Widget>[
-                HomePage(),
-                CategoryPage(),
-                SearchPage(
-                  showIcon: true,
-                ),
-                NotificationView(),
-                AccountPage(),
-              ],
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              showUnselectedLabels: bigScreen,
-              selectedFontSize: 12,
-              unselectedFontSize: 12,
-              type: bigScreen
-                  ? BottomNavigationBarType.fixed
-                  : BottomNavigationBarType.shifting,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  title: Text('Trang chủ'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.view_module),
-                  title: Text('Danh mục'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  title: Text('Tìm kiếm'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications_none),
-                  title: Text('Thông báo'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.account_box),
-                  title: Text('Cá nhân'),
-                ),
-              ],
-              currentIndex: navigation.index,
-              selectedItemColor: Theme.of(context).primaryColor,
-              unselectedItemColor: AppStyles.dartIcon,
-              onTap: _onItemTapped,
-            ),
-          );
-        }),
-      ),
+        return Scaffold(
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: tabController,
+            children: <Widget>[
+              HomePage(),
+              CategoryPage(),
+              SearchPage(
+                showIcon: true,
+              ),
+              NotificationView(),
+              AccountPage(),
+            ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            showUnselectedLabels: bigScreen,
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
+            type: bigScreen
+                ? BottomNavigationBarType.fixed
+                : BottomNavigationBarType.shifting,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                title: Text('Trang chủ'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.view_module),
+                title: Text('Danh mục'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                title: Text('Tìm kiếm'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.notifications_none),
+                title: Text('Thông báo'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_box),
+                title: Text('Cá nhân'),
+              ),
+            ],
+            currentIndex: navigation.index,
+            selectedItemColor: Theme.of(context).primaryColor,
+            unselectedItemColor: AppStyles.dartIcon,
+            onTap: _onItemTapped,
+          ),
+        );
+      }),
     );
   }
 
