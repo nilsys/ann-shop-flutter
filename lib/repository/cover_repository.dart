@@ -55,18 +55,21 @@ class CoverRepository {
   /// http://xuongann.com/api/flutter/home/notification
   Future<List<Cover>> loadHomeNotification() async {
     try {
-      final url = Core.domain + 'api/flutter/home/posts';
-      final response = await http.get(url).timeout(Duration(seconds: 5));
-      log(url);
-      log(response.body);
-      if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(response.body);
+//      final url = Core.domain + 'api/flutter/home/posts';
+//      final response = await http.get(url).timeout(Duration(seconds: 5));
+//      log(url);
+//      log(response.body);
+//    final body = response.body;
+      final body = await rootBundle.loadString('assets/offline/temp.json');
+
+//      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(body);
         List<Cover> _data = new List();
         message.forEach((v) {
           _data.add(new Cover.fromJson(v));
         });
         return _data;
-      }
+//      }
     } catch (e) {
       log(e);
     }

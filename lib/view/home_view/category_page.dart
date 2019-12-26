@@ -6,7 +6,6 @@ import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
-import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -60,13 +59,13 @@ class _CategoryPageState extends State<CategoryPage> {
         ),
       );
     } else {
-      if (Utility.isNullOrEmpty(provider.allCategory)) {
+      if (Utility.isNullOrEmpty(provider.categories.data)) {
         return _buildBox(EmptyListUI(
           image: Icon(Icons.redeem),
           title: 'Không tìm thấy danh mục',
         ));
       } else {
-        var data = provider.allCategory;
+        var data = provider.categories.data;
         print(MediaQuery.of(context).size);
         double width = MediaQuery.of(context).size.width - 30;
         int column = (width / 100).floor();

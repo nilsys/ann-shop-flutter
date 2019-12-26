@@ -19,8 +19,6 @@ class CategoryProvider extends ChangeNotifier {
   ResponseProvider<List<CategoryHome>> dataHome;
   ResponseProvider<List<Category>> categoryHome;
 
-  List<Category> allCategory;
-
   Category getCategory(code) {
     try {
       var item = categories.data.firstWhere((m) {
@@ -58,7 +56,6 @@ class CategoryProvider extends ChangeNotifier {
         data = await CategoryRepository.instance.loadCategoriesOffline();
         categories.completed = data;
       }
-      refreshCategoriesByList();
     } catch (e) {
       log(e);
       categories.error = 'exception: ' + e.toString();
@@ -102,22 +99,6 @@ class CategoryProvider extends ChangeNotifier {
       dataHome.error = 'exception: ' + e.toString();
     }
     notifyListeners();
-  }
-
-  refreshCategoriesByList() {
-    allCategory = new List();
-    if (categories.isCompleted) {
-      for (var item in categories.data) {
-        if (Utility.isNullOrEmpty(item.slug) == false) {
-          allCategory.add(item);
-        }
-        if (Utility.isNullOrEmpty(item.children) == false) {
-          for (var child in item.children) {
-            allCategory.add(child);
-          }
-        }
-      }
-    }
   }
 
   log(object) {

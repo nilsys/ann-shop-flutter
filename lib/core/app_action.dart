@@ -48,7 +48,7 @@ class AppAction {
         linkToPopup(context, value, message);
         break;
       default:
-        print("Type don't exist");
+        print("Type don't exist: $action");
         break;
     }
   }
@@ -88,12 +88,12 @@ class AppAction {
 
   void linkToWebView(BuildContext context, String value, String message) async {
     print('link to web view' + value);
-    Navigator.pushNamed(context, '/web-view');
+    Navigator.pushNamed(context, '/web-view', arguments: value);
   }
 
   void linkToScreen(BuildContext context, String value, String message) {
     print('link to scrren' + value);
-    Navigator.pushNamed(context, '/$value');
+    Navigator.pushNamed(context, '/$value', arguments: message);
   }
 
 }

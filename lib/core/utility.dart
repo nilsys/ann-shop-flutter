@@ -35,4 +35,9 @@ class Utility {
     }
     return null;
   }
+
+  static String fixFormatDate(String oldDay){
+    DateTime dateTime = DateTime.parse(oldDay);
+    return DateFormat('dd/MM/yyyy').format(dateTime);
+  }
 }

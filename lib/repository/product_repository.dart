@@ -103,7 +103,7 @@ class ProductRepository {
         params += '&priceMax=${filter.priceMax}';
       }
       if (filter.badge > 0) {
-        params += '&badge=${filter.badge}';
+        params += '&productBadge=${filter.badge}';
       }
     }
     return params;
