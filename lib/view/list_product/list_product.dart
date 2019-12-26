@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 
 class ListProduct extends StatefulWidget {
   ListProduct(
-      {this.appBar,
+      {this.topObject,
       this.categoryCode,
       this.categoryList,
       this.searchText,
@@ -30,7 +30,7 @@ class ListProduct extends StatefulWidget {
   final categoryList;
   final initData;
 
-  final SliverPersistentHeaderDelegate appBar;
+  final Widget topObject;
 
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
@@ -79,8 +79,6 @@ class _BuildAllViewState extends State<ListProduct> {
   @override
   Widget build(BuildContext context) {
     ConfigProvider config = Provider.of(context);
-    SliverPersistentHeaderDelegate appbar = widget.appBar ??
-        CommonSliverPersistentHeaderDelegate(ConfigProductUI(), 60);
     listSourceRepository.setFilter(config.filter);
 
     return RefreshIndicator(
@@ -92,8 +90,9 @@ class _BuildAllViewState extends State<ListProduct> {
             SliverPersistentHeader(
               pinned: false,
               floating: true,
-              delegate: appbar,
+              delegate: CommonSliverPersistentHeaderDelegate(ConfigProductUI(), 60),
             ),
+            widget.topObject ?? SliverToBoxAdapter(),
             SliverPadding(
                 padding: (config.view == ViewType.grid)
                     ? EdgeInsets.symmetric(horizontal: defaultPadding)

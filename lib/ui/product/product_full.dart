@@ -128,7 +128,7 @@ class _ProductFullState extends State<ProductFull> {
                 ),
                 Positioned(
                   width: width,
-                  child: _buildListDot(widget.product.images.length + 1),
+                  child: _buildListDot(),
                   bottom: 15,
                 ),
               ],
@@ -262,8 +262,8 @@ class _ProductFullState extends State<ProductFull> {
     );
   }
 
-  _buildListDot(length) {
-    List listIndex = List.generate(length, (index) => index);
+  _buildListDot() {
+    List listIndex = List.generate(itemCount, (index) => index);
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: listIndex
