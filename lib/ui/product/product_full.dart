@@ -28,7 +28,7 @@ class ProductFull extends StatefulWidget {
 class _ProductFullState extends State<ProductFull> {
   int currentPage = 0;
   bool isDownload = false;
-  int itemCount = 4;
+  int itemCount = 9;
 
   @override
   void initState() {
@@ -269,12 +269,13 @@ class _ProductFullState extends State<ProductFull> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: listIndex
             .map(
-              (index) => Padding(
-                padding: EdgeInsets.all(3),
-                child: Icon(
-                  Icons.fiber_manual_record,
-                  size: 16,
+              (index) => Container(
+                margin: EdgeInsets.all(2),
+                width: index == currentPage ? 16 : 8,
+                height: 8,
+                decoration: BoxDecoration(
                   color: index == currentPage ? Colors.white : Colors.grey,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
               ),
             )
@@ -329,7 +330,7 @@ class _ProductFullState extends State<ProductFull> {
       for (int i = 0; i < images.length; i++) {
         try {
           var file = await DefaultCacheManager()
-              .getSingleFile(Core.domain + widget.product.getCover)
+              .getSingleFile(Core.domain + images[i])
               .timeout(Duration(seconds: 5));
           files.add(file.path);
           loading.update('Download ${i + 1}/${images.length} images');

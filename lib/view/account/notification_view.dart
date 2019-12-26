@@ -3,8 +3,8 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
+import 'package:ann_shop_flutter/repository/cover_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
@@ -83,7 +83,7 @@ class _NotificationViewState extends State<NotificationView> {
 
   Widget _buildNotification(BuildContext context, InApp item) {
     print(item.toJson().toString());
-    bool isNew = item.status > 0;
+    bool isNew = Provider.of<InAppProvider>(context).checkOpen(item.id);
     return InkWell(
       onTap: () {
         if (item.type.trim().toLowerCase() == ActionType.openPopup) {
@@ -113,9 +113,13 @@ class _NotificationViewState extends State<NotificationView> {
                       width: 35,
                       height: 35,
                       margin: EdgeInsets.only(right: 10),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          child: AppImage(item.image)),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: CoverRepository.instance
+                            .getColorInApp(item.category),
+                      ),
+                      child: Icon(
+                          CoverRepository.instance.getIconInApp(item.category)),
                     ),
                     Expanded(
                       child: Column(
@@ -141,8 +145,7 @@ class _NotificationViewState extends State<NotificationView> {
                 padding:
                     EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 10),
                 child: Text(
-                  item.message +
-                      'Make sure your apps are up to date and ready for the holidays. New apps and app updates will not be accepted December 23–27 (Pacific Time), so any releases should be scheduled, submitted, and approved in advance. Other App Store Connect features will remain available.',
+                  item.message,
                   textAlign: TextAlign.start,
                   softWrap: true,
                   style: Theme.of(context).textTheme.body1,

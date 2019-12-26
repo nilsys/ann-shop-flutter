@@ -10,6 +10,7 @@ class InAppProvider extends ChangeNotifier {
   InAppProvider() {
     inApp = ResponseProvider();
     loadCoverInApp();
+    opens = [];
   }
 
   ResponseProvider<List<InApp>> inApp;
@@ -31,20 +32,21 @@ class InAppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<int> opens;
+  final _keyOpen = 'key_open_notificatio_in_app';
+  loadOpen(){
+
+  }
+  saveOpen(){
+
+  }
+  bool checkOpen(int notificationID){
+    return opens.contains(notificationID);
+  }
   openNotification(int notificationID) {
     try {
-      var item = inApp.data.firstWhere((item) => item.id == notificationID);
-      if (item != null && item.status == 0) {
-        var _body = {
-          "inbox_id": notificationID.toString(),
-        };
-        final url = 'http://xuongann.com/api/flutter/inbox/update-status';
-        http.post(url, body: jsonEncode(_body)).then((response) {
-          print(url);
-          print(response.statusCode);
-          print(response.body);
-        });
-        item.status = 1;
+      if (opens.contains(notificationID) == false) {
+        opens.add(notificationID);
         notifyListeners();
       }
     } catch (e) {

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 0,
+    "type": "category",
+    "value": "bao-li-xi-tet",
+    "name": "Bao lì xì tết",
+    "message": "Make sure your apps are up to date and ready for the holidays. New apps and app updates will not be accepted December 23–27 (Pacific Time), so any releases should be scheduled, submitted, and approved in advance. Other App Store Connect features will remain available.",
+    "createdDate": "0001-01-01T00:00:00",
+    "category": "new"
+  },
+  {
+    "id": 1,
+    "type": "category",
+    "value": "nuoc-hoa",
+    "name": "Nước hoa giảm giá mạnh",
+    "message": "Make sure your apps are up to date and ready for the holidays. New apps and app updates will not be accepted December 23–27 (Pacific Time), so any releases should be scheduled, submitted, and approved in advance. Other App Store Connect features will remain available.",
+    "createdDate": "0001-01-01T00:00:00",
+    "category": "promotion"
+  }
+]
