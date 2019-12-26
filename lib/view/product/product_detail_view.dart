@@ -810,11 +810,16 @@ class _ProductDetailViewState extends State<ProductDetailView>
           size: 70,
           color: Theme.of(context).primaryColor,
         ),
-        title: 'Lưu hình ảnh vào Gallery?',
+        title: 'Lưu tất cả hình ảnh của sản phẩm về máy?',
         btnHighlight: ButtonData(
             title: 'Lưu',
             callback: () {
-              Provider.of<DownloadImageProvider>(context).downloadImages(detail.images);
+              bool result = Provider.of<DownloadImageProvider>(context)
+                  .downloadImages(detail.images);
+              if (result == false) {
+                AppSnackBar.showFlushbar(
+                    context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
+              }
             }),
         btnNormal: ButtonData(title: 'Không', callback: null));
   }
@@ -922,48 +927,52 @@ class _ProductDetailViewState extends State<ProductDetailView>
     final imageWidth = 150.0;
     final imageHeight = 200.0;
     SeenProvider provider = Provider.of(context);
-    return SliverToBoxAdapter(
-      child: Container(
-        decoration: BoxDecoration(
-          border: new Border(
-            top: BorderSide(
-              color: AppStyles.dividerColor,
-              width: 10,
-              style: BorderStyle.solid,
+    if (provider.products != null && provider.products.length >= 2) {
+      return SliverToBoxAdapter(
+        child: Container(
+          decoration: BoxDecoration(
+            border: new Border(
+              top: BorderSide(
+                color: AppStyles.dividerColor,
+                width: 10,
+                style: BorderStyle.solid,
+              ),
             ),
           ),
-        ),
-        child: Column(
-          children: <Widget>[
-            TitleViewMore(
-              title: 'Sản phẩm đã xem',
-              onPressed: () {
-                Navigator.pushNamed(context, '/seen');
-              },
-            ),
-            Container(
-              height: imageHeight + 140,
-              padding: EdgeInsets.only(left: 0, right: 0),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: provider.products.length,
-                itemBuilder: (context, index) {
-                  if (provider.products[index].productID ==
-                      widget.info.productID) {
-                    return Container();
-                  }
-                  return ProductItem(
-                    provider.products[index],
-                    width: imageWidth,
-                    imageHeight: imageHeight,
-                  );
+          child: Column(
+            children: <Widget>[
+              TitleViewMore(
+                title: 'Sản phẩm đã xem',
+                onPressed: () {
+                  Navigator.pushNamed(context, '/seen');
                 },
               ),
-            )
-          ],
+              Container(
+                height: imageHeight + 140,
+                padding: EdgeInsets.only(left: 0, right: 0),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: provider.products.length,
+                  itemBuilder: (context, index) {
+                    if (provider.products[index].productID ==
+                        widget.info.productID) {
+                      return Container();
+                    }
+                    return ProductItem(
+                      provider.products[index],
+                      width: imageWidth,
+                      imageHeight: imageHeight,
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return SliverToBoxAdapter();
+    }
   }
 
   Widget _buildByCatalog(ProductDetail detail) {

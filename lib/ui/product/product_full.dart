@@ -29,6 +29,7 @@ class _ProductFullState extends State<ProductFull> {
   int currentPage = 0;
   bool isDownload = false;
   int itemCount = 4;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -305,7 +306,12 @@ class _ProductFullState extends State<ProductFull> {
         AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
             duration: Duration(seconds: 1));
       } else {
-        Provider.of<DownloadImageProvider>(context).downloadImages(images);
+        bool result =
+            Provider.of<DownloadImageProvider>(context).downloadImages(images);
+        if (result == false) {
+          AppSnackBar.showFlushbar(
+              context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
+        }
       }
     } catch (e) {
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',

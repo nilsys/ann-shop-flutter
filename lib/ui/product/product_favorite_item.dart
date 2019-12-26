@@ -84,7 +84,7 @@ class ProductFavoriteItem extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            'Giá lẻ: ' +
+                            '  Giá lẻ: ' +
                                 Utility.formatPrice(data.product.retailPrice),
                             style: Theme.of(context).textTheme.body2,
                             maxLines: 1,
