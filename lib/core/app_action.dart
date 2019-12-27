@@ -41,9 +41,6 @@ class AppAction {
       case ActionType.linkToWebPage:
         linkToWebPage(context, value, message);
         break;
-      case ActionType.linkToWebView:
-        linkToWebView(context, value, message);
-        break;
       case ActionType.openPopup:
         linkToPopup(context, value, message);
         break;
@@ -86,11 +83,6 @@ class AppAction {
         title: value, btnNormal: ButtonData(title: 'Close'));
   }
 
-  void linkToWebView(BuildContext context, String value, String message) async {
-    print('link to web view' + value);
-    Navigator.pushNamed(context, '/web-view', arguments: value);
-  }
-
   void linkToScreen(BuildContext context, String value, String message) {
     print('link to scrren' + value);
     Navigator.pushNamed(context, '/$value', arguments: message);
@@ -104,7 +96,6 @@ class ActionType {
   static const String linkToTag = "tag";
   static const String linkToSearch = "search";
   static const String linkToWebPage = "webpage";
-  static const String linkToWebView = "webview";
   static const String openPopup = "openpopup";
   static const String linkToScreen = "screen";
 }

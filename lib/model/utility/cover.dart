@@ -1,26 +1,29 @@
 class Cover {
-  String name;
+  String title;
+  String body;
   String image;
-  String type;
-  String value;
+  String action;
+  String actionValue;
   String createdDate;
 
-  Cover({this.image, this.type, this.value, this.name});
+  Cover({this.image, this.action, this.actionValue, this.title});
 
   Cover.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+    title = json['title'];
+    body = json['body'];
     image = json['image'];
-    type = json['type'];
-    value = json['value'];
+    action = json['action'];
+    actionValue = json['actionValue'];
     createdDate = json['createdDate'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
+    data['name'] = this.title;
+    data['body'] = this.body;
     data['image'] = this.image;
-    data['type'] = this.type;
-    data['value'] = this.value;
+    data['action'] = this.action;
+    data['actionValue'] = this.actionValue;
     data['createdDate'] = this.createdDate;
     return data;
   }

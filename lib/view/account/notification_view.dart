@@ -1,7 +1,7 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
-import 'package:ann_shop_flutter/repository/cover_repository.dart';
+import 'package:ann_shop_flutter/repository/inapp_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/inapp_item.dart';
@@ -17,6 +17,7 @@ class NotificationView extends StatefulWidget {
 
 class _NotificationViewState extends State<NotificationView> {
   _refreshData() {
+    currentCategory = 'all';
     Provider.of<InAppProvider>(context).loadCoverInApp();
   }
 
@@ -170,7 +171,7 @@ class _NotificationViewState extends State<NotificationView> {
               });
             },
             icon: Icon(
-              CoverRepository.instance.getIconInApp(name),
+              InAppRepository.instance.getIconInApp(name),
               color: AppStyles.dartIcon,
             ),
           ),

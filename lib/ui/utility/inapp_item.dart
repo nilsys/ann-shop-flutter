@@ -3,10 +3,9 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
-import 'package:ann_shop_flutter/repository/cover_repository.dart';
+import 'package:ann_shop_flutter/repository/inapp_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
-import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,20 +19,20 @@ class InAppItem extends StatelessWidget {
     bool isNew = Provider.of<InAppProvider>(context).checkOpen(item.id);
     return InkWell(
       onTap: () {
-        if (item.type.trim().toLowerCase() == ActionType.openPopup) {
+        if (item.action.trim().toLowerCase() == ActionType.openPopup) {
           AppPopup.showCustomDialog(context,
-              title: item.name,
-              message: item.message,
+              title: item.title,
+              message: item.body,
               btnNormal: ButtonData(title: 'Đóng'));
         } else {
-          AppAction.instance
-              .onHandleAction(context, item.type, item.value, item.name);
+          AppAction.instance.onHandleAction(
+              context, item.action, item.actionValue, item.title);
         }
         if (isNew)
           Provider.of<InAppProvider>(context).openNotification(item.id);
       },
       child: Container(
-        color: isNew ? Colors.blue[50] : Colors.white,
+        color: isNew ? Colors.lightBlue[50] : Colors.white,
         child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,10 +49,10 @@ class InAppItem extends StatelessWidget {
                       margin: EdgeInsets.only(right: 10),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: CoverRepository.instance
+                          color: InAppRepository.instance
                               .getColorInApp(item.category)),
                       child: Icon(
-                        CoverRepository.instance.getIconInApp(item.category),
+                        InAppRepository.instance.getIconInApp(item.category),
                         color: Colors.white,
                       ),
                     ),
@@ -62,14 +61,22 @@ class InAppItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              item.name,
+                              item.title,
                               textAlign: TextAlign.start,
                               maxLines: 10,
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
                             ),
                             Row(
                               children: <Widget>[
-                                Icon(Icons.date_range, size: 14,color: Theme.of(context).primaryColor,), SizedBox(width: 5,),
+                                Icon(
+                                  Icons.date_range,
+                                  size: 14,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
                                 Text(
                                   Utility.fixFormatDate(item.createdDate),
                                   textAlign: TextAlign.start,
@@ -85,8 +92,8 @@ class InAppItem extends StatelessWidget {
               Padding(
                 padding:
                     EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 10),
-                child: HtmlContent(
-                  item.message,
+                child: Text(
+                  item.body,
                   textAlign: TextAlign.start,
                 ),
               ),

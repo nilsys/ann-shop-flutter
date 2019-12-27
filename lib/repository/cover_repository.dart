@@ -17,48 +17,9 @@ class CoverRepository {
     /// init
   }
 
-  IconData getIconInApp(String category) {
-    switch (category) {
-      case 'all':
-        return Icons.home;
-        break;
-      case 'promotion':
-        return Icons.style;
-        break;
-      case 'message':
-        return Icons.message;
-        break;
-      case 'news':
-        return Icons.restore;
-        break;
-      default:
-        return Icons.ac_unit;
-        break;
-    }
-  }
-
-  Color getColorInApp(String category) {
-    switch (category) {
-      case 'all':
-        return Colors.white;
-        break;
-      case 'promotion':
-        return Colors.orange;
-        break;
-      case 'message':
-        return Colors.blue;
-        break;
-      case 'news':
-        return Colors.redAccent;
-        break;
-      default:
-        return Colors.grey;
-        break;
-    }
-  }
-
   /// http://xuongann.com/api/flutter/home/banners
   Future<List<Cover>> loadCoverHome() async {
+    return null;
     try {
       final url = Core.domain + 'api/flutter/home/banners';
       final response = await http.get(url).timeout(Duration(seconds: 5));
@@ -80,7 +41,7 @@ class CoverRepository {
 
   Future<List<Cover>> loadCoverHomeOffline() async {
     try {
-      final url = 'assets/offline/banner_home.json';
+      final url = 'assets/offline/home_banner.json';
       final response = await rootBundle.loadString(url);
       var message = jsonDecode(response);
       List<Cover> _data = new List();
@@ -103,7 +64,7 @@ class CoverRepository {
 //      log(response.body);
 //    final body = response.body;
       final body =
-          await rootBundle.loadString('assets/offline/notification_home.json');
+          await rootBundle.loadString('assets/offline/home_notification.json');
 
 //      if (response.statusCode == HttpStatus.ok) {
       var message = jsonDecode(body);
@@ -122,43 +83,20 @@ class CoverRepository {
   /// http://xuongann.com/api/flutter/home/posts
   Future<List<Cover>> loadHomePost() async {
     try {
-      final url = Core.domain + 'api/flutter/home/posts';
-      final response = await http.get(url).timeout(Duration(seconds: 5));
-      log(url);
-      log(response.body);
-      if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(response.body);
+//      final url = Core.domain + 'api/flutter/home/posts';
+//      final response = await http.get(url).timeout(Duration(seconds: 5));
+//      log(url);
+//      log(response.body);
+      //    final body = response.body;
+      final body =
+      await rootBundle.loadString('assets/offline/home_post.json');
+//      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(body);
         List<Cover> _data = new List();
         message.forEach((v) {
           _data.add(new Cover.fromJson(v));
         });
         return _data;
-      }
-    } catch (e) {
-      log(e);
-    }
-    return null;
-  }
-
-  /// http://xuongann.com/api/flutter/home/banners
-  Future<List<InApp>> loadInAppNotification() async {
-    try {
-//      final url = Core.domain + 'api/flutter/home/banners';
-//      final response = await http.get(url).timeout(Duration(seconds: 5));
-//      log(url);
-//      log(response.body);
-
-//    final body = response.body;
-      await Future.delayed(Duration(seconds: 2));
-      final body = await rootBundle.loadString('assets/offline/inapp.json');
-
-//      if (response.statusCode == HttpStatus.ok) {
-      var message = jsonDecode(body);
-      List<InApp> _data = new List();
-      message.forEach((v) {
-        _data.add(new InApp.fromJson(v));
-      });
-      return _data;
 //      }
     } catch (e) {
       log(e);

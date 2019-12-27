@@ -84,11 +84,11 @@ class _HomePageState extends State<HomePage> {
                         data: Provider.of<CoverProvider>(context)
                             .notificationHome
                             .data),
-                    HomeListBanner(
-                        data:
-                            Provider.of<CoverProvider>(context).postsHome.data),
                     SeenBlock(),
                     HomeProductSlide(),
+                    HomeListBanner(
+                        data:
+                        Provider.of<CoverProvider>(context).postsHome.data),
                     SliverToBoxAdapter(
                       child: Container(
                         color: Colors.white,

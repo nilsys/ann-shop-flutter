@@ -4,14 +4,14 @@ import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
-import 'package:ann_shop_flutter/repository/cover_repository.dart';
+import 'package:ann_shop_flutter/repository/inapp_repository.dart';
 import 'package:flutter/material.dart';
 
 class InAppProvider extends ChangeNotifier {
   InAppProvider() {
     inApp = ResponseProvider();
     loadCoverInApp();
-    opens = [];
+    loadOpen();
   }
 
   ResponseProvider<List<InApp>> inApp;
@@ -29,7 +29,7 @@ class InAppProvider extends ChangeNotifier {
     try {
       inApp.loading = 'try load';
       notifyListeners();
-      List<InApp> data = await CoverRepository.instance.loadInAppNotification();
+      List<InApp> data = await InAppRepository.instance.loadInAppNotification();
       if (data != null) {
         inApp.completed = data;
         mapInApp = new Map();
@@ -60,17 +60,16 @@ class InAppProvider extends ChangeNotifier {
     } else {
       try {
         var message = json.decode(response);
-        opens = message.cast<String>();
+        opens = message.cast<int>();
       } catch (e) {
         opens = new List();
       }
     }
   }
 
-  saveOpen() {
-    var myJsonString =
-    json.encode(opens);
-    StorageManager.setObject(_keyOpen, myJsonString);
+  saveOpen() async {
+    var myJsonString = json.encode(opens);
+    await StorageManager.setObject(_keyOpen, myJsonString);
   }
 
   bool checkOpen(int notificationID) {
