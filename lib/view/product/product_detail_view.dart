@@ -14,6 +14,7 @@ import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
+import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
 import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
 import 'package:ann_shop_flutter/ui/product_ui/option_menu_product.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
@@ -243,7 +244,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
           /// List image
           _buildListImageOrLoadMore(data.data),
           _buildRelated(),
-          _buildSeen(),
+          SeenBlock(
+            exceptID: widget.info.productID,
+          ),
           _buildByCatalog(data.data),
         ],
       ),
@@ -891,7 +894,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             Container(
               padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
               child: Text(
-                'Sản phẩm liên quan',
+                'Thuộc tính',
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.title,
                 maxLines: 1,
@@ -918,58 +921,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
           ],
         ),
       ));
-    } else {
-      return SliverToBoxAdapter();
-    }
-  }
-
-  Widget _buildSeen() {
-    final imageWidth = 150.0;
-    final imageHeight = 200.0;
-    SeenProvider provider = Provider.of(context);
-    if (provider.products != null && provider.products.length >= 2) {
-      return SliverToBoxAdapter(
-        child: Container(
-          decoration: BoxDecoration(
-            border: new Border(
-              top: BorderSide(
-                color: AppStyles.dividerColor,
-                width: 10,
-                style: BorderStyle.solid,
-              ),
-            ),
-          ),
-          child: Column(
-            children: <Widget>[
-              TitleViewMore(
-                title: 'Sản phẩm đã xem',
-                onPressed: () {
-                  Navigator.pushNamed(context, '/seen');
-                },
-              ),
-              Container(
-                height: imageHeight + 140,
-                padding: EdgeInsets.only(left: 0, right: 0),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: provider.products.length,
-                  itemBuilder: (context, index) {
-                    if (provider.products[index].productID ==
-                        widget.info.productID) {
-                      return Container();
-                    }
-                    return ProductItem(
-                      provider.products[index],
-                      width: imageWidth,
-                      imageHeight: imageHeight,
-                    );
-                  },
-                ),
-              )
-            ],
-          ),
-        ),
-      );
     } else {
       return SliverToBoxAdapter();
     }

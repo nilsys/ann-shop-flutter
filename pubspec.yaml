@@ -42,7 +42,7 @@ flutter:
   assets:
     # Image
     - assets/images/
-    #- assets/images/locale/
+    - assets/images/ui/
 
     # Locale
     #- assets/locale/en/main.json

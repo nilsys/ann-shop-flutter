@@ -1,12 +1,10 @@
-import 'package:ann_shop_flutter/core/app_action.dart';
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/repository/cover_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
+import 'package:ann_shop_flutter/ui/utility/inapp_item.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:flutter/material.dart';
@@ -56,22 +54,47 @@ class _NotificationViewState extends State<NotificationView> {
 
   Widget _buildPageData(BuildContext context) {
     InAppProvider provider = Provider.of(context);
-    final List<InApp> data = provider.inApp.data;
+    final List<InApp> allData = provider.inApp.data;
 
-    if (Utility.isNullOrEmpty(data) == false) {
-      return RefreshIndicator(
-        onRefresh: () async {
-          _refreshData();
-        },
-        child: CustomScrollView(physics: ClampingScrollPhysics(), slivers: [
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-            (context, i) {
-              return _buildNotification(context, data[i]);
-            },
-            childCount: data.length,
-          )),
-        ]),
+    if (Utility.isNullOrEmpty(allData) == false) {
+      final List<InApp> data = provider.getByCategory(currentCategory);
+
+      return Container(
+        child: Row(
+          children: <Widget>[
+            Container(
+              width: 50,
+              decoration: BoxDecoration(
+                border: Border(
+                    right: BorderSide(width: 1, color: AppStyles.dividerColor)),
+              ),
+              child: _buildCategories(),
+            ),
+            Expanded(
+              flex: 1,
+              child: Utility.isNullOrEmpty(data)
+                  ? Container()
+                  : RefreshIndicator(
+                      onRefresh: () async {
+                        _refreshData();
+                      },
+                      child: CustomScrollView(
+                        physics: ClampingScrollPhysics(),
+                        slivers: [
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, i) {
+                                return InAppItem(data[i]);
+                              },
+                              childCount: data.length,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+            )
+          ],
+        ),
       );
     } else {
       return EmptyListUI(
@@ -81,88 +104,78 @@ class _NotificationViewState extends State<NotificationView> {
     }
   }
 
-  Widget _buildNotification(BuildContext context, InApp item) {
-    print(item.toJson().toString());
-    bool isNew = Provider.of<InAppProvider>(context).checkOpen(item.id);
-    return InkWell(
-      onTap: () {
-        if (item.type.trim().toLowerCase() == ActionType.openPopup) {
-          AppPopup.showCustomDialog(context,
-              title: item.name,
-              message: item.message,
-              btnNormal: ButtonData(title: 'Đóng'));
-        } else {
-          AppAction.instance
-              .onHandleAction(context, item.type, item.value, item.name);
-        }
-        if (isNew) _readNotification(item.id);
-      },
-      child: Container(
-        color: isNew ? Colors.blue[50] : Colors.white,
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: defaultPadding, vertical: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      width: 35,
-                      height: 35,
-                      margin: EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: CoverRepository.instance
-                            .getColorInApp(item.category),
-                      ),
-                      child: Icon(
-                          CoverRepository.instance.getIconInApp(item.category)),
-                    ),
-                    Expanded(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.name,
-                              textAlign: TextAlign.start,
-                              maxLines: 10,
-                              style: Theme.of(context).textTheme.title,
-                            ),
-                            Text(
-                              Utility.fixFormatDate(item.createdDate),
-                              textAlign: TextAlign.start,
-                              style: Theme.of(context).textTheme.subtitle,
-                            ),
-                          ]),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 10),
-                child: Text(
-                  item.message,
-                  textAlign: TextAlign.start,
-                  softWrap: true,
-                  style: Theme.of(context).textTheme.body1,
-                ),
-              ),
-              Container(
-                height: 1,
-                color: AppStyles.dividerColor,
-              ),
-            ],
-          ),
-        ),
-      ),
+  String currentCategory = 'all';
+
+  Widget _buildCategories() {
+    return Column(
+      children: <Widget>[
+        _buildCategoryItem('all'),
+        _buildCategoryItem('promotion'),
+        _buildCategoryItem('news'),
+        _buildCategoryItem('message'),
+        _buildCategoryItem('other'),
+      ],
     );
   }
 
-  _readNotification(int notificationID) {
-    Provider.of<InAppProvider>(context).openNotification(notificationID);
+  Widget _buildCategoryItem(String name) {
+    InAppProvider provider = Provider.of<InAppProvider>(context);
+    final List<InApp> data = provider.getByCategory(name);
+    if (Utility.isNullOrEmpty(data) && name != 'all') {
+      return Container();
+    }
+
+    bool hasNew = false;
+    for (var item in data) {
+      if (provider.checkOpen(item.id)) {
+        hasNew = true;
+        break;
+      }
+    }
+
+    bool isChoose = name == currentCategory;
+    Color chooseColor = Colors.white;
+    Color unChooseColor = Colors.grey[300];
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(
+        color: isChoose ? chooseColor : unChooseColor,
+        border: Border(
+            left: isChoose
+                ? BorderSide(width: 3, color: Theme.of(context).primaryColor)
+                : BorderSide(width: 1, color: unChooseColor),
+            bottom: BorderSide(width: 1, color: Colors.grey[600])),
+      ),
+      child: Stack(
+        children: <Widget>[
+          hasNew
+              ? Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Container(
+                    width: 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                        )),
+                  ),
+                )
+              : Container(),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                currentCategory = name;
+              });
+            },
+            icon: Icon(
+              CoverRepository.instance.getIconInApp(name),
+              color: AppStyles.dartIcon,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

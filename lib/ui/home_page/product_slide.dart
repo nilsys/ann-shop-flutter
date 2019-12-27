@@ -8,8 +8,10 @@ import 'package:ann_shop_flutter/provider/product/category_product_provider.dart
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
+import 'package:ann_shop_flutter/ui/utility/bottom_view_more.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
+import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,17 +56,7 @@ class _ProductSlideState extends State<ProductSlide> {
             height: 10,
             color: AppStyles.dividerColor,
           ),
-          Container(
-            height: 60,
-            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              widget.customName ?? widget.group.name,
-              style: Theme.of(context).textTheme.title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+          TitleViewMore(title: widget.customName ?? widget.group.name),
           Column(
             children: <Widget>[
               _buildBanner(),
@@ -84,33 +76,9 @@ class _ProductSlideState extends State<ProductSlide> {
                   }
                 },
               ),
-              Container(
-                height: 45,
-                decoration: BoxDecoration(
-                    border: Border(
-                        top: BorderSide(
-                            color: AppStyles.dividerColor, width: 1))),
-                child: MaterialButton(
-                  onPressed: () {
-                    ListProduct.showByCategory(context, currentCategory);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'XEM THÊM',
-                        style: Theme.of(context).textTheme.button.merge(
-                              TextStyle(color: Theme.of(context).primaryColor),
-                            ),
-                      ),
-                      Icon(
-                        Icons.navigate_next,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ],
-                  ),
-                ),
-              )
+              BottomViewMore(onPressed: () {
+                ListProduct.showByCategory(context, currentCategory);
+              },),
             ],
           )
         ],

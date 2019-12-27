@@ -7,6 +7,8 @@ import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_product_slide.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_list_banner.dart';
+import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
+import 'package:ann_shop_flutter/ui/utility/ann-icon.dart';
 import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +30,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Stack(
         children: <Widget>[
@@ -51,7 +52,19 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: Colors.orange,
                       title: Padding(
                           padding: EdgeInsets.only(left: defaultPadding),
-                          child: SearchTitle('Bạn tìm gì hôm nay?')),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 80,
+                                padding: EdgeInsets.only(right: 15),
+                                child: AnnIcon(),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: SearchTitle('Bạn tìm gì hôm nay?'),
+                              )
+                            ],
+                          )),
                       titleSpacing: 0,
                       actions: <Widget>[
                         FavoriteButton(
@@ -73,7 +86,8 @@ class _HomePageState extends State<HomePage> {
                             .data),
                     HomeListBanner(
                         data:
-                        Provider.of<CoverProvider>(context).postsHome.data),
+                            Provider.of<CoverProvider>(context).postsHome.data),
+                    SeenBlock(),
                     HomeProductSlide(),
                     SliverToBoxAdapter(
                       child: Container(

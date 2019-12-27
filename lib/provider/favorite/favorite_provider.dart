@@ -19,7 +19,7 @@ class FavoriteProvider with ChangeNotifier {
     try {
       /// shopping
       String response = await StorageManager.getObjectByKey(_keyLocaleFavorite);
-      if (response == null || response.isEmpty) {
+      if (Utility.isNullOrEmpty(response)) {
         products = new List();
       } else {
         var message = json.decode(response);

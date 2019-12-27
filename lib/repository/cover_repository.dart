@@ -19,13 +19,16 @@ class CoverRepository {
 
   IconData getIconInApp(String category) {
     switch (category) {
+      case 'all':
+        return Icons.home;
+        break;
       case 'promotion':
         return Icons.style;
         break;
       case 'message':
         return Icons.message;
         break;
-      case 'remind':
+      case 'news':
         return Icons.restore;
         break;
       default:
@@ -36,13 +39,16 @@ class CoverRepository {
 
   Color getColorInApp(String category) {
     switch (category) {
+      case 'all':
+        return Colors.white;
+        break;
       case 'promotion':
         return Colors.orange;
         break;
       case 'message':
         return Colors.blue;
         break;
-      case 'remind':
+      case 'news':
         return Colors.redAccent;
         break;
       default:
@@ -143,6 +149,7 @@ class CoverRepository {
 //      log(response.body);
 
 //    final body = response.body;
+      await Future.delayed(Duration(seconds: 2));
       final body = await rootBundle.loadString('assets/offline/inapp.json');
 
 //      if (response.statusCode == HttpStatus.ok) {

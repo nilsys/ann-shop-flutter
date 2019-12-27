@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class InApp {
   int id;
   String category;
@@ -11,7 +9,7 @@ class InApp {
 
   InApp.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    category = json['status'] ?? 'other';
+    category = json['category'] ?? 'other';
     name = json['name'] ?? '';
     type = json['type'];
     value = json['value'];

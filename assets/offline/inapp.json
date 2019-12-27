@@ -4,16 +4,25 @@
     "type": "category",
     "value": "bao-li-xi-tet",
     "name": "Bao lì xì tết",
-    "message": "Make sure your apps are up to date and ready for the holidays. New apps and app updates will not be accepted December 23–27 (Pacific Time), so any releases should be scheduled, submitted, and approved in advance. Other App Store Connect features will remain available.",
+    "message": "⭐ Tranh thủ quảng cáo tí, bao lì xì tết bán đắt quá trời luôn khách ơi. Xem ngay tại đây!",
     "createdDate": "0001-01-01T00:00:00",
-    "category": "new"
+    "category": "news"
   },
   {
     "id": 1,
     "type": "category",
     "value": "nuoc-hoa",
-    "name": "Nước hoa giảm giá mạnh",
+    "name": "Nước hoa",
     "message": "Make sure your apps are up to date and ready for the holidays. New apps and app updates will not be accepted December 23–27 (Pacific Time), so any releases should be scheduled, submitted, and approved in advance. Other App Store Connect features will remain available.",
+    "createdDate": "0001-01-01T00:00:00",
+    "category": "message"
+  },
+  {
+    "id": 2,
+    "type": "category",
+    "value": "nuoc-hoa",
+    "name": "Duy nhất 1/1/2020 giảm giá 50% cho đơn hàng trên 10 triêu đồng, Tối đa lên đến 8 triệu. Chỉ 300 suất, số lượng có hạn",
+    "message": "\uD83D\uDE3B Nói thẳng luôn, chỉ có ANN mới dám làm điều này!<br>\uD83E\uDD1D ANN đã chấp nhận \"chơi lớn\" với khách hàng rồi thì mọi người vui lòng \"chơi đẹp\" giúp bên em nha! Hàng gì bán chậm hoặc bị lỗi thì tranh thủ đổi càng sớm càng tốt, chứ đừng \"ngâm\" quá hạn là bên em không nhận được đâu á! <br>\uD83C\uDFF5️\uD83C\uDF3B\uD83C\uDF3A Chúc mọi người một mùa Tết bán hàng đắt \"mệt xỉu\", và năm mới \"tiền tài danh vọng\" điều có đủ hết nha!",
     "createdDate": "0001-01-01T00:00:00",
     "category": "promotion"
   }
