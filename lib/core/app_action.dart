@@ -91,11 +91,11 @@ class AppAction {
 }
 
 class ActionType {
-  static const String linkToProduct = "product";
-  static const String linkToCategory = "category";
-  static const String linkToTag = "tag";
-  static const String linkToSearch = "search";
-  static const String linkToWebPage = "webpage";
-  static const String openPopup = "openpopup";
-  static const String linkToScreen = "screen";
+  static const String linkToProduct = "product_detail";
+  static const String linkToCategory = "product_by_category";
+  static const String linkToTag = "product_by_tag";
+  static const String linkToSearch = "product_by_search";
+  static const String linkToWebPage = "show_on_web";
+  static const String openPopup = "open_popup";
+  static const String linkToScreen = "go_to_screen";
 }

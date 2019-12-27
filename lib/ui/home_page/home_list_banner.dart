@@ -32,7 +32,7 @@ class _HomeListBannerState extends State<HomeListBanner> {
 
   Widget _buildColumn(Cover item) {
     String _body =
-        item.body.length <= 150 ? item.body : item.body.substring(0, 149);
+        item.message.length <= 150 ? item.message : item.message.substring(0, 149);
     return Column(
       children: <Widget>[
         Container(
@@ -42,7 +42,7 @@ class _HomeListBannerState extends State<HomeListBanner> {
         InkWell(
           onTap: (){
             AppAction.instance
-                .onHandleAction(context, item.action, item.actionValue, item.title);
+                .onHandleAction(context, item.action, item.actionValue, item.name);
           },
           child: Container(
             color: Colors.white,
@@ -68,7 +68,7 @@ class _HomeListBannerState extends State<HomeListBanner> {
                         Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            item.title,
+                            item.name,
                             style: Theme.of(context).textTheme.title,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,

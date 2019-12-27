@@ -173,7 +173,7 @@ class _ProductSlideState extends State<ProductSlide> {
         child: InkWell(
           onTap: () {
             AppAction.instance
-                .onHandleAction(context, item.action, item.actionValue, item.title);
+                .onHandleAction(context, item.action, item.actionValue, item.name);
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),

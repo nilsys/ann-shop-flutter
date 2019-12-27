@@ -30,77 +30,88 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            height: 400.0,
-            decoration: BoxDecoration(
-              color: Colors.orange,
-            ),
-          ),
-          RefreshIndicator(
-            onRefresh: _refreshHomepage,
-            child: SafeArea(
-              child: Container(
-                child: CustomScrollView(
-                  controller: scrollController,
-                  physics: BouncingScrollPhysics(),
-                  slivers: <Widget>[
-                    SliverAppBar(
-                      pinned: true,
-                      backgroundColor: Colors.orange,
-                      title: Padding(
-                          padding: EdgeInsets.only(left: defaultPadding),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: 80,
-                                padding: EdgeInsets.only(right: 15),
-                                child: AnnIcon(),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: SearchTitle('Bạn tìm gì hôm nay?'),
-                              )
-                            ],
-                          )),
-                      titleSpacing: 0,
-                      actions: <Widget>[
-                        FavoriteButton(
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                    SliverList(
-                      delegate: SliverChildListDelegate([
-                        // banner
-                        HomeBanner(),
-                        // category
-                        HomeCategory(),
-                      ]),
-                    ),
-                    HomeListBanner(
-                        data: Provider.of<CoverProvider>(context)
-                            .notificationHome
-                            .data),
-                    SeenBlock(),
-                    HomeProductSlide(),
-                    HomeListBanner(
-                        data:
-                        Provider.of<CoverProvider>(context).postsHome.data),
-                    SliverToBoxAdapter(
-                      child: Container(
-                        color: Colors.white,
-                        height: 30,
-                      ),
-                    )
-                  ],
-                ),
+    return WillPopScope(
+      onWillPop: () async {
+        if (scrollController.position.pixels != 0) {
+          scrollController.animateTo(0,
+              duration: Duration(milliseconds: 250),
+              curve: ElasticOutCurve(0.25));
+          return false;
+        }
+        return true;
+      },
+      child: Container(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: 400.0,
+              decoration: BoxDecoration(
+                color: Colors.orange,
               ),
             ),
-          )
-        ],
+            RefreshIndicator(
+              onRefresh: _refreshHomepage,
+              child: SafeArea(
+                child: Container(
+                  child: CustomScrollView(
+                    controller: scrollController,
+                    physics: BouncingScrollPhysics(),
+                    slivers: <Widget>[
+                      SliverAppBar(
+                        pinned: true,
+                        backgroundColor: Colors.orange,
+                        title: Padding(
+                            padding: EdgeInsets.only(left: defaultPadding),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: 80,
+                                  padding: EdgeInsets.only(right: 15),
+                                  child: AnnIcon(),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: SearchTitle('Bạn tìm gì hôm nay?'),
+                                )
+                              ],
+                            )),
+                        titleSpacing: 0,
+                        actions: <Widget>[
+                          FavoriteButton(
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                      SliverList(
+                        delegate: SliverChildListDelegate([
+                          // banner
+                          HomeBanner(),
+                          // category
+                          HomeCategory(),
+                        ]),
+                      ),
+                      HomeListBanner(
+                          data: Provider.of<CoverProvider>(context)
+                              .postsHome
+                              .data),
+                      SeenBlock(),
+                      HomeProductSlide(),
+                      HomeListBanner(
+                          data:
+                              Provider.of<CoverProvider>(context).notificationHome.data),
+                      SliverToBoxAdapter(
+                        child: Container(
+                          color: Colors.white,
+                          height: 30,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

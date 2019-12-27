@@ -19,7 +19,6 @@ class CoverRepository {
 
   /// http://xuongann.com/api/flutter/home/banners
   Future<List<Cover>> loadCoverHome() async {
-    return null;
     try {
       final url = Core.domain + 'api/flutter/home/banners';
       final response = await http.get(url).timeout(Duration(seconds: 5));
@@ -58,22 +57,19 @@ class CoverRepository {
   /// http://xuongann.com/api/flutter/home/notification
   Future<List<Cover>> loadHomeNotification() async {
     try {
-//      final url = Core.domain + 'api/flutter/home/posts';
-//      final response = await http.get(url).timeout(Duration(seconds: 5));
-//      log(url);
-//      log(response.body);
-//    final body = response.body;
-      final body =
-          await rootBundle.loadString('assets/offline/home_notification.json');
-
-//      if (response.statusCode == HttpStatus.ok) {
-      var message = jsonDecode(body);
-      List<Cover> _data = new List();
-      message.forEach((v) {
-        _data.add(new Cover.fromJson(v));
-      });
-      return _data;
-//      }
+      final url = Core.domain + 'api/flutter/home/notifications';
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      final body = response.body;
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(body);
+        List<Cover> _data = new List();
+        message.forEach((v) {
+          _data.add(new Cover.fromJson(v));
+        });
+        return _data;
+      }
     } catch (e) {
       log(e);
     }
@@ -83,21 +79,19 @@ class CoverRepository {
   /// http://xuongann.com/api/flutter/home/posts
   Future<List<Cover>> loadHomePost() async {
     try {
-//      final url = Core.domain + 'api/flutter/home/posts';
-//      final response = await http.get(url).timeout(Duration(seconds: 5));
-//      log(url);
-//      log(response.body);
-      //    final body = response.body;
-      final body =
-      await rootBundle.loadString('assets/offline/home_post.json');
-//      if (response.statusCode == HttpStatus.ok) {
+      final url = Core.domain + 'api/flutter/home/posts';
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      final body = response.body;
+      if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(body);
         List<Cover> _data = new List();
         message.forEach((v) {
           _data.add(new Cover.fromJson(v));
         });
         return _data;
-//      }
+      }
     } catch (e) {
       log(e);
     }

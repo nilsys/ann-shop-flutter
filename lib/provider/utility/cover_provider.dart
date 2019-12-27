@@ -69,7 +69,6 @@ class CoverProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   log(object) {
     print('cover_provider: ' + object.toString());
   }

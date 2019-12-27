@@ -21,7 +21,7 @@ class InAppRepository {
       case 'promotion':
         return Icons.style;
         break;
-      case 'message':
+      case 'notification':
         return Icons.message;
         break;
       case 'news':
@@ -41,7 +41,7 @@ class InAppRepository {
       case 'promotion':
         return Colors.orange;
         break;
-      case 'message':
+      case 'notification':
         return Colors.blue;
         break;
       case 'news':

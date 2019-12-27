@@ -130,7 +130,7 @@ class _HomeBannerState extends State<HomeBanner>
     return InkWell(
       onTap: () {
         AppAction.instance
-            .onHandleAction(context, item.action, item.actionValue, item.title);
+            .onHandleAction(context, item.action, item.actionValue, item.name);
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(5),

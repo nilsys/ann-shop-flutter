@@ -1,18 +1,20 @@
 [
   {
     "action": "category",
+    "category": null,
+    "name": "Bao lì xì tết",
     "actionValue": "bao-li-xi-tet",
-    "title": "Bao lì xì tết",
-    "body": "",
     "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
-    "createdDate": "0001-01-01T00:00:00"
+    "message": null,
+    "createdDate": null
   },
   {
     "action": "category",
+    "category": null,
+    "name": "Nước hoa",
     "actionValue": "nuoc-hoa",
-    "title": "Nước hoa",
-    "body": "",
     "image": "https://khohangsiann.com/wp-content/uploads/si-nuoc-hoa-gia-re-1.png",
-    "createdDate": "0001-01-01T00:00:00"
+    "message": null,
+    "createdDate": null
   }
 ]
