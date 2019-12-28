@@ -1,8 +1,10 @@
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
-import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
+import 'package:ann_shop_flutter/model/product/product_filter.dart';
+import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppAction {
@@ -41,8 +43,8 @@ class AppAction {
       case ActionType.linkToWebPage:
         linkToWebPage(context, value, message);
         break;
-      case ActionType.openPopup:
-        linkToPopup(context, value, message);
+      case ActionType.linkToViewMore:
+        linkToViewMore(context, value, message);
         break;
       default:
         print("Type don't exist: $action");
@@ -59,14 +61,15 @@ class AppAction {
   void linkToCategory(
       BuildContext context, String value, String message) async {
     print('link to product by category: $value');
-    ListProduct.showByCategory(context, Category(name: message, slug: value));
+    ListProduct.showByCategory(context,
+        Category(name: message, filter: ProductFilter(categorySlug: value)));
   }
-
 
   void linkToTag(BuildContext context, String value, String message) {
     print('link to tag' + value);
     ListProduct.showByTag(context, ProductTag(name: message, slug: value));
   }
+
   void linkToSearch(BuildContext context, String value, String message) {
     print('link to search' + value);
     ListProduct.showBySearch(context, {'title': value});
@@ -77,25 +80,48 @@ class AppAction {
     launch(value);
   }
 
-  void linkToPopup(BuildContext context, String value, String message) {
-    print('link to popup');
-    AppPopup.showCustomDialog(context,
-        title: value, btnNormal: ButtonData(title: 'Close'));
-  }
-
   void linkToScreen(BuildContext context, String value, String message) {
     print('link to scrren' + value);
-    Navigator.pushNamed(context, '/$value', arguments: message);
+    int index = -1;
+    switch (value) {
+      case 'home':
+        index = PageName.home.index;
+        break;
+      case 'category':
+        index = PageName.category.index;
+        break;
+      case 'search':
+        index = PageName.search.index;
+        break;
+      case 'inapp':
+        index = PageName.notification.index;
+        break;
+      case 'account':
+        index = PageName.account.index;
+        break;
+      default:
+        Navigator.pushNamed(context, '/$value', arguments: message);
+        return;
+        break;
+    }
+    if (index >= 0) {
+      Provider.of<NavigationProvider>(context).switchTo(index);
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+    }
   }
 
+  void linkToViewMore(BuildContext context, String value, String message) {
+    print('link to view more' + value);
+    Navigator.pushNamed(context, '/view_more', arguments: value);
+  }
 }
 
 class ActionType {
-  static const String linkToProduct = "product_detail";
-  static const String linkToCategory = "product_by_category";
-  static const String linkToTag = "product_by_tag";
-  static const String linkToSearch = "product_by_search";
-  static const String linkToWebPage = "show_on_web";
-  static const String openPopup = "open_popup";
+  static const String linkToProduct = "product";
+  static const String linkToCategory = "category";
+  static const String linkToTag = "product_tag";
+  static const String linkToSearch = "product_search";
+  static const String linkToWebPage = "show_web";
   static const String linkToScreen = "go_to_screen";
+  static const String linkToViewMore = "view_more";
 }

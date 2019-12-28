@@ -25,7 +25,7 @@ class ProductTitle extends StatelessWidget {
       padding: EdgeInsets.all(defaultPadding),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/product-detail', arguments: product);
+          Navigator.pushNamed(context, '/product-detail', arguments: product.slug);
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

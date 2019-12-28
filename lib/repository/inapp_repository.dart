@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class InAppRepository {
@@ -12,6 +14,8 @@ class InAppRepository {
   InAppRepository._internal() {
     /// init
   }
+
+  List<String> categories = ['promotion', 'notification', 'news'];
 
   IconData getIconInApp(String category) {
     switch (category) {
@@ -54,25 +58,48 @@ class InAppRepository {
   }
 
   /// http://xuongann.com/api/flutter/home/banners
-  Future<List<InApp>> loadInAppNotification() async {
+  Future<List<InApp>> loadInAppNotification(String kind,
+      {page = 1, pageSize = 20}) async {
     try {
-//      final url = Core.domain + 'api/flutter/home/banners';
-//      final response = await http.get(url).timeout(Duration(seconds: 5));
-//      log(url);
-//      log(response.body);
+      var url = Core.domain;
+      if (Utility.isNullOrEmpty(kind)) {
+        url += 'api/flutter/notifications?pageNumber=$page&pageSize=$pageSize';
+      } else {
+        url +=
+            'api/flutter/notifications?kind=$kind&pageNumber=$page&pageSize=$pageSize';
+      }
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      final body = response.body;
 
-//    final body = response.body;
-      await Future.delayed(Duration(seconds: 2));
-      final body = await rootBundle.loadString('assets/offline/inapp.json');
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(body);
+        List<InApp> _data = new List();
+        message.forEach((v) {
+          _data.add(new InApp.fromJson(v));
+        });
+        return _data;
+      }
+    } catch (e) {
+      log(e);
+    }
+    return null;
+  }
 
-//      if (response.statusCode == HttpStatus.ok) {
-      var message = jsonDecode(body);
-      List<InApp> _data = new List();
-      message.forEach((v) {
-        _data.add(new InApp.fromJson(v));
-      });
-      return _data;
-//      }
+  Future<Map> loadContentViewMore(String slug) async {
+    try {
+      final url = Core.domain + 'api/flutter/notification/$slug';
+      final response = await http
+          .get(url)
+          .timeout(Duration(seconds: 5))
+          .timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      final body = response.body;
+      if (response.statusCode == HttpStatus.ok) {
+        return jsonDecode(body);
+      }
     } catch (e) {
       log(e);
     }

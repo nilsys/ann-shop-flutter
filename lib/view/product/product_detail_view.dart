@@ -1,10 +1,10 @@
 import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
@@ -17,7 +17,6 @@ import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
 import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
 import 'package:ann_shop_flutter/ui/product_ui/option_menu_product.dart';
-import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
 import 'package:ann_shop_flutter/ui/product_ui/policy_product_block.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
@@ -29,7 +28,6 @@ import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
-import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,9 +36,9 @@ import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
 class ProductDetailView extends StatefulWidget {
-  ProductDetailView({@required this.info});
+  ProductDetailView({@required this.slug});
 
-  final Product info;
+  final String slug;
 
   @override
   _ProductDetailViewState createState() => _ProductDetailViewState();
@@ -74,25 +72,30 @@ class _ProductDetailViewState extends State<ProductDetailView>
       }
     });
     WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      Provider.of<SeenProvider>(context).addNewProduct(widget.info);
+      Provider.of<SeenProvider>(context).addNewProduct(detail);
     });
   }
 
+  ProductDetail detail;
+
   @override
   Widget build(BuildContext context) {
-    ProductProvider provider = Provider.of(context);
-    var data = provider.getBySlug(widget.info.slug);
-
-    List images = data.isCompleted
-        ? data.data.images
-        : Utility.isNullOrEmpty(widget.info.images)
-            ? [widget.info.avatar]
-            : [widget.info.avatar];
+    ProductProvider provider = Provider.of<ProductProvider>(context);
+    ResponseProvider<ProductDetail> data = provider.getBySlug(widget.slug);
+    detail = data.data;
 
     return Scaffold(
-      floatingActionButton: _buildFloatButton(),
-      bottomNavigationBar: _buildButtonControl(data.data),
-      body: CustomScrollView(
+        floatingActionButton: _buildFloatButton(),
+        bottomNavigationBar: _buildButtonControl(),
+        body: _buildBody());
+  }
+
+  Widget _buildBody() {
+    ProductProvider provider = Provider.of<ProductProvider>(context);
+    ResponseProvider<ProductDetail> data = provider.getBySlug(widget.slug);
+
+    if (data.isCompleted) {
+      return CustomScrollView(
         controller: controllerScroll,
         slivers: <Widget>[
           /// app bar
@@ -118,11 +121,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
               ),
               OptionMenuProduct(
                 onCopy: () {
-                  _onCheckAndCopy(data.data);
+                  _onCheckAndCopy();
                 },
                 onDownload: () {
                   if (data.isCompleted) {
-                    _onAksBeforeDownload(data.data);
+                    _onAksBeforeDownload();
                   } else {
                     AppSnackBar.showFlushbar(
                         context, 'Đang tải dữ liệu. Thử lại sau');
@@ -130,7 +133,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 },
                 onShare: () {
                   if (data.isCompleted) {
-                    _onShare(data.data);
+                    _onShare();
                   } else {
                     AppSnackBar.showFlushbar(
                         context, 'Đang tải dữ liệu. Thử lại sau');
@@ -147,15 +150,13 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 height: MediaQuery.of(context).size.height / 2,
                 child: InkWell(
                   onTap: () {
-                    if (data.isCompleted) {
-                      Navigator.pushNamed(context, '/product-fancy-image',
-                          arguments: {'index': indexImage, 'data': data.data});
-                    }
+                    Navigator.pushNamed(context, '/product-fancy-image',
+                        arguments: {'index': indexImage, 'data': data.data});
                   },
                   child: Stack(
                     children: <Widget>[
                       PageView.builder(
-                        itemCount: images.length,
+                        itemCount: detail.images.length,
                         controller: controllerPage,
                         onPageChanged: (index) {
                           setState(() {
@@ -166,11 +167,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
                           return Container(
                             alignment: Alignment.center,
                             child: Hero(
-                              tag: images[0] +
+                              tag: detail.images[0] +
                                   index.toString() +
-                                  widget.info.sku,
+                                  detail.sku,
                               child: AppImage(
-                                Core.domain + images[index],
+                                Core.domain + detail.images[index],
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -178,7 +179,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                         },
                       ),
                       ButtonDownload(
-                        imageName: images[indexImage],
+                        imageName: detail.images[indexImage],
                       ),
                     ],
                   ),
@@ -187,33 +188,31 @@ class _ProductDetailViewState extends State<ProductDetailView>
               SizedBox(
                 height: 10,
               ),
-              _buildImageSelect(images),
+              _buildImageSelect(detail.images),
             ]),
           ),
-          data.isCompleted
-              ? SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate([
-                      _buildProductColorSize(data.data),
-                    ]),
-                  ),
-                )
-              : SliverToBoxAdapter(),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                _buildProductColorSize(),
+              ]),
+            ),
+          ),
           SliverPadding(
             padding:
                 EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 15),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 Text(
-                  widget.info.name,
+                  detail.name,
                   style: Theme.of(context).textTheme.title,
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
-                  'Giá sỉ: ' + Utility.formatPrice(widget.info.regularPrice),
+                  'Giá sỉ: ' + Utility.formatPrice(detail.regularPrice),
                   style: Theme.of(context)
                       .textTheme
                       .title
@@ -225,7 +224,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   height: 5,
                 ),
                 Text(
-                  'Giá lẻ: ' + Utility.formatPrice(widget.info.retailPrice),
+                  'Giá lẻ: ' + Utility.formatPrice(detail.retailPrice),
                   style: Theme.of(context).textTheme.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -234,39 +233,49 @@ class _ProductDetailViewState extends State<ProductDetailView>
             ),
           ),
           PolicyProductBlock(),
-          data.isCompleted
-              ? _buildTitle('Thông tin chi tiết')
-              : SliverToBoxAdapter(),
-          _buildDetailInfo(data.data),
+          _buildTitle('Thông tin chi tiết'),
+          _buildDetailInfo(),
           _buildTitle('Thông tin sản phẩm'),
-          _buildContent(data),
+          _buildContent(),
 
           /// List image
-          _buildListImageOrLoadMore(data.data),
+          _buildListImageOrLoadMore(),
           _buildRelated(),
           SeenBlock(
-            exceptID: widget.info.productID,
+            exceptID: detail.productID,
           ),
-          _buildByCatalog(data.data),
+          _buildByCatalog(),
         ],
-      ),
-    );
+      );
+    } else if (data.isLoading) {
+      return Container(
+        child: Indicator(),
+      );
+    } else {
+      return Container(
+        child: SomethingWentWrong(
+          onReload: () {
+            provider.loadProduct(widget.slug);
+          },
+        ),
+      );
+    }
   }
 
-  _onCheckAndCopy(detail) {
+  _onCheckAndCopy() {
     print(Core.copySetting.showed);
-    if (Core.copySetting.showed) {
-      _onCopy(detail);
+    if (detail == null) {
+      AppSnackBar.showFlushbar(context, 'Đang tải dữ liệu. Thử lại sau');
+    } else if (Core.copySetting.showed) {
+      _onCopy();
       AppSnackBar.showFlushbar(context, 'Copy', duration: Duration(seconds: 1));
     } else {
       Navigator.pushNamed(context, '/setting');
     }
   }
 
-  _onCopy(detail) {
-    var _text = detail == null
-        ? widget.info.getTextCopy(hasContent: true)
-        : detail.getTextCopy(hasContent: true);
+  _onCopy() {
+    var _text = detail.getTextCopy(hasContent: true);
     _text += '\n';
     _text += Core.copySetting.getUserInfo();
     Clipboard.setData(new ClipboardData(text: _text));
@@ -291,39 +300,18 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  _buildContent(ResponseProvider<ProductDetail> data) {
-    if (data.isCompleted) {
-      return SliverPadding(
-        padding: EdgeInsets.symmetric(horizontal: 15),
-        sliver: SliverList(
-          delegate: SliverChildListDelegate([
-            HtmlContent(data.data.getContent()),
-          ]),
-        ),
-      );
-    } else if (data.isLoading) {
-      return SliverToBoxAdapter(
-        child: Container(
-          height: 200,
-          child: Indicator(),
-        ),
-      );
-    } else {
-      return SliverToBoxAdapter(
-        child: Container(
-          height: 200,
-          child: SomethingWentWrong(
-            onReload: () {
-              Provider.of<ProductProvider>(context)
-                  .loadProduct(widget.info.slug);
-            },
-          ),
-        ),
-      );
-    }
+  _buildContent() {
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      sliver: SliverList(
+        delegate: SliverChildListDelegate([
+          HtmlContent(detail.getContent()),
+        ]),
+      ),
+    );
   }
 
-  _buildListImageOrLoadMore(ProductDetail detail) {
+  _buildListImageOrLoadMore() {
     if (detail != null) {
       List<String> images = [];
       if (Utility.isNullOrEmpty(detail.contentImages) == false) {
@@ -545,11 +533,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  Widget _buildDetailInfo(ProductDetail detail) {
-    if (detail == null) {
-      return SliverToBoxAdapter();
-    }
-
+  Widget _buildDetailInfo() {
     var styleButton =
         Theme.of(context).textTheme.button.merge(TextStyle(color: Colors.blue));
 
@@ -668,7 +652,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               child: Wrap(
                 children: detail.sizes
                     .map((item) => Text(
-                          item.name,
+                          item.name + ', ',
                           style: styleButton,
                         ))
                     .toList(),
@@ -704,7 +688,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
         ),
         Expanded(
           flex: 3,
-          child: Text(widget.info.availability ? 'Còn hàng' : 'Hết hàng'),
+          child: Text(ProductRepository.instance.getBadgeName(detail.badge)),
         ),
       ],
     ));
@@ -725,9 +709,13 @@ class _ProductDetailViewState extends State<ProductDetailView>
     ));
   }
 
-  Widget _buildButtonControl(ProductDetail detail) {
+  Widget _buildButtonControl() {
+    if (detail == null) {
+      return null;
+    }
+
     bool favorite = Provider.of<FavoriteProvider>(context)
-        .containsInFavorite(widget.info.productID);
+        .containsInFavorite(detail.productID);
     Color iconColor = Theme.of(context).primaryColor;
     return BottomAppBar(
       color: Colors.white,
@@ -748,7 +736,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                           icon: Icon(Icons.favorite),
                           onPressed: () {
                             Provider.of<FavoriteProvider>(context)
-                                .removeProduct(widget.info.productID);
+                                .removeProduct(detail.productID);
                           },
                         )
                       : IconButton(
@@ -756,7 +744,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                           icon: Icon(Icons.favorite_border),
                           onPressed: () {
                             Provider.of<FavoriteProvider>(context)
-                                .addNewProduct(context, widget.info, count: 1);
+                                .addNewProduct(context, detail, count: 1);
                           },
                         ),
                   IconButton(
@@ -766,7 +754,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     ),
                     onPressed: () {
                       if (detail != null) {
-                        _onAksBeforeDownload(detail);
+                        _onAksBeforeDownload();
                       } else {
                         AppSnackBar.showFlushbar(
                             context, 'Đang tải dữ liệu. Thử lại sau');
@@ -780,7 +768,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     ),
                     onPressed: () {
                       if (detail != null) {
-                        _onShare(detail);
+                        _onShare();
                       } else {
                         AppSnackBar.showFlushbar(
                             context, 'Đang tải dữ liệu. Thử lại sau');
@@ -793,7 +781,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                       color: iconColor,
                     ),
                     onPressed: () {
-                      _onCheckAndCopy(detail);
+                      _onCheckAndCopy();
                     },
                   ),
                 ],
@@ -806,7 +794,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  _onAksBeforeDownload(ProductDetail detail) {
+  _onAksBeforeDownload() {
     AppPopup.showImageDialog(context,
         image: Icon(
           Icons.cloud_download,
@@ -827,7 +815,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
         btnNormal: ButtonData(title: 'Không', callback: null));
   }
 
-  _onShare(ProductDetail detail) async {
+  _onShare() async {
     ProgressDialog loading = ProgressDialog(context,
         message: 'Download ${detail.images.length} images')
       ..show();
@@ -845,11 +833,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
 
     loading.hide(contextHide: context);
-    _onCopy(detail);
+    _onCopy();
     ShareExtend.shareMultiple(imageList, "image");
   }
 
-  Widget _buildProductColorSize(ProductDetail detail) {
+  Widget _buildProductColorSize() {
     if (Utility.isNullOrEmpty(detail.colors) &&
         Utility.isNullOrEmpty(detail.sizes)) {
       return Container();
@@ -874,7 +862,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
 
   Widget _buildRelated() {
     List<ProductRelated> related = Provider.of<ProductProvider>(context)
-        .getRelatedBySlug(widget.info.slug)
+        .getRelatedBySlug(detail.slug)
         .data;
     if (Utility.isNullOrEmpty(related) == false) {
       return SliverToBoxAdapter(
@@ -926,12 +914,13 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  Widget _buildByCatalog(ProductDetail detail) {
+  Widget _buildByCatalog() {
     if (detail != null && Utility.isNullOrEmpty(detail.categorySlug) == false) {
       var category = Provider.of<CategoryProvider>(context)
           .getCategory(detail.categorySlug);
       if (category == null) {
-        category = Category(slug: detail.categorySlug);
+        category =
+            Category(filter: ProductFilter(categorySlug: detail.categorySlug));
       }
       return SliverToBoxAdapter(
           child: ProductSlide(

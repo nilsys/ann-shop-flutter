@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/view/account/add_information.dart';
 import 'package:ann_shop_flutter/view/account/login_view.dart';
-import 'package:ann_shop_flutter/view/account/notification_view.dart';
+import 'package:ann_shop_flutter/view/inapp/notification_view.dart';
 import 'package:ann_shop_flutter/view/account/order_management_view.dart';
 import 'package:ann_shop_flutter/view/account/setting_view.dart';
 import 'package:ann_shop_flutter/view/account/shop_contact.dart';
@@ -19,6 +19,7 @@ import 'package:ann_shop_flutter/view/product/product_image_fancy_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';
 import 'package:ann_shop_flutter/view/utility/file_view.dart';
+import 'package:ann_shop_flutter/view/utility/view_more_page.dart';
 import 'package:ann_shop_flutter/view/utility/web_view.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +34,10 @@ class Router {
         var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => WebViewRouter(data), settings: settings);
+      case '/view_more':
+        var data = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => ViewMorePage(data), settings: settings);
       case '/file-view':
         Map data = settings.arguments;
         return MaterialPageRoute(
@@ -41,7 +46,7 @@ class Router {
       case '/product-detail':
         var data = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => ProductDetailView(info: data), settings: settings);
+            builder: (_) => ProductDetailView(slug: data), settings: settings);
       case '/product-fancy-image':
         var data = settings.arguments;
         return MaterialPageRoute(

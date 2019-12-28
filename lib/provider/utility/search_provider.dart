@@ -49,6 +49,7 @@ class SearchProvider with ChangeNotifier {
   }
 
   setText({String text = ''}) {
+    text = text.trim();
     controller = new TextEditingController(text: text);
     if (text.isNotEmpty) {
       if (_history.contains(text) == false) {

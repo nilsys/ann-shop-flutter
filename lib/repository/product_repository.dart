@@ -145,7 +145,7 @@ class ProductRepository {
         return loadByTag(category.filter.tagSlug, filter: filter);
       }
     }
-    return loadByCategory(category.slug, pageSize: 10, cache: cache);
+    return null;
   }
 
   /// http://xuongann.com/api/flutter/products?categorySlugList[0]=ao-thun-nu&categorySlugList[1]=so-mi-nu

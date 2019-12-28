@@ -54,5 +54,3 @@ class DownloadImageProvider extends ChangeNotifier {
     _saveImage(_index + 1);
   }
 }
-
-enum PageName { home, category, search, account }

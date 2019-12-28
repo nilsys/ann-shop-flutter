@@ -10,7 +10,7 @@ class CategoryProductProvider extends ChangeNotifier {
     // instructor
   }
 
-  Map<String, ResponseProvider<List<Product>>> categories = new Map();
+  Map<dynamic, ResponseProvider<List<Product>>> categories = new Map();
 
   forceRefresh(){
     categories = new Map();
@@ -18,7 +18,7 @@ class CategoryProductProvider extends ChangeNotifier {
   }
 
   ResponseProvider<List<Product>> getByCategory(Category category){
-    String code = category.slug + category.name;
+    String code = category.filter.toJson().toString();
     if(categories[code] == null){
       categories[code] = ResponseProvider<List<Product>>();
       loadCategory(category);
@@ -27,7 +27,7 @@ class CategoryProductProvider extends ChangeNotifier {
   }
 
   loadCategory(Category category, {refresh = false}) async {
-    String code = category.slug + category.name;
+    String code = category.filter.toJson().toString();
     try {
       categories[code].loading = 'Loading';
       if(refresh)notifyListeners();

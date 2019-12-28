@@ -5,33 +5,49 @@ class Category {
   int id;
   String icon;
   String name;
-  String slug;
   String description;
   List<Category> children;
   ProductFilter filter;
 
   bool get vailable {
-    if (Utility.isNullOrEmpty(slug) == false) {
-      return true;
-    }
     if (filter != null) {
       if (Utility.isNullOrEmpty(filter.categorySlug) == false ||
           Utility.isNullOrEmpty(filter.categorySlugList) == false ||
           Utility.isNullOrEmpty(filter.tagSlug) == false ||
-          Utility.isNullOrEmpty(filter.productSearch) == false){
+          Utility.isNullOrEmpty(filter.productSearch) == false) {
         return true;
       }
     }
     return false;
   }
 
-  Category({this.icon, this.name, this.slug, this.description, this.children});
+  dynamic get getID {
+    if(filter == null){
+      return null;
+    }else{
+      if(Utility.isNullOrEmpty(filter.categorySlug)){
+        return filter.categorySlug;
+      }
+      if(Utility.isNullOrEmpty(filter.categorySlugList)){
+        return filter.categorySlugList;
+      }
+      if(Utility.isNullOrEmpty(filter.tagSlug)){
+        return filter.tagSlug;
+      }
+      if(Utility.isNullOrEmpty(filter.productSearch)){
+        return filter.productSearch;
+      }
+    }
+    return null;
+  }
+
+  Category(
+      {this.icon, this.name, this.description, this.children, this.filter});
 
   Category.fromJson(Map<String, dynamic> json) {
     icon = json['icon'] ?? 'assets/images/categories/sale-product.png';
     name = json['name'];
     id = json['id'];
-    slug = json['slug'];
     description = json['description'];
     filter = ProductFilter.fromJson(json['filter']);
     if (json['children'] != null) {
@@ -46,7 +62,6 @@ class Category {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['icon'] = this.icon;
     data['name'] = this.name;
-    data['slug'] = this.slug;
     data['description'] = this.description;
     data['children'] = this.children;
     data['filter'] = this.filter.toJson();

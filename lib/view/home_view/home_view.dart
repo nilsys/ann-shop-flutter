@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/view/account/notification_view.dart';
+import 'package:ann_shop_flutter/view/inapp/notification_view.dart';
 import 'package:ann_shop_flutter/view/home_view/account_page.dart';
 import 'package:ann_shop_flutter/view/home_view/category_page.dart';
 import 'package:ann_shop_flutter/view/home_view/home_page.dart';

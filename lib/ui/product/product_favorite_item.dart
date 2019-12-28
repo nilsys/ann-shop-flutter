@@ -20,7 +20,7 @@ class ProductFavoriteItem extends StatelessWidget {
         child: InkWell(
           onTap: () {
             Navigator.pushNamed(context, '/product-detail',
-                arguments: data.product);
+                arguments: data.product.slug);
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,13 +69,14 @@ class ProductFavoriteItem extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 5,),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Wrap(
                         children: <Widget>[
                           Text(
                             'Giá sỉ: ' +
-                                Utility.formatPrice(
-                                    data.product.regularPrice),
+                                Utility.formatPrice(data.product.regularPrice),
                             style: Theme.of(context)
                                 .textTheme
                                 .body2

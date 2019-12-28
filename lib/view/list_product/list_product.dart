@@ -10,7 +10,7 @@ import 'package:ann_shop_flutter/ui/product_ui/config_product_ui.dart';
 import 'package:ann_shop_flutter/ui/product/product_block.dart';
 import 'package:ann_shop_flutter/ui/product/product_full.dart';
 import 'package:ann_shop_flutter/ui/product/product_title.dart';
-import 'package:ann_shop_flutter/view/list_product/custom_load_more_indicator.dart';
+import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:provider/provider.dart';
@@ -66,8 +66,6 @@ class _BuildAllViewState extends State<ListProduct> {
         tagName: widget.tagName,
         initData: widget.initData);
   }
-
-  List<Category> categories;
 
   @override
   void dispose() {

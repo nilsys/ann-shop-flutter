@@ -15,7 +15,7 @@ class ProductBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/product-detail', arguments: product);
+        Navigator.pushNamed(context, '/product-detail', arguments: product.slug);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

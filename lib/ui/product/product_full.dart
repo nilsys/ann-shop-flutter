@@ -59,7 +59,7 @@ class _ProductFullState extends State<ProductFull> {
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, '/product-detail',
-              arguments: widget.product);
+              arguments: widget.product.slug);
         },
         child: Column(
           children: <Widget>[

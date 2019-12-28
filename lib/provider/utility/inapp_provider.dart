@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:ann_shop_flutter/core/storage_manager.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
@@ -9,37 +5,37 @@ import 'package:flutter/material.dart';
 
 class InAppProvider extends ChangeNotifier {
   InAppProvider() {
-    inApp = ResponseProvider();
-    loadCoverInApp();
-    loadOpen();
-  }
-
-  ResponseProvider<List<InApp>> inApp;
-  Map<String, List<InApp>> mapInApp;
-
-  List<InApp> getByCategory(String name) {
-    if (Utility.isNullOrEmpty(name) || name == 'all') {
-      return inApp.data;
-    } else {
-      return mapInApp[name];
+    mapInApp = new Map();
+    for (var item in InAppRepository.instance.categories) {
+      getByCategory(item);
     }
   }
 
-  loadCoverInApp() async {
+
+  String _currentCategory;
+
+  String get currentCategory => _currentCategory;
+
+  set currentCategory(String currentCategory) {
+    _currentCategory = currentCategory;
+    notifyListeners();
+  }
+  // cache for first page
+  Map<String, ResponseProvider<List<InApp>>> mapInApp;
+
+  ResponseProvider<List<InApp>> getByCategory(String name) {
+    return mapInApp[name];
+  }
+
+  loadCoverInApp(String kind) async {
+    var inApp = mapInApp[kind];
     try {
       inApp.loading = 'try load';
       notifyListeners();
-      List<InApp> data = await InAppRepository.instance.loadInAppNotification();
+      List<InApp> data =
+          await InAppRepository.instance.loadInAppNotification(kind);
       if (data != null) {
         inApp.completed = data;
-        mapInApp = new Map();
-        for (int i = 0; i < data.length; i++) {
-          if (mapInApp[data[i].category] == null) {
-            mapInApp[data[i].category] = [data[i]];
-          } else {
-            mapInApp[data[i].category].add(data[i]);
-          }
-        }
       } else {
         inApp.completed = [];
       }
@@ -48,44 +44,6 @@ class InAppProvider extends ChangeNotifier {
       inApp.error = 'exception: ' + e.toString();
     }
     notifyListeners();
-  }
-
-  List<int> opens;
-  final _keyOpen = 'key_open_notificatio_in_app';
-
-  loadOpen() async {
-    String response = await StorageManager.getObjectByKey(_keyOpen);
-    if (Utility.isNullOrEmpty(response)) {
-      opens = new List();
-    } else {
-      try {
-        var message = json.decode(response);
-        opens = message.cast<int>();
-      } catch (e) {
-        opens = new List();
-      }
-    }
-  }
-
-  saveOpen() async {
-    var myJsonString = json.encode(opens);
-    await StorageManager.setObject(_keyOpen, myJsonString);
-  }
-
-  bool checkOpen(int notificationID) {
-    return opens.contains(notificationID) == false;
-  }
-
-  openNotification(int notificationID) {
-    try {
-      if (opens.contains(notificationID) == false) {
-        opens.add(notificationID);
-        saveOpen();
-        notifyListeners();
-      }
-    } catch (e) {
-      log(e);
-    }
   }
 
   log(object) {

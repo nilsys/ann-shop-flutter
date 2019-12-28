@@ -19,7 +19,7 @@ class ProductItem extends StatelessWidget {
       padding: EdgeInsets.only(left: 15),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/product-detail', arguments: product);
+          Navigator.pushNamed(context, '/product-detail', arguments: product.slug);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

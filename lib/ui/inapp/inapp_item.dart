@@ -2,12 +2,10 @@ import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
-import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class InAppItem extends StatelessWidget {
   InAppItem(this.item);
@@ -16,10 +14,10 @@ class InAppItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isNew = Provider.of<InAppProvider>(context).checkOpen(item.id);
+    bool isNew = false;
     return InkWell(
       onTap: () {
-        if (item.action.trim().toLowerCase() == ActionType.openPopup) {
+        if (Utility.isNullOrEmpty(item.action)) {
           AppPopup.showCustomDialog(context,
               title: item.title,
               message: item.body,
@@ -28,8 +26,6 @@ class InAppItem extends StatelessWidget {
           AppAction.instance.onHandleAction(
               context, item.action, item.actionValue, item.title);
         }
-        if (isNew)
-          Provider.of<InAppProvider>(context).openNotification(item.id);
       },
       child: Container(
         color: isNew ? Colors.lightBlue[50] : Colors.white,

@@ -30,7 +30,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
     var message = Provider.of<DownloadImageProvider>(context).currentMessage;
 
     Category current = widget.category;
-    String categorySlug = current.slug;
+    String categorySlug;
     List<String> categorySlugList;
     String productSearch;
     String tagSlug;

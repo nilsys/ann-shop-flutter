@@ -21,11 +21,6 @@ class Product {
 
   String get getCover {
     return avatar;
-    if (Utility.isNullOrEmpty(images)) {
-      return avatar;
-    } else {
-      return images[0];
-    }
   }
 
   final _save = '📌🌻🌸🌼👍👉🎋🐭🍀⭐🌟✨📚';
@@ -174,6 +169,25 @@ class ProductTag {
     data['id'] = this.id;
     data['name'] = this.name;
     data['slug'] = this.slug;
+    return data;
+  }
+}
+
+class ProductDiscount {
+  String name;
+  double price;
+
+  ProductDiscount({this.name, this.price});
+
+  ProductDiscount.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    price = json['price'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['price'] = this.price;
     return data;
   }
 }

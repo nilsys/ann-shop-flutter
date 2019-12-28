@@ -37,7 +37,7 @@ class CategoryButton extends StatelessWidget {
           Container(
             width: 80,
             child: Text(
-              this.item.name,
+              this.item.name ?? '',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,

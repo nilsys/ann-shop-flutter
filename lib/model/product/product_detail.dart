@@ -8,6 +8,7 @@ class ProductDetail extends Product {
   List<ProductColor> colors;
   List<ProductSize> sizes;
   List<ProductTag> tags;
+  List<ProductDiscount> discounts;
 
   String content;
   List<String> contentImages;
@@ -88,6 +89,12 @@ class ProductDetail extends Product {
       _detail.tags = new List<ProductTag>();
       json['tags'].forEach((v) {
         _detail.tags.add(new ProductTag.fromJson(v));
+      });
+    }
+    if (json['discounts'] != null) {
+      _detail.discounts = new List<ProductDiscount>();
+      json['discounts'].forEach((v) {
+        _detail.discounts.add(new ProductDiscount.fromJson(v));
       });
     }
 

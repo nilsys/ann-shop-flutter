@@ -1,5 +1,5 @@
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
-import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -49,8 +49,9 @@ class AppImage extends StatelessWidget {
   }
 
   _buildCachedImage() {
+    var fullUrl = url.contains('http') ? url : (Core.domain + url);
     return CachedNetworkImage(
-      imageUrl: url,
+      imageUrl: fullUrl,
       fit: fit,
       placeholder: showLoading
           ? (context, url) {
