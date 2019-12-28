@@ -19,12 +19,12 @@ class InAppItem extends StatelessWidget {
       onTap: () {
         if (Utility.isNullOrEmpty(item.action)) {
           AppPopup.showCustomDialog(context,
-              title: item.title,
-              message: item.body,
+              title: item.name,
+              message: item.message,
               btnNormal: ButtonData(title: 'Đóng'));
         } else {
           AppAction.instance.onHandleAction(
-              context, item.action, item.actionValue, item.title);
+              context, item.action, item.actionValue, item.name);
         }
       },
       child: Container(
@@ -46,9 +46,9 @@ class InAppItem extends StatelessWidget {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: InAppRepository.instance
-                              .getColorInApp(item.category)),
+                              .getColorInApp(item.kind)),
                       child: Icon(
-                        InAppRepository.instance.getIconInApp(item.category),
+                        InAppRepository.instance.getIconInApp(item.kind),
                         color: Colors.white,
                       ),
                     ),
@@ -57,7 +57,7 @@ class InAppItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              item.title,
+                              item.name,
                               textAlign: TextAlign.start,
                               maxLines: 10,
                               style: TextStyle(
@@ -89,7 +89,7 @@ class InAppItem extends StatelessWidget {
                 padding:
                     EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 10),
                 child: Text(
-                  item.body,
+                  item.message,
                   textAlign: TextAlign.start,
                 ),
               ),

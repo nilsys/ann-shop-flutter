@@ -57,12 +57,11 @@ class InAppRepository {
     }
   }
 
-  /// http://xuongann.com/api/flutter/home/banners
-  Future<List<InApp>> loadInAppNotification(String kind,
-      {page = 1, pageSize = 20}) async {
+  /// http://xuongann.com/api/flutter/notifications?kind=$kind
+  Future<List<InApp>> loadInAppNotification(String kind, {page = 1, pageSize = 20}) async {
     try {
       var url = Core.domain;
-      if (Utility.isNullOrEmpty(kind)) {
+      if (Utility.isNullOrEmpty(kind) || kind == 'all') {
         url += 'api/flutter/notifications?pageNumber=$page&pageSize=$pageSize';
       } else {
         url +=

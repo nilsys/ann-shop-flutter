@@ -71,13 +71,14 @@ class _ViewMorePageState extends State<ViewMorePage> {
           title: Text(title),
         ),
         body: Padding(
-          padding: EdgeInsets.all(defaultPadding),
+          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
           child: Utility.isNullOrEmpty(content)
               ? Center(
                   child: Text('Không có nội dung'),
                 )
               : ListView(
                   children: <Widget>[
+                    SizedBox(height: 15,),
                     Utility.isNullOrEmpty(date)
                         ? Container()
                         : Container(

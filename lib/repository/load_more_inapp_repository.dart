@@ -30,7 +30,7 @@ class LoadMoreInAppRepository extends LoadingMoreBase<InApp> {
 
   set kind(String value) {
     if (value != _kind) {
-      _kind = kind;
+      _kind = value;
       refresh(true);
     }
   }
