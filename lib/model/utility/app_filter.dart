@@ -35,8 +35,8 @@ class AppFilter {
 
   AppFilter.fromCategoryFilter(ProductFilter filter) {
     sort = filter.productSort ?? 4;
-    priceMin = filter.priceMin;
-    priceMax = filter.priceMax;
+    priceMin = filter.priceMin ?? 0;
+    priceMax = filter.priceMax ?? 0;
     badge = filter.productBadge ?? 0;
   }
 

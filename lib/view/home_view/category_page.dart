@@ -66,7 +66,6 @@ class _CategoryPageState extends State<CategoryPage> {
         ));
       } else {
         var data = provider.categories.data;
-        print(MediaQuery.of(context).size);
         double width = MediaQuery.of(context).size.width - 30;
         int column = (width / 100).floor();
         return SliverGrid(

@@ -18,16 +18,6 @@ class CategoryProvider extends ChangeNotifier {
   ResponseProvider<List<CategoryHome>> dataHome;
   ResponseProvider<List<Category>> categoryHome;
 
-  Category getCategory(code) {
-    try {
-      var item = categories.data.firstWhere((m) {
-        return m.getID == code;
-      });
-      return item;
-    } catch (e) {
-      return null;
-    }
-  }
 
   loadCategories() async {
     try {

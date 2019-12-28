@@ -36,11 +36,7 @@ class _ProductSlideState extends State<ProductSlide> {
     // TODO: implement initState
     super.initState();
     controller = new ScrollController();
-    if (widget.group.vailable) {
-      currentCategory = widget.group;
-    } else {
-      currentCategory = widget.group.children[0];
-    }
+    currentCategory = widget.group;
   }
 
   @override
@@ -76,9 +72,11 @@ class _ProductSlideState extends State<ProductSlide> {
                   }
                 },
               ),
-              BottomViewMore(onPressed: () {
-                ListProduct.showByCategory(context, currentCategory);
-              },),
+              BottomViewMore(
+                onPressed: () {
+                  ListProduct.showByCategory(context, currentCategory);
+                },
+              ),
             ],
           )
         ],
@@ -172,8 +170,8 @@ class _ProductSlideState extends State<ProductSlide> {
         padding: EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 0),
         child: InkWell(
           onTap: () {
-            AppAction.instance
-                .onHandleAction(context, item.action, item.actionValue, item.name);
+            AppAction.instance.onHandleAction(
+                context, item.action, item.actionValue, item.name);
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
@@ -226,31 +224,28 @@ class _ProductSlideState extends State<ProductSlide> {
 
   Widget _buildCategoryButton(Category item, {String customName}) {
     String _name = customName ?? item.name;
-    if (Utility.isNullOrEmpty(item.vailable == false)) {
-      return Container();
-    } else {
-      bool isSelect = item == currentCategory;
-      return ChoiceChip(
-        label: Text(
-          _name,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: isSelect ? Colors.white : Colors.black87),
-        ),
-        selected: isSelect,
-        onSelected: (selected) {
-          if (selected) {
-            setState(() {
-              currentCategory = item;
-              if (controller.hasClients) {
-                controller.jumpTo(0);
-              }
-            });
-          }
-        },
-        selectedColor: Colors.black87,
-        disabledColor: Colors.grey,
-      );
-    }
+
+    bool isSelect = item == currentCategory;
+    return ChoiceChip(
+      label: Text(
+        _name,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: isSelect ? Colors.white : Colors.black87),
+      ),
+      selected: isSelect,
+      onSelected: (selected) {
+        if (selected) {
+          setState(() {
+            currentCategory = item;
+            if (controller.hasClients) {
+              controller.jumpTo(0);
+            }
+          });
+        }
+      },
+      selectedColor: Colors.black87,
+      disabledColor: Colors.grey,
+    );
   }
 
   _buildViewMoreButton() {

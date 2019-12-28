@@ -2,35 +2,38 @@ import 'dart:math';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductFilterView extends StatefulWidget {
+  ProductFilterView(this.filter);
+
+  final filter;
+
   @override
-  _ProductFilterViewState createState() => _ProductFilterViewState();
+  _ProductFilterViewState createState() => _ProductFilterViewState(filter);
 }
 
 class _ProductFilterViewState extends State<ProductFilterView> {
-  void onSave(context) {
-    Provider.of<ConfigProvider>(context).saveFilter();
-  }
+  _ProductFilterViewState(this.filter);
+
+  AppFilter filter;
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        onSave(context);
-        return true;
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.close),
             onPressed: () {
-              onSave(context);
-              Navigator.pop(context);
+              Navigator.pop(context, filter);
             },
           ),
           title: Text('Lọc sản phẩm theo?'),
@@ -41,8 +44,7 @@ class _ProductFilterViewState extends State<ProductFilterView> {
   }
 
   Widget _buildBody() {
-    ConfigProvider provider = Provider.of(context);
-    int _count = provider.filter.countSet;
+    int _count = filter.countSet;
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -60,8 +62,8 @@ class _ProductFilterViewState extends State<ProductFilterView> {
                   style: Theme.of(context).textTheme.subtitle,
                 ),
                 TextSpan(
-                  text: getTextMinMax((provider.filter.priceMin / 1000).round(),
-                      (provider.filter.priceMax / 1000).round()),
+                  text: getTextMinMax((filter.priceMin / 1000).round(),
+                      (filter.priceMax / 1000).round()),
                   style: Theme.of(context)
                       .textTheme
                       .subtitle
@@ -96,7 +98,7 @@ class _ProductFilterViewState extends State<ProductFilterView> {
                     ),
                     onPressed: () {
                       setState(() {
-                        provider.refreshFilter();
+                        filter = AppFilter();
                       });
                     },
                   )
@@ -108,7 +110,7 @@ class _ProductFilterViewState extends State<ProductFilterView> {
 
   Widget _buildCheckBoxBadge(ProductBadge badge) {
     ConfigProvider provider = Provider.of(context);
-    bool isChoose = badge.id == provider.filter.badge;
+    bool isChoose = badge.id == filter.badge;
     return Container(
       height: 40,
       child: Row(
@@ -123,9 +125,9 @@ class _ProductFilterViewState extends State<ProductFilterView> {
             onPressed: () {
               setState(() {
                 if (isChoose) {
-                  provider.filter.badge = 0;
+                  filter.badge = 0;
                 } else {
-                  provider.filter.badge = badge.id;
+                  filter.badge = badge.id;
                 }
               });
             },
@@ -167,11 +169,9 @@ class _ProductFilterViewState extends State<ProductFilterView> {
   }
 
   _buildPriceRecommendItem(int min, int max) {
-    ConfigProvider provider = Provider.of(context);
     int priceMin = min * 1000;
     int priceMax = max * 1000;
-    bool isChoose = provider.filter.priceMin == priceMin &&
-        provider.filter.priceMax == priceMax;
+    bool isChoose = filter.priceMin == priceMin && filter.priceMax == priceMax;
     Color _color = isChoose ? Theme.of(context).primaryColor : Colors.black87;
     return ActionChip(
       avatar: Icon(
@@ -184,8 +184,8 @@ class _ProductFilterViewState extends State<ProductFilterView> {
       ),
       onPressed: () {
         setState(() {
-          provider.priceMin = priceMin;
-          provider.priceMax = priceMax;
+          filter.priceMin = priceMin;
+          filter.priceMax = priceMax;
         });
       },
     );
@@ -193,8 +193,8 @@ class _ProductFilterViewState extends State<ProductFilterView> {
 
   Widget _buildSliderRangePrice() {
     ConfigProvider provider = Provider.of(context);
-    double _min = (provider.filter.priceMin / 1000).round().toDouble();
-    double _max = (provider.filter.priceMax / 1000).round().toDouble();
+    double _min = (filter.priceMin / 1000).round().toDouble();
+    double _max = (filter.priceMax / 1000).round().toDouble();
     if (_max <= 0 || _max > 201) {
       _max = 201;
     }
@@ -209,14 +209,14 @@ class _ProductFilterViewState extends State<ProductFilterView> {
             int _newMin = newValue.start.round();
             int _newMax = newValue.end.round();
             if ((_newMax - _newMin) >= 2) {
-              provider.priceMin = (_newMin * 1000).round();
-              provider.priceMax = (_newMax > 200 ? 0 : _newMax * 1000).round();
+              filter.priceMin = (_newMin * 1000).round();
+              filter.priceMax = (_newMax > 200 ? 0 : _newMax * 1000).round();
             } else {
               if (_min == _newMin) {
                 var end = _newMin + 3;
-                provider.priceMax = end > 200 ? 0 : end * 1000;
+                filter.priceMax = end > 200 ? 0 : end * 1000;
               } else {
-                provider.priceMin = min(0, ((_newMax - 3) * 100).round());
+                filter.priceMin = min(0, ((_newMax - 3) * 100).round());
               }
             }
           });

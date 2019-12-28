@@ -88,7 +88,7 @@ class InAppRepository {
 
   Future<Map> loadContentViewMore(String slug) async {
     try {
-      final url = Core.domain + 'api/flutter/notification/$slug';
+      final url = Core.domain + 'api/flutter/$slug';
       final response = await http
           .get(url)
           .timeout(Duration(seconds: 5))

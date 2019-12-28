@@ -1,16 +1,14 @@
 import 'dart:async';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
-import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class LoadMoreProductRepository extends LoadingMoreBase<Product> {
-  LoadMoreProductRepository(
-      {this.categoryCode, this.searchText, this.tagName, this.initData, this.categoryList}) {
+  LoadMoreProductRepository({this.productFilter, this.initData}) {
     // TODO:
     if (this.initData == null) {
       pageIndex = 1;
@@ -28,17 +26,13 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
   }
 
   final List<Product> initData;
-  final String categoryCode;
-  final List<String> categoryList;
-  final String searchText;
-  final String tagName;
+  final ProductFilter productFilter;
 
   int pageIndex;
   AppFilter _filter;
 
-
   setFilter(AppFilter item, {bool force = false}) {
-    if(_filter == null || _filter.compare(item) == false || force) {
+    if (_filter == null || _filter.compare(item) == false || force) {
       _filter = AppFilter.clone(item);
       refresh(true);
     }
@@ -87,27 +81,15 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
   }
 
   Future<List<Product>> _loadProduct() async {
-    if(_filter == null){
+    if (_filter == null) {
       return [];
-    }else
-    if (categoryCode != null) {
-      var list = await ProductRepository.instance.loadByCategory(categoryCode,
-          page: pageIndex, pageSize: itemPerPage, filter: _filter);
-      return list;
-    } else  if (Utility.isNullOrEmpty(categoryList) == false) {
-      var list = await ProductRepository.instance.loadByListCategory(categoryList,
-          page: pageIndex, pageSize: itemPerPage, filter: _filter);
-      return list;
-    } else  if (searchText != null) {
-      var list = await ProductRepository.instance.loadBySearch(searchText,
-          page: pageIndex, pageSize: itemPerPage, filter: _filter);
-      return list;
-    } else if (tagName != null) {
-      var list = await ProductRepository.instance.loadByTag(tagName,
-          page: pageIndex, pageSize: itemPerPage, filter: _filter);
-      return list;
     } else {
-      return [];
+      var list = await ProductRepository.instance.loadByProductFilter(
+          productFilter,
+          page: pageIndex,
+          pageSize: itemPerPage,
+          filter: _filter);
+      return list;
     }
   }
 }

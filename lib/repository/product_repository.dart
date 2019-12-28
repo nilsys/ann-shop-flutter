@@ -7,6 +7,7 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
+import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:flutter/material.dart';
@@ -128,28 +129,71 @@ class ProductRepository {
   }
 
   Future<List<Product>> loadByCategoryFilter(Category category,
-      {cache = false}) {
+      {page = 1, pageSize = 20, cache = false}) {
     if (category.filter != null) {
       AppFilter filter = AppFilter.fromCategoryFilter(category.filter);
       if (Utility.isNullOrEmpty(category.filter.categorySlug) == false) {
-        return loadByCategory(category.filter.categorySlug,
+        return _loadByCategory(category.filter.categorySlug,
             filter: filter, cache: cache);
       } else if (Utility.isNullOrEmpty(category.filter.categorySlugList) ==
           false) {
-        return loadByListCategory(category.filter.categorySlugList,
+        return _loadByListCategory(category.filter.categorySlugList,
             filter: filter, cache: cache);
       } else if (Utility.isNullOrEmpty(category.filter.productSearch) ==
           false) {
         return loadBySearch(category.filter.productSearch, filter: filter);
       } else if (Utility.isNullOrEmpty(category.filter.tagSlug) == false) {
         return loadByTag(category.filter.tagSlug, filter: filter);
+      } else {
+        return _loadAllByFilter(filter: filter);
       }
     }
     return null;
   }
 
+  Future<List<Product>> loadByProductFilter(ProductFilter productFilter,
+      {page = 1, pageSize = 20, cache = false, AppFilter filter}) {
+    if (productFilter != null) {
+      if (Utility.isNullOrEmpty(productFilter.categorySlug) == false) {
+        return _loadByCategory(productFilter.categorySlug,
+            filter: filter, cache: cache);
+      } else if (Utility.isNullOrEmpty(productFilter.categorySlugList) ==
+          false) {
+        return _loadByListCategory(productFilter.categorySlugList,
+            filter: filter, cache: cache);
+      } else if (Utility.isNullOrEmpty(productFilter.productSearch) == false) {
+        return loadBySearch(productFilter.productSearch, filter: filter);
+      } else if (Utility.isNullOrEmpty(productFilter.tagSlug) == false) {
+        return loadByTag(productFilter.tagSlug, filter: filter);
+      } else {
+        return _loadAllByFilter(filter: filter);
+      }
+    }
+    return null;
+  }
+
+  Future<List<Product>> _loadAllByFilter(
+      {page = 1, pageSize = 20, AppFilter filter}) async {
+    try {
+      var url = Core.domain +
+          'api/flutter/products?pageNumber=$page&pageSize=$pageSize';
+      url += getFilterParams(filter);
+      final response = await http.get(url).timeout(Duration(seconds: 10));
+      print(url);
+      print(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        return listProductByString(response.body);
+      } else if (response.statusCode == HttpStatus.notFound) {
+        return [];
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
   /// http://xuongann.com/api/flutter/products?categorySlugList[0]=ao-thun-nu&categorySlugList[1]=so-mi-nu
-  Future<List<Product>> loadByListCategory(List<String> names,
+  Future<List<Product>> _loadByListCategory(List<String> names,
       {page = 1, pageSize = 30, AppFilter filter, cache = false}) async {
     var categorySlugList = 'categorySlugList[0]=${names[0]}';
     for (int i = 1; i < names.length; i++) {
@@ -187,7 +231,7 @@ class ProductRepository {
   }
 
   /// http://xuongann.com/api/flutter/products?categorySlug=bao-li-xi-tet&pageNumber=1&pageSize=28&sort=4
-  Future<List<Product>> loadByCategory(String name,
+  Future<List<Product>> _loadByCategory(String name,
       {page = 1, pageSize = 30, AppFilter filter, cache = false}) async {
     try {
       var url = Core.domain +

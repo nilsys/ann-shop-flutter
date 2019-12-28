@@ -1,6 +1,8 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/model/product/product_filter.dart';
+import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/ui/utility/download_background.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
@@ -17,9 +19,14 @@ class ListProductBySearch extends StatelessWidget {
 
   List<Product> get products => data['products'];
 
+  AppFilter filter = AppFilter();
+
   @override
   Widget build(BuildContext context) {
     var message = Provider.of<DownloadImageProvider>(context).currentMessage;
+
+    ProductFilter productFilter = ProductFilter(productSearch: title);
+
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -28,7 +35,8 @@ class ListProductBySearch extends StatelessWidget {
         titleSpacing: 0,
       ),
       body: ListProduct(
-        searchText: title,
+        filter,
+        productFilter: productFilter,
         initData: products,
       ),
       bottomNavigationBar:

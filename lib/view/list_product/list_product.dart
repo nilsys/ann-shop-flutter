@@ -1,8 +1,8 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
-import 'package:ann_shop_flutter/provider/category/category_provider.dart';
+import 'package:ann_shop_flutter/model/product/product_filter.dart';
+import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/repository/load_more_product_repository.dart';
@@ -16,38 +16,27 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:provider/provider.dart';
 
 class ListProduct extends StatefulWidget {
-  ListProduct(
-      {this.topObject,
-      this.categoryCode,
-      this.categoryList,
-      this.searchText,
-      this.tagName,
-      this.initData});
+  ListProduct(this.filter, {this.productFilter, this.topObject, this.initData});
 
-  final categoryCode;
-  final searchText;
-  final tagName;
-  final categoryList;
+  final ProductFilter productFilter;
   final initData;
-
   final Widget topObject;
+
+  final AppFilter filter;
 
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
 
   static showByCategory(context, Category data) {
-    Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-category', arguments: data);
   }
 
   static showByTag(context, ProductTag data) {
-    Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-tag', arguments: data);
   }
 
   static showBySearch(context, Map data, {bool refreshSearch = true}) {
     if (refreshSearch) Provider.of<SearchProvider>(context).setText();
-    Provider.of<ConfigProvider>(context).refreshFilter();
     Navigator.pushNamed(context, '/list-product-by-search', arguments: data);
   }
 }
@@ -60,11 +49,7 @@ class _BuildAllViewState extends State<ListProduct> {
     super.initState();
 
     listSourceRepository = new LoadMoreProductRepository(
-        categoryCode: widget.categoryCode,
-        categoryList: widget.categoryList,
-        searchText: widget.searchText,
-        tagName: widget.tagName,
-        initData: widget.initData);
+        productFilter: widget.productFilter, initData: widget.initData);
   }
 
   @override
@@ -77,7 +62,7 @@ class _BuildAllViewState extends State<ListProduct> {
   @override
   Widget build(BuildContext context) {
     ConfigProvider config = Provider.of(context);
-    listSourceRepository.setFilter(config.filter);
+    listSourceRepository.setFilter(widget.filter);
 
     return RefreshIndicator(
       onRefresh: onRefresh,
@@ -88,7 +73,8 @@ class _BuildAllViewState extends State<ListProduct> {
             SliverPersistentHeader(
               pinned: false,
               floating: true,
-              delegate: CommonSliverPersistentHeaderDelegate(ConfigProductUI(), 60),
+              delegate: CommonSliverPersistentHeaderDelegate(
+                  ConfigProductUI(widget.filter), 60),
             ),
             widget.topObject ?? SliverToBoxAdapter(),
             SliverPadding(

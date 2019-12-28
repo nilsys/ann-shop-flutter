@@ -9,38 +9,6 @@ class Category {
   List<Category> children;
   ProductFilter filter;
 
-  bool get vailable {
-    if (filter != null) {
-      if (Utility.isNullOrEmpty(filter.categorySlug) == false ||
-          Utility.isNullOrEmpty(filter.categorySlugList) == false ||
-          Utility.isNullOrEmpty(filter.tagSlug) == false ||
-          Utility.isNullOrEmpty(filter.productSearch) == false) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  dynamic get getID {
-    if(filter == null){
-      return null;
-    }else{
-      if(Utility.isNullOrEmpty(filter.categorySlug)){
-        return filter.categorySlug;
-      }
-      if(Utility.isNullOrEmpty(filter.categorySlugList)){
-        return filter.categorySlugList;
-      }
-      if(Utility.isNullOrEmpty(filter.tagSlug)){
-        return filter.tagSlug;
-      }
-      if(Utility.isNullOrEmpty(filter.productSearch)){
-        return filter.productSearch;
-      }
-    }
-    return null;
-  }
-
   Category(
       {this.icon, this.name, this.description, this.children, this.filter});
 

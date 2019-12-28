@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
@@ -23,33 +24,21 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    filter = AppFilter.fromCategoryFilter(widget.category.filter);
   }
+
+  AppFilter filter;
 
   @override
   Widget build(BuildContext context) {
     var message = Provider.of<DownloadImageProvider>(context).currentMessage;
 
-    Category current = widget.category;
-    String categorySlug;
-    List<String> categorySlugList;
-    String productSearch;
-    String tagSlug;
-    if (current.filter != null) {
-      categorySlug = current.filter.categorySlug;
-      categorySlugList = current.filter.categorySlugList;
-      productSearch = current.filter.productSearch;
-      tagSlug = current.filter.tagSlug;
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.category.name),
       ),
-      body: ListProduct(
-          categoryCode: categorySlug,
-          searchText: productSearch,
-          tagName: tagSlug,
-          categoryList: categorySlugList,
+      body: ListProduct(filter,
+          productFilter: widget.category.filter,
           topObject: _buildCategoryButtonGrid()),
       bottomNavigationBar:
           Utility.isNullOrEmpty(message) ? null : DownLoadBackground(),

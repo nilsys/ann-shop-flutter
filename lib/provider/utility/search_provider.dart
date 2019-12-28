@@ -43,7 +43,11 @@ class SearchProvider with ChangeNotifier {
       if (Utility.isNullOrEmpty(data)) {
         AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm.');
       } else {
-        ListProduct.showBySearch(context, {'title': value, 'products': data});
+        if(data.length == 1){
+          Navigator.pushNamed(context, '/product-detail', arguments: data[0].slug);
+        }else {
+          ListProduct.showBySearch(context, {'title': value, 'products': data});
+        }
       }
     }
   }

@@ -26,37 +26,32 @@ import 'package:flutter/material.dart';
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     /// add settings on MaterialPageRoute for which route you want to tracking
+    var data = settings.arguments;
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
             builder: (_) => HomeView(), settings: settings);
       case '/web-view':
-        var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => WebViewRouter(data), settings: settings);
       case '/view_more':
-        var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ViewMorePage(data), settings: settings);
       case '/file-view':
-        Map data = settings.arguments;
+        Map map = data as Map;
         return MaterialPageRoute(
-            builder: (_) => FileViewRouter(data['url'], data['name']),
+            builder: (_) => FileViewRouter(map['url'], map['name']),
             settings: settings);
       case '/product-detail':
-        var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ProductDetailView(slug: data), settings: settings);
       case '/product-fancy-image':
-        var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ProductImageFancyView(data), settings: settings);
       case '/image-view':
-        var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ImageView(data), settings: settings);
       case '/product-image-by-size-and-image':
-        var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ProductImageBySizeAndColor(data), settings: settings);
       case '/search':
@@ -73,17 +68,14 @@ class Router {
             builder: (_) => SettingView(), settings: settings);
       case '/filter-product':
         return MaterialPageRoute(
-            builder: (_) => ProductFilterView(), settings: settings);
+            builder: (_) => ProductFilterView(data), settings: settings);
       case '/list-product-by-category':
-        var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ListProductByCategory(data), settings: settings);
       case '/list-product-by-search':
-        var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ListProductBySearch(data), settings: settings);
       case '/list-product-by-tag':
-        var data = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => ListProductByTag(data), settings: settings);
       case '/shop-contact':

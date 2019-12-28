@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
@@ -5,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ConfigProductUI extends StatelessWidget {
+  ConfigProductUI(this.filter);
+
+  final AppFilter filter;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,7 +66,6 @@ class ConfigProductUI extends StatelessWidget {
   }
 
   Widget _buildFilter(BuildContext context) {
-    int _count = Provider.of<ConfigProvider>(context).filter.countSet;
     return InkWell(
       onTap: () {
         showFilterPage(context);
@@ -81,10 +85,10 @@ class ConfigProductUI extends StatelessWidget {
               child: Icon(Icons.filter_list),
             ),
             Text(' Lọc'),
-            _count == 0
+            filter.countSet == 0
                 ? Container()
                 : Text(
-                    ' ($_count)',
+                    ' (${filter.countSet})',
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
           ],
@@ -97,12 +101,12 @@ class ConfigProductUI extends StatelessWidget {
     ConfigProvider config = Provider.of(context);
     if (MediaQuery.of(context).size.width > 350) {
       return DropdownButton<int>(
-        value: config.sort,
+        value: filter.sort,
         icon: Icon(Icons.keyboard_arrow_down),
         iconSize: 24,
         underline: Container(),
         onChanged: (newValue) {
-          config.sort = newValue;
+          filter.sort = newValue;
         },
         items: ProductRepository.instance.productSorts
             .map<DropdownMenuItem<int>>((sort) {
@@ -116,7 +120,7 @@ class ConfigProductUI extends StatelessWidget {
       return PopupMenuButton<int>(
         icon: Icon(Icons.sort),
         onSelected: (newValue) {
-          config.sort = newValue;
+          filter.sort = newValue;
         },
         itemBuilder: (BuildContext context) => ProductRepository
             .instance.productSorts
@@ -131,6 +135,6 @@ class ConfigProductUI extends StatelessWidget {
   }
 
   showFilterPage(BuildContext context) {
-    Navigator.pushNamed(context, '/filter-product');
+    Navigator.pushNamed(context, '/filter-product', arguments: filter);
   }
 }
