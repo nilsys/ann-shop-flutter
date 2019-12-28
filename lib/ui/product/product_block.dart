@@ -25,7 +25,7 @@ class ProductBlock extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                AppImage(Core.domain + product.getCover),
+                AppImage(product.getCover),
                 Positioned(
                   left: 0,
                   top: 0,

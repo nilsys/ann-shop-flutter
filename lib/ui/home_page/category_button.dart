@@ -27,7 +27,7 @@ class CategoryButton extends StatelessWidget {
               height: 50,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: AppImage(Core.domain + this.item.icon, showLoading: false,),
+                child: AppImage(this.item.icon, showLoading: false,),
               ),
             ),
           ),

@@ -18,16 +18,17 @@ class CategoryProvider extends ChangeNotifier {
   ResponseProvider<List<CategoryHome>> dataHome;
   ResponseProvider<List<Category>> categoryHome;
 
-
   loadCategories() async {
     try {
       categories.loading = 'try load categories';
       notifyListeners();
-      List<Category> data = await CategoryRepository.instance.loadCategories();
+      List<Category> data =
+          await CategoryRepository.instance.loadCategories('categories');
       if (data != null) {
         categories.completed = data;
       } else {
-        data = await CategoryRepository.instance.loadCategoriesOffline();
+        data = await CategoryRepository.instance
+            .loadCategoriesOffline('assets/offline/categories.json');
         categories.completed = data;
       }
     } catch (e) {
@@ -42,11 +43,12 @@ class CategoryProvider extends ChangeNotifier {
       categoryHome.loading = 'try load categories';
       notifyListeners();
       List<Category> data =
-          await CategoryRepository.instance.loadCategoryHome();
+          await CategoryRepository.instance.loadCategories('home/categories');
       if (data != null) {
         categoryHome.completed = data;
       } else {
-        data = await CategoryRepository.instance.loadCategoriesOffline();
+        data = await CategoryRepository.instance
+            .loadCategoriesOffline('assets/offline/home_categories.json');
         categoryHome.completed = data;
       }
     } catch (e) {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/utility/blog.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -58,7 +59,8 @@ class InAppRepository {
   }
 
   /// http://xuongann.com/api/flutter/notifications?kind=$kind
-  Future<List<InApp>> loadInAppNotification(String kind, {page = 1, pageSize = 20}) async {
+  Future<List<InApp>> loadInAppNotification(String kind,
+      {page = 1, pageSize = 20}) async {
     try {
       var url = Core.domain;
       if (Utility.isNullOrEmpty(kind) || kind == 'all') {
@@ -89,15 +91,36 @@ class InAppRepository {
   Future<Map> loadContentViewMore(String slug) async {
     try {
       final url = Core.domain + 'api/flutter/$slug';
-      final response = await http
-          .get(url)
-          .timeout(Duration(seconds: 5))
-          .timeout(Duration(seconds: 5));
+      final response = await http.get(url).timeout(Duration(seconds: 10));
       log(url);
       log(response.body);
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
         return jsonDecode(body);
+      }
+    } catch (e) {
+      log(e);
+    }
+    return null;
+  }
+
+  /// http://xuongann.com/api/flutter/
+  Future<List<Blog>> loadBlog({page = 1, pageSize = 20}) async {
+    try {
+      var url = Core.domain +
+          'api/flutter/notifications?&pageNumber=$page&pageSize=$pageSize';
+      final response = await http.get(url).timeout(Duration(seconds: 10));
+      log(url);
+      log(response.body);
+      final body = response.body;
+
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(body);
+        List<Blog> _data = new List();
+        message.forEach((v) {
+          _data.add(new Blog.fromJson(v));
+        });
+        return _data;
       }
     } catch (e) {
       log(e);

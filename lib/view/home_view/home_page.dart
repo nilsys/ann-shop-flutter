@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                       HomeListBanner(
                           data: Provider.of<CoverProvider>(context)
                               .notificationHome
-                              .data),
+                              .data, limit: 3,),
                       SeenBlock(),
                       HomeProductSlide(),
                       HomeListBanner(

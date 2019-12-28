@@ -4,7 +4,7 @@ import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/model/utility/copy_setting.dart';
 
 final double defaultPadding = 15;
-final int itemPerPage = 30;
+final int itemPerPage = 20;
 
 class Core {
   static final Core instance = Core._internal();

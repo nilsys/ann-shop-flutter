@@ -444,7 +444,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          AppImage(Core.domain + image),
+          AppImage(image),
           InkWell(
             onTap: () {
               setState(() {
@@ -516,7 +516,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     children: <Widget>[
                       Hero(
                           tag: images[index] + tag,
-                          child: AppImage(Core.domain + images[index])),
+                          child: AppImage(images[index])),
                       ButtonDownload(
                         imageName: images[index],
                         cache: true,

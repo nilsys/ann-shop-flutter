@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
@@ -8,9 +10,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeListBanner extends StatefulWidget {
-  HomeListBanner({this.data});
+  HomeListBanner({this.data, this.limit});
 
   final List<Cover> data;
+  final int limit;
 
   @override
   _HomeListBannerState createState() => _HomeListBannerState();
@@ -21,9 +24,12 @@ class _HomeListBannerState extends State<HomeListBanner> {
   Widget build(BuildContext context) {
     if (Utility.isNullOrEmpty(widget.data) == false) {
       return SliverList(
-        delegate: SliverChildListDelegate(
-          widget.data.map((item) => _buildColumn(item)).toList(),
-        ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          return _buildColumn(widget.data[index]);
+        },
+            childCount: (widget.limit == null || widget.limit <= 0)
+                ? widget.data.length
+                : min(widget.limit, widget.data.length)),
       );
     } else {
       return SliverToBoxAdapter();
@@ -31,8 +37,9 @@ class _HomeListBannerState extends State<HomeListBanner> {
   }
 
   Widget _buildColumn(Cover item) {
-    String _body =
-        item.message.length <= 150 ? item.message : item.message.substring(0, 149);
+    String _body = item.message.length <= 150
+        ? item.message
+        : item.message.substring(0, 149);
     return Column(
       children: <Widget>[
         Container(
@@ -40,9 +47,9 @@ class _HomeListBannerState extends State<HomeListBanner> {
           color: AppStyles.dividerColor,
         ),
         InkWell(
-          onTap: (){
-            AppAction.instance
-                .onHandleAction(context, item.action, item.actionValue, item.name);
+          onTap: () {
+            AppAction.instance.onHandleAction(
+                context, item.action, item.actionValue, item.name);
           },
           child: Container(
             color: Colors.white,

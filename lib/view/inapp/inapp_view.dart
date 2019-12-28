@@ -5,12 +5,12 @@ import 'package:ann_shop_flutter/view/inapp/list_inapp.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NotificationView extends StatefulWidget {
+class InAppView extends StatefulWidget {
   @override
-  _NotificationViewState createState() => _NotificationViewState();
+  _InAppViewState createState() => _InAppViewState();
 }
 
-class _NotificationViewState extends State<NotificationView> {
+class _InAppViewState extends State<InAppView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

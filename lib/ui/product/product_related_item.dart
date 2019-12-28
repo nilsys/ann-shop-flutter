@@ -31,7 +31,7 @@ class ProductRelatedItem extends StatelessWidget {
           Container(
             width: 80,
             padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
-            child: AppImage(Core.domain + product.avatar),
+            child: AppImage(product.avatar),
           ),
           Expanded(
             flex: 1,

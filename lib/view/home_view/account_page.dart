@@ -61,6 +61,10 @@ class _AccountPageState extends State<AccountPage> {
                   Provider.of<NavigationProvider>(context)
                       .switchTo(PageName.notification.index);
                 }),
+                _buildItemCommon('ANN Blog', icon: Icons.message,
+                    onTap: () {
+                      Navigator.pushNamed(context, '/blog');
+                    }),
                 SizedBox(height: 12),
                 _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {
                   Navigator.pushNamed(context, '/shop-contact');

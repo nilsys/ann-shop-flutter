@@ -110,8 +110,6 @@ class ProductRepository {
     return params;
   }
 
-  final _prefixCategoryKey = 'key_product_by_category_';
-
   List<Product> listProductByString(String body) {
     try {
       if (Utility.isNullOrEmpty(body)) {
@@ -129,38 +127,21 @@ class ProductRepository {
   }
 
   Future<List<Product>> loadByCategoryFilter(Category category,
-      {page = 1, pageSize = 20, cache = false}) {
-    if (category.filter != null) {
-      AppFilter filter = AppFilter.fromCategoryFilter(category.filter);
-      if (Utility.isNullOrEmpty(category.filter.categorySlug) == false) {
-        return _loadByCategory(category.filter.categorySlug,
-            filter: filter, cache: cache);
-      } else if (Utility.isNullOrEmpty(category.filter.categorySlugList) ==
-          false) {
-        return _loadByListCategory(category.filter.categorySlugList,
-            filter: filter, cache: cache);
-      } else if (Utility.isNullOrEmpty(category.filter.productSearch) ==
-          false) {
-        return loadBySearch(category.filter.productSearch, filter: filter);
-      } else if (Utility.isNullOrEmpty(category.filter.tagSlug) == false) {
-        return loadByTag(category.filter.tagSlug, filter: filter);
-      } else {
-        return _loadAllByFilter(filter: filter);
-      }
-    }
-    return null;
+      {page = 1, pageSize = 20}) {
+    AppFilter filter = AppFilter.fromCategoryFilter(category.filter);
+    return loadByProductFilter(category.filter,
+        filter: filter, pageSize: pageSize, page: page);
   }
 
   Future<List<Product>> loadByProductFilter(ProductFilter productFilter,
-      {page = 1, pageSize = 20, cache = false, AppFilter filter}) {
+      {page = 1, pageSize = 20, AppFilter filter}) {
     if (productFilter != null) {
       if (Utility.isNullOrEmpty(productFilter.categorySlug) == false) {
-        return _loadByCategory(productFilter.categorySlug,
-            filter: filter, cache: cache);
+        return _loadByCategory(productFilter.categorySlug, filter: filter);
       } else if (Utility.isNullOrEmpty(productFilter.categorySlugList) ==
           false) {
         return _loadByListCategory(productFilter.categorySlugList,
-            filter: filter, cache: cache);
+            filter: filter);
       } else if (Utility.isNullOrEmpty(productFilter.productSearch) == false) {
         return loadBySearch(productFilter.productSearch, filter: filter);
       } else if (Utility.isNullOrEmpty(productFilter.tagSlug) == false) {
@@ -194,7 +175,7 @@ class ProductRepository {
 
   /// http://xuongann.com/api/flutter/products?categorySlugList[0]=ao-thun-nu&categorySlugList[1]=so-mi-nu
   Future<List<Product>> _loadByListCategory(List<String> names,
-      {page = 1, pageSize = 30, AppFilter filter, cache = false}) async {
+      {page = 1, pageSize = 30, AppFilter filter}) async {
     var categorySlugList = 'categorySlugList[0]=${names[0]}';
     for (int i = 1; i < names.length; i++) {
       categorySlugList += '&categorySlugList[$i]=${names[i]}';
@@ -208,10 +189,6 @@ class ProductRepository {
       print(url);
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        if (cache) {
-          StorageManager.setObject(
-              _prefixCategoryKey + categorySlugList, response.body);
-        }
         return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
@@ -219,20 +196,12 @@ class ProductRepository {
     } catch (e) {
       log(e.toString());
     }
-    if (cache) {
-      String body = await StorageManager.getObjectByKey(
-          _prefixCategoryKey + categorySlugList);
-      log('Cache: ' + body);
-      if (Utility.isNullOrEmpty(body) == false) {
-        return listProductByString(body);
-      }
-    }
     return null;
   }
 
   /// http://xuongann.com/api/flutter/products?categorySlug=bao-li-xi-tet&pageNumber=1&pageSize=28&sort=4
   Future<List<Product>> _loadByCategory(String name,
-      {page = 1, pageSize = 30, AppFilter filter, cache = false}) async {
+      {page = 1, pageSize = 30, AppFilter filter}) async {
     try {
       var url = Core.domain +
           'api/flutter/products?categorySlug=$name&pageNumber=$page&pageSize=$pageSize';
@@ -242,23 +211,12 @@ class ProductRepository {
       print(url);
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        if (cache) {
-          StorageManager.setObject(_prefixCategoryKey + name, response.body);
-        }
         return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
       }
     } catch (e) {
       log(e.toString());
-    }
-    if (cache) {
-      String body =
-          await StorageManager.getObjectByKey(_prefixCategoryKey + name);
-      log('Cache: ' + body);
-      if (Utility.isNullOrEmpty(body) == false) {
-        return listProductByString(body);
-      }
     }
     return null;
   }
@@ -298,6 +256,27 @@ class ProductRepository {
         return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
+  final _prefixCategoryKey = 'key_product_by_category_';
+
+  cacheProduct(String _keyCache, List<Product> products) {
+    var list = products.map((v) => v.toJson()).toList();
+    StorageManager.setObject(_prefixCategoryKey + _keyCache, list.toString());
+  }
+
+  Future<List<Product>> loadByCache(String _keyCache) async {
+    try {
+      String body =
+          await StorageManager.getObjectByKey(_prefixCategoryKey + _keyCache);
+      log('Cache: ' + body);
+      if (Utility.isNullOrEmpty(body) == false) {
+        return listProductByString(body);
       }
     } catch (e) {
       log(e.toString());

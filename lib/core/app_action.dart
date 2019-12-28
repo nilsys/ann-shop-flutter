@@ -66,12 +66,12 @@ class AppAction {
   }
 
   void linkToTag(BuildContext context, String value, String message) {
-    print('link to tag' + value);
+    print('link to tag: ' + value);
     ListProduct.showByTag(context, ProductTag(name: message, slug: value));
   }
 
   void linkToSearch(BuildContext context, String value, String message) {
-    print('link to search' + value);
+    print('link to search: ' + value);
     ListProduct.showBySearch(context, {'title': value});
   }
 
@@ -81,7 +81,7 @@ class AppAction {
   }
 
   void linkToScreen(BuildContext context, String value, String message) {
-    print('link to scrren' + value);
+    print('link to scrren: ' + value);
     int index = -1;
     switch (value) {
       case 'home':
@@ -111,7 +111,7 @@ class AppAction {
   }
 
   void linkToViewMore(BuildContext context, String value, String message) {
-    print('link to view more' + value);
+    print('link to view more: ' + value);
     Navigator.pushNamed(context, '/view_more', arguments: value);
   }
 }

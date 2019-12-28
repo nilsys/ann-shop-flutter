@@ -12,6 +12,14 @@ class Category {
   Category(
       {this.icon, this.name, this.description, this.children, this.filter});
 
+  String get getKey{
+    if(filter == null){
+      return 'default';
+    }else{
+      return filter.toJson().toString();
+    }
+  }
+
   Category.fromJson(Map<String, dynamic> json) {
     icon = json['icon'] ?? 'assets/images/categories/sale-product.png';
     name = json['name'];

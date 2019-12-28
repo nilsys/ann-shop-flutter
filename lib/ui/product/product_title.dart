@@ -35,7 +35,7 @@ class ProductTitle extends StatelessWidget {
               height: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(0),
-                child: AppImage(Core.domain + product.getCover, fit: BoxFit.contain,),
+                child: AppImage(product.getCover, fit: BoxFit.contain,),
               ),
             ),
             SizedBox(

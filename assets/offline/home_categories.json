@@ -1,0 +1,1840 @@
+[
+  {
+    "name": "Bao lì xì tết",
+    "icon": null,
+    "description": "",
+    "filter": {
+      "categorySlug": "bao-li-xi-tet",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Đồ bộ nữ",
+    "icon": "/assets/images/categories/category-18.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "do-bo-nu",
+      "categorySlugList": null,
+      "productBadge": 4,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 151000,
+      "priceMax": 150000
+    },
+    "children": [
+      {
+        "name": "Đồ bộ nữ có sẳn",
+        "icon": "/assets/images/categories/new-product.png",
+        "description": "Hàng có sẳn ở kho",
+        "filter": {
+          "categorySlug": "do-bo-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Đồ bộ nữ order",
+        "icon": "/assets/images/categories/order-product.png",
+        "description": "Không có sẳn ở kho",
+        "filter": {
+          "categorySlug": "do-bo-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Đồ bộ nữ sale",
+        "icon": "/assets/images/categories/sale-product.png",
+        "description": "Tất cả đồ bộ nữ sale",
+        "filter": {
+          "categorySlug": "do-bo-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Đồ bộ sỉ dưới 100k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "do-bo-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Đồ bộ sỉ từ 100k - 125k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "do-bo-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Đồ bộ sỉ từ 125k - 150k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "do-bo-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Đồ bộ sỉ trên 150k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "do-bo-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      }
+    ]
+  },
+  {
+    "name": "Váy đầm nữ",
+    "icon": "/assets/images/categories/category-17.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "vay-dam",
+      "categorySlugList": null,
+      "productBadge": 4,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 151000,
+      "priceMax": 150000
+    },
+    "children": [
+      {
+        "name": "Váy đầm có sẵn",
+        "icon": "/assets/images/categories/new-product.png",
+        "description": "Hàng có sẳn ở kho",
+        "filter": {
+          "categorySlug": "vay-dam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Váy đầm order",
+        "icon": "/assets/images/categories/order-product.png",
+        "description": "Không có sẳn ở kho",
+        "filter": {
+          "categorySlug": "vay-dam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Váy đầm sale",
+        "icon": "/assets/images/categories/sale-product.png",
+        "description": "Tất cả váy đầm sale",
+        "filter": {
+          "categorySlug": "vay-dam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Váy đầm sỉ dưới 125k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "vay-dam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Váy đầm sỉ từ 125k - 150k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "vay-dam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      },
+      {
+        "name": "Váy đầm sỉ trên 150k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "vay-dam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": null
+      }
+    ]
+  },
+  {
+    "name": "Áo thun nữ",
+    "icon": "/assets/images/categories/category-19.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "ao-thun-nu",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Áo sơ mi nữ",
+    "icon": "/assets/images/categories/category-20.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "ao-so-mi-nu",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Áo dài cách tân",
+    "icon": "/assets/images/categories/category-16.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "ao-dai-cach-tan",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Quần nữ",
+    "icon": "/assets/images/categories/category-23.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "quan-nu",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Đồ lót nữ",
+    "icon": "/assets/images/categories/category-41.jpg",
+    "description": "",
+    "filter": {
+      "categorySlug": "do-lot-nu",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Áo khoác nữ",
+    "icon": "/assets/images/categories/category-21.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "ao-khoac-nu",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Quần áo nữ giá sỉ (hàng order)",
+    "icon": "/assets/images/categories/category-15.jpg",
+    "description": "",
+    "filter": {
+      "categorySlug": "quan-ao-nu",
+      "categorySlugList": null,
+      "productBadge": 4,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": [
+      {
+        "name": "Quần áo nữ big size",
+        "icon": "/assets/images/categories/big-size.png",
+        "description": "",
+        "filter": {
+          "categorySlug": null,
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": "quan-ao-nu-big-size",
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Đồ bộ nữ",
+        "icon": "/assets/images/categories/category-18.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "do-bo-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": [
+          {
+            "name": "Đồ bộ nữ có sẳn",
+            "icon": "/assets/images/categories/new-product.png",
+            "description": "Hàng có sẳn ở kho",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ nữ order",
+            "icon": "/assets/images/categories/order-product.png",
+            "description": "Không có sẳn ở kho",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ nữ sale",
+            "icon": "/assets/images/categories/sale-product.png",
+            "description": "Tất cả đồ bộ nữ sale",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ sỉ dưới 100k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ sỉ từ 100k - 125k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ sỉ từ 125k - 150k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ sỉ trên 150k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          }
+        ]
+      },
+      {
+        "name": "Váy đầm nữ",
+        "icon": "/assets/images/categories/category-17.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "vay-dam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": [
+          {
+            "name": "Váy đầm có sẵn",
+            "icon": "/assets/images/categories/new-product.png",
+            "description": "Hàng có sẳn ở kho",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Váy đầm order",
+            "icon": "/assets/images/categories/order-product.png",
+            "description": "Không có sẳn ở kho",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Váy đầm sale",
+            "icon": "/assets/images/categories/sale-product.png",
+            "description": "Tất cả váy đầm sale",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Váy đầm sỉ dưới 125k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Váy đầm sỉ từ 125k - 150k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Váy đầm sỉ trên 150k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          }
+        ]
+      },
+      {
+        "name": "Áo thun nữ",
+        "icon": "/assets/images/categories/category-19.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-thun-nu",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần nữ",
+        "icon": "/assets/images/categories/category-23.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "quan-nu",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo sơ mi nữ",
+        "icon": "/assets/images/categories/category-20.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-so-mi-nu",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Đồ lót nữ",
+        "icon": "/assets/images/categories/category-41.jpg",
+        "description": "",
+        "filter": {
+          "categorySlug": "do-lot-nu",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo khoác nữ",
+        "icon": "/assets/images/categories/category-21.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-khoac-nu",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo dài cách tân",
+        "icon": "/assets/images/categories/category-16.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-dai-cach-tan",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nữ có sẵn",
+        "icon": "/assets/images/categories/new-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nữ order",
+        "icon": "/assets/images/categories/order-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nữ sale",
+        "icon": "/assets/images/categories/sale-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      }
+    ]
+  },
+  {
+    "name": "Quần áo nữ giá sỉ (hàng sale)",
+    "icon": "/assets/images/categories/category-15.jpg",
+    "description": "",
+    "filter": {
+      "categorySlug": "quan-ao-nu",
+      "categorySlugList": null,
+      "productBadge": 4,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": [
+      {
+        "name": "Quần áo nữ big size",
+        "icon": "/assets/images/categories/big-size.png",
+        "description": "",
+        "filter": {
+          "categorySlug": null,
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": "quan-ao-nu-big-size",
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Đồ bộ nữ",
+        "icon": "/assets/images/categories/category-18.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "do-bo-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": [
+          {
+            "name": "Đồ bộ nữ có sẳn",
+            "icon": "/assets/images/categories/new-product.png",
+            "description": "Hàng có sẳn ở kho",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ nữ order",
+            "icon": "/assets/images/categories/order-product.png",
+            "description": "Không có sẳn ở kho",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ nữ sale",
+            "icon": "/assets/images/categories/sale-product.png",
+            "description": "Tất cả đồ bộ nữ sale",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ sỉ dưới 100k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ sỉ từ 100k - 125k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ sỉ từ 125k - 150k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Đồ bộ sỉ trên 150k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "do-bo-nu",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          }
+        ]
+      },
+      {
+        "name": "Váy đầm nữ",
+        "icon": "/assets/images/categories/category-17.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "vay-dam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 151000,
+          "priceMax": 150000
+        },
+        "children": [
+          {
+            "name": "Váy đầm có sẵn",
+            "icon": "/assets/images/categories/new-product.png",
+            "description": "Hàng có sẳn ở kho",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Váy đầm order",
+            "icon": "/assets/images/categories/order-product.png",
+            "description": "Không có sẳn ở kho",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Váy đầm sale",
+            "icon": "/assets/images/categories/sale-product.png",
+            "description": "Tất cả váy đầm sale",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Váy đầm sỉ dưới 125k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Váy đầm sỉ từ 125k - 150k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          },
+          {
+            "name": "Váy đầm sỉ trên 150k",
+            "icon": "/assets/images/categories/price-filter.png",
+            "description": "",
+            "filter": {
+              "categorySlug": "vay-dam",
+              "categorySlugList": null,
+              "productBadge": 4,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 151000,
+              "priceMax": 150000
+            },
+            "children": null
+          }
+        ]
+      },
+      {
+        "name": "Áo thun nữ",
+        "icon": "/assets/images/categories/category-19.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-thun-nu",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần nữ",
+        "icon": "/assets/images/categories/category-23.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "quan-nu",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo sơ mi nữ",
+        "icon": "/assets/images/categories/category-20.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-so-mi-nu",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Đồ lót nữ",
+        "icon": "/assets/images/categories/category-41.jpg",
+        "description": "",
+        "filter": {
+          "categorySlug": "do-lot-nu",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo khoác nữ",
+        "icon": "/assets/images/categories/category-21.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-khoac-nu",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo dài cách tân",
+        "icon": "/assets/images/categories/category-16.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-dai-cach-tan",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nữ có sẵn",
+        "icon": "/assets/images/categories/new-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nữ order",
+        "icon": "/assets/images/categories/order-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nữ sale",
+        "icon": "/assets/images/categories/sale-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nu",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      }
+    ]
+  },
+  {
+    "name": "Áo thun nam",
+    "icon": "/assets/images/categories/category-3.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "ao-thun-nam",
+      "categorySlugList": null,
+      "productBadge": 3,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": [
+      {
+        "name": "Áo thun nam có sẳn",
+        "icon": "/assets/images/categories/new-product.png",
+        "description": "Hàng có sẳn ở kho",
+        "filter": {
+          "categorySlug": "ao-thun-nam",
+          "categorySlugList": null,
+          "productBadge": 3,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo thun nam order",
+        "icon": "/assets/images/categories/order-product.png",
+        "description": "Không có sẳn ở kho",
+        "filter": {
+          "categorySlug": "ao-thun-nam",
+          "categorySlugList": null,
+          "productBadge": 3,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      }
+    ]
+  },
+  {
+    "name": "Áo sơ mi nam",
+    "icon": null,
+    "description": null,
+    "filter": {
+      "categorySlug": "ao-so-mi-nam",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Áo khoác nam",
+    "icon": "/assets/images/categories/category-10.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "ao-khoac-nam",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Quần nam",
+    "icon": "/assets/images/categories/category-11.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "quan-nam",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Quần lót nam",
+    "icon": "/assets/images/categories/category-42.jpg",
+    "description": "",
+    "filter": {
+      "categorySlug": "quan-lot-nam",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Đồ lót nữ",
+    "icon": "/assets/images/categories/category-41.jpg",
+    "description": "",
+    "filter": {
+      "categorySlug": "do-lot-nu",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Áo khoác nữ",
+    "icon": "/assets/images/categories/category-21.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "ao-khoac-nu",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Set bộ nam",
+    "icon": "/assets/images/categories/category-2.jpg",
+    "description": null,
+    "filter": {
+      "categorySlug": "set-bo-nam",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": null
+  },
+  {
+    "name": "Quần áo nam giá sỉ (hàng order)",
+    "icon": "/assets/images/categories/category-1.jpg",
+    "description": "",
+    "filter": {
+      "categorySlug": "quan-ao-nam",
+      "categorySlugList": null,
+      "productBadge": 4,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": [
+      {
+        "name": "Áo thun nam",
+        "icon": "/assets/images/categories/category-3.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-thun-nam",
+          "categorySlugList": null,
+          "productBadge": 3,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": [
+          {
+            "name": "Áo thun nam có sẳn",
+            "icon": "/assets/images/categories/new-product.png",
+            "description": "Hàng có sẳn ở kho",
+            "filter": {
+              "categorySlug": "ao-thun-nam",
+              "categorySlugList": null,
+              "productBadge": 3,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 0,
+              "priceMax": 0
+            },
+            "children": null
+          },
+          {
+            "name": "Áo thun nam order",
+            "icon": "/assets/images/categories/order-product.png",
+            "description": "Không có sẳn ở kho",
+            "filter": {
+              "categorySlug": "ao-thun-nam",
+              "categorySlugList": null,
+              "productBadge": 3,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 0,
+              "priceMax": 0
+            },
+            "children": null
+          }
+        ]
+      },
+      {
+        "name": "Quần nam",
+        "icon": "/assets/images/categories/category-11.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "quan-nam",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo khoác nam",
+        "icon": "/assets/images/categories/category-10.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-khoac-nam",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo sơ mi nam",
+        "icon": null,
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-so-mi-nam",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần lót nam",
+        "icon": "/assets/images/categories/category-42.jpg",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-lot-nam",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Set bộ nam",
+        "icon": "/assets/images/categories/category-2.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "set-bo-nam",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nam có sẵn",
+        "icon": "/assets/images/categories/new-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nam order",
+        "icon": "/assets/images/categories/order-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nam sale",
+        "icon": "/assets/images/categories/sale-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      }
+    ]
+  },
+  {
+    "name": "Quần áo nam giá sỉ (hàng sale)",
+    "icon": "/assets/images/categories/category-1.jpg",
+    "description": "",
+    "filter": {
+      "categorySlug": "quan-ao-nam",
+      "categorySlugList": null,
+      "productBadge": 4,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 0,
+      "priceMax": 0
+    },
+    "children": [
+      {
+        "name": "Áo thun nam",
+        "icon": "/assets/images/categories/category-3.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-thun-nam",
+          "categorySlugList": null,
+          "productBadge": 3,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": [
+          {
+            "name": "Áo thun nam có sẳn",
+            "icon": "/assets/images/categories/new-product.png",
+            "description": "Hàng có sẳn ở kho",
+            "filter": {
+              "categorySlug": "ao-thun-nam",
+              "categorySlugList": null,
+              "productBadge": 3,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 0,
+              "priceMax": 0
+            },
+            "children": null
+          },
+          {
+            "name": "Áo thun nam order",
+            "icon": "/assets/images/categories/order-product.png",
+            "description": "Không có sẳn ở kho",
+            "filter": {
+              "categorySlug": "ao-thun-nam",
+              "categorySlugList": null,
+              "productBadge": 3,
+              "productSearch": null,
+              "productSort": 4,
+              "tagSlug": null,
+              "priceMin": 0,
+              "priceMax": 0
+            },
+            "children": null
+          }
+        ]
+      },
+      {
+        "name": "Quần nam",
+        "icon": "/assets/images/categories/category-11.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "quan-nam",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo khoác nam",
+        "icon": "/assets/images/categories/category-10.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-khoac-nam",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Áo sơ mi nam",
+        "icon": null,
+        "description": null,
+        "filter": {
+          "categorySlug": "ao-so-mi-nam",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần lót nam",
+        "icon": "/assets/images/categories/category-42.jpg",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-lot-nam",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Set bộ nam",
+        "icon": "/assets/images/categories/category-2.jpg",
+        "description": null,
+        "filter": {
+          "categorySlug": "set-bo-nam",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nam có sẵn",
+        "icon": "/assets/images/categories/new-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nam order",
+        "icon": "/assets/images/categories/order-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      },
+      {
+        "name": "Quần áo nam sale",
+        "icon": "/assets/images/categories/sale-product.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "quan-ao-nam",
+          "categorySlugList": null,
+          "productBadge": 4,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 0,
+          "priceMax": 0
+        },
+        "children": null
+      }
+    ]
+  },
+  {
+    "name": "Nước hoa",
+    "icon": "/assets/images/categories/category-44.jpg",
+    "description": "",
+    "filter": {
+      "categorySlug": "nuoc-hoa",
+      "categorySlugList": null,
+      "productBadge": 0,
+      "productSearch": null,
+      "productSort": 4,
+      "tagSlug": null,
+      "priceMin": 50000,
+      "priceMax": 400000
+    },
+    "children": [
+      {
+        "name": "Loại chai 20ml giá 30k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "nuoc-hoa",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 50000,
+          "priceMax": 400000
+        },
+        "children": null
+      },
+      {
+        "name": "Loại chai 20ml giá 35k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "nuoc-hoa",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 50000,
+          "priceMax": 400000
+        },
+        "children": null
+      },
+      {
+        "name": "Loại chai ống giá sỉ 49k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "nuoc-hoa",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 50000,
+          "priceMax": 400000
+        },
+        "children": null
+      },
+      {
+        "name": "Loại chai 50ml sỉ 135k",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "nuoc-hoa",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 50000,
+          "priceMax": 400000
+        },
+        "children": null
+      },
+      {
+        "name": "Loại full size nhiều giá",
+        "icon": "/assets/images/categories/price-filter.png",
+        "description": "",
+        "filter": {
+          "categorySlug": "nuoc-hoa",
+          "categorySlugList": null,
+          "productBadge": 0,
+          "productSearch": null,
+          "productSort": 4,
+          "tagSlug": null,
+          "priceMin": 50000,
+          "priceMax": 400000
+        },
+        "children": null
+      }
+    ]
+  }
+]

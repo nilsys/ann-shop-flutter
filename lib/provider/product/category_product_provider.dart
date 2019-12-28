@@ -5,21 +5,20 @@ import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 
 class CategoryProductProvider extends ChangeNotifier {
-
   CategoryProductProvider() {
     // instructor
   }
 
   Map<dynamic, ResponseProvider<List<Product>>> categories = new Map();
 
-  forceRefresh(){
+  forceRefresh() {
     categories = new Map();
     notifyListeners();
   }
 
-  ResponseProvider<List<Product>> getByCategory(Category category){
-    String code = category.filter.toJson().toString();
-    if(categories[code] == null){
+  ResponseProvider<List<Product>> getByCategory(Category category) {
+    String code = category.getKey;
+    if (categories[code] == null) {
       categories[code] = ResponseProvider<List<Product>>();
       loadCategory(category);
     }
@@ -27,11 +26,18 @@ class CategoryProductProvider extends ChangeNotifier {
   }
 
   loadCategory(Category category, {refresh = false}) async {
-    String code = category.filter.toJson().toString();
+    String code = category.getKey;
     try {
       categories[code].loading = 'Loading';
-      if(refresh)notifyListeners();
-      var list = await ProductRepository.instance.loadByCategoryFilter(category, cache: true,);
+      if (refresh) notifyListeners();
+
+      var list =
+          await ProductRepository.instance.loadByCategoryFilter(category);
+      if (list == null) {
+        list = await ProductRepository.instance.loadByCache(code);
+      } else {
+        ProductRepository.instance.cacheProduct(code, list);
+      }
       if (list == null) {
         categories[code].error = 'Load fail';
       } else {

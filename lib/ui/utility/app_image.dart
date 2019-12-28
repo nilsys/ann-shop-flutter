@@ -15,39 +15,6 @@ class AppImage extends StatelessWidget {
     return _buildCachedImage();
   }
 
-  _buildExtendedImage() {
-//    return ExtendedImage.network(
-//      url,
-//      enableMemoryCache: true,
-//      fit: fit,
-//      loadStateChanged: (ExtendedImageState state) {
-//        switch (state.extendedImageLoadState) {
-//          case LoadState.loading:
-//            if (this.showLoading) {
-//              return Container(
-//                alignment: Alignment.center,
-//                child: Indicator(),
-//              );
-//            } else {
-//              return Container();
-//            }
-//            break;
-//          case LoadState.failed:
-//            return IconButton(
-//              icon: Icon(Icons.error_outline),
-//              onPressed: () {
-//                state.reLoadImage();
-//              },
-//            );
-//            break;
-//          default:
-//            return null;
-//            break;
-//        }
-//      },
-//    );
-  }
-
   _buildCachedImage() {
     var fullUrl = url.contains('http') ? url : (Core.domain + url);
     return CachedNetworkImage(

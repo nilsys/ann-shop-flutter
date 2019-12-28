@@ -33,11 +33,17 @@ class AppFilter {
     badge = filter.badge;
   }
 
-  AppFilter.fromCategoryFilter(ProductFilter filter) {
-    sort = filter.productSort ?? 4;
-    priceMin = filter.priceMin ?? 0;
-    priceMax = filter.priceMax ?? 0;
-    badge = filter.productBadge ?? 0;
+  factory AppFilter.fromCategoryFilter(ProductFilter filter) {
+    if (filter == null) {
+      return AppFilter();
+    } else {
+      return AppFilter(
+        sort: filter.productSort ?? 4,
+        priceMin: filter.priceMin ?? 0,
+        priceMax: filter.priceMax ?? 0,
+        badge: filter.productBadge ?? 0,
+      );
+    }
   }
 
   Map<String, dynamic> toJson() {

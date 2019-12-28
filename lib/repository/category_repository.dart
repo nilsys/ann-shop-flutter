@@ -17,9 +17,9 @@ class CategoryRepository {
   }
 
   /// http://ann-shop-server.com/api/flutter/categories
-  Future<List<Category>> loadCategories() async {
+  Future<List<Category>> loadCategories(String slug) async {
     try {
-      final url = Core.domain + 'api/flutter/' + 'categories';
+      final url = Core.domain + 'api/flutter/$slug';
       final response = await http.get(url).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
@@ -37,31 +37,9 @@ class CategoryRepository {
     return null;
   }
 
-  /// http://ann-shop-server.com/api/flutter/home/categories
-  Future<List<Category>> loadCategoryHome() async {
+  Future<List<Category>> loadCategoriesOffline(String path) async {
     try {
-      final url = Core.domain + 'api/flutter/' + 'home/categories';
-      final response = await http.get(url).timeout(Duration(seconds: 5));
-      log(url);
-      log(response.body);
-      if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(response.body);
-        List<Category> _data = new List();
-        message.forEach((v) {
-          _data.add(new Category.fromJson(v));
-        });
-        return _data;
-      }
-    } catch (e) {
-      log(e);
-    }
-    return null;
-  }
-
-  Future<List<Category>> loadCategoriesOffline() async {
-    try {
-      final url = 'assets/offline/categories.json';
-      final response = await rootBundle.loadString(url);
+      final response = await rootBundle.loadString(path);
       var message = jsonDecode(response);
       List<Category> _data = new List();
       message.forEach((v) {
