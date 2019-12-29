@@ -2,6 +2,7 @@ class InApp {
   int id;
   String kind;
   String name;
+  String image;
   String action;
   String actionValue;
   String message;
@@ -11,6 +12,7 @@ class InApp {
     id = json['id'];
     kind = json['kind'] ?? 'news';
     name = json['name'] ?? '';
+    image = json['image'];
     action = json['action'];
     actionValue = json['actionValue'];
     message = json['message'] ?? '';
@@ -21,6 +23,7 @@ class InApp {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['image'] = this.image;
     data['kind'] = this.kind;
     data['action'] = this.action;
     data['actionValue'] = this.actionValue;

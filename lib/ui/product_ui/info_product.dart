@@ -196,7 +196,7 @@ class _InfoProductState extends State<InfoProduct> {
     /// 6 View
     if (Utility.isNullOrEmpty(detail.discounts) == false) {
       if (isFull) {
-        children.add(_buildTitle('Thông tin chiết khấu'));
+        children.add(_buildTitle('Chiết khấu'));
 
         for (var item in detail.discounts) {
           children.add(Row(
@@ -207,7 +207,7 @@ class _InfoProductState extends State<InfoProduct> {
               ),
               Expanded(
                 flex: 3,
-                child: Text('${item.price.round()}'),
+                child: Text(Utility.formatPrice(item.price)),
               ),
             ],
           ));
