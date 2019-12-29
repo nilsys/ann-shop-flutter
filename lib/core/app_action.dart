@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
@@ -55,7 +56,7 @@ class AppAction {
   void linkToProductDetail(
       BuildContext context, String value, String message) async {
     print('link to product detail: $value');
-    Navigator.pushNamed(context, '/product-detail', arguments: value);
+    Router.showProductDetail(context, slug: value);
   }
 
   void linkToCategory(

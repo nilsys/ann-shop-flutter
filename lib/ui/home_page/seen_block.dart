@@ -13,7 +13,7 @@ class SeenBlock extends StatelessWidget {
   SeenBlock({this.exceptID});
 
   final int exceptID;
-final limit = 10;
+  final limit = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,11 @@ final limit = 10;
     final imageHeight = 200.0;
     SeenProvider provider = Provider.of(context);
     List<Widget> children = [];
-    int length = provider.products == null ? 0 : min(provider.products.length, limit);
+    int length =
+        provider.products == null ? 0 : min(provider.products.length, limit);
     for (int i = 0; i < length; i++) {
-      if (provider.products[i] != null && exceptID != provider.products[i].productID) {
+      if (provider.products[i] != null &&
+          exceptID != provider.products[i].productID) {
         children.add(ProductItem(
           provider.products[i],
           width: imageWidth,
@@ -31,7 +33,7 @@ final limit = 10;
         ));
       }
     }
-    if (Utility.isNullOrEmpty(children) == null) {
+    if (Utility.isNullOrEmpty(children) == false) {
       return SliverToBoxAdapter(
         child: Container(
           decoration: BoxDecoration(

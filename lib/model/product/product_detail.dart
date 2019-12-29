@@ -17,10 +17,9 @@ class ProductDetail extends Product {
 
   @override
   String getTextCopy({index, hasContent = true}) {
-    String value =
-        super.getTextCopy(index: index);
+    String value = super.getTextCopy(index: index);
 
-    if(hasContent) {
+    if (hasContent) {
       String _getContent = getContent();
       if (Utility.isNullOrEmpty(_getContent) == false) {
         _getContent = HtmlUnescape().convert(_getContent);
@@ -40,7 +39,6 @@ class ProductDetail extends Product {
         value += item.name + '; ';
       }
     }
-
 
     return value;
   }
@@ -100,9 +98,9 @@ class ProductDetail extends Product {
 
     _detail.content = json['content'];
     List<RegExpMatch> matches =
-    RegExp(r"/uploads[\w\W]+?.jpg|/uploads[\w\W]+?.png")
-        .allMatches(_detail.content)
-        .toList();
+        RegExp(r"/uploads[\w\W]+?.jpg|/uploads[\w\W]+?.png")
+            .allMatches(_detail.content)
+            .toList();
     if (Utility.isNullOrEmpty(matches) == false) {
       _detail.contentImages = new List();
       matches.forEach((f) {
@@ -113,5 +111,9 @@ class ProductDetail extends Product {
       });
     }
     return _detail;
+  }
+
+  Product toProduct(){
+    return Product.fromJson(toJson());
   }
 }

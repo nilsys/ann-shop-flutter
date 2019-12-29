@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
+import 'package:ann_shop_flutter/repository/inapp_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/inapp/inapp_category_ui.dart';
 import 'package:ann_shop_flutter/view/inapp/list_inapp.dart';
@@ -15,7 +16,8 @@ class _InAppViewState extends State<InAppView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thông báo'),
+        title: Text(InAppRepository.instance
+            .getNameInApp(Provider.of<InAppProvider>(context).currentCategory)),
       ),
       body: _buildPageData(),
     );

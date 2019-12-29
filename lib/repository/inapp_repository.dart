@@ -17,6 +17,27 @@ class InAppRepository {
 
   List<String> categories = ['promotion', 'notification', 'news'];
 
+  String getNameInApp(String category) {
+    switch (category) {
+      case 'all':
+        return 'Thông báo';
+        break;
+      case 'promotion':
+        return 'Khuyến mãi';
+        break;
+      case 'notification':
+        return 'Hoạt động';
+        break;
+      case 'news':
+        return 'Tin tức';
+        break;
+      default:
+        return 'Thông báo khác';
+        break;
+    }
+  }
+
+
   IconData getIconInApp(String category) {
     switch (category) {
       case 'all':

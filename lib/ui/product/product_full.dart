@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
@@ -58,8 +59,7 @@ class _ProductFullState extends State<ProductFull> {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/product-detail',
-              arguments: widget.product.slug);
+          Router.showProductDetail(context, product: widget.product);
         },
         child: Column(
           children: <Widget>[

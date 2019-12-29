@@ -80,7 +80,7 @@ class _HomeViewState extends State<HomeView>
               BottomNavigationBarItem(
                 icon: _buildIcon(
                   AppIcons.th_large_outline,
-                  size: 20,
+                  size: 18,
                 ),
                 activeIcon: _buildIcon(
                   AppIcons.th_large_1,

@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
@@ -19,8 +20,7 @@ class ProductFavoriteItem extends StatelessWidget {
         padding: EdgeInsets.all(defaultPadding),
         child: InkWell(
           onTap: () {
-            Navigator.pushNamed(context, '/product-detail',
-                arguments: data.product.slug);
+            Router.showProductDetail(context, product: data.product);
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

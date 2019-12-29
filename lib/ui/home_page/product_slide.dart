@@ -17,11 +17,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductSlide extends StatefulWidget {
-  ProductSlide(this.group, {this.customName, this.banner});
+  ProductSlide(this.group, {this.banner});
 
   final Cover banner;
   final Category group;
-  final customName;
 
   @override
   _ProductSlideState createState() => _ProductSlideState();
@@ -52,7 +51,7 @@ class _ProductSlideState extends State<ProductSlide> {
             height: 10,
             color: AppStyles.dividerColor,
           ),
-          TitleViewMore(title: widget.customName ?? widget.group.name),
+          TitleViewMore(title: widget.group.name),
           Column(
             children: <Widget>[
               _buildBanner(),

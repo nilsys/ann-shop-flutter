@@ -1,5 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';

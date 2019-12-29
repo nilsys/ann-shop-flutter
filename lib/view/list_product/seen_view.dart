@@ -8,6 +8,9 @@ class SeenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Product> data = Provider.of<SeenProvider>(context).products;
+    for(var item in data){
+      print(item.toJson().toString());
+    }
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

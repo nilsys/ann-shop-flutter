@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/main.dart';
@@ -38,14 +39,15 @@ class SearchProvider with ChangeNotifier {
       ProgressDialog loading =
           ProgressDialog(MyApp.context, message: 'Tìm kiếm sản phẩm...')
             ..show();
-      var data = await ProductRepository.instance.loadBySearch(text, filter: AppFilter());
+      var data = await ProductRepository.instance
+          .loadBySearch(text, filter: AppFilter());
       loading.hide(contextHide: MyApp.context);
       if (Utility.isNullOrEmpty(data)) {
         AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm.');
       } else {
-        if(data.length == 1){
-          Navigator.pushNamed(context, '/product-detail', arguments: data[0].slug);
-        }else {
+        if (data.length == 1) {
+          Router.showProductDetail(context, product: data[0]);
+        } else {
           ListProduct.showBySearch(context, {'title': value, 'products': data});
         }
       }

@@ -1,3 +1,5 @@
+import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/view/account/add_information.dart';
 import 'package:ann_shop_flutter/view/account/login_view.dart';
 import 'package:ann_shop_flutter/view/inapp/blog_view.dart';
@@ -23,6 +25,7 @@ import 'package:ann_shop_flutter/view/utility/file_view.dart';
 import 'package:ann_shop_flutter/view/utility/view_more_page.dart';
 import 'package:ann_shop_flutter/view/utility/web_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -54,7 +57,8 @@ class Router {
             builder: (_) => ImageView(data), settings: settings);
       case '/product-image-by-size-and-image':
         return MaterialPageRoute(
-            builder: (_) => ProductImageBySizeAndColor(data), settings: settings);
+            builder: (_) => ProductImageBySizeAndColor(data),
+            settings: settings);
       case '/search':
         return MaterialPageRoute(
             builder: (_) => SearchPage(), settings: settings);
@@ -114,5 +118,13 @@ class Router {
       default:
         return settings.name;
     }
+  }
+
+  static showProductDetail(context, {String slug, Product product}) {
+    if (product != null) {
+      Provider.of<SeenProvider>(context).addNewProduct(product);
+      slug = product.slug;
+    }
+    Navigator.pushNamed(context, '/product-detail', arguments: slug);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
@@ -25,7 +26,7 @@ class ProductTitle extends StatelessWidget {
       padding: EdgeInsets.all(defaultPadding),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/product-detail', arguments: product.slug);
+          Router.showProductDetail(context, product: product);
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,7 +36,10 @@ class ProductTitle extends StatelessWidget {
               height: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(0),
-                child: AppImage(product.getCover, fit: BoxFit.contain,),
+                child: AppImage(
+                  product.getCover,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             SizedBox(
@@ -58,9 +62,7 @@ class ProductTitle extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                    SizedBox(height: 5),
                     Text(
                       'Mã: ' + product.sku,
                       textAlign: TextAlign.left,

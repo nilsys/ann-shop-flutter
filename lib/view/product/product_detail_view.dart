@@ -11,7 +11,6 @@ import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
@@ -30,7 +29,6 @@ import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
-import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -73,13 +71,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
         }
       }
     });
-    WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      Provider.of<SeenProvider>(context).addNewProduct(detail);
-    });
   }
 
   ProductDetail detail;
 
+  bool addSeen = false;
   @override
   Widget build(BuildContext context) {
     ProductProvider provider = Provider.of<ProductProvider>(context);
@@ -747,7 +743,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
       return SliverToBoxAdapter(
           child: ProductSlide(
         category,
-        customName: '',
       ));
     } else {
       return SliverToBoxAdapter();

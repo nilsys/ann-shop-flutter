@@ -247,13 +247,13 @@ class _InfoProductState extends State<InfoProduct> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              isFull ? 'Thu gọn  ' : 'Xem thêm  ',
+              isFull ? 'Thu gọn ' : 'Xem thêm ',
               style: Theme.of(context)
                   .textTheme
                   .button
                   .merge(TextStyle(color: Colors.blue)),
             ),
-            Icon(isFull ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down)
+            Icon(isFull ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.blue,)
           ],
         ),
       ),
