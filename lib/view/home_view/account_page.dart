@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
@@ -61,7 +62,7 @@ class _AccountPageState extends State<AccountPage> {
                   Provider.of<NavigationProvider>(context)
                       .switchTo(PageName.notification.index);
                 }),
-                _buildItemCommon('ANN Blog', icon: Icons.message,
+                _buildItemCommon('ANN Blog', icon: AppIcons.blogger,
                     onTap: () {
                       Navigator.pushNamed(context, '/blog');
                     }),

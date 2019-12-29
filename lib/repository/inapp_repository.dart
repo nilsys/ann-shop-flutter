@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/utility/blog.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -24,16 +23,16 @@ class InAppRepository {
         return Icons.home;
         break;
       case 'promotion':
-        return Icons.style;
+        return Icons.local_atm;
         break;
       case 'notification':
-        return Icons.message;
+        return Icons.receipt;
         break;
       case 'news':
-        return Icons.restore;
+        return Icons.description;
         break;
       default:
-        return Icons.ac_unit;
+        return Icons.message;
         break;
     }
   }
@@ -97,30 +96,6 @@ class InAppRepository {
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
         return jsonDecode(body);
-      }
-    } catch (e) {
-      log(e);
-    }
-    return null;
-  }
-
-  /// http://xuongann.com/api/flutter/
-  Future<List<Blog>> loadBlog({page = 1, pageSize = 20}) async {
-    try {
-      var url = Core.domain +
-          'api/flutter/notifications?&pageNumber=$page&pageSize=$pageSize';
-      final response = await http.get(url).timeout(Duration(seconds: 10));
-      log(url);
-      log(response.body);
-      final body = response.body;
-
-      if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(body);
-        List<Blog> _data = new List();
-        message.forEach((v) {
-          _data.add(new Blog.fromJson(v));
-        });
-        return _data;
       }
     } catch (e) {
       log(e);

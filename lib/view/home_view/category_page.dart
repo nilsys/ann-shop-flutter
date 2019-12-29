@@ -22,7 +22,7 @@ class _CategoryPageState extends State<CategoryPage> {
       onRefresh: _refreshPage,
       child: Scaffold(
         body: CustomScrollView(
-            physics: BouncingScrollPhysics(),
+//            physics: BouncingScrollPhysics(),
             slivers: <Widget>[
               SliverAppBar(
                 pinned: true,

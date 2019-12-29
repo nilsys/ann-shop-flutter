@@ -4,9 +4,10 @@ import 'package:ann_shop_flutter/provider/product/category_product_provider.dart
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
+import 'package:ann_shop_flutter/ui/home_page/home_list_notification.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_product_slide.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
-import 'package:ann_shop_flutter/ui/home_page/home_list_banner.dart';
+import 'package:ann_shop_flutter/ui/home_page/home_list_post.dart';
 import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
 import 'package:ann_shop_flutter/ui/utility/ann-icon.dart';
 import 'package:ann_shop_flutter/view/search/search_title.dart';
@@ -90,15 +91,10 @@ class _HomePageState extends State<HomePage> {
                           HomeCategory(),
                         ]),
                       ),
-                      HomeListBanner(
-                          data: Provider.of<CoverProvider>(context)
-                              .notificationHome
-                              .data, limit: 3,),
+                      HomeListNotification(),
                       SeenBlock(),
                       HomeProductSlide(),
-                      HomeListBanner(
-                          data:
-                              Provider.of<CoverProvider>(context).postsHome.data),
+                      HomeListPost(),
                       SliverToBoxAdapter(
                         child: Container(
                           color: Colors.white,

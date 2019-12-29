@@ -198,6 +198,10 @@ class _ProductFilterViewState extends State<ProductFilterView> {
     if (_max <= 0 || _max > 201) {
       _max = 201;
     }
+    if (_min >= _max) {
+      _min = _max - 3;
+    }
+
     return SliderTheme(
       data: SliderThemeData(showValueIndicator: ShowValueIndicator.always),
       child: RangeSlider(

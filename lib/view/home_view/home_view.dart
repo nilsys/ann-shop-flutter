@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/view/inapp/inapp_view.dart';
@@ -64,25 +65,44 @@ class _HomeViewState extends State<HomeView>
             type: bigScreen
                 ? BottomNavigationBarType.fixed
                 : BottomNavigationBarType.shifting,
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: _buildIcon(
+                  AppIcons.home_outline,
+                  size: 20,
+                ),
+                activeIcon: _buildIcon(
+                  AppIcons.home,
+                  size: 20,
+                ),
                 title: Text('Trang chủ'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.view_module),
+                icon: _buildIcon(
+                  AppIcons.th_large_outline,
+                  size: 20,
+                ),
+                activeIcon: _buildIcon(
+                  AppIcons.th_large_1,
+                  size: 20,
+                ),
                 title: Text('Danh mục'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.search),
+                icon: _buildIcon(
+                  AppIcons.search,
+                  size: 20,
+                ),
                 title: Text('Tìm kiếm'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.notifications_none),
+                icon: _buildIcon(Icons.notifications_none),
+                activeIcon: _buildIcon(Icons.notifications),
                 title: Text('Thông báo'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.account_box),
+                icon: _buildIcon(Icons.perm_identity),
+                activeIcon: _buildIcon(Icons.person),
                 title: Text('Cá nhân'),
               ),
             ],
@@ -94,6 +114,16 @@ class _HomeViewState extends State<HomeView>
         );
       }),
     );
+  }
+
+  Widget _buildIcon(IconData icon, {double size}) {
+    return Container(
+        height: 30,
+        alignment: Alignment.center,
+        child: Icon(
+          icon,
+          size: size,
+        ));
   }
 
   _onItemTapped(_index) {

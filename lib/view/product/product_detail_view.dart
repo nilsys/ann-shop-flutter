@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
@@ -16,6 +17,7 @@ import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
 import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
+import 'package:ann_shop_flutter/ui/product_ui/info_product.dart';
 import 'package:ann_shop_flutter/ui/product_ui/option_menu_product.dart';
 import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
 import 'package:ann_shop_flutter/ui/product_ui/policy_product_block.dart';
@@ -106,7 +108,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             backgroundColor: Colors.white,
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.search, color: AppStyles.dartIcon),
+                icon: Icon(AppIcons.search, color: AppStyles.dartIcon),
                 onPressed: () {
                   Navigator.pushNamed(context, '/search');
                 },
@@ -233,8 +235,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             ),
           ),
           PolicyProductBlock(),
-          _buildTitle('Thông tin chi tiết'),
-          _buildDetailInfo(),
+          InfoProduct(detail),
           _buildTitle('Thông tin sản phẩm'),
           _buildContent(),
 
@@ -531,182 +532,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
         ),
       );
     }
-  }
-
-  Widget _buildDetailInfo() {
-    var styleButton =
-        Theme.of(context).textTheme.button.merge(TextStyle(color: Colors.blue));
-
-    /// 0 Title
-    List<Widget> children = [
-      Row(
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Text('SKU'),
-          ),
-          Expanded(
-            flex: 3,
-            child: Text(
-              detail.sku,
-            ),
-          ),
-        ],
-      )
-    ];
-
-    /// 1 Category
-    children.add(Row(
-      children: <Widget>[
-        Expanded(
-          flex: 2,
-          child: Text('Danh mục'),
-        ),
-        Expanded(
-          flex: 3,
-          child: InkWell(
-            onTap: () {
-              controllerScroll.animateTo(
-                  controllerScroll.position.maxScrollExtent,
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeIn);
-            },
-            child: Text('${detail.categoryName}', style: styleButton),
-          ),
-        )
-      ],
-    ));
-
-    /// 2 TAG
-    if (Utility.isNullOrEmpty(detail.tags) == false) {
-      children.add(Row(
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Text('TAG'),
-          ),
-          Expanded(
-            flex: 3,
-            child: Wrap(
-              children: detail.tags
-                  .map((item) => InkWell(
-                        onTap: () {
-                          ListProduct.showByTag(context, item);
-                        },
-                        child: Text(
-                          item.name + ', ',
-                          style: styleButton,
-                        ),
-                      ))
-                  .toList(),
-            ),
-          )
-        ],
-      ));
-    }
-
-    /// 3 Color
-    if (Utility.isNullOrEmpty(detail.colors) == false) {
-      children.add(Row(
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Text('Màu'),
-          ),
-          Expanded(
-            flex: 3,
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/product-image-by-size-and-image',
-                    arguments: {'index': indexImage, 'data': detail});
-              },
-              child: Wrap(
-                children: detail.colors
-                    .map((item) => Text(
-                          item.name + ', ',
-                          style: styleButton,
-                        ))
-                    .toList(),
-              ),
-            ),
-          )
-        ],
-      ));
-    }
-
-    /// 4 Size
-    if (Utility.isNullOrEmpty(detail.sizes) == false) {
-      children.add(Row(
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Text('Size'),
-          ),
-          Expanded(
-            flex: 3,
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/product-image-by-size-and-image',
-                    arguments: {'index': indexImage, 'data': detail});
-              },
-              child: Wrap(
-                children: detail.sizes
-                    .map((item) => Text(
-                          item.name + ', ',
-                          style: styleButton,
-                        ))
-                    .toList(),
-              ),
-            ),
-          )
-        ],
-      ));
-    }
-
-    /// 5 Materials
-    if (Utility.isNullOrEmpty(detail.materials) == false) {
-      children.add(Row(
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Text('Chất liệu'),
-          ),
-          Expanded(
-            flex: 3,
-            child: Text(detail.materials),
-          ),
-        ],
-      ));
-    }
-
-    /// 5 Status
-    children.add(Row(
-      children: <Widget>[
-        Expanded(
-          flex: 2,
-          child: Text('Trạng thái'),
-        ),
-        Expanded(
-          flex: 3,
-          child: Text(ProductRepository.instance.getBadgeName(detail.badge)),
-        ),
-      ],
-    ));
-
-    return SliverList(
-        delegate: SliverChildBuilderDelegate(
-      (_, index) {
-        return Container(
-          decoration: index % 2 != 0
-              ? BoxDecoration()
-              : BoxDecoration(color: Colors.grey[200]),
-          padding:
-              EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 12),
-          child: children[index],
-        );
-      },
-      childCount: children.length,
-    ));
   }
 
   Widget _buildButtonControl() {

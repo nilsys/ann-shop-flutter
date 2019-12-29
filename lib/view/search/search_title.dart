@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:flutter/material.dart';
 
 class SearchTitle extends StatelessWidget {
@@ -21,7 +22,7 @@ class SearchTitle extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            Icon(Icons.search, color: Colors.black87,),
+            Icon(AppIcons.search, color: Colors.black87,),
             SizedBox(width: 15,),
             Text(text??'Bạn tìm gì hôm nay?', style: Theme.of(context).textTheme.body1,),
           ],

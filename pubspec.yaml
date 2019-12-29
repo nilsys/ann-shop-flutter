@@ -52,3 +52,9 @@ flutter:
 
     # Offline
     - assets/offline/
+
+    # Fonts
+  fonts:
+    - family: AppIcons
+      fonts:
+        - asset: assets/fonts/AppIcons.ttf

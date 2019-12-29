@@ -1,5 +1,6 @@
-import 'package:ann_shop_flutter/model/utility/blog.dart';
+import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/repository/load_more_blog_repository.dart';
+import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,8 @@ class _BuildAllViewState extends State<ListBlog> {
   @override
   void initState() {
     super.initState();
-    listSourceRepository = new LoadMoreBlogRepository(initData: widget.initData);
+    listSourceRepository =
+        new LoadMoreBlogRepository(initData: widget.initData);
   }
 
   @override
@@ -49,8 +51,8 @@ class _BuildAllViewState extends State<ListBlog> {
     );
   }
 
-  SliverListConfig<Blog> _buildByView() {
-    return SliverListConfig<Blog>(
+  SliverListConfig<Cover> _buildByView() {
+    return SliverListConfig<Cover>(
       itemBuilder: ItemBuilder.itemBuilderList,
       sourceList: listSourceRepository,
       indicatorBuilder: _buildIndicator,
@@ -67,7 +69,10 @@ class _BuildAllViewState extends State<ListBlog> {
 }
 
 class ItemBuilder {
-  static Widget itemBuilderList(BuildContext context, Blog item, int index) {
-    return Container(child: BlogItem(item));
+  static Widget itemBuilderList(BuildContext context, Cover item, int index) {
+    return Column(children: [
+      BlogItem(item),
+      Container(height: 6, color: AppStyles.dividerColor),
+    ]);
   }
 }

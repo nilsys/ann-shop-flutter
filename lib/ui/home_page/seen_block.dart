@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
@@ -12,16 +13,25 @@ class SeenBlock extends StatelessWidget {
   SeenBlock({this.exceptID});
 
   final int exceptID;
+final limit = 10;
 
   @override
   Widget build(BuildContext context) {
     final imageWidth = 150.0;
     final imageHeight = 200.0;
     SeenProvider provider = Provider.of(context);
-    if (provider.products != null &&
-        provider.products.length >= (exceptID == null ? 1 : 2)) {
-
-      int length = min(provider.products.length , 10);
+    List<Widget> children = [];
+    int length = provider.products == null ? 0 : min(provider.products.length, limit);
+    for (int i = 0; i < length; i++) {
+      if (provider.products[i] != null && exceptID != provider.products[i].productID) {
+        children.add(ProductItem(
+          provider.products[i],
+          width: imageWidth,
+          imageHeight: imageHeight,
+        ));
+      }
+    }
+    if (Utility.isNullOrEmpty(children) == null) {
       return SliverToBoxAdapter(
         child: Container(
           decoration: BoxDecoration(
@@ -42,25 +52,16 @@ class SeenBlock extends StatelessWidget {
               Container(
                 height: imageHeight + 140,
                 padding: EdgeInsets.only(left: 0, right: 0),
-                child: ListView.builder(
+                child: ListView(
                   scrollDirection: Axis.horizontal,
-                  itemCount: length,
-                  itemBuilder: (context, index) {
-                    if (provider.products[index].productID ==
-                        exceptID) {
-                      return Container();
-                    }
-                    return ProductItem(
-                      provider.products[index],
-                      width: imageWidth,
-                      imageHeight: imageHeight,
-                    );
-                  },
+                  children: children,
                 ),
               ),
-              BottomViewMore(onPressed: () {
-                Navigator.pushNamed(context, '/seen');
-              },)
+              BottomViewMore(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/seen');
+                },
+              )
             ],
           ),
         ),

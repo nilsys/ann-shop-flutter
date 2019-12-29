@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/model/utility/blog.dart';
-import 'package:ann_shop_flutter/repository/inapp_repository.dart';
+import 'package:ann_shop_flutter/model/utility/cover.dart';
+import 'package:ann_shop_flutter/repository/cover_repository.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
-class LoadMoreBlogRepository extends LoadingMoreBase<Blog> {
+class LoadMoreBlogRepository extends LoadingMoreBase<Cover> {
   LoadMoreBlogRepository({this.initData}) {
     // TODO:
     if (this.initData == null) {
@@ -22,7 +22,7 @@ class LoadMoreBlogRepository extends LoadingMoreBase<Blog> {
     super.dispose();
   }
 
-  final List<Blog> initData;
+  final List<Cover> initData;
   int pageIndex;
 
   // TODO: implement hasMore
@@ -50,7 +50,7 @@ class LoadMoreBlogRepository extends LoadingMoreBase<Blog> {
         this.clear();
       }
 
-      List<Blog> list = await _loadData();
+      List<Cover> list = await _loadData();
 
       list.forEach((item) {
         this.add(item);
@@ -67,8 +67,8 @@ class LoadMoreBlogRepository extends LoadingMoreBase<Blog> {
     return isSuccess;
   }
 
-  Future<List<Blog>> _loadData() async {
-    var list = await InAppRepository.instance
+  Future<List<Cover>> _loadData() async {
+    var list = await CoverRepository.instance
         .loadBlog(page: pageIndex, pageSize: itemPerPage);
     return list;
   }

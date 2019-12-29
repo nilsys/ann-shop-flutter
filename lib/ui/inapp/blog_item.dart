@@ -1,100 +1,94 @@
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/utility/blog.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
+import 'package:ann_shop_flutter/model/utility/cover.dart';
+import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:flutter/material.dart';
 
 class BlogItem extends StatelessWidget {
   BlogItem(this.item);
 
-  final Blog item;
+  final Cover item;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        if (Utility.isNullOrEmpty(item.action)) {
-          AppPopup.showCustomDialog(context,
-              title: item.name,
-              message: item.message,
-              btnNormal: ButtonData(title: 'Đóng'));
-        } else {
-          AppAction.instance.onHandleAction(
-              context, item.action, item.actionValue, item.name);
-        }
-      },
+    String _body = item.message.length <= 150
+        ? item.message
+        : item.message.substring(0, 149);
+    return Container(
+      color: Colors.white,
       child: Container(
-        color: Colors.white,
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: defaultPadding, vertical: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      width: 35,
-                      height: 35,
-                      margin: EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.blue[300]),
-                      child: Icon(
-                        Icons.message,
-                        color: Colors.white,
+        padding: EdgeInsets.all(defaultPadding),
+        child: InkWell(
+          onTap: () {
+            AppAction.instance.onHandleAction(
+                context, item.action, item.actionValue, item.name);
+          },
+          child: IntrinsicWidth(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    item.name,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(top: 8),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.date_range,
+                        size: 16,
+                        color: Theme.of(context).primaryColor,
                       ),
-                    ),
-                    Expanded(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.name,
-                              textAlign: TextAlign.start,
-                              maxLines: 10,
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
+                      SizedBox(width: 10),
+                      Text(
+                        Utility.fixFormatDate(item.createdDate),
+                        style: Theme.of(context).textTheme.body2,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                Utility.isNullOrEmpty(item.image)
+                    ? Container()
+                    : Container(
+                        padding: EdgeInsets.only(top: 8),
+                        child: AppImage(
+                          item.image,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(top: 8),
+                  child: RichText(
+                    maxLines: 20,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: _body + '...',
+                          style: Theme.of(context).textTheme.body1),
+                      TextSpan(
+                        text: 'xem thêm >',
+                        style: Theme.of(context).textTheme.body1.merge(
+                              TextStyle(color: Colors.blue),
                             ),
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.date_range,
-                                  size: 14,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  Utility.fixFormatDate(item.createdDate),
-                                  textAlign: TextAlign.start,
-                                  style: Theme.of(context).textTheme.subtitle,
-                                ),
-                              ],
-                            )
-                          ]),
-                    ),
-                  ],
+                      )
+                    ]),
+                  ),
                 ),
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 10),
-                child: Text(
-                  item.message,
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              Container(
-                height: 1,
-                color: AppStyles.dividerColor,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

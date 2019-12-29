@@ -34,7 +34,7 @@ class _ProductFullState extends State<ProductFull> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    itemCount = min(widget.product.images.length + 1, 4);
+    itemCount = min(widget.product.images.length + 1, 9);
   }
 
   @override
