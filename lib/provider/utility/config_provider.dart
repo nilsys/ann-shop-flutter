@@ -14,6 +14,10 @@ class ConfigProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  forceUpdate(){
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     super.dispose();

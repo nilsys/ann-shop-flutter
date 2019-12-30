@@ -12,9 +12,6 @@ class BlogItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _body = item.message.length <= 150
-        ? item.message
-        : item.message.substring(0, 149);
     return Container(
       color: Colors.white,
       child: Container(
@@ -76,7 +73,7 @@ class BlogItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     text: TextSpan(children: [
                       TextSpan(
-                          text: _body + '...',
+                          text: item.message + '...',
                           style: Theme.of(context).textTheme.body1),
                       TextSpan(
                         text: 'xem thêm >',

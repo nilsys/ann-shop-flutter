@@ -102,12 +102,12 @@ class FavoriteView extends StatelessWidget {
     );
   }
 
-  _onShare(context) {
+  _onShare(context) async {
     List<ProductFavorite> data =
         Provider.of<FavoriteProvider>(context).products;
     String _value = '';
     for (int i = 0; i < data.length; i++) {
-      _value += data[i].getTextCopy(index: i + 1);
+      _value += await data[i].getTextCopy(index: i + 1);
       _value += '\n\n';
     }
     _value += '\n';

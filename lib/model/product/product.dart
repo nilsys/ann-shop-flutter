@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/repository/product_repository.dart';
 
 class Product {
   int productID;
@@ -25,7 +26,7 @@ class Product {
 
   final _save = '📌🌻🌸🌼👍👉🎋🐭🍀⭐🌟✨📚';
 
-  String getTextCopy({index, hasContent = true}) {
+  getTextCopy({index, hasContent = true}) async{
     String value = index != null ? '$index: ' : '';
     if (Core.copySetting.productCode) {
       value += sku;
@@ -44,6 +45,36 @@ class Product {
     if (Utility.isNullOrEmpty(materials) == false) {
       value += '🔖 $materials\n';
     }
+
+    /*
+    if (hasContent) {
+      String _getContent = getContent();
+      if (Utility.isNullOrEmpty(_getContent) == false) {
+        _getContent = HtmlUnescape().convert(_getContent);
+        _getContent = _getContent.replaceAll("<br />", '\n');
+        value += '🔖 $_getContent\n';
+      }
+    }
+    if (Utility.isNullOrEmpty(colors) == false) {
+      value += '\n📚 Màu: ';
+      for (var item in colors) {
+        value += item.name + '; ';
+      }
+    }
+    if (Utility.isNullOrEmpty(sizes) == false) {
+      value += '\n📚 Size: ';
+      for (var item in sizes) {
+        value += item.name + '; ';
+      }
+    }
+    */
+    if(hasContent){
+      String result = await ProductRepository.instance.loadProductAdvertisementContent(productID);
+      if(Utility.isNullOrEmpty(result)){
+        value += result;
+      }
+    }
+
     return value;
   }
 

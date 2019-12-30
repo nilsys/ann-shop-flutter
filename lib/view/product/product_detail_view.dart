@@ -259,20 +259,20 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  _onCheckAndCopy() {
+  _onCheckAndCopy() async{
     print(Core.copySetting.showed);
     if (detail == null) {
       AppSnackBar.showFlushbar(context, 'Đang tải dữ liệu. Thử lại sau');
     } else if (Core.copySetting.showed) {
-      _onCopy();
+      await _onCopy();
       AppSnackBar.showFlushbar(context, 'Copy', duration: Duration(seconds: 1));
     } else {
       Navigator.pushNamed(context, '/setting');
     }
   }
 
-  _onCopy() {
-    var _text = detail.getTextCopy(hasContent: true);
+  _onCopy() async{
+    var _text =  await detail.getTextCopy(hasContent: true);
     _text += '\n';
     _text += Core.copySetting.getUserInfo();
     Clipboard.setData(new ClipboardData(text: _text));
@@ -654,7 +654,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
 
     loading.hide(contextHide: context);
-    _onCopy();
+    await _onCopy();
     ShareExtend.shareMultiple(imageList, "image");
   }
 

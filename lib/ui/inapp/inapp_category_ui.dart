@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
@@ -27,9 +28,10 @@ class _InAppCategoryUIState extends State<InAppCategoryUI> {
 
     bool hasNew = false;
 
-    bool isChoose = name == provider.currentCategory;
+    bool isChoose = name == provider.currentCategory ||
+        (name == 'all' && Utility.isNullOrEmpty(provider.currentCategory));
     Color chooseColor = Colors.white;
-    Color unChooseColor = Colors.grey[300];
+    Color unChooseColor = Colors.grey[50];
     return Container(
       height: 50,
       decoration: BoxDecoration(
@@ -38,7 +40,7 @@ class _InAppCategoryUIState extends State<InAppCategoryUI> {
             left: isChoose
                 ? BorderSide(width: 3, color: Theme.of(context).primaryColor)
                 : BorderSide(width: 1, color: unChooseColor),
-            bottom: BorderSide(width: 1, color: Colors.grey[600])),
+            bottom: BorderSide(width: 1, color: Colors.grey[400])),
       ),
       child: Stack(
         children: <Widget>[

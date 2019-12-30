@@ -356,6 +356,22 @@ class ProductRepository {
     return null;
   }
 
+  /// http://xuongann.com/api/flutter/product/1/advertisement-content
+  Future<String> loadProductAdvertisementContent(int id) async {
+    try {
+      final url = Core.domain + 'api/flutter/product/$id/advertisement-content';
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        return response.body;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return '';
+  }
+
   /// http://xuongann.com/api/flutter/product-sort
   getProductSort() async {
     try {

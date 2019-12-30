@@ -98,7 +98,9 @@ class _ProductFilterViewState extends State<ProductFilterView> {
                     ),
                     onPressed: () {
                       setState(() {
-                        filter = AppFilter();
+                        filter.priceMin = 0;
+                        filter.priceMax = 0;
+                        filter.badge = 0;
                       });
                     },
                   )

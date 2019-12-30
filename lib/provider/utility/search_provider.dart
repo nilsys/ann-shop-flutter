@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/main.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
+import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -14,15 +15,22 @@ class SearchProvider with ChangeNotifier {
   final _keyHistory = '_historyKey';
   TextEditingController controller;
   List<String> _history = [];
-
   List<String> get history => _history;
+  static ResponseProvider<List<String>> hotKeys;
 
   SearchProvider() {
     controller = new TextEditingController();
     loadHistory();
+
   }
 
   String get text => controller.text;
+
+  checkLoadHotKey(){
+    if(hotKeys.isLoading == false && hotKeys.isCompleted == false){
+
+    }
+  }
 
   loadHistory() async {
     String response = await StorageManager.getObjectByKey(_keyHistory);
@@ -33,29 +41,36 @@ class SearchProvider with ChangeNotifier {
     }
   }
 
+  final checkFirst = false;
+
   onSearch(context, value) async {
-    setText(text: value);
+    value = value.trim();
     if (value.isNotEmpty) {
-      ProgressDialog loading =
-          ProgressDialog(MyApp.context, message: 'Tìm kiếm sản phẩm...')
-            ..show();
-      var data = await ProductRepository.instance
-          .loadBySearch(text, filter: AppFilter());
-      loading.hide(contextHide: MyApp.context);
-      if (Utility.isNullOrEmpty(data)) {
-        AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm.');
+      setText(text: value);
+      if (checkFirst == false) {
+        ListProduct.showBySearch(context, {'title': value});
       } else {
-        if (data.length == 1) {
-          Router.showProductDetail(context, product: data[0]);
+        ProgressDialog loading =
+            ProgressDialog(MyApp.context, message: 'Tìm kiếm sản phẩm...')
+              ..show();
+        var data = await ProductRepository.instance
+            .loadBySearch(text, filter: AppFilter());
+        loading.hide(contextHide: MyApp.context);
+        if (Utility.isNullOrEmpty(data)) {
+          AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm.');
         } else {
-          ListProduct.showBySearch(context, {'title': value, 'products': data});
+          if (data.length == 1) {
+            Router.showProductDetail(context, product: data[0]);
+          } else {
+            ListProduct.showBySearch(
+                context, {'title': value, 'products': data});
+          }
         }
       }
     }
   }
 
   setText({String text = ''}) {
-    text = text.trim();
     controller = new TextEditingController(text: text);
     if (text.isNotEmpty) {
       if (_history.contains(text) == false) {

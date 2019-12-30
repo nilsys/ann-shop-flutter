@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
@@ -35,20 +34,20 @@ class _AccountPageState extends State<AccountPage> {
         child: CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Core.isLogin ? _buildAccount() : _buildNoLogin(),
-            ),
+//            SliverToBoxAdapter(
+//              child: Core.isLogin ? _buildAccount() : _buildNoLogin(),
+//            ),
             SliverList(
               delegate: SliverChildListDelegate([
-                SizedBox(height: 12),
-                _buildItemCommon('Quản lý đơn hàng', icon: Icons.description,
-                    onTap: () {
-                  if (Core.isLogin) {
-                    Navigator.pushNamed(context, '/order-management');
-                  } else {
-                    _showLoginBottomSheet();
-                  }
-                }),
+//                SizedBox(height: 12),
+//                _buildItemCommon('Quản lý đơn hàng', icon: Icons.description,
+//                    onTap: () {
+//                  if (Core.isLogin) {
+//                    Navigator.pushNamed(context, '/order-management');
+//                  } else {
+//                    _showLoginBottomSheet();
+//                  }
+//                }),
                 _buildItemCommon('Sản phẩm đã xem', icon: Icons.remove_red_eye,
                     onTap: () {
                   Navigator.pushNamed(context, '/seen');

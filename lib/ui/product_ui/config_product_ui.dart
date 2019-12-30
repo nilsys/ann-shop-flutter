@@ -107,6 +107,7 @@ class ConfigProductUI extends StatelessWidget {
         underline: Container(),
         onChanged: (newValue) {
           filter.sort = newValue;
+          config.forceUpdate();
         },
         items: ProductRepository.instance.productSorts
             .map<DropdownMenuItem<int>>((sort) {
@@ -121,6 +122,7 @@ class ConfigProductUI extends StatelessWidget {
         icon: Icon(Icons.sort),
         onSelected: (newValue) {
           filter.sort = newValue;
+          config.forceUpdate();
         },
         itemBuilder: (BuildContext context) => ProductRepository
             .instance.productSorts

@@ -33,7 +33,7 @@ class _InAppViewState extends State<InAppView> {
             width: 50,
             decoration: BoxDecoration(
               border: Border(
-                  right: BorderSide(width: 1, color: AppStyles.dividerColor)),
+                  right: BorderSide(width: 1, color: Colors.grey[400])),
             ),
             child: InAppCategoryUI(),
           ),

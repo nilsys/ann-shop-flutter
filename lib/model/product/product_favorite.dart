@@ -7,8 +7,8 @@ class ProductFavorite {
 
   ProductFavorite({this.product, this.count});
 
-  String getTextCopy({index}){
-    String _value = product.getTextCopy(index:index, hasContent: false);
+  getTextCopy({index}) async {
+    String _value = await product.getTextCopy(index:index, hasContent: false);
     _value =_value+ '\n' + '👉 Số lượng: $count';
     return _value;
   }

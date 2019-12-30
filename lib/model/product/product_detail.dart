@@ -1,6 +1,5 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
-import 'package:html_unescape/html_unescape.dart';
 
 class ProductDetail extends Product {
   String categoryName;
@@ -14,34 +13,6 @@ class ProductDetail extends Product {
   List<String> contentImages;
 
   ProductDetail({this.content});
-
-  @override
-  String getTextCopy({index, hasContent = true}) {
-    String value = super.getTextCopy(index: index);
-
-    if (hasContent) {
-      String _getContent = getContent();
-      if (Utility.isNullOrEmpty(_getContent) == false) {
-        _getContent = HtmlUnescape().convert(_getContent);
-        _getContent = _getContent.replaceAll("<br />", '\n');
-        value += '🔖 $_getContent\n';
-      }
-    }
-    if (Utility.isNullOrEmpty(colors) == false) {
-      value += '\n📚 Màu: ';
-      for (var item in colors) {
-        value += item.name + '; ';
-      }
-    }
-    if (Utility.isNullOrEmpty(sizes) == false) {
-      value += '\n📚 Size: ';
-      for (var item in sizes) {
-        value += item.name + '; ';
-      }
-    }
-
-    return value;
-  }
 
   String getContent() {
     return this

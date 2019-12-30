@@ -282,18 +282,18 @@ class _ProductFullState extends State<ProductFull> {
             .toList());
   }
 
-  _onCheckAndCopy(context) {
+  _onCheckAndCopy(context) async {
     print(Core.copySetting.showed);
     if (Core.copySetting.showed) {
-      _onCopy(context);
+      await _onCopy(context);
       AppSnackBar.showFlushbar(context, 'Copy', duration: Duration(seconds: 1));
     } else {
       Navigator.pushNamed(context, '/setting');
     }
   }
 
-  _onCopy(context) {
-    var _text = widget.product.getTextCopy(hasContent: true);
+  _onCopy(context) async{
+    var _text = await widget.product.getTextCopy(hasContent: true);
     _text += '\n';
     _text += Core.copySetting.getUserInfo();
     Clipboard.setData(new ClipboardData(text: _text));
@@ -340,7 +340,7 @@ class _ProductFullState extends State<ProductFull> {
       }
       loading.hide(contextHide: context);
       if (Utility.isNullOrEmpty(files) == false) {
-        _onCopy(context);
+        await _onCopy(context);
         ShareExtend.shareMultiple(files, "image");
       } else {
         throw ('Data empty');
