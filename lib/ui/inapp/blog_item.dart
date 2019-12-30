@@ -62,7 +62,7 @@ class BlogItem extends StatelessWidget {
                         padding: EdgeInsets.only(top: 8),
                         child: AppImage(
                           item.image,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fitWidth,
                         ),
                       ),
                 Container(

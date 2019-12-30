@@ -19,17 +19,22 @@ class SearchProvider with ChangeNotifier {
   List<String> _history = [];
 
   List<String> get history => _history;
-  static ResponseProvider<List<Category>> hotKeys;
+  static ResponseProvider<List<Category>> hotKeys = ResponseProvider();
 
   SearchProvider() {
     controller = new TextEditingController();
     loadHistory();
+    loadHotKey();
   }
 
   String get text => controller.text;
 
   checkLoadHotKey() {
     if (hotKeys.isLoading == false && hotKeys.isCompleted == false) {}
+  }
+
+  loadHotKey(){
+
   }
 
   loadHistory() async {

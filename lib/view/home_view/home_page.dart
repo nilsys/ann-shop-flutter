@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
           .reTap
           .stream
           .listen(onReTapBottom);
+      Provider.of<CoverProvider>(context).checkLoadCoverHomePage();
     });
   }
 
@@ -142,6 +143,8 @@ class _HomePageState extends State<HomePage> {
     Provider.of<CoverProvider>(context).loadNotificationHome();
     Provider.of<CoverProvider>(context).loadPostHome();
     Provider.of<CoverProvider>(context).loadCoverHome();
+    Provider.of<CoverProvider>(context).loadFooterProduct();
+    Provider.of<CoverProvider>(context).loadHeaderProduct();
     Provider.of<CategoryProvider>(context).loadCDataHome();
     Provider.of<CategoryProductProvider>(context).forceRefresh();
     await Provider.of<CategoryProvider>(context).loadCategoryHome();

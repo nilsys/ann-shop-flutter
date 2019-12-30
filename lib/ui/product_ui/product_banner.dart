@@ -1,20 +1,19 @@
 import 'dart:async';
 
 import 'package:ann_shop_flutter/core/app_action.dart';
-import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
+import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeBanner extends StatefulWidget {
+class ProductBanner extends StatefulWidget {
   @override
-  _HomeBannerState createState() => _HomeBannerState();
+  _ProductBannerState createState() => _ProductBannerState();
 }
 
-class _HomeBannerState extends State<HomeBanner>
+class _ProductBannerState extends State<ProductBanner>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
@@ -56,47 +55,39 @@ class _HomeBannerState extends State<HomeBanner>
 
   @override
   Widget build(BuildContext context) {
-    CoverProvider provider = Provider.of(context);
-    final width = MediaQuery.of(context).size.width - (defaultPadding * 2);
+    final double padding = 0;
+    final width = MediaQuery.of(context).size.width - (padding * 2);
     final height = width * ratio;
-    if(provider.coversHome.data!=null){
-      length=provider.coversHome.data.length;
-    }else{
-      length = -1;
-    }
-    return Container(
-      height: height,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            color: Colors.white,
-            margin: EdgeInsets.only(top: height / 2),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(5),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: defaultPadding),
-            child: provider.coversHome.isCompleted
-                ? _buildPageView(context)
-                : Center(
-                    child: Indicator(),
+    return Consumer<List<Cover>>(builder: (_, covers, child) {
+      if (Utility.isNullOrEmpty(covers)) {
+        length = -1;
+        return Container();
+      } else {
+        length = covers.length;
+        return Container(
+          height: height,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+//                    borderRadius: BorderRadius.circular(5),
+                    border: Border(
+                        top: BorderSide(
+                            color: AppStyles.dividerColor, width: 10)),
                   ),
+                  margin: EdgeInsets.symmetric(horizontal: padding),
+                  child: _buildPageView(context, covers)),
+              covers.length > 1 ? _buildDot(context) : Container(),
+            ],
           ),
-          (provider.coversHome.isCompleted &&
-                  provider.coversHome.data.length > 1)
-              ? _buildDot(context)
-              : Container(),
-        ],
-      ),
-    );
+        );
+      }
+    });
   }
 
-  Widget _buildPageView(context) {
-    CoverProvider provider = Provider.of(context);
-
+  Widget _buildPageView(context, List<Cover> covers) {
     return PageView.builder(
       controller: _pageController,
       pageSnapping: true,
@@ -106,16 +97,14 @@ class _HomeBannerState extends State<HomeBanner>
         });
       },
       itemBuilder: (context, index) {
-        return _buildBanner(context, provider.coversHome.data[index]);
+        return _buildBanner(context, covers[index]);
       },
-      itemCount: provider.coversHome.data.length,
+      itemCount: length,
     );
   }
 
   Widget _buildDot(context) {
-    CoverProvider provider = Provider.of(context);
-    List listIndex =
-        List.generate(provider.coversHome.data.length, (index) => index);
+    List listIndex = List.generate(length, (index) => index);
     return Positioned(
       right: 30,
       bottom: 15,
@@ -143,7 +132,7 @@ class _HomeBannerState extends State<HomeBanner>
             .onHandleAction(context, item.action, item.actionValue, item.name);
       },
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
+//        borderRadius: BorderRadius.circular(5),
         child: AppImage(
           item.image,
           fit: BoxFit.cover,

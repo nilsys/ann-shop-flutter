@@ -1,15 +1,15 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
-import 'package:ann_shop_flutter/provider/category/category_provider.dart';
-import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
@@ -20,6 +20,7 @@ import 'package:ann_shop_flutter/ui/product_ui/info_product.dart';
 import 'package:ann_shop_flutter/ui/product_ui/option_menu_product.dart';
 import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
 import 'package:ann_shop_flutter/ui/product_ui/policy_product_block.dart';
+import 'package:ann_shop_flutter/ui/product_ui/product_banner.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -71,11 +72,15 @@ class _ProductDetailViewState extends State<ProductDetailView>
         }
       }
     });
+    WidgetsBinding.instance.addPostFrameCallback((callback) async {
+      Provider.of<CoverProvider>(context).checkLoadCoverProductPage();
+    });
   }
 
   ProductDetail detail;
 
   bool addSeen = false;
+
   @override
   Widget build(BuildContext context) {
     ProductProvider provider = Provider.of<ProductProvider>(context);
@@ -140,7 +145,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
               ),
             ],
           ),
-
           /// page view image
           SliverList(
             delegate: SliverChildListDelegate([
@@ -231,6 +235,12 @@ class _ProductDetailViewState extends State<ProductDetailView>
             ),
           ),
           PolicyProductBlock(),
+          SliverToBoxAdapter(
+            child: Provider.value(
+              value: Provider.of<CoverProvider>(context).headerProduct.data,
+              child: ProductBanner(),
+            ),
+          ),
           InfoProduct(detail),
           _buildTitle('Thông tin sản phẩm'),
           _buildContent(),
@@ -242,6 +252,12 @@ class _ProductDetailViewState extends State<ProductDetailView>
             exceptID: detail.productID,
           ),
           _buildByCatalog(),
+          SliverToBoxAdapter(
+            child: Provider.value(
+              value: Provider.of<CoverProvider>(context).footerProduct.data,
+              child: ProductBanner(),
+            ),
+          ),
         ],
       );
     } else if (data.isLoading) {
@@ -259,7 +275,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  _onCheckAndCopy() async{
+  _onCheckAndCopy() async {
     print(Core.copySetting.showed);
     if (detail == null) {
       AppSnackBar.showFlushbar(context, 'Đang tải dữ liệu. Thử lại sau');
@@ -271,8 +287,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  _onCopy() async{
-    var _text =  await detail.getTextCopy(hasContent: true);
+  _onCopy() async {
+    var _text = await detail.getTextCopy(hasContent: true);
     _text += '\n';
     _text += Core.copySetting.getUserInfo();
     Clipboard.setData(new ClipboardData(text: _text));

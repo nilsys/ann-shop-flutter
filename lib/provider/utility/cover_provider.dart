@@ -5,23 +5,46 @@ import 'package:flutter/material.dart';
 
 class CoverProvider extends ChangeNotifier {
   CoverProvider() {
-    coversHome = ResponseProvider();
-    postsHome = ResponseProvider();
-    notificationHome = ResponseProvider();
     loadCoverHome();
     loadNotificationHome();
     loadPostHome();
+    loadHeaderProduct();
+    loadFooterProduct();
   }
 
-  ResponseProvider<List<Cover>> coversHome;
-  ResponseProvider<List<Cover>> postsHome;
-  ResponseProvider<List<Cover>> notificationHome;
+  ResponseProvider<List<Cover>> coversHome = ResponseProvider();
+  ResponseProvider<List<Cover>> postsHome = ResponseProvider();
+  ResponseProvider<List<Cover>> notificationHome = ResponseProvider();
+  ResponseProvider<List<Cover>> headerProduct = ResponseProvider();
+  ResponseProvider<List<Cover>> footerProduct = ResponseProvider();
+
+  checkLoadCoverHomePage() {
+    if (coversHome.isError) {
+      loadCoverHome();
+    }
+    if (postsHome.isError) {
+      loadPostHome();
+    }
+    if (notificationHome.isError) {
+      loadNotificationHome();
+    }
+  }
+
+  checkLoadCoverProductPage() {
+    if (headerProduct.isError) {
+      loadHeaderProduct();
+    }
+    if (footerProduct.isError) {
+      loadFooterProduct();
+    }
+  }
 
   loadCoverHome() async {
     try {
       coversHome.loading = 'try load';
       notifyListeners();
-      List<Cover> data = await CoverRepository.instance.loadCoverHome();
+      List<Cover> data =
+          await CoverRepository.instance.loadCover('home/banners');
       if (data != null) {
         coversHome.completed = data;
       } else {
@@ -39,7 +62,8 @@ class CoverProvider extends ChangeNotifier {
     try {
       notificationHome.loading = 'try load';
       notifyListeners();
-      List<Cover> data = await CoverRepository.instance.loadHomeNotification();
+      List<Cover> data =
+          await CoverRepository.instance.loadCover('home/notifications');
       if (data != null) {
         notificationHome.completed = data;
       } else {
@@ -56,7 +80,7 @@ class CoverProvider extends ChangeNotifier {
     try {
       postsHome.loading = 'try load';
       notifyListeners();
-      List<Cover> data = await CoverRepository.instance.loadHomePost();
+      List<Cover> data = await CoverRepository.instance.loadCover('home/posts');
       if (data != null) {
         postsHome.completed = data;
       } else {
@@ -65,6 +89,42 @@ class CoverProvider extends ChangeNotifier {
     } catch (e) {
       log(e);
       postsHome.error = 'exception: ' + e.toString();
+    }
+    notifyListeners();
+  }
+
+  loadHeaderProduct() async {
+    try {
+      headerProduct.loading = 'try load';
+      notifyListeners();
+      List<Cover> data = await CoverRepository.instance
+          .loadCover('product/banners?position=header');
+      if (data != null) {
+        headerProduct.completed = data;
+      } else {
+        headerProduct.completed = [];
+      }
+    } catch (e) {
+      log(e);
+      headerProduct.error = 'exception: ' + e.toString();
+    }
+    notifyListeners();
+  }
+
+  loadFooterProduct() async {
+    try {
+      footerProduct.loading = 'try load';
+      notifyListeners();
+      List<Cover> data = await CoverRepository.instance
+          .loadCover('product/banners?position=footer');
+      if (data != null) {
+        footerProduct.completed = data;
+      } else {
+        footerProduct.completed = [];
+      }
+    } catch (e) {
+      log(e);
+      footerProduct.error = 'exception: ' + e.toString();
     }
     notifyListeners();
   }

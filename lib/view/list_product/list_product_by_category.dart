@@ -91,7 +91,8 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
               Container(
                 height: 10,
                 color: AppStyles.dividerColor,
-              )
+              ),
+              SizedBox(height: 15),
             ],
           ),
         ),
