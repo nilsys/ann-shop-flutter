@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
@@ -8,9 +9,10 @@ import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class LoadMoreProductRepository extends LoadingMoreBase<Product> {
-  LoadMoreProductRepository({this.productFilter, this.initData}) {
+  LoadMoreProductRepository({this.productFilter, this.initData, AppFilter appFilter}) {
     // TODO:
-    if (this.initData == null) {
+    _filter = AppFilter.clone(appFilter);
+    if (Utility.isNullOrEmpty(this.initData)) {
       pageIndex = 1;
     } else {
       pageIndex = 2;

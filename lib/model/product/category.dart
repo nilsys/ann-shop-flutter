@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 
 class Category {

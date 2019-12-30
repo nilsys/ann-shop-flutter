@@ -73,7 +73,13 @@ class AppAction {
 
   void linkToSearch(BuildContext context, String value, String message) {
     print('link to search: ' + value);
-    ListProduct.showBySearch(context, {'title': value});
+    ListProduct.showBySearch(
+      context,
+      Category(
+        name: value,
+        filter: ProductFilter(productSearch: value),
+      ),
+    );
   }
 
   void linkToWebPage(BuildContext context, String value, String message) {

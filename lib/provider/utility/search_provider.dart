@@ -3,6 +3,8 @@ import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/main.dart';
+import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
@@ -15,21 +17,19 @@ class SearchProvider with ChangeNotifier {
   final _keyHistory = '_historyKey';
   TextEditingController controller;
   List<String> _history = [];
+
   List<String> get history => _history;
-  static ResponseProvider<List<String>> hotKeys;
+  static ResponseProvider<List<Category>> hotKeys;
 
   SearchProvider() {
     controller = new TextEditingController();
     loadHistory();
-
   }
 
   String get text => controller.text;
 
-  checkLoadHotKey(){
-    if(hotKeys.isLoading == false && hotKeys.isCompleted == false){
-
-    }
+  checkLoadHotKey() {
+    if (hotKeys.isLoading == false && hotKeys.isCompleted == false) {}
   }
 
   loadHistory() async {
@@ -48,7 +48,8 @@ class SearchProvider with ChangeNotifier {
     if (value.isNotEmpty) {
       setText(text: value);
       if (checkFirst == false) {
-        ListProduct.showBySearch(context, {'title': value});
+        ListProduct.showBySearch(context,
+            Category(name: value, filter: ProductFilter(productSearch: value)));
       } else {
         ProgressDialog loading =
             ProgressDialog(MyApp.context, message: 'Tìm kiếm sản phẩm...')
@@ -63,7 +64,10 @@ class SearchProvider with ChangeNotifier {
             Router.showProductDetail(context, product: data[0]);
           } else {
             ListProduct.showBySearch(
-                context, {'title': value, 'products': data});
+                context,
+                Category(
+                    name: value, filter: ProductFilter(productSearch: value)),
+                initData: data);
           }
         }
       }

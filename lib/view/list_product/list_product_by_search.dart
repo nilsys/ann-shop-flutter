@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
@@ -10,34 +11,45 @@ import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ListProductBySearch extends StatelessWidget {
+class ListProductBySearch extends StatefulWidget {
   ListProductBySearch(this.data);
 
-  final data;
+  final Map data;
 
-  String get title => data['title'];
+  @override
+  _ListProductBySearchState createState() => _ListProductBySearchState();
+}
 
-  List<Product> get products => data['products'];
+class _ListProductBySearchState extends State<ListProductBySearch> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
-  AppFilter filter = AppFilter();
+    category = widget.data['category'];
+    initData = widget.data['initData'];
+    filter = AppFilter.fromCategoryFilter(category.filter);
+  }
+
+  Category category;
+  List<Product> initData;
+  AppFilter filter;
 
   @override
   Widget build(BuildContext context) {
     var message = Provider.of<DownloadImageProvider>(context).currentMessage;
 
-    ProductFilter productFilter = ProductFilter(productSearch: title);
-
     return Scaffold(
       appBar: AppBar(
         title: Padding(
             padding: EdgeInsets.only(right: defaultPadding),
-            child: SearchTitle(title)),
+            child: SearchTitle(category.name)),
         titleSpacing: 0,
       ),
       body: ListProduct(
         filter,
-        productFilter: productFilter,
-        initData: products,
+        productFilter: category.filter,
+        initData: initData,
       ),
       bottomNavigationBar:
           Utility.isNullOrEmpty(message) ? null : DownLoadBackground(),

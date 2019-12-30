@@ -1,19 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class NavigationProvider extends ChangeNotifier{
 
-  int _index = 0;
+  int index = 0;
 
-  int get index => _index;
 
-  set index(int index) {
-    _index = index;
-    // todo
-  }
+  var reTap = StreamController<int>.broadcast();
 
   switchTo(int value) {
-    this.index = value;
-    notifyListeners();
+    if(index != value) {
+      this.index = value;
+      notifyListeners();
+    }else{
+      reTap.add(index);
+    }
   }
 }
 

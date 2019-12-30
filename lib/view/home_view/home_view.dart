@@ -31,16 +31,12 @@ class _HomeViewState extends State<HomeView>
     bool bigScreen = MediaQuery.of(context).size.width >= 320;
     return WillPopScope(
       onWillPop: () async {
-        if (navigation.index != 0) {
           _onItemTapped(0);
           return Future.value(false);
-        } else {
-          return Future.value(true);
-        }
       },
       child: Consumer<NavigationProvider>(
           builder: (context, navigationProvider, _) {
-        if (navigationProvider.index != 0) {
+        if (navigationProvider.index != tabController.index) {
           tabController.animateTo(navigationProvider.index);
         }
 
@@ -51,9 +47,7 @@ class _HomeViewState extends State<HomeView>
             children: <Widget>[
               HomePage(),
               CategoryPage(),
-              SearchPage(
-                showIcon: true,
-              ),
+              SearchPage(showIcon: true),
               InAppView(),
               AccountPage(),
             ],
@@ -67,32 +61,17 @@ class _HomeViewState extends State<HomeView>
                 : BottomNavigationBarType.shifting,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: _buildIcon(
-                  AppIcons.home_outline,
-                  size: 20,
-                ),
-                activeIcon: _buildIcon(
-                  AppIcons.home,
-                  size: 20,
-                ),
+                icon: _buildIcon(AppIcons.home_outline, size: 20),
+                activeIcon: _buildIcon(AppIcons.home, size: 20),
                 title: Text('Trang chủ'),
               ),
               BottomNavigationBarItem(
-                icon: _buildIcon(
-                  AppIcons.th_large_outline,
-                  size: 18,
-                ),
-                activeIcon: _buildIcon(
-                  AppIcons.th_large_1,
-                  size: 20,
-                ),
+                icon: _buildIcon(AppIcons.th_large_outline, size: 18),
+                activeIcon: _buildIcon(AppIcons.th_large_1, size: 20),
                 title: Text('Danh mục'),
               ),
               BottomNavigationBarItem(
-                icon: _buildIcon(
-                  AppIcons.search,
-                  size: 20,
-                ),
+                icon: _buildIcon(AppIcons.search, size: 20),
                 title: Text('Tìm kiếm'),
               ),
               BottomNavigationBarItem(
@@ -128,6 +107,6 @@ class _HomeViewState extends State<HomeView>
 
   _onItemTapped(_index) {
     Provider.of<NavigationProvider>(context).switchTo(_index);
-    tabController.animateTo(_index);
+//      tabController.animateTo(_index);
   }
 }

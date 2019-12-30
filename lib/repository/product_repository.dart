@@ -127,14 +127,14 @@ class ProductRepository {
   }
 
   Future<List<Product>> loadByCategoryFilter(Category category,
-      {page = 1, pageSize = 20}) {
+      {page = 1, pageSize = itemPerPage}) {
     AppFilter filter = AppFilter.fromCategoryFilter(category.filter);
     return loadByProductFilter(category.filter,
         filter: filter, pageSize: pageSize, page: page);
   }
 
   Future<List<Product>> loadByProductFilter(ProductFilter productFilter,
-      {page = 1, pageSize = 20, AppFilter filter}) {
+      {page = 1, pageSize = itemPerPage, AppFilter filter}) {
     if (productFilter != null) {
       if (Utility.isNullOrEmpty(productFilter.categorySlug) == false) {
         return _loadByCategory(productFilter.categorySlug, filter: filter);
@@ -154,7 +154,7 @@ class ProductRepository {
   }
 
   Future<List<Product>> _loadAllByFilter(
-      {page = 1, pageSize = 20, AppFilter filter}) async {
+      {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
       var url = Core.domain +
           'api/flutter/products?pageNumber=$page&pageSize=$pageSize';
@@ -175,7 +175,7 @@ class ProductRepository {
 
   /// http://xuongann.com/api/flutter/products?categorySlugList[0]=ao-thun-nu&categorySlugList[1]=so-mi-nu
   Future<List<Product>> _loadByListCategory(List<String> names,
-      {page = 1, pageSize = 30, AppFilter filter}) async {
+      {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     var categorySlugList = 'categorySlugList[0]=${names[0]}';
     for (int i = 1; i < names.length; i++) {
       categorySlugList += '&categorySlugList[$i]=${names[i]}';
@@ -201,7 +201,7 @@ class ProductRepository {
 
   /// http://xuongann.com/api/flutter/products?categorySlug=bao-li-xi-tet&pageNumber=1&pageSize=28&sort=4
   Future<List<Product>> _loadByCategory(String name,
-      {page = 1, pageSize = 30, AppFilter filter}) async {
+      {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
       var url = Core.domain +
           'api/flutter/products?categorySlug=$name&pageNumber=$page&pageSize=$pageSize';
@@ -223,7 +223,7 @@ class ProductRepository {
 
   /// http://xuongann.com/api/flutter/products?productSearch
   Future<List<Product>> loadBySearch(String text,
-      {page = 1, pageSize = 30, AppFilter filter}) async {
+      {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
 //      String search = text.replaceAll(' ', '%20');
       var url = Core.domain +
@@ -244,7 +244,7 @@ class ProductRepository {
   }
 
   Future<List<Product>> loadByTag(String text,
-      {page = 1, pageSize = 20, AppFilter filter}) async {
+      {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
       var url = Core.domain +
           'api/flutter/products?tagSlug=$text&pageNumber=$page&pageSize=$pageSize';

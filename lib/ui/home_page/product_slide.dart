@@ -73,7 +73,8 @@ class _ProductSlideState extends State<ProductSlide> {
               ),
               BottomViewMore(
                 onPressed: () {
-                  ListProduct.showByCategory(context, currentCategory);
+                  ListProduct.showByCategory(context, currentCategory,
+                      initData: products.data);
                 },
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
@@ -11,9 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ListProductByCategory extends StatefulWidget {
-  ListProductByCategory(this.category);
+  ListProductByCategory(this.data);
 
-  final Category category;
+  final Map data;
 
   @override
   _ListProductByCategoryState createState() => _ListProductByCategoryState();
@@ -24,9 +25,14 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    filter = AppFilter.fromCategoryFilter(widget.category.filter);
+
+    category = widget.data['category'];
+    initData = widget.data['initData'];
+    filter = AppFilter.fromCategoryFilter(category.filter);
   }
 
+  Category category;
+  List<Product> initData;
   AppFilter filter;
 
   @override
@@ -35,10 +41,11 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category.name),
+        title: Text(category.name),
       ),
       body: ListProduct(filter,
-          productFilter: widget.category.filter,
+          productFilter: category.filter,
+          initData: initData,
           topObject: _buildCategoryButtonGrid()),
       bottomNavigationBar:
           Utility.isNullOrEmpty(message) ? null : DownLoadBackground(),
@@ -46,7 +53,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
   }
 
   Widget _buildCategoryButtonGrid() {
-    var data = widget.category.children;
+    var data = category.children;
 
     if (Utility.isNullOrEmpty(data)) {
       return null;
@@ -61,7 +68,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
                 padding: EdgeInsets.all(defaultPadding),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  widget.category.name,
+                  category.name,
                   style: Theme.of(context).textTheme.title,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.left,
@@ -93,7 +100,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
   }
 
   _buildCategoryButtonList() {
-    var categories = widget.category.children;
+    var categories = category.children;
     return Container(
       height: 45,
       color: Colors.white,

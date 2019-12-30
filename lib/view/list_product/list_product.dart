@@ -27,16 +27,21 @@ class ListProduct extends StatefulWidget {
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
 
-  static showByCategory(context, Category data) {
+  static showByCategory(context, Category category, {List<Product> initData}) {
+    var data = {'category': category, 'initData': initData};
     Navigator.pushNamed(context, '/list-product-by-category', arguments: data);
   }
 
-  static showByTag(context, ProductTag data) {
-    Navigator.pushNamed(context, '/list-product-by-tag', arguments: data);
+  static showByTag(context, ProductTag tag, {List<Product> initData}) {
+    Category category =
+        Category(name: tag.name, filter: ProductFilter(tagSlug: tag.slug));
+    var data = {'category': category, 'initData': initData};
+    Navigator.pushNamed(context, '/list-product-by-category', arguments: data);
   }
 
-  static showBySearch(context, Map data, {bool refreshSearch = true}) {
-    if (refreshSearch) Provider.of<SearchProvider>(context).setText();
+  static showBySearch(context, Category category, {List<Product> initData}) {
+    Provider.of<SearchProvider>(context).setText();
+    var data = {'category': category, 'initData': initData};
     Navigator.pushNamed(context, '/list-product-by-search', arguments: data);
   }
 }
@@ -49,7 +54,9 @@ class _BuildAllViewState extends State<ListProduct> {
     super.initState();
 
     listSourceRepository = new LoadMoreProductRepository(
-        productFilter: widget.productFilter, initData: widget.initData);
+        productFilter: widget.productFilter,
+        initData: widget.initData,
+        appFilter: widget.filter);
   }
 
   @override

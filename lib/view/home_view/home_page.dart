@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_list_notification.dart';
@@ -21,12 +24,35 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ScrollController scrollController;
+  StreamSubscription reTapBottom;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     scrollController = ScrollController();
+
+    WidgetsBinding.instance.addPostFrameCallback((callback) async {
+      reTapBottom = Provider.of<NavigationProvider>(context)
+          .reTap
+          .stream
+          .listen(onReTapBottom);
+    });
+  }
+
+  @override
+  dispose() {
+    if (reTapBottom != null) {
+      reTapBottom.cancel();
+    }
+    super.dispose();
+  }
+
+  onReTapBottom(index) {
+    if (index == 0) {
+      scrollController.animateTo(0,
+          duration: Duration(milliseconds: 250), curve: ElasticOutCurve(0.25));
+    }
   }
 
   @override
