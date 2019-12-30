@@ -26,11 +26,16 @@ class SearchProvider with ChangeNotifier {
   SearchProvider() {
     controller = new TextEditingController();
     loadHistory();
-    loadHotKey();
+    checkLoadHotKey();
   }
 
   String get text => controller.text;
 
+  checkLoadHotKey(){
+    if(_hotKeys.isLoading == false && _hotKeys.isCompleted == false){
+      loadHotKey();
+    }
+  }
   loadHotKey() async{
     try {
       _hotKeys.loading = 'try load hotkeys';

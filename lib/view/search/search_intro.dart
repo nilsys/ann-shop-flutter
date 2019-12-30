@@ -7,23 +7,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SearchIntro extends StatefulWidget {
+
   @override
   _SearchIntroState createState() => _SearchIntroState();
 }
 
 class _SearchIntroState extends State<SearchIntro> {
+
+
+
   @override
   Widget build(BuildContext context) {
     SearchProvider provider = Provider.of(context);
-    bool hasHotKey = Utility.isNullOrEmpty(provider.hotKeys) == false;
+    bool hasHotKey = Utility.isNullOrEmpty(provider.hotKeys.data) == false;
     bool hasHistory = Utility.isNullOrEmpty(provider.history) == false;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
       child: RefreshIndicator(
         onRefresh: () async {
-          print('Check keyboard: ${MediaQuery.of(context).viewInsets.bottom}');
           if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
-            print('Close keyboard');
             FocusScope.of(context).requestFocus(FocusNode());
           }
         },

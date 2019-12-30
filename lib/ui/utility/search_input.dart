@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,48 +23,54 @@ class _SearchInputState extends State<SearchInput> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      height: 35,
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
       ),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 10,
-            child: TextField(
-                controller: Provider.of<SearchProvider>(context).controller,
-                style: TextStyle(color: Colors.white),
-                autofocus: true,
-                showCursor: true,
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(top: 1),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    fillColor: Colors.transparent,
-                    hintStyle: TextStyle(color: Colors.white),
-                    hintText: 'Tên sản phẩm, Mã sản phẩm...'),
-                onSubmitted: (text) {
-                  Provider.of<SearchProvider>(context).onSearch(context,
-                      Provider.of<SearchProvider>(context).controller.text);
-                }),
-          ),
-          Utility.isNullOrEmpty(Provider.of<SearchProvider>(context).text)
-              ? Container()
-              : IconButton(
-                  icon: Icon(
-                    Icons.clear,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      Provider.of<SearchProvider>(context).setText();
-                    });
-                  },
-                ),
-        ],
+      child: TextField(
+          controller: Provider.of<SearchProvider>(context).controller,
+          style: Theme.of(context).textTheme.body1,
+          autofocus: true,
+          showCursor: true,
+          cursorColor: Colors.black87,
+          textAlignVertical: TextAlignVertical.center,
+          decoration: InputDecoration(
+              icon: Icon(
+                AppIcons.search,
+                size: 20,
+              ),
+              border: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              fillColor: Colors.transparent,
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .body1
+                  .merge(TextStyle(fontStyle: FontStyle.italic)),
+              hintText: 'Tên sản phẩm, Mã sản phẩm...'),
+          onSubmitted: (text) {
+            Provider.of<SearchProvider>(context).onSearch(
+                context, Provider.of<SearchProvider>(context).controller.text);
+          }),
+    );
+  }
+
+  _buildIconClear() {
+    return IconButton(
+      icon: Icon(
+        Icons.clear,
+        color: Colors.white,
       ),
+      onPressed: () {
+        setState(() {
+          Provider.of<SearchProvider>(context).setText();
+        });
+      },
     );
   }
 }

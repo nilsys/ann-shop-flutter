@@ -26,7 +26,8 @@ class SearchTitle extends StatelessWidget {
           children: <Widget>[
             Icon(
               AppIcons.search,
-              color: Colors.black87,
+              size: 20,
+              color: Colors.grey,
             ),
             SizedBox(
               width: 15,

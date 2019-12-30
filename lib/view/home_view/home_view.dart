@@ -47,7 +47,7 @@ class _HomeViewState extends State<HomeView>
             children: <Widget>[
               HomePage(),
               CategoryPage(),
-              SearchPage(showIcon: true),
+              SearchPage(),
               InAppView(),
               AccountPage(),
             ],
