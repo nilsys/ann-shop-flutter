@@ -15,7 +15,7 @@ class _SearchIntroState extends State<SearchIntro> {
   @override
   Widget build(BuildContext context) {
     SearchProvider provider = Provider.of(context);
-    bool hasHotKey = Utility.isNullOrEmpty(provider.history) == false;
+    bool hasHotKey = Utility.isNullOrEmpty(provider.hotKeys) == false;
     bool hasHistory = Utility.isNullOrEmpty(provider.history) == false;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),

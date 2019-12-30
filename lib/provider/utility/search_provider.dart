@@ -112,6 +112,7 @@ class SearchProvider with ChangeNotifier {
 
   removeHistoryAll() {
     _history = [];
+    StorageManager.clearObjectByKey(_keyHistory);
     notifyListeners();
   }
 }
