@@ -1,4 +1,4 @@
-package com.annshop.ann_shop_flutter
+package com.ann.app
 
 import android.os.Bundle
 
