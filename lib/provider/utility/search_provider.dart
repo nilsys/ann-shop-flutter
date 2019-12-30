@@ -7,6 +7,7 @@ import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
+import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -19,7 +20,8 @@ class SearchProvider with ChangeNotifier {
   List<String> _history = [];
 
   List<String> get history => _history;
-  static ResponseProvider<List<Category>> hotKeys = ResponseProvider();
+  static ResponseProvider<List<Category>> _hotKeys = ResponseProvider();
+  ResponseProvider<List<Category>> get hotKeys => _hotKeys;
 
   SearchProvider() {
     controller = new TextEditingController();
@@ -29,12 +31,21 @@ class SearchProvider with ChangeNotifier {
 
   String get text => controller.text;
 
-  checkLoadHotKey() {
-    if (hotKeys.isLoading == false && hotKeys.isCompleted == false) {}
-  }
-
-  loadHotKey(){
-
+  loadHotKey() async{
+    try {
+      _hotKeys.loading = 'try load hotkeys';
+      notifyListeners();
+      List<Category> data =
+          await CategoryRepository.instance.loadHotKeySearch();
+      if (data != null) {
+        _hotKeys.completed = data;
+      } else {
+        _hotKeys.completed = [];
+      }
+    } catch (e) {
+      _hotKeys.error = 'exception: ' + e.toString();
+    }
+    notifyListeners();
   }
 
   loadHistory() async {

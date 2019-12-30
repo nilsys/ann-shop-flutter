@@ -16,7 +16,7 @@ class CategoryRepository {
     /// init
   }
 
-  /// http://ann-shop-server.com/api/flutter/categories
+  /// http://xuongann.com/api/flutter/categories
   Future<List<Category>> loadCategories(String slug) async {
     try {
       final url = Core.domain + 'api/flutter/$slug';
@@ -52,7 +52,7 @@ class CategoryRepository {
     return null;
   }
 
-  /// http://ann-shop-server.com/api/flutter/home/blocks
+  /// http://xuongann.com/api/flutter/home/blocks
   Future<List<CategoryHome>> loadDataHome() async {
     try {
       final url = Core.domain + 'api/flutter/' + 'home/blocks';
@@ -84,6 +84,28 @@ class CategoryRepository {
         _data.add(new CategoryHome.fromJson(v));
       });
       return _data;
+    } catch (e) {
+      log(e);
+    }
+    return null;
+  }
+
+
+  /// http://xuongann.com/api/flutter/search/hotkey
+  Future<List<Category>> loadHotKeySearch() async {
+    try {
+      final url = Core.domain + 'api/flutter/search/hotkey';
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(response.body);
+        List<Category> _data = new List();
+        message.forEach((v) {
+          _data.add(new Category.fromJson(v));
+        });
+        return _data;
+      }
     } catch (e) {
       log(e);
     }
