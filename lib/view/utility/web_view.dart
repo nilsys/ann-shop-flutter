@@ -3,10 +3,27 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class WebViewRouter extends StatelessWidget {
-  WebViewRouter(this.url);
+class WebViewRouter extends StatefulWidget {
+  WebViewRouter(var data) {
+    if (data is Map) {
+      Map map = data;
+      url = map['url'];
+      title = map['title'] ?? url;
+    } else {
+      String text = data as String;
+      url = text;
+      title = text;
+    }
+  }
 
-  final String url;
+  String url;
+  String title;
+
+  @override
+  _WebViewRouterState createState() => _WebViewRouterState();
+}
+
+class _WebViewRouterState extends State<WebViewRouter> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
@@ -15,19 +32,19 @@ class WebViewRouter extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(url),
+        title: Text(widget.title),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/web-view',
-                  arguments: url);
+                  arguments: widget.url);
             },
           ),
         ],
       ),
       body: WebView(
-        initialUrl: url,
+        initialUrl: widget.url,
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
           _controller.complete(webViewController);
@@ -41,7 +58,7 @@ class WebViewRouter extends StatelessWidget {
 
   _toasterJavascriptChannel(BuildContext context) {
     return JavascriptChannel(
-      name: 'ABCD',
+      name: 'xuongann',
       onMessageReceived: (JavascriptMessage message) {
         Scaffold.of(context).showSnackBar(
           SnackBar(content: Text(message.message)),

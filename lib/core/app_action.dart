@@ -36,16 +36,20 @@ class AppAction {
         linkToCategory(context, value, message);
         break;
       case ActionType.linkToProduct:
-        linkToProductDetail(context, value, message);
+        linkToProductDetail(context, value);
         break;
       case ActionType.linkToScreen:
         linkToScreen(context, value, message);
         break;
+      case ActionType.linkToWebView:
+        linkToWebView(context, value, message);
+        break;
       case ActionType.linkToWebPage:
-        linkToWebPage(context, value, message);
+        linkToWebView(context, value, message);
+//        linkToWebPage(context, value);
         break;
       case ActionType.linkToViewMore:
-        linkToViewMore(context, value, message);
+        linkToViewMore(context, value);
         break;
       default:
         print("Type don't exist: $action");
@@ -53,8 +57,7 @@ class AppAction {
     }
   }
 
-  void linkToProductDetail(
-      BuildContext context, String value, String message) async {
+  void linkToProductDetail(BuildContext context, String value) async {
     print('link to product detail: $value');
     Router.showProductDetail(context, slug: value);
   }
@@ -82,9 +85,15 @@ class AppAction {
     );
   }
 
-  void linkToWebPage(BuildContext context, String value, String message) {
+  void linkToWebPage(BuildContext context, String value) {
     print('link to web page: $value');
     launch(value);
+  }
+
+  void linkToWebView(BuildContext context, String value, String message) {
+    print('link to web page: $value');
+    Navigator.pushNamed(context, '/web-view',
+        arguments: {'url': value, 'title': message});
   }
 
   void linkToScreen(BuildContext context, String value, String message) {
@@ -117,7 +126,7 @@ class AppAction {
     }
   }
 
-  void linkToViewMore(BuildContext context, String value, String message) {
+  void linkToViewMore(BuildContext context, String value) {
     print('link to view more: ' + value);
     Navigator.pushNamed(context, '/view_more', arguments: value);
   }
@@ -129,6 +138,7 @@ class ActionType {
   static const String linkToTag = "product_tag";
   static const String linkToSearch = "product_search";
   static const String linkToWebPage = "show_web";
+  static const String linkToWebView = "show_web_view";
   static const String linkToScreen = "go_to_screen";
   static const String linkToViewMore = "view_more";
 }
