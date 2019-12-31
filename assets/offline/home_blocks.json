@@ -1,0 +1,367 @@
+[
+  {
+    "banner": {
+      "action": "category",
+      "name": "Váy đầm",
+      "actionValue": "vay-dam",
+      "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
+      "message": null,
+      "createdDate": "2019-12-31T09:24:49.13873+07:00"
+    },
+    "category": {
+      "name": "Váy đầm nữ",
+      "icon": "/assets/images/categories/category-17.jpg",
+      "description": null,
+      "filter": {
+        "categorySlug": "vay-dam",
+        "categorySlugList": null,
+        "productBadge": 0,
+        "productSearch": null,
+        "productSort": 4,
+        "tagSlug": null,
+        "priceMin": 0,
+        "priceMax": 0
+      },
+      "children": null
+    }
+  },
+  {
+    "banner": {
+      "action": "category",
+      "name": "Đồ bộ nữ",
+      "actionValue": "do-bo-nu",
+      "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
+      "message": null,
+      "createdDate": "2019-12-31T09:24:49.1417632+07:00"
+    },
+    "category": {
+      "name": "Đồ bộ nữ",
+      "icon": "/assets/images/categories/category-18.jpg",
+      "description": null,
+      "filter": {
+        "categorySlug": "do-bo-nu",
+        "categorySlugList": null,
+        "productBadge": 0,
+        "productSearch": null,
+        "productSort": 4,
+        "tagSlug": null,
+        "priceMin": 0,
+        "priceMax": 0
+      },
+      "children": null
+    }
+  },
+  {
+    "banner": {
+      "action": "category",
+      "name": "Áo dài cách tân",
+      "actionValue": "ao-dai-cach-tan",
+      "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
+      "message": null,
+      "createdDate": "2019-12-31T09:24:49.1447712+07:00"
+    },
+    "category": {
+      "name": "Áo dài cách tân",
+      "icon": "/assets/images/categories/category-16.jpg",
+      "description": null,
+      "filter": {
+        "categorySlug": "ao-dai-cach-tan",
+        "categorySlugList": null,
+        "productBadge": 0,
+        "productSearch": null,
+        "productSort": 4,
+        "tagSlug": null,
+        "priceMin": 0,
+        "priceMax": 0
+      },
+      "children": null
+    }
+  },
+  {
+    "banner": {
+      "action": "category",
+      "name": "Áo thung nữ - Sơ mi nữ",
+      "actionValue": "ao-thun-nu",
+      "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
+      "message": null,
+      "createdDate": "2019-12-31T09:24:49.1517898+07:00"
+    },
+    "category": {
+      "name": "Áo thung nữ - Sơ mi nữ",
+      "icon": "",
+      "description": "",
+      "filter": {
+        "categorySlug": null,
+        "categorySlugList": [
+          "ao-thun-nu",
+          "ao-so-mi-nu"
+        ],
+        "productBadge": 0,
+        "productSearch": null,
+        "productSort": 4,
+        "tagSlug": null,
+        "priceMin": 0,
+        "priceMax": 0
+      },
+      "children": [
+        {
+          "name": "Áo thun nữ",
+          "icon": "/assets/images/categories/category-19.jpg",
+          "description": null,
+          "filter": {
+            "categorySlug": "ao-thun-nu",
+            "categorySlugList": null,
+            "productBadge": 0,
+            "productSearch": null,
+            "productSort": 4,
+            "tagSlug": null,
+            "priceMin": 0,
+            "priceMax": 0
+          },
+          "children": null
+        },
+        {
+          "name": "Áo sơ mi nữ",
+          "icon": "/assets/images/categories/category-20.jpg",
+          "description": null,
+          "filter": {
+            "categorySlug": "ao-so-mi-nu",
+            "categorySlugList": null,
+            "productBadge": 0,
+            "productSearch": null,
+            "productSort": 4,
+            "tagSlug": null,
+            "priceMin": 0,
+            "priceMax": 0
+          },
+          "children": null
+        }
+      ]
+    }
+  },
+  {
+    "banner": {
+      "action": "category",
+      "name": "Áo khoác nữ",
+      "actionValue": "ao-khoac-nu",
+      "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
+      "message": null,
+      "createdDate": "2019-12-31T09:24:49.1557739+07:00"
+    },
+    "category": {
+      "name": "Áo khoác nữ",
+      "icon": "/assets/images/categories/category-21.jpg",
+      "description": null,
+      "filter": {
+        "categorySlug": "ao-khoac-nu",
+        "categorySlugList": null,
+        "productBadge": 0,
+        "productSearch": null,
+        "productSort": 4,
+        "tagSlug": null,
+        "priceMin": 0,
+        "priceMax": 0
+      },
+      "children": null
+    }
+  },
+  {
+    "banner": {
+      "action": "category",
+      "name": "Quần nữ - Đồ lót nữ",
+      "actionValue": "quan-nu",
+      "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
+      "message": null,
+      "createdDate": "2019-12-31T09:24:49.1628183+07:00"
+    },
+    "category": {
+      "name": "Quần nữ - Đồ lót nữ",
+      "icon": "",
+      "description": "",
+      "filter": {
+        "categorySlug": null,
+        "categorySlugList": [
+          "quan-nu",
+          "do-lot-nu"
+        ],
+        "productBadge": 0,
+        "productSearch": null,
+        "productSort": 4,
+        "tagSlug": null,
+        "priceMin": 0,
+        "priceMax": 0
+      },
+      "children": [
+        {
+          "name": "Quần nữ",
+          "icon": "/assets/images/categories/category-23.jpg",
+          "description": null,
+          "filter": {
+            "categorySlug": "quan-nu",
+            "categorySlugList": null,
+            "productBadge": 0,
+            "productSearch": null,
+            "productSort": 4,
+            "tagSlug": null,
+            "priceMin": 0,
+            "priceMax": 0
+          },
+          "children": null
+        },
+        {
+          "name": "Đồ lót nữ",
+          "icon": "/assets/images/categories/category-41.jpg",
+          "description": "",
+          "filter": {
+            "categorySlug": "do-lot-nu",
+            "categorySlugList": null,
+            "productBadge": 0,
+            "productSearch": null,
+            "productSort": 4,
+            "tagSlug": null,
+            "priceMin": 0,
+            "priceMax": 0
+          },
+          "children": null
+        }
+      ]
+    }
+  },
+  {
+    "banner": {
+      "action": "category",
+      "name": "Áo thung nam",
+      "actionValue": "ao-thun-nam",
+      "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
+      "message": null,
+      "createdDate": "2019-12-31T09:24:49.1658266+07:00"
+    },
+    "category": {
+      "name": "Áo thun nam",
+      "icon": "/assets/images/categories/category-3.jpg",
+      "description": null,
+      "filter": {
+        "categorySlug": "ao-thun-nam",
+        "categorySlugList": null,
+        "productBadge": 0,
+        "productSearch": null,
+        "productSort": 4,
+        "tagSlug": null,
+        "priceMin": 0,
+        "priceMax": 0
+      },
+      "children": [
+        {
+          "name": "Áo thun cá sấu",
+          "icon": null,
+          "description": null,
+          "filter": {
+            "categorySlug": "ao-thun-ca-sau",
+            "categorySlugList": null,
+            "productBadge": 0,
+            "productSearch": null,
+            "productSort": 4,
+            "tagSlug": null,
+            "priceMin": 0,
+            "priceMax": 0
+          },
+          "children": null
+        },
+        {
+          "name": "Áo thun sọc ngang",
+          "icon": null,
+          "description": null,
+          "filter": {
+            "categorySlug": "ao-thun-soc-ngang",
+            "categorySlugList": null,
+            "productBadge": 0,
+            "productSearch": null,
+            "productSort": 4,
+            "tagSlug": null,
+            "priceMin": 0,
+            "priceMax": 0
+          },
+          "children": null
+        },
+        {
+          "name": "Áo thun thể thao",
+          "icon": null,
+          "description": null,
+          "filter": {
+            "categorySlug": "ao-thun-the-thao",
+            "categorySlugList": null,
+            "productBadge": 0,
+            "productSearch": null,
+            "productSort": 4,
+            "tagSlug": null,
+            "priceMin": 0,
+            "priceMax": 0
+          },
+          "children": null
+        }
+      ]
+    }
+  },
+  {
+    "banner": {
+      "action": "category",
+      "name": "Quần nam - Quần lót nam",
+      "actionValue": "quan-nam",
+      "image": "https://khohangsiann.com/wp-content/uploads/si-bao-li-xi-2020.png",
+      "message": null,
+      "createdDate": "2019-12-31T09:24:49.1728449+07:00"
+    },
+    "category": {
+      "name": "Quần nam - Quần lót nam",
+      "icon": "",
+      "description": "",
+      "filter": {
+        "categorySlug": null,
+        "categorySlugList": [
+          "quan-nam",
+          "quan-lot-nam"
+        ],
+        "productBadge": 0,
+        "productSearch": null,
+        "productSort": 4,
+        "tagSlug": null,
+        "priceMin": 0,
+        "priceMax": 0
+      },
+      "children": [
+        {
+          "name": "Quần nam",
+          "icon": "/assets/images/categories/category-11.jpg",
+          "description": null,
+          "filter": {
+            "categorySlug": "quan-nam",
+            "categorySlugList": null,
+            "productBadge": 0,
+            "productSearch": null,
+            "productSort": 4,
+            "tagSlug": null,
+            "priceMin": 0,
+            "priceMax": 0
+          },
+          "children": null
+        },
+        {
+          "name": "Quần lót nam",
+          "icon": "/assets/images/categories/category-42.jpg",
+          "description": "",
+          "filter": {
+            "categorySlug": "quan-lot-nam",
+            "categorySlugList": null,
+            "productBadge": 0,
+            "productSearch": null,
+            "productSort": 4,
+            "tagSlug": null,
+            "priceMin": 0,
+            "priceMax": 0
+          },
+          "children": null
+        }
+      ]
+    }
+  }
+]

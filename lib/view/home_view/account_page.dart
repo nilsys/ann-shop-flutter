@@ -69,10 +69,10 @@ class _AccountPageState extends State<AccountPage> {
                 _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {
                   Navigator.pushNamed(context, '/shop-contact');
                 }),
-                _buildItemCommon('Chính sách bán hàng',
-                    icon: Icons.question_answer, onTap: () {
-                  Navigator.pushNamed(context, '/shop-policy');
-                }),
+//                _buildItemCommon('Chính sách bán hàng',
+//                    icon: Icons.question_answer, onTap: () {
+//                  Navigator.pushNamed(context, '/shop-policy');
+//                }),
                 _buildItemCommon('Cài đặt', icon: Icons.settings, onTap: () {
                   Navigator.pushNamed(context, '/setting');
                 }),

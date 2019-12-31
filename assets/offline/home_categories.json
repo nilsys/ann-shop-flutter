@@ -1,10 +1,10 @@
 [
   {
-    "name": "Bao lì xì tết",
-    "icon": null,
-    "description": "",
+    "name": "Đồ bộ nữ",
+    "icon": "/assets/images/categories/category-18.jpg",
+    "description": null,
     "filter": {
-      "categorySlug": "bao-li-xi-tet",
+      "categorySlug": "do-bo-nu",
       "categorySlugList": null,
       "productBadge": 0,
       "productSearch": null,
@@ -12,22 +12,6 @@
       "tagSlug": null,
       "priceMin": 0,
       "priceMax": 0
-    },
-    "children": null
-  },
-  {
-    "name": "Đồ bộ nữ",
-    "icon": "/assets/images/categories/category-18.jpg",
-    "description": null,
-    "filter": {
-      "categorySlug": "do-bo-nu",
-      "categorySlugList": null,
-      "productBadge": 4,
-      "productSearch": null,
-      "productSort": 4,
-      "tagSlug": null,
-      "priceMin": 151000,
-      "priceMax": 150000
     },
     "children": [
       {
@@ -37,12 +21,12 @@
         "filter": {
           "categorySlug": "do-bo-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 1,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 0
         },
         "children": null
       },
@@ -53,12 +37,12 @@
         "filter": {
           "categorySlug": "do-bo-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 3,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 0
         },
         "children": null
       },
@@ -73,8 +57,8 @@
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 0
         },
         "children": null
       },
@@ -85,12 +69,12 @@
         "filter": {
           "categorySlug": "do-bo-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 99000
         },
         "children": null
       },
@@ -101,12 +85,12 @@
         "filter": {
           "categorySlug": "do-bo-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 100000,
+          "priceMax": 125000
         },
         "children": null
       },
@@ -117,11 +101,11 @@
         "filter": {
           "categorySlug": "do-bo-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
+          "priceMin": 126000,
           "priceMax": 150000
         },
         "children": null
@@ -133,12 +117,12 @@
         "filter": {
           "categorySlug": "do-bo-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
           "priceMin": 151000,
-          "priceMax": 150000
+          "priceMax": 0
         },
         "children": null
       }
@@ -151,12 +135,12 @@
     "filter": {
       "categorySlug": "vay-dam",
       "categorySlugList": null,
-      "productBadge": 4,
+      "productBadge": 0,
       "productSearch": null,
       "productSort": 4,
       "tagSlug": null,
-      "priceMin": 151000,
-      "priceMax": 150000
+      "priceMin": 0,
+      "priceMax": 0
     },
     "children": [
       {
@@ -166,12 +150,12 @@
         "filter": {
           "categorySlug": "vay-dam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 1,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 0
         },
         "children": null
       },
@@ -182,12 +166,12 @@
         "filter": {
           "categorySlug": "vay-dam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 3,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 0
         },
         "children": null
       },
@@ -202,8 +186,8 @@
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 0
         },
         "children": null
       },
@@ -214,12 +198,12 @@
         "filter": {
           "categorySlug": "vay-dam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 124000
         },
         "children": null
       },
@@ -230,11 +214,11 @@
         "filter": {
           "categorySlug": "vay-dam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
+          "priceMin": 125000,
           "priceMax": 150000
         },
         "children": null
@@ -246,12 +230,12 @@
         "filter": {
           "categorySlug": "vay-dam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
           "priceMin": 151000,
-          "priceMax": 150000
+          "priceMax": 0
         },
         "children": null
       }
@@ -360,7 +344,7 @@
     "filter": {
       "categorySlug": "quan-ao-nu",
       "categorySlugList": null,
-      "productBadge": 4,
+      "productBadge": 3,
       "productSearch": null,
       "productSort": 4,
       "tagSlug": null,
@@ -391,12 +375,12 @@
         "filter": {
           "categorySlug": "do-bo-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 0
         },
         "children": [
           {
@@ -406,12 +390,12 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 1,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -422,12 +406,12 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 3,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -442,8 +426,8 @@
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -454,12 +438,12 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 99000
             },
             "children": null
           },
@@ -470,12 +454,12 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 100000,
+              "priceMax": 125000
             },
             "children": null
           },
@@ -486,11 +470,11 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
+              "priceMin": 126000,
               "priceMax": 150000
             },
             "children": null
@@ -502,12 +486,12 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
               "priceMin": 151000,
-              "priceMax": 150000
+              "priceMax": 0
             },
             "children": null
           }
@@ -520,12 +504,12 @@
         "filter": {
           "categorySlug": "vay-dam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 0
         },
         "children": [
           {
@@ -535,12 +519,12 @@
             "filter": {
               "categorySlug": "vay-dam",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 1,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -551,12 +535,12 @@
             "filter": {
               "categorySlug": "vay-dam",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 3,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -571,8 +555,8 @@
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -583,12 +567,12 @@
             "filter": {
               "categorySlug": "vay-dam",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 124000
             },
             "children": null
           },
@@ -599,11 +583,11 @@
             "filter": {
               "categorySlug": "vay-dam",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
+              "priceMin": 125000,
               "priceMax": 150000
             },
             "children": null
@@ -615,12 +599,12 @@
             "filter": {
               "categorySlug": "vay-dam",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
               "priceMin": 151000,
-              "priceMax": 150000
+              "priceMax": 0
             },
             "children": null
           }
@@ -729,7 +713,7 @@
         "filter": {
           "categorySlug": "quan-ao-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 1,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -745,7 +729,7 @@
         "filter": {
           "categorySlug": "quan-ao-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 3,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -810,12 +794,12 @@
         "filter": {
           "categorySlug": "do-bo-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 0
         },
         "children": [
           {
@@ -825,12 +809,12 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 1,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -841,12 +825,12 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 3,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -861,8 +845,8 @@
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -873,12 +857,12 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 99000
             },
             "children": null
           },
@@ -889,12 +873,12 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 100000,
+              "priceMax": 125000
             },
             "children": null
           },
@@ -905,11 +889,11 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
+              "priceMin": 126000,
               "priceMax": 150000
             },
             "children": null
@@ -921,12 +905,12 @@
             "filter": {
               "categorySlug": "do-bo-nu",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
               "priceMin": 151000,
-              "priceMax": 150000
+              "priceMax": 0
             },
             "children": null
           }
@@ -939,12 +923,12 @@
         "filter": {
           "categorySlug": "vay-dam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 151000,
-          "priceMax": 150000
+          "priceMin": 0,
+          "priceMax": 0
         },
         "children": [
           {
@@ -954,12 +938,12 @@
             "filter": {
               "categorySlug": "vay-dam",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 1,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -970,12 +954,12 @@
             "filter": {
               "categorySlug": "vay-dam",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 3,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -990,8 +974,8 @@
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 0
             },
             "children": null
           },
@@ -1002,12 +986,12 @@
             "filter": {
               "categorySlug": "vay-dam",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
-              "priceMax": 150000
+              "priceMin": 0,
+              "priceMax": 124000
             },
             "children": null
           },
@@ -1018,11 +1002,11 @@
             "filter": {
               "categorySlug": "vay-dam",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
-              "priceMin": 151000,
+              "priceMin": 125000,
               "priceMax": 150000
             },
             "children": null
@@ -1034,12 +1018,12 @@
             "filter": {
               "categorySlug": "vay-dam",
               "categorySlugList": null,
-              "productBadge": 4,
+              "productBadge": 0,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
               "priceMin": 151000,
-              "priceMax": 150000
+              "priceMax": 0
             },
             "children": null
           }
@@ -1148,7 +1132,7 @@
         "filter": {
           "categorySlug": "quan-ao-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 1,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -1164,7 +1148,7 @@
         "filter": {
           "categorySlug": "quan-ao-nu",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 3,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -1198,7 +1182,7 @@
     "filter": {
       "categorySlug": "ao-thun-nam",
       "categorySlugList": null,
-      "productBadge": 3,
+      "productBadge": 0,
       "productSearch": null,
       "productSort": 4,
       "tagSlug": null,
@@ -1213,7 +1197,7 @@
         "filter": {
           "categorySlug": "ao-thun-nam",
           "categorySlugList": null,
-          "productBadge": 3,
+          "productBadge": 1,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -1359,7 +1343,7 @@
     "filter": {
       "categorySlug": "quan-ao-nam",
       "categorySlugList": null,
-      "productBadge": 4,
+      "productBadge": 3,
       "productSearch": null,
       "productSort": 4,
       "tagSlug": null,
@@ -1374,7 +1358,7 @@
         "filter": {
           "categorySlug": "ao-thun-nam",
           "categorySlugList": null,
-          "productBadge": 3,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -1389,7 +1373,7 @@
             "filter": {
               "categorySlug": "ao-thun-nam",
               "categorySlugList": null,
-              "productBadge": 3,
+              "productBadge": 1,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
@@ -1503,7 +1487,7 @@
         "filter": {
           "categorySlug": "quan-ao-nam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 1,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -1519,7 +1503,7 @@
         "filter": {
           "categorySlug": "quan-ao-nam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 3,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -1568,7 +1552,7 @@
         "filter": {
           "categorySlug": "ao-thun-nam",
           "categorySlugList": null,
-          "productBadge": 3,
+          "productBadge": 0,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -1583,7 +1567,7 @@
             "filter": {
               "categorySlug": "ao-thun-nam",
               "categorySlugList": null,
-              "productBadge": 3,
+              "productBadge": 1,
               "productSearch": null,
               "productSort": 4,
               "tagSlug": null,
@@ -1697,7 +1681,7 @@
         "filter": {
           "categorySlug": "quan-ao-nam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 1,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -1713,7 +1697,7 @@
         "filter": {
           "categorySlug": "quan-ao-nam",
           "categorySlugList": null,
-          "productBadge": 4,
+          "productBadge": 3,
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
@@ -1751,8 +1735,8 @@
       "productSearch": null,
       "productSort": 4,
       "tagSlug": null,
-      "priceMin": 50000,
-      "priceMax": 400000
+      "priceMin": 0,
+      "priceMax": 0
     },
     "children": [
       {
@@ -1766,8 +1750,8 @@
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 50000,
-          "priceMax": 400000
+          "priceMin": 0,
+          "priceMax": 30000
         },
         "children": null
       },
@@ -1782,8 +1766,8 @@
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 50000,
-          "priceMax": 400000
+          "priceMin": 31000,
+          "priceMax": 35000
         },
         "children": null
       },
@@ -1798,8 +1782,8 @@
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 50000,
-          "priceMax": 400000
+          "priceMin": 36000,
+          "priceMax": 49000
         },
         "children": null
       },
@@ -1814,8 +1798,8 @@
           "productSearch": null,
           "productSort": 4,
           "tagSlug": null,
-          "priceMin": 50000,
-          "priceMax": 400000
+          "priceMin": 135000,
+          "priceMax": 135000
         },
         "children": null
       },
