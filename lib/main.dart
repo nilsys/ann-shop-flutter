@@ -1,3 +1,5 @@
+import 'package:ann_shop_flutter/core/app_analytics.dart';
+import 'package:ann_shop_flutter/core/app_onesignal.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
@@ -11,6 +13,7 @@ import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_theme.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +40,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -59,9 +63,14 @@ class _MyAppState extends State<MyApp> {
         theme: primaryTheme(),
         initialRoute: '/',
         onGenerateRoute: Router.generateRoute,
+        navigatorObservers: [observer],
       ),
     );
   }
+
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(
+      analytics: AppAnalytics.instance.firebase,
+      nameExtractor: Router.getNameExtractor);
 
   @override
   void initState() {
@@ -72,5 +81,6 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
     Core.loadCopySetting();
+    AppOneSignal.instance.initOneSignal(context);
   }
 }

@@ -45,8 +45,7 @@ class AppAction {
         linkToWebView(context, value, message);
         break;
       case ActionType.linkToWebPage:
-        linkToWebView(context, value, message);
-//        linkToWebPage(context, value);
+        linkToWebPage(context, value);
         break;
       case ActionType.linkToViewMore:
         linkToViewMore(context, value);

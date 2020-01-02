@@ -1,4 +1,6 @@
+import 'package:ann_shop_flutter/core/app_dynamic_links.dart';
 import 'package:ann_shop_flutter/core/app_icons.dart';
+import 'package:ann_shop_flutter/core/app_onesignal.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/view/inapp/inapp_view.dart';
@@ -15,15 +17,9 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   TabController tabController;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    tabController = new TabController(length: 5, vsync: this);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,5 +104,43 @@ class _HomeViewState extends State<HomeView>
   _onItemTapped(_index) {
     Provider.of<NavigationProvider>(context).switchTo(_index);
 //      tabController.animateTo(_index);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tabController = new TabController(length: 5, vsync: this);
+
+    AppDynamicLinks.instance.initDynamicLinks(context);
+    AppOneSignal.instance.initOneSignalOpenedHandler(context);
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Future<Null> didChangeAppLifecycleState(AppLifecycleState _state) async {
+    switch (_state) {
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        break;
+      case AppLifecycleState.resumed:
+        resumeCallBack();
+        break;
+      case AppLifecycleState.inactive:
+      default:
+        break;
+    }
+  }
+
+  resumeCallBack() {
+    print('App resume call back');
   }
 }
