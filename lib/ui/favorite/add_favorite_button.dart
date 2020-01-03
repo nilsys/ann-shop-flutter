@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddFavoriteButton extends StatelessWidget {
+  AddFavoriteButton(this.product);
+
+  final Product product;
+
   @override
   Widget build(BuildContext context) {
-    Product product = Provider.of(context);
     bool favorite = Provider.of<FavoriteProvider>(context)
         .containsInFavorite(product.productID);
 

@@ -582,7 +582,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                           icon: Icon(Icons.favorite_border),
                           onPressed: () {
                             Provider.of<FavoriteProvider>(context)
-                                .addNewProduct(context, detail, count: 1);
+                                .addNewProduct(context, detail.toProduct(), count: 1);
                           },
                         ),
                   IconButton(
