@@ -13,11 +13,26 @@ class Category {
   Category(
       {this.icon, this.name, this.description, this.children, this.filter});
 
-  String get getKey{
-    if(filter == null){
+  String get getKey {
+    if (filter == null) {
       return 'default';
-    }else{
+    } else {
       return filter.toJson().toString();
+    }
+  }
+
+  String get getSlugBanner {
+    if (filter == null) {
+      return null;
+    } else {
+      if (Utility.isNullOrEmpty(filter.categorySlug) == false) {
+        return 'banners?page=category&slug=${filter.categorySlug}';
+      } else if (Utility.isNullOrEmpty(filter.tagSlug) == false) {
+        return 'banners?page=tag&slug=${filter.tagSlug}';
+      }else if (Utility.isNullOrEmpty(filter.productSearch) == false) {
+        return 'banners?page=search';
+      }
+      return null;
     }
   }
 

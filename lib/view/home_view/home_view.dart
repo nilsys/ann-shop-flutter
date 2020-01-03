@@ -37,7 +37,7 @@ class _HomeViewState extends State<HomeView>
 
         return Scaffold(
           body: TabBarView(
-//            physics: NeverScrollableScrollPhysics(),
+            physics: NeverScrollableScrollPhysics(),
             controller: tabController,
             children: <Widget>[
               HomePage(),

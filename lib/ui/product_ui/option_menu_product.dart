@@ -1,11 +1,11 @@
+import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OptionMenuProduct extends StatelessWidget {
-  OptionMenuProduct(
-      {this.onShare, this.onDownload, this.onCopy});
+  OptionMenuProduct({this.onShare, this.onDownload, this.onCopy});
 
   final VoidCallback onShare;
   final VoidCallback onDownload;
@@ -24,15 +24,16 @@ class OptionMenuProduct extends StatelessWidget {
       itemBuilder: (BuildContext context) => <PopupMenuItem<MenuOptions>>[
         PopupMenuItem<MenuOptions>(
           value: MenuOptions.home,
-          child: _buildMenuItem(Icons.home, 'Trở về trang chủ'),
+          child: _buildMenuItem(AppIcons.home, 'Trở về trang chủ', size: 20),
         ),
         PopupMenuItem<MenuOptions>(
           value: MenuOptions.category,
-          child: _buildMenuItem(Icons.view_module, 'Danh mục sản phẩm'),
+          child: _buildMenuItem(AppIcons.th_large_1, 'Danh mục sản phẩm',
+              size: 20),
         ),
         PopupMenuItem<MenuOptions>(
           value: MenuOptions.account,
-          child: _buildMenuItem(Icons.account_box, 'Cá nhân'),
+          child: _buildMenuItem(Icons.person, 'Cá nhân'),
         ),
         PopupMenuItem<MenuOptions>(
           value: MenuOptions.favorite,
@@ -54,12 +55,16 @@ class OptionMenuProduct extends StatelessWidget {
     );
   }
 
-  _buildMenuItem(icon, name) {
+  _buildMenuItem(icon, name, {double size = 24}) {
     return Row(
       children: <Widget>[
-        Icon(
-          icon,
-          color: AppStyles.dartIcon,
+        Container(
+          width: 30,
+          child: Icon(
+            icon,
+            color: AppStyles.dartIcon,
+            size: size,
+          ),
         ),
         SizedBox(
           width: 10,

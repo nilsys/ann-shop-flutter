@@ -1,6 +1,5 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
-import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/core/core.dart';
@@ -73,7 +72,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
       }
     });
     WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      Provider.of<CoverProvider>(context).checkLoadCoverProductPage();
+      Provider.of<CoverProvider>(context).refreshCoverProductPage(widget.slug);
     });
   }
 
@@ -145,6 +144,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               ),
             ],
           ),
+
           /// page view image
           SliverList(
             delegate: SliverChildListDelegate([
@@ -236,10 +236,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
           ),
           PolicyProductBlock(),
           SliverToBoxAdapter(
-            child: Provider.value(
-              value: Provider.of<CoverProvider>(context).headerProduct.data,
-              child: ProductBanner(),
-            ),
+            child: ProductBanner(
+                Provider.of<CoverProvider>(context).headerProduct.data,
+                border: Border(
+                    top: BorderSide(color: AppStyles.dividerColor, width: 10))),
           ),
           InfoProduct(detail),
           _buildTitle('Thông tin sản phẩm'),
@@ -253,9 +253,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
           ),
           _buildByCatalog(),
           SliverToBoxAdapter(
-            child: Provider.value(
-              value: Provider.of<CoverProvider>(context).footerProduct.data,
-              child: ProductBanner(),
+            child: ProductBanner(
+              Provider.of<CoverProvider>(context).footerProduct.data,
+              border: Border(
+                  top: BorderSide(color: AppStyles.dividerColor, width: 10)),
             ),
           ),
         ],

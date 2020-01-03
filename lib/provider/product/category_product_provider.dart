@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
+import 'package:ann_shop_flutter/repository/list_product_repository.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -32,11 +33,11 @@ class CategoryProductProvider extends ChangeNotifier {
       if (refresh) notifyListeners();
 
       var list =
-          await ProductRepository.instance.loadByCategoryFilter(category);
+          await ListProductRepository.instance.loadByCategoryFilter(category);
       if (list == null) {
-        list = await ProductRepository.instance.loadByCache(code);
+        list = await ListProductRepository.instance.loadByCache(code);
       } else {
-        ProductRepository.instance.cacheProduct(code, list);
+        ListProductRepository.instance.cacheProduct(code, list);
       }
       if (list == null) {
         categories[code].error = 'Load fail';

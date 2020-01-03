@@ -41,12 +41,12 @@ class ListProduct extends StatefulWidget {
 
   static showBySearch(context, Category category, {List<Product> initData}) {
     Provider.of<SearchProvider>(context).setText();
-    var data = {'category': category, 'initData': initData};
+    var data = {'category': category, 'initData': initData, 'showSearch': true};
     if (Navigator.canPop(context)) {
-      Navigator.pushReplacementNamed(context, '/list-product-by-search',
+      Navigator.pushReplacementNamed(context, '/list-product-by-category',
           arguments: data);
     } else {
-      Navigator.pushNamed(context, '/list-product-by-search', arguments: data);
+      Navigator.pushNamed(context, '/list-product-by-category', arguments: data);
     }
   }
 }

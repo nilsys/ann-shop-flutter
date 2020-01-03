@@ -89,18 +89,31 @@ class InAppItem extends StatelessWidget {
               Utility.isNullOrEmpty(item.image)
                   ? Container()
                   : Container(
-                padding: EdgeInsets.fromLTRB(defaultPadding,0,defaultPadding,8),
-                child: AppImage(
-                  item.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                      padding: EdgeInsets.fromLTRB(
+                          defaultPadding, 0, defaultPadding, 8),
+                      child: AppImage(
+                        item.image,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
               Padding(
                 padding:
                     EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 10),
-                child: Text(
-                  item.message,
+                child: RichText(
+                  maxLines: 20,
+                  overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.start,
+                  text: TextSpan(children: [
+                    TextSpan(
+                        text: item.message + '...',
+                        style: Theme.of(context).textTheme.body1),
+                    TextSpan(
+                      text: 'xem thêm >',
+                      style: Theme.of(context).textTheme.body1.merge(
+                            TextStyle(color: Colors.blue),
+                          ),
+                    )
+                  ]),
                 ),
               ),
               Container(

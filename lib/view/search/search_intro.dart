@@ -2,19 +2,28 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/spam_cover_provider.dart';
+import 'package:ann_shop_flutter/ui/product_ui/product_banner.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SearchIntro extends StatefulWidget {
-
   @override
   _SearchIntroState createState() => _SearchIntroState();
 }
 
 class _SearchIntroState extends State<SearchIntro> {
+  final slugBanner = 'banners?page=search';
 
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback) async {
+      Provider.of<SpamCoverProvider>(context).checkLoad(slugBanner);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,30 +40,28 @@ class _SearchIntroState extends State<SearchIntro> {
         },
         child: ListView(
           children: <Widget>[
-            hasHotKey
-                ? Container(
-                    padding: EdgeInsets.only(top: 15, bottom: 5),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.star,
-                          color: Colors.red,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Từ Khoá Hot',
-                            style: Theme.of(context).textTheme.title,
-                            maxLines: 1,
-                          ),
-                        )
-                      ],
+            Container(
+              padding: EdgeInsets.only(top: 15, bottom: 5),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.star,
+                    color: Colors.red,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      'Từ Khoá Hot',
+                      style: Theme.of(context).textTheme.title,
+                      maxLines: 1,
                     ),
                   )
-                : Container(),
+                ],
+              ),
+            ),
             hasHotKey
                 ? Wrap(
                     children: provider.hotKeys.data
@@ -62,6 +69,11 @@ class _SearchIntroState extends State<SearchIntro> {
                         .toList(),
                   )
                 : Container(),
+            ProductBanner(
+              Provider.of<SpamCoverProvider>(context)
+                  .getBySlug(slugBanner)
+                  .data,
+            ),
             hasHistory
                 ? Container(
                     padding: EdgeInsets.only(top: 15),
@@ -111,7 +123,7 @@ class _SearchIntroState extends State<SearchIntro> {
 
   Widget _buildHotKey(Category item) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal:5.0),
+      margin: const EdgeInsets.symmetric(horizontal: 5.0),
       child: ActionChip(
           label: Text(item.name, textAlign: TextAlign.center),
           onPressed: () {

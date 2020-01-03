@@ -15,7 +15,6 @@ import 'package:ann_shop_flutter/view/list_product/seen_view.dart';
 import 'package:ann_shop_flutter/view/product/image_view.dart';
 import 'package:ann_shop_flutter/view/product/product_detail_view.dart';
 import 'package:ann_shop_flutter/view/product/product_filter_view.dart';
-import 'package:ann_shop_flutter/view/list_product/list_product_by_search.dart';
 import 'package:ann_shop_flutter/view/product/product_image_by_size_and_color.dart';
 import 'package:ann_shop_flutter/view/product/product_image_fancy_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
@@ -76,9 +75,6 @@ class Router {
       case '/list-product-by-category':
         return MaterialPageRoute(
             builder: (_) => ListProductByCategory(data), settings: settings);
-      case '/list-product-by-search':
-        return MaterialPageRoute(
-            builder: (_) => ListProductBySearch(data), settings: settings);
       case '/shop-contact':
         return MaterialPageRoute(
             builder: (_) => ShopContact(), settings: settings);

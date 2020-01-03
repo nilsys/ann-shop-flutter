@@ -8,8 +8,6 @@ class CoverProvider extends ChangeNotifier {
     loadCoverHome();
     loadNotificationHome();
     loadPostHome();
-    loadHeaderProduct();
-    loadFooterProduct();
   }
 
   ResponseProvider<List<Cover>> coversHome = ResponseProvider();
@@ -30,13 +28,9 @@ class CoverProvider extends ChangeNotifier {
     }
   }
 
-  checkLoadCoverProductPage() {
-    if (headerProduct.isError) {
-      loadHeaderProduct();
-    }
-    if (footerProduct.isError) {
-      loadFooterProduct();
-    }
+  refreshCoverProductPage(String slug) {
+    loadHeaderProduct(slug);
+    loadFooterProduct(slug);
   }
 
   loadCoverHome() async {
@@ -44,7 +38,7 @@ class CoverProvider extends ChangeNotifier {
       coversHome.loading = 'try load';
       notifyListeners();
       List<Cover> data =
-          await CoverRepository.instance.loadCover('home/banners');
+          await CoverRepository.instance.loadCover('banners?page=home');
       if (data != null) {
         coversHome.completed = data;
       } else {
@@ -93,12 +87,12 @@ class CoverProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  loadHeaderProduct() async {
+  loadHeaderProduct(String slug) async {
     try {
       headerProduct.loading = 'try load';
       notifyListeners();
       List<Cover> data = await CoverRepository.instance
-          .loadCover('product/banners?position=header');
+          .loadCover('banners?page=product&position=header&slug=$slug');
       if (data != null) {
         headerProduct.completed = data;
       } else {
@@ -111,12 +105,12 @@ class CoverProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  loadFooterProduct() async {
+  loadFooterProduct(String slug) async {
     try {
       footerProduct.loading = 'try load';
       notifyListeners();
       List<Cover> data = await CoverRepository.instance
-          .loadCover('product/banners?position=footer');
+          .loadCover('banners?page=product&position=footer&slug=$slug');
       if (data != null) {
         footerProduct.completed = data;
       } else {

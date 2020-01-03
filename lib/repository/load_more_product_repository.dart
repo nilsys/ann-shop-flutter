@@ -5,7 +5,7 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/repository/list_product_repository.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class LoadMoreProductRepository extends LoadingMoreBase<Product> {
@@ -86,7 +86,7 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
     if (_filter == null) {
       return [];
     } else {
-      var list = await ProductRepository.instance.loadByProductFilter(
+      var list = await ListProductRepository.instance.loadByProductFilter(
           productFilter,
           page: pageIndex,
           pageSize: itemPerPage,

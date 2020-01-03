@@ -8,6 +8,7 @@ import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/category_repository.dart';
+import 'package:ann_shop_flutter/repository/list_product_repository.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -75,7 +76,7 @@ class SearchProvider with ChangeNotifier {
         ProgressDialog loading =
             ProgressDialog(MyApp.context, message: 'Tìm kiếm sản phẩm...')
               ..show();
-        var data = await ProductRepository.instance
+        var data = await ListProductRepository.instance
             .loadBySearch(text, filter: AppFilter());
         loading.hide(contextHide: MyApp.context);
         if (Utility.isNullOrEmpty(data)) {

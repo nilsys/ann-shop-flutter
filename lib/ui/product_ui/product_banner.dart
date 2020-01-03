@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ProductBanner extends StatefulWidget {
+  ProductBanner(this.covers, {this.border});
+
+  final BoxBorder border;
+  final List<Cover> covers;
+
   @override
   _ProductBannerState createState() => _ProductBannerState();
 }
@@ -58,33 +61,30 @@ class _ProductBannerState extends State<ProductBanner>
     final double padding = 0;
     final width = MediaQuery.of(context).size.width - (padding * 2);
     final height = width * ratio;
-    return Consumer<List<Cover>>(builder: (_, covers, child) {
-      if (Utility.isNullOrEmpty(covers)) {
-        length = -1;
-        return Container();
-      } else {
-        length = covers.length;
-        return Container(
-          height: height,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
+    var covers = widget.covers;
+    if (Utility.isNullOrEmpty(covers)) {
+      length = -1;
+      return Container();
+    } else {
+      length = covers.length;
+      return Container(
+        height: height,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
 //                    borderRadius: BorderRadius.circular(5),
-                    border: Border(
-                        top: BorderSide(
-                            color: AppStyles.dividerColor, width: 10)),
-                  ),
-                  margin: EdgeInsets.symmetric(horizontal: padding),
-                  child: _buildPageView(context, covers)),
-              covers.length > 1 ? _buildDot(context) : Container(),
-            ],
-          ),
-        );
-      }
-    });
+                  border: widget.border,
+                ),
+                margin: EdgeInsets.symmetric(horizontal: padding),
+                child: _buildPageView(context, covers)),
+            covers.length > 1 ? _buildDot(context) : Container(),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildPageView(context, List<Cover> covers) {

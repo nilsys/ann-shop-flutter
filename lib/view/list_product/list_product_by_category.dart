@@ -3,11 +3,16 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
+import 'package:ann_shop_flutter/model/utility/cover.dart';
+import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/spam_cover_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
+import 'package:ann_shop_flutter/ui/product_ui/product_banner.dart';
 import 'package:ann_shop_flutter/ui/utility/download_background.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
+import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,9 +33,15 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
 
     category = widget.data['category'];
     initData = widget.data['initData'];
+    showSearchInput = widget.data['showSearch'] ?? false;
     filter = AppFilter.fromCategoryFilter(category.filter);
+
+    WidgetsBinding.instance.addPostFrameCallback((callback) async {
+      Provider.of<SpamCoverProvider>(context).checkLoad(category.getSlugBanner);
+    });
   }
 
+  bool showSearchInput;
   Category category;
   List<Product> initData;
   AppFilter filter;
@@ -40,9 +51,16 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
     var message = Provider.of<DownloadImageProvider>(context).currentMessage;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(category.name),
-      ),
+      appBar: showSearchInput
+          ? AppBar(
+              title: Padding(
+                  padding: EdgeInsets.only(right: defaultPadding),
+                  child: SearchTitle(category.name)),
+              titleSpacing: 0,
+            )
+          : AppBar(
+              title: Text(category.name),
+            ),
       body: ListProduct(filter,
           productFilter: category.filter,
           initData: initData,
@@ -53,89 +71,67 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
   }
 
   Widget _buildCategoryButtonGrid() {
-    var data = category.children;
+    ResponseProvider<List<Cover>> _covers =
+        Provider.of<SpamCoverProvider>(context)
+            .getBySlug(category.getSlugBanner);
 
-    if (Utility.isNullOrEmpty(data)) {
-      return null;
-    } else {
-      int crossAxisCount = data.length >= 8 ? 2 : 1;
-      return SliverToBoxAdapter(
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(defaultPadding),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  category.name,
-                  style: Theme.of(context).textTheme.title,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.left,
+    List<Category> _categories = category.children;
+
+    List<Widget> children = [];
+    if (Utility.isNullOrEmpty(_categories) == false) {
+      int crossAxisCount = _categories.length >= 8 ? 2 : 1;
+      children.add(Container(
+        color: Colors.white,
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(defaultPadding),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                category.name,
+                style: Theme.of(context).textTheme.title,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+              ),
+            ),
+            Container(
+              height: crossAxisCount * 100.0,
+              padding: EdgeInsets.only(left: 0, right: 0),
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _categories.length,
+                itemBuilder: (context, index) {
+                  return CategoryButton(_categories[index]);
+                },
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
                 ),
               ),
-              Container(
-                height: crossAxisCount * 100.0,
-                padding: EdgeInsets.only(left: 0, right: 0),
-                child: GridView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return CategoryButton(data[index]);
-                  },
-                  gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                  ),
-                ),
-              ),
-              Container(
-                height: 10,
-                color: AppStyles.dividerColor,
-              ),
-              SizedBox(height: 15),
-            ],
-          ),
+            ),
+            Container(
+              height: 10,
+              color: AppStyles.dividerColor,
+            ),
+          ],
+        ),
+      ));
+    }
+    if (Utility.isNullOrEmpty(_covers.data) == false) {
+      children.add(
+        ProductBanner(
+          _covers.data,
+          border: Border(
+              bottom: BorderSide(color: AppStyles.dividerColor, width: 10)),
         ),
       );
     }
-  }
-
-  _buildCategoryButtonList() {
-    var categories = category.children;
-    return SliverToBoxAdapter(
-      child: Container(
-        height: 45,
-        color: Colors.white,
-        padding: EdgeInsets.only(top: 10, bottom: 5),
-        width: double.infinity,
-        child: ListView.separated(
-          itemBuilder: (context, index) {
-            index -= 1;
-            if (index < 0 || index == categories.length) {
-              return SizedBox(
-                width: 5,
-              );
-            }
-            return ActionChip(
-              label: Text(
-                categories[index].name,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black87),
-              ),
-              onPressed: () {
-                ListProduct.showByCategory(context, categories[index]);
-              },
-            );
-          },
-          separatorBuilder: (context, index) {
-            return SizedBox(
-              width: 10,
-            );
-          },
-          itemCount: categories.length + 2,
-          scrollDirection: Axis.horizontal,
-        ),
-      ),
-    );
+    if (Utility.isNullOrEmpty(children)) {
+      return null;
+    } else {
+      children.add(SizedBox(height: 20));
+      return SliverList(
+        delegate: SliverChildListDelegate(children),
+      );
+    }
   }
 }

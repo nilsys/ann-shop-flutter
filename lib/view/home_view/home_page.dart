@@ -22,7 +22,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin{
   ScrollController scrollController;
   StreamSubscription reTapBottom;
 
@@ -143,10 +144,12 @@ class _HomePageState extends State<HomePage> {
     Provider.of<CoverProvider>(context).loadNotificationHome();
     Provider.of<CoverProvider>(context).loadPostHome();
     Provider.of<CoverProvider>(context).loadCoverHome();
-    Provider.of<CoverProvider>(context).loadFooterProduct();
-    Provider.of<CoverProvider>(context).loadHeaderProduct();
     Provider.of<CategoryProvider>(context).loadCDataHome();
     Provider.of<CategoryProductProvider>(context).forceRefresh();
     await Provider.of<CategoryProvider>(context).loadCategoryHome();
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
