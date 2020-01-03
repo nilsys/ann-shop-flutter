@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class ListBlog extends StatefulWidget {
-  ListBlog({this.initData, this.topObject});
+  ListBlog(this.slug, {this.initData, this.topObject});
 
+  final slug;
   final initData;
   final Widget topObject;
 
@@ -23,7 +24,7 @@ class _BuildAllViewState extends State<ListBlog> {
   void initState() {
     super.initState();
     listSourceRepository =
-        new LoadMoreBlogRepository(initData: widget.initData);
+        new LoadMoreBlogRepository(widget.slug, initData: widget.initData);
   }
 
   @override
@@ -35,6 +36,7 @@ class _BuildAllViewState extends State<ListBlog> {
 
   @override
   Widget build(BuildContext context) {
+    listSourceRepository.categorySlug = widget.slug;
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: Material(

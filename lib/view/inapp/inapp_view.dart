@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/inapp/inapp_category_ui.dart';
 import 'package:ann_shop_flutter/view/inapp/list_inapp.dart';
 import 'package:flutter/material.dart';
@@ -24,27 +24,32 @@ class _InAppViewState extends State<InAppView> {
   }
 
   Widget _buildPageData() {
-    InAppProvider provider = Provider.of(context);
+    if (Provider.of<NavigationProvider>(context).index !=
+        PageName.notification.index) {
+      return Container();
+    } else {
+      InAppProvider provider = Provider.of(context);
 
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Container(
-            width: 50,
-            decoration: BoxDecoration(
-              border: Border(
-                  right: BorderSide(width: 1, color: Colors.grey[400])),
+      return Container(
+        child: Row(
+          children: <Widget>[
+            Container(
+              width: 50,
+              decoration: BoxDecoration(
+                border: Border(
+                    right: BorderSide(width: 1, color: Colors.grey[400])),
+              ),
+              child: InAppCategoryUI(),
             ),
-            child: InAppCategoryUI(),
-          ),
-          Expanded(
-            flex: 1,
-            child: ListInApp(
-              kind: provider.currentCategory,
-            ),
-          )
-        ],
-      ),
-    );
+            Expanded(
+              flex: 1,
+              child: ListInApp(
+                kind: provider.currentCategory,
+              ),
+            )
+          ],
+        ),
+      );
+    }
   }
 }

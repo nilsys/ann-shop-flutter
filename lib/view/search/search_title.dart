@@ -10,8 +10,7 @@ class SearchTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/search', ModalRoute.withName('/'));
+        Navigator.pushNamed(context, '/search');
       },
       child: Container(
         height: 35,

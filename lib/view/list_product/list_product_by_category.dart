@@ -102,37 +102,39 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
 
   _buildCategoryButtonList() {
     var categories = category.children;
-    return Container(
-      height: 45,
-      color: Colors.white,
-      padding: EdgeInsets.only(top: 10, bottom: 5),
-      width: double.infinity,
-      child: ListView.separated(
-        itemBuilder: (context, index) {
-          index -= 1;
-          if (index < 0 || index == categories.length) {
-            return SizedBox(
-              width: 5,
+    return SliverToBoxAdapter(
+      child: Container(
+        height: 45,
+        color: Colors.white,
+        padding: EdgeInsets.only(top: 10, bottom: 5),
+        width: double.infinity,
+        child: ListView.separated(
+          itemBuilder: (context, index) {
+            index -= 1;
+            if (index < 0 || index == categories.length) {
+              return SizedBox(
+                width: 5,
+              );
+            }
+            return ActionChip(
+              label: Text(
+                categories[index].name,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black87),
+              ),
+              onPressed: () {
+                ListProduct.showByCategory(context, categories[index]);
+              },
             );
-          }
-          return ActionChip(
-            label: Text(
-              categories[index].name,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black87),
-            ),
-            onPressed: () {
-              ListProduct.showByCategory(context, categories[index]);
-            },
-          );
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(
-            width: 10,
-          );
-        },
-        itemCount: categories.length + 2,
-        scrollDirection: Axis.horizontal,
+          },
+          separatorBuilder: (context, index) {
+            return SizedBox(
+              width: 10,
+            );
+          },
+          itemCount: categories.length + 2,
+          scrollDirection: Axis.horizontal,
+        ),
       ),
     );
   }

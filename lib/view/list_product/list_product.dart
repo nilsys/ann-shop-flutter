@@ -42,7 +42,12 @@ class ListProduct extends StatefulWidget {
   static showBySearch(context, Category category, {List<Product> initData}) {
     Provider.of<SearchProvider>(context).setText();
     var data = {'category': category, 'initData': initData};
-    Navigator.pushNamed(context, '/list-product-by-search', arguments: data);
+    if (Navigator.canPop(context)) {
+      Navigator.pushReplacementNamed(context, '/list-product-by-search',
+          arguments: data);
+    } else {
+      Navigator.pushNamed(context, '/list-product-by-search', arguments: data);
+    }
   }
 }
 
@@ -83,7 +88,12 @@ class _BuildAllViewState extends State<ListProduct> {
               delegate: CommonSliverPersistentHeaderDelegate(
                   ConfigProductUI(widget.filter), 60),
             ),
-            widget.topObject ?? SliverToBoxAdapter(),
+            widget.topObject ??
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: 20,
+                  ),
+                ),
             SliverPadding(
                 padding: (config.view == ViewType.grid)
                     ? EdgeInsets.symmetric(horizontal: defaultPadding)

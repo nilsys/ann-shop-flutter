@@ -70,11 +70,7 @@ class _AccountPageState extends State<AccountPage> {
                 }),
                 _buildItemCommon('Chính sách bán hàng',
                     icon: Icons.question_answer, onTap: () {
-//                  Navigator.pushNamed(context, '/shop-policy');
-                  Navigator.pushNamed(context, '/web-view', arguments: {
-                    'url': 'https://ann.com.vn/chinh-sach-bao-mat-thong-tin',
-                    'title': 'Chính sách bán hàng'
-                  });
+                  Navigator.pushNamed(context, '/shop-policy');
                 }),
                 _buildItemCommon('Cài đặt', icon: Icons.settings, onTap: () {
                   Navigator.pushNamed(context, '/setting');

@@ -7,6 +7,7 @@ import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/blog_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
@@ -55,6 +56,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => CoverProvider()),
         ChangeNotifierProvider(create: (_) => InAppProvider()),
         ChangeNotifierProvider(create: (_) => DownloadImageProvider()),
+        ChangeNotifierProvider(create: (_) => BlogProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

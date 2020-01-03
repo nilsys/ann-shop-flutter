@@ -20,15 +20,14 @@ class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   TabController tabController;
 
-
   @override
   Widget build(BuildContext context) {
     final navigation = Provider.of<NavigationProvider>(context);
     bool bigScreen = MediaQuery.of(context).size.width >= 320;
     return WillPopScope(
       onWillPop: () async {
-          _onItemTapped(0);
-          return Future.value(false);
+        _onItemTapped(0);
+        return Future.value(false);
       },
       child: Consumer<NavigationProvider>(
           builder: (context, navigationProvider, _) {
@@ -38,7 +37,7 @@ class _HomeViewState extends State<HomeView>
 
         return Scaffold(
           body: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
+//            physics: NeverScrollableScrollPhysics(),
             controller: tabController,
             children: <Widget>[
               HomePage(),
@@ -116,7 +115,6 @@ class _HomeViewState extends State<HomeView>
     AppOneSignal.instance.initOneSignalOpenedHandler(context);
     WidgetsBinding.instance.addObserver(this);
   }
-
 
   @override
   void dispose() {

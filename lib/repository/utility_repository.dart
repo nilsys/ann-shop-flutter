@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/utility/cover.dart';
+import 'package:http/http.dart' as http;
 
 class UtilityRepository {
   static final UtilityRepository instance = UtilityRepository._internal();
@@ -10,5 +17,31 @@ class UtilityRepository {
 
   log(object) {
     print('utility_repository: ' + object.toString());
+  }
+
+  List<Cover> cachePolicy;
+
+  Future<List<Cover>> loadPolicy() async {
+    if (Utility.isNullOrEmpty(cachePolicy) == false) {
+      return cachePolicy;
+    }
+    try {
+      final url = Core.domain + 'api/flutter/post/policies';
+      final response = await http.get(url).timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(response.body);
+        List<Cover> _data = new List();
+        message.forEach((v) {
+          _data.add(new Cover.fromJson(v));
+        });
+        cachePolicy = _data;
+        return _data;
+      }
+    } catch (e) {
+      log(e);
+    }
+    return null;
   }
 }

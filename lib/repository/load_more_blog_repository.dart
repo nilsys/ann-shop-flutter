@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-import 'package:ann_shop_flutter/repository/cover_repository.dart';
+import 'package:ann_shop_flutter/repository/blog_repository.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class LoadMoreBlogRepository extends LoadingMoreBase<Cover> {
-  LoadMoreBlogRepository({this.initData}) {
+  LoadMoreBlogRepository(String slug, {this.initData}) {
     // TODO:
+    categorySlug = slug;
     if (this.initData == null) {
       pageIndex = 1;
     } else {
@@ -24,6 +25,16 @@ class LoadMoreBlogRepository extends LoadingMoreBase<Cover> {
 
   final List<Cover> initData;
   int pageIndex;
+  String _categorySlug;
+
+  String get categorySlug => _categorySlug;
+
+  set categorySlug(String value) {
+    if (value != _categorySlug) {
+      _categorySlug = value;
+      refresh(true);
+    }
+  }
 
   // TODO: implement hasMore
   bool _hasMore = true;
@@ -68,8 +79,8 @@ class LoadMoreBlogRepository extends LoadingMoreBase<Cover> {
   }
 
   Future<List<Cover>> _loadData() async {
-    var list = await CoverRepository.instance
-        .loadBlog(page: pageIndex, pageSize: itemPerPage);
+    var list = await BlogRepository.instance
+        .loadBlog(categorySlug, page: pageIndex, pageSize: itemPerPage);
     return list;
   }
 }

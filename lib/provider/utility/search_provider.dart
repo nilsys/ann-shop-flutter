@@ -41,7 +41,7 @@ class SearchProvider with ChangeNotifier {
       _hotKeys.loading = 'try load hotkeys';
       notifyListeners();
       List<Category> data =
-          await CategoryRepository.instance.loadHotKeySearch();
+          await CategoryRepository.instance.loadCategories('search/hotkey');
       if (data != null) {
         _hotKeys.completed = data;
       } else {
