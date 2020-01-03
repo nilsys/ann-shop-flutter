@@ -16,7 +16,7 @@ class AppOneSignal {
 
   String userId;
   String pushToken;
-  final _privateKey = "f03efa28-67c1-47a6-a703-9633590cd4f9";
+  final _privateKey = "4cfab7f0-6dc2-4004-a631-fc4ba7cbf046";
 
   void initOneSignal(BuildContext context) async {
 
