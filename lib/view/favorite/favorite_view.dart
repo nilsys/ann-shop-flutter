@@ -10,7 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
-class FavoriteView extends StatelessWidget {
+class FavoriteView extends StatefulWidget {
+  @override
+  _FavoriteViewState createState() => _FavoriteViewState();
+}
+
+class _FavoriteViewState extends State<FavoriteView> {
   @override
   Widget build(BuildContext context) {
     List<ProductFavorite> data =
@@ -24,6 +29,18 @@ class FavoriteView extends StatelessWidget {
           },
         ),
         title: Text('Danh sách yêu thích'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.delete, color: Colors.white),
+            onPressed: _onRemoveAll,
+          ),
+          Utility.isNullOrEmpty(data)
+              ? null
+              : IconButton(
+                  icon: Icon(Icons.share, color: Colors.white),
+                  onPressed: _onShare,
+                ),
+        ],
       ),
       body: Container(
         child: CustomScrollView(
@@ -37,7 +54,7 @@ class FavoriteView extends StatelessWidget {
                         children: <Widget>[
                           ProductFavoriteItem(data[index]),
                           Container(
-                            height: 2,
+                            height: 1,
                             color: AppStyles.dividerColor,
                           )
                         ],
@@ -47,27 +64,6 @@ class FavoriteView extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: Utility.isNullOrEmpty(data)
-          ? null
-          : BottomAppBar(
-              color: Colors.white,
-              child: Container(
-                height: 50,
-                child: RaisedButton(
-                  child: Text(
-                    'Chia sẻ',
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
-                        .merge(TextStyle(color: Colors.white)),
-                  ),
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () {
-                    _onShare(context);
-                  },
-                ),
-              ),
-            ),
     );
   }
 
@@ -102,17 +98,68 @@ class FavoriteView extends StatelessWidget {
     );
   }
 
-  _onShare(context) async {
+  _onShare() {
     List<ProductFavorite> data =
         Provider.of<FavoriteProvider>(context).products;
     String _value = '';
     for (int i = 0; i < data.length; i++) {
-      _value += await data[i].getTextCopy(index: i + 1);
+      _value += data[i].getTextCopy(index: i + 1);
       _value += '\n\n';
     }
     _value += '\n';
 
     _value += Core.copySetting.getUserInfo();
     ShareExtend.share(_value, "text");
+  }
+
+  _onRemoveAll() {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+          ),
+          padding: EdgeInsets.fromLTRB(15, 25, 15, 30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                Icons.delete,
+                color: Theme.of(context).primaryColor,
+                size: 50,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 10),
+                child: Text(
+                  'Xoá tất cả các sản phẩm trong danh sách yêu thích',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  child: Text(
+                    'Xác nhận',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .merge(TextStyle(color: Colors.white)),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Provider.of<FavoriteProvider>(context)
+                        .removeAllProductProvider();
+                  }),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

@@ -1,4 +1,4 @@
-
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 
 class ProductFavorite {
@@ -7,10 +7,13 @@ class ProductFavorite {
 
   ProductFavorite({this.product, this.count});
 
-  getTextCopy({index}) async {
-    String _value = await product.getTextCopy(index:index, hasContent: false);
-    _value =_value+ '\n' + '👉 Số lượng: $count';
-    return _value;
+  getTextCopy({index}) {
+    String value = index != null ? '$index: ' : '';
+    value += product.sku;
+    value += ' - ';
+    value += product.name + '\n';
+    value += '💲 ' + Utility.formatPrice(product.regularPrice) + ' vnđ';
+    return value;
   }
 
   ProductFavorite.fromJson(Map<String, dynamic> json) {
