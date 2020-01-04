@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +21,9 @@ class BlogRepository {
   Future<List<BlogCategory>> loadCategoryBlog() async {
     try {
       var url = Core.domain + 'api/flutter/post-categories';
-      final response = await http.get(url).timeout(Duration(seconds: 10));
+      final response = await http.get(url,
+        headers: AccountController.instance.header
+      ).timeout(Duration(seconds: 10));
       log(url);
       log(response.body);
       final body = response.body;
@@ -50,7 +53,8 @@ class BlogRepository {
         url +=
         'api/flutter/posts?categorySlug=$category&pageNumber=$page&pageSize=$pageSize';
       }
-      final response = await http.get(url).timeout(Duration(seconds: 10));
+      final response = await http.get(url,
+          headers: AccountController.instance.header).timeout(Duration(seconds: 10));
       log(url);
       log(response.body);
       final body = response.body;

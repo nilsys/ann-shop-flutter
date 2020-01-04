@@ -1,7 +1,6 @@
 import 'package:ann_shop_flutter/core/app_analytics.dart';
 import 'package:ann_shop_flutter/core/app_onesignal.dart';
 import 'package:ann_shop_flutter/core/router.dart';
-import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';

@@ -18,7 +18,7 @@ class AccountController {
 
   bool get isLogin => account != null && token != null;
 
-  Map get header => {
+  Map<String, String> get header => {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + (token == null ? '' : token.accessToken)
       };

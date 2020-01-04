@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/category_home.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +21,8 @@ class CategoryRepository {
   Future<List<Category>> loadCategories(String slug) async {
     try {
       final url = Core.domain + 'api/flutter/$slug';
-      final response = await http.get(url).timeout(Duration(seconds: 5));
+      final response = await http.get(url,
+          headers: AccountController.instance.header).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -56,7 +58,8 @@ class CategoryRepository {
   Future<List<CategoryHome>> loadDataHome() async {
     try {
       final url = Core.domain + 'api/flutter/home/blocks';
-      final response = await http.get(url).timeout(Duration(seconds: 5));
+      final response = await http.get(url,
+          headers: AccountController.instance.header).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {

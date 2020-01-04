@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
@@ -86,7 +87,9 @@ class ListProductRepository {
       var url = Core.domain +
           'api/flutter/products?pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await http.get(url).timeout(Duration(seconds: 10));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 10));
       print(url);
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -112,7 +115,9 @@ class ListProductRepository {
           'api/flutter/products?$categorySlugList&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
       print(url);
-      final response = await http.get(url).timeout(Duration(seconds: 10));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 10));
       print(url);
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -134,7 +139,9 @@ class ListProductRepository {
           'api/flutter/products?categorySlug=$name&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
       print(url);
-      final response = await http.get(url).timeout(Duration(seconds: 10));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 10));
       print(url);
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -143,7 +150,7 @@ class ListProductRepository {
         return [];
       }
     } catch (e) {
-      log(e.toString());
+      log('load by category, ' + e.toString());
     }
     return null;
   }
@@ -156,7 +163,9 @@ class ListProductRepository {
       var url = Core.domain +
           'api/flutter/products?productSearch=$text&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await http.get(url).timeout(Duration(seconds: 10));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 10));
       print(url);
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -176,7 +185,9 @@ class ListProductRepository {
       var url = Core.domain +
           'api/flutter/products?tagSlug=$text&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await http.get(url).timeout(Duration(seconds: 10));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 10));
       print(url);
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {

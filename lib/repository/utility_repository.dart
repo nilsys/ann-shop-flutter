@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,7 +28,8 @@ class UtilityRepository {
     }
     try {
       final url = Core.domain + 'api/flutter/post/policies';
-      final response = await http.get(url).timeout(Duration(seconds: 5));
+      final response = await http.get(url,
+          headers: AccountController.instance.header).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {

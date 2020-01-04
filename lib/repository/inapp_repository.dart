@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -89,7 +90,8 @@ class InAppRepository {
         url +=
             'api/flutter/notifications?kind=$kind&pageNumber=$page&pageSize=$pageSize';
       }
-      final response = await http.get(url).timeout(Duration(seconds: 5));
+      final response = await http.get(url,
+          headers: AccountController.instance.header).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
       final body = response.body;
@@ -111,7 +113,8 @@ class InAppRepository {
   Future<Map> loadContentViewMore(String slug) async {
     try {
       final url = Core.domain + 'api/flutter/$slug';
-      final response = await http.get(url).timeout(Duration(seconds: 10));
+      final response = await http.get(url,
+          headers: AccountController.instance.header).timeout(Duration(seconds: 10));
       log(url);
       log(response.body);
       final body = response.body;

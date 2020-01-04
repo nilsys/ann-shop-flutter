@@ -2,14 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/storage_manager.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
-import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
-import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -95,7 +91,9 @@ class ProductRepository {
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {
       final url = Core.domain + 'api/flutter/product/$slug';
-      final response = await http.get(url).timeout(Duration(seconds: 10));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 10));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -112,7 +110,9 @@ class ProductRepository {
   Future<List<ProductRelated>> loadRelatedOfProduct(String slug) async {
     try {
       final url = Core.domain + 'api/flutter/product/$slug/related';
-      final response = await http.get(url).timeout(Duration(seconds: 10));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 10));
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
@@ -133,7 +133,9 @@ class ProductRepository {
     try {
       final url =
           Core.domain + 'api/flutter/product/$id/image?color=$color&size=$size';
-      final response = await http.get(url).timeout(Duration(seconds: 5));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -150,7 +152,9 @@ class ProductRepository {
   Future<List<String>> loadProductAdvertisementImage(int id) async {
     try {
       final url = Core.domain + 'api/flutter/product/$id/advertisement-image';
-      final response = await http.get(url).timeout(Duration(seconds: 5));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -167,7 +171,9 @@ class ProductRepository {
   Future<String> loadProductAdvertisementContent(int id) async {
     try {
       final url = Core.domain + 'api/flutter/product/$id/advertisement-content';
-      final response = await http.get(url).timeout(Duration(seconds: 5));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -183,7 +189,9 @@ class ProductRepository {
   getProductSort() async {
     try {
       final url = Core.domain + 'api/flutter/product-sort';
-      final response = await http.get(url).timeout(Duration(seconds: 5));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
     } catch (e) {}
