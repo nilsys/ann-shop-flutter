@@ -1,14 +1,13 @@
-import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/model/acount/account.dart';
+import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:flutter/material.dart';
 
-class AddInformation extends StatefulWidget {
+class UpdateInformation extends StatefulWidget {
   @override
-  _AddInformationState createState() => _AddInformationState();
+  _UpdateInformationState createState() => _UpdateInformationState();
 }
 
-class _AddInformationState extends State<AddInformation> {
+class _UpdateInformationState extends State<UpdateInformation> {
   final _formKey = GlobalKey<FormState>();
 
   bool _autoValidate = false;
@@ -90,12 +89,12 @@ class _AddInformationState extends State<AddInformation> {
                 children: <Widget>[
                   Text('Nam'),
                   Checkbox(
-                    value: account.gender == 1,
+                    value: account.gender == 'M',
                     onChanged: (bool value) {
                       setState(
                         () {
                           if (value == true) {
-                            account.gender = 1;
+                            account.gender = 'M';
                           }
                         },
                       );
@@ -106,12 +105,12 @@ class _AddInformationState extends State<AddInformation> {
                   ),
                   Text('Nữ'),
                   Checkbox(
-                    value: account.gender != 1,
+                    value: account.gender != 'M',
                     onChanged: (bool value) {
                       setState(
                         () {
                           if (value == true) {
-                            account.gender = 0;
+                            account.gender = 'F';
                           }
                         },
                       );

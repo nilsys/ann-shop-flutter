@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ann_shop_flutter/model/acount/account.dart';
+import 'package:ann_shop_flutter/model/account/account.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:http/http.dart' as http;
 
 class AccountRepository {
@@ -13,9 +15,10 @@ class AccountRepository {
     // todo
   }
 
-  requestOTP(Object data) async {
+  requestOTP(String phone, String otp) async {
     try {
-      final url = '';
+      Map data = {"phone": phone, "otp": otp};
+      final url = 'http://xuongann.com/api/sms/otp';
       final response = await http.post(url, body: data);
       if (response.statusCode == HttpStatus.ok) {
         return true;
@@ -26,41 +29,120 @@ class AccountRepository {
     return false;
   }
 
-  validateOTP(Object data) async {
+  register(String phone, String password) async {
     try {
-      final url = '';
-      final response = await http.post(url, body: data);
-      if (response.statusCode == HttpStatus.ok) {
-        final parsed = json.decode(response.body);
-        var status = parsed['status'];
-        if (status == 'success') {
-          var user = Account.fromJson(parsed['data']);
-          return {'status': status, 'data': user};
-        } else if (status == 'wrong_otp') {
-          return {'status': 'OTP không chính xác', 'data': null};
-        } else if (status == 'otp_expired') {
-          return {'status': 'OTP đã hết hạn', 'data': null};
-        }
-      }
-    } catch (e) {
-      print('validateOTP' + e.toString());
-    }
-    return {'status': 'Có lỗi xãi ra', 'data': null};
-  }
+      Map data = {"phone": phone, "password": password};
+      String url = 'http://xuongann.com/api/flutter/user/register';
+      final response = await http
+          .post(
+            url,
+            body: data,
+          )
+          .timeout(Duration(seconds: 10));
 
-  updateInformation(Object data) async {
-    try {
-      final url = '';
-      final response = await http.post(url, body: data);
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
-        if (parsed['status'] == 'success') {
-          return true;
-        }
+        return AppResponse(true, data: parsed);
+      } else {
+        var parsed = jsonDecode(response.body);
+        AppResponse(false, message: parsed['Message']);
+      }
+    } catch (e) {}
+    return AppResponse(false);
+  }
+
+  login(String phone, String password) async {
+    try {
+      Map data = {"phone": phone, "password": password};
+      String url = 'http://xuongann.com/Token';
+      final response = await http
+          .post(
+            url,
+            body: data,
+          )
+          .timeout(Duration(seconds: 10));
+
+      if (response.statusCode == HttpStatus.ok) {
+        var parsed = jsonDecode(response.body);
+        return AppResponse(true, data: parsed);
+      } else {
+        var parsed = jsonDecode(response.body);
+        AppResponse(false, message: parsed['Message']);
+      }
+    } catch (e) {}
+    return AppResponse(false);
+  }
+
+  updateInformation(Account account) async {
+    try {
+      final url = 'http://xuongann.com/api/flutter/user/update-info';
+      final response = await http.post(
+        url,
+        body: account.toJson(),
+        headers: AccountController.instance.header,
+      );
+      if (response.statusCode == HttpStatus.ok) {
+        var parsed = jsonDecode(response.body);
+        return AppResponse(true, data: parsed);
+      } else {
+        var parsed = jsonDecode(response.body);
+        AppResponse(false, message: parsed['Message']);
       }
     } catch (e) {
-      print('updateInformation: ' + e.toString());
+      print(e.toString());
     }
-    return false;
+    AppResponse(false);
+  }
+
+  forgotPassword(String phone) async {
+    try {
+      Map data = {
+        "phone": phone,
+      };
+      String url = 'http://xuongann.com/api/flutter/user/password-new';
+      final response = await http
+          .post(
+            url,
+            body: data,
+          )
+          .timeout(Duration(seconds: 10));
+
+      if (response.statusCode == HttpStatus.ok) {
+        return AppResponse(true, data: response.body);
+      } else {
+        var parsed = jsonDecode(response.body);
+        AppResponse(false, message: parsed['Message']);
+      }
+    } catch (e) {}
+    return AppResponse(false);
+  }
+
+  changePassword(String newPassword) async {
+    try {
+      Map data = {
+        "phone": AccountController.instance.account.phone,
+        "password": newPassword
+      };
+      String url = 'http://xuongann.com/api/flutter/user/change-password';
+      final response = await http
+          .post(
+            url,
+            body: data,
+            headers: AccountController.instance.header,
+          )
+          .timeout(Duration(seconds: 10));
+
+      if (response.statusCode == HttpStatus.ok) {
+        return AppResponse(true);
+      } else {
+        var parsed = jsonDecode(response.body);
+        AppResponse(false, message: parsed['Message']);
+      }
+    } catch (e) {}
+    return AppResponse(false);
+  }
+
+  log(object) {
+    print('account_repository: ' + object.toString());
   }
 }

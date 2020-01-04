@@ -25,17 +25,6 @@ class Utility {
     }
   }
 
-  static String phoneNumberValidator(String value) {
-    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = new RegExp(pattern);
-    if (value.length == 0) {
-      return 'Vui lòng nhập số điện thoại';
-    } else if (!regExp.hasMatch(value)) {
-      return 'Số điện thoại chưa đúng';
-    }
-    return null;
-  }
-
   static String fixFormatDate(String oldDay){
     DateTime dateTime = DateTime.parse(oldDay);
     return DateFormat('dd/MM/yyyy').format(dateTime);

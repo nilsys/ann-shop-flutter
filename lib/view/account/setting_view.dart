@@ -1,7 +1,8 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/currency_input_formatter.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/utility/copy_setting.dart';
+import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
+import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +17,7 @@ class _SettingViewState extends State<SettingView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    CopySetting copy = Core.copySetting;
+    CopySetting copy = CopyController.instance.copySetting;
     controllerBonus =
         TextEditingController(text: Utility.formatPrice(copy.bonusPrice));
     controllerPhone = TextEditingController(text: copy.phoneNumber.toString());
@@ -45,7 +46,7 @@ class _SettingViewState extends State<SettingView> {
       bonusPrice: _bonus,
       showed: true,
     );
-    Core.updateCopySetting(copy);
+    CopyController.instance.updateCopySetting(copy);
   }
 
   @override

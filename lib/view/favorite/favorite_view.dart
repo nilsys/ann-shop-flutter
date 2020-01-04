@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
@@ -108,7 +109,7 @@ class _FavoriteViewState extends State<FavoriteView> {
     }
     _value += '\n';
 
-    _value += Core.copySetting.getUserInfo();
+    _value += CopyController.instance.copySetting.getUserInfo();
     ShareExtend.share(_value, "text");
   }
 

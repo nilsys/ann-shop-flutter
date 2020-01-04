@@ -1,7 +1,7 @@
 import 'package:ann_shop_flutter/core/app_analytics.dart';
 import 'package:ann_shop_flutter/core/app_onesignal.dart';
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/router.dart';
+import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    Core.loadCopySetting();
+    CopyController.instance.loadCopySetting();
     AppOneSignal.instance.initOneSignal(context);
   }
 }

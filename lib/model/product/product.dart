@@ -1,5 +1,5 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 
 class Product {
@@ -28,19 +28,19 @@ class Product {
 
   getTextCopy({index, hasContent = true}) async{
     String value = index != null ? '$index: ' : '';
-    if (Core.copySetting.productCode) {
+    if (CopyController.instance.copySetting.productCode) {
       value += sku;
-      if (Core.copySetting.productName) {
+      if (CopyController.instance.copySetting.productName) {
         value += ' - ';
         value += name + '\n';
       }
     } else {
-      if (Core.copySetting.productName) {
+      if (CopyController.instance.copySetting.productName) {
         value += name + '\n';
       }
     }
     value += '💲 ' +
-        Utility.formatPrice(retailPrice + Core.copySetting.bonusPrice) +
+        Utility.formatPrice(retailPrice + CopyController.instance.copySetting.bonusPrice) +
         ' vnđ\n';
     if (Utility.isNullOrEmpty(materials) == false) {
       value += '🔖 $materials\n';

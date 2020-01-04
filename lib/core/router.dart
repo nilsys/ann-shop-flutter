@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
-import 'package:ann_shop_flutter/view/account/add_information.dart';
+import 'package:ann_shop_flutter/view/account/update_information.dart';
 import 'package:ann_shop_flutter/view/account/login_view.dart';
 import 'package:ann_shop_flutter/view/inapp/blog_view.dart';
 import 'package:ann_shop_flutter/view/inapp/inapp_view.dart';
@@ -84,9 +84,9 @@ class Router {
       case '/login':
         return MaterialPageRoute(
             builder: (_) => LoginView(), settings: settings);
-      case '/add-information':
+      case '/update-information':
         return MaterialPageRoute(
-            builder: (_) => AddInformation(), settings: settings);
+            builder: (_) => UpdateInformation(), settings: settings);
       case '/order-management':
         return MaterialPageRoute(
             builder: (_) => OrderManagementView(), settings: settings);

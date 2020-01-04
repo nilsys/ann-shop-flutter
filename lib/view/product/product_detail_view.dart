@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
+import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
@@ -74,6 +75,12 @@ class _ProductDetailViewState extends State<ProductDetailView>
     WidgetsBinding.instance.addPostFrameCallback((callback) async {
       Provider.of<CoverProvider>(context).refreshCoverProductPage(widget.slug);
     });
+  }
+
+  @override
+  void dispose(){
+    controllerScroll.dispose();
+    super.dispose();
   }
 
   ProductDetail detail;
@@ -277,10 +284,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   _onCheckAndCopy() async {
-    print(Core.copySetting.showed);
+    print(CopyController.instance.copySetting.showed);
     if (detail == null) {
       AppSnackBar.showFlushbar(context, 'Đang tải dữ liệu. Thử lại sau');
-    } else if (Core.copySetting.showed) {
+    } else if (CopyController.instance.copySetting.showed) {
       await _onCopy();
       AppSnackBar.showFlushbar(context, 'Copy', duration: Duration(seconds: 1));
     } else {
@@ -291,7 +298,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
   _onCopy() async {
     var _text = await detail.getTextCopy(hasContent: true);
     _text += '\n';
-    _text += Core.copySetting.getUserInfo();
+    _text += CopyController.instance.copySetting.getUserInfo();
     Clipboard.setData(new ClipboardData(text: _text));
   }
 

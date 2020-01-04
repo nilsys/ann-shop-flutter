@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
@@ -283,8 +284,8 @@ class _ProductFullState extends State<ProductFull> {
   }
 
   _onCheckAndCopy(context) async {
-    print(Core.copySetting.showed);
-    if (Core.copySetting.showed) {
+    print(CopyController.instance.copySetting.showed);
+    if (CopyController.instance.copySetting.showed) {
       await _onCopy(context);
       AppSnackBar.showFlushbar(context, 'Copy', duration: Duration(seconds: 1));
     } else {
@@ -295,7 +296,7 @@ class _ProductFullState extends State<ProductFull> {
   _onCopy(context) async{
     var _text = await widget.product.getTextCopy(hasContent: true);
     _text += '\n';
-    _text += Core.copySetting.getUserInfo();
+    _text += CopyController.instance.copySetting.getUserInfo();
     Clipboard.setData(new ClipboardData(text: _text));
   }
 
