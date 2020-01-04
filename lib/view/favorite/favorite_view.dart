@@ -89,7 +89,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                     .switchTo(PageName.category.index);
                 Navigator.popUntil(
                   context,
-                  ModalRoute.withName('/'),
+                  ModalRoute.withName('/home'),
                 );
               },
             )

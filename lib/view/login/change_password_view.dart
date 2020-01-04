@@ -1,16 +1,19 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/repository/account_repository.dart';
+import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
-class LoginView extends StatefulWidget {
+class ChangePasswordView extends StatefulWidget {
   @override
-  _LoginViewState createState() => _LoginViewState();
+  _ChangePasswordViewState createState() => _ChangePasswordViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _ChangePasswordViewState extends State<ChangePasswordView> {
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
 
@@ -36,7 +39,7 @@ class _LoginViewState extends State<LoginView> {
 
   ScrollController _scrollController;
   String phone;
-  String otp;
+  String password;
   bool showPassword;
 
   @override
@@ -80,10 +83,11 @@ class _LoginViewState extends State<LoginView> {
                   phone = value;
                 },
               ),
+              SizedBox(height: 5,),
               Padding(
                 padding: EdgeInsets.only(bottom: 8),
                 child: Text(
-                  'Mật khẩu/ Mã OTP',
+                  'Mật khẩu',
                   style: Theme.of(context).textTheme.body2,
                 ),
               ),
@@ -91,7 +95,7 @@ class _LoginViewState extends State<LoginView> {
                 TextFormField(
                   obscureText: showPassword,
                   decoration: InputDecoration(
-                    hintText: 'Nhập mật khẩu/ Mã OTP',
+                    hintText: 'Nhập mật khẩu',
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -103,7 +107,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   validator: Validator.passwordValidator,
                   onSaved: (String value) {
-                    otp = value;
+                    password = value;
                   },
                 ),
                 Positioned(
@@ -121,16 +125,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 )
               ]),
-              Container(
-                height: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    _buildTextButton('Gửi mã OTP'),
-                    _buildTextButton('Quên mật khẩu'),
-                  ],
-                ),
-              ),
+              SizedBox(height: 30),
               Container(
                 height: 45,
                 decoration: BoxDecoration(
@@ -150,12 +145,12 @@ class _LoginViewState extends State<LoginView> {
                 ),
               ),
               Container(
-                height: 45,
+                height: 70,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Chưa có tài khoản? '),
-                    _buildTextButton('Đăng ký ngay!'),
+                    _buildTextButton('Đăng ký ngay.'),
+                    _buildTextButton('Quên mật khẩu.'),
                   ],
                 ),
               ),
@@ -182,7 +177,7 @@ class _LoginViewState extends State<LoginView> {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      goToVerifiedNumber();
+      onLogin();
     } else {
       setState(() {
         _autoValidate = true;
@@ -190,12 +185,26 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
-  Future goToVerifiedNumber() async {
+  Future onLogin() async {
     bool _checkInternet = await checkInternet();
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
-      Navigator.pushNamed(context, '/update-information');
+      try {
+        AppResponse response =
+        await AccountRepository.instance.login(phone, password);
+        if (response.status) {
+          AccountController.instance.finishLogin(response.data);
+          Navigator.pushReplacementNamed(context, '/home');
+        } else {
+          AppSnackBar.showFlushbar(context,
+              response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
+        }
+      } catch (e) {
+        print(e);
+        AppSnackBar.showFlushbar(
+            context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
+      }
     }
   }
 

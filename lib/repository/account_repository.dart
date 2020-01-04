@@ -15,21 +15,29 @@ class AccountRepository {
     // todo
   }
 
-  requestOTP(String phone, String otp) async {
+  Future<AppResponse> requestOTP(String phone, String otp) async {
     try {
       Map data = {"phone": phone, "otp": otp};
       final url = 'http://xuongann.com/api/sms/otp';
       final response = await http.post(url, body: data);
-      if (response.statusCode == HttpStatus.ok) {
-        return true;
+      log(url);
+      log(data);
+      log(response.statusCode);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok ||
+          response.statusCode == HttpStatus.noContent) {
+        return AppResponse(true);
+      } else {
+        var parsed = jsonDecode(response.body);
+        return AppResponse(false, message: parsed['Message']);
       }
     } catch (e) {
       print('Server Exception!!!' + e);
     }
-    return false;
+    return AppResponse(false);
   }
 
-  register(String phone, String password) async {
+  Future<AppResponse> register(String phone, String password) async {
     try {
       Map data = {"phone": phone, "password": password};
       String url = 'http://xuongann.com/api/flutter/user/register';
@@ -40,40 +48,46 @@ class AccountRepository {
           )
           .timeout(Duration(seconds: 10));
 
+      log(url);
+      log(data);
+      log(response.statusCode);
+      log(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed);
       } else {
         var parsed = jsonDecode(response.body);
-        AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: parsed['Message']);
       }
     } catch (e) {}
     return AppResponse(false);
   }
 
-  login(String phone, String password) async {
+  Future<AppResponse> login(String phone, String password) async {
     try {
       Map data = {"phone": phone, "password": password};
-      String url = 'http://xuongann.com/Token';
+      String url = 'http://xuongann.com/api/flutter/user/login';
       final response = await http
           .post(
             url,
             body: data,
           )
           .timeout(Duration(seconds: 10));
-
+      log(url);
+      log(data.toString());
+      log(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed);
       } else {
         var parsed = jsonDecode(response.body);
-        AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: parsed['Message']);
       }
     } catch (e) {}
     return AppResponse(false);
   }
 
-  updateInformation(Account account) async {
+  Future<AppResponse> updateInformation(Account account) async {
     try {
       final url = 'http://xuongann.com/api/flutter/user/update-info';
       final response = await http.post(
@@ -86,38 +100,39 @@ class AccountRepository {
         return AppResponse(true, data: parsed);
       } else {
         var parsed = jsonDecode(response.body);
-        AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: parsed['Message']);
       }
     } catch (e) {
       print(e.toString());
     }
-    AppResponse(false);
+    return AppResponse(false);
   }
 
-  forgotPassword(String phone) async {
+  Future<AppResponse> forgotPassword(String phone) async {
     try {
       Map data = {
         "phone": phone,
       };
       String url = 'http://xuongann.com/api/flutter/user/password-new';
-      final response = await http
-          .post(
-            url,
-            body: data,
-          )
-          .timeout(Duration(seconds: 10));
+      final response =
+          await http.patch(url, body: data).timeout(Duration(seconds: 10));
 
+      log(url);
+      log(data);
+      log(response.statusCode);
+      log(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        return AppResponse(true, data: response.body);
+        var parsed = jsonDecode(response.body);
+        return AppResponse(true, data: parsed['password']);
       } else {
         var parsed = jsonDecode(response.body);
-        AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: parsed['Message']);
       }
     } catch (e) {}
     return AppResponse(false);
   }
 
-  changePassword(String newPassword) async {
+  Future<AppResponse> changePassword(String newPassword) async {
     try {
       Map data = {
         "phone": AccountController.instance.account.phone,
@@ -136,7 +151,7 @@ class AccountRepository {
         return AppResponse(true);
       } else {
         var parsed = jsonDecode(response.body);
-        AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: parsed['Message']);
       }
     } catch (e) {}
     return AppResponse(false);

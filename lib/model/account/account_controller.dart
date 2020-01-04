@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_token.dart';
 
@@ -16,21 +19,49 @@ class AccountController {
   bool get isLogin => account != null && token != null;
 
   Map get header => {
-    "Content-Type": "application/json",
-    "Authorization": "Bearer " + (token ==null?'':token.accessToken)
-  };
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + (token == null ? '' : token.accessToken)
+      };
 
-  finishLogin(Map response){
+  finishLogin(Map response) {
     account = Account.fromJson(response['user']);
     token = AccountToken.fromJson(response['token']);
+    saveToLocale();
   }
 
-  logout(){
+  logout() {
     account = null;
     token = null;
   }
 
-  updateAccountInfo(){
+  final _keyAccount = '_keyAccount';
+  final _keyToken = '_keyToken';
 
+  updateAccountInfo() {
+  }
+
+  loadFormLocale() async {
+    try {
+      var response = await StorageManager.getObjectByKey(_keyAccount);
+      if (response != null) {
+        account = Account.fromJson(jsonDecode(response));
+      }
+      response = await StorageManager.getObjectByKey(_keyToken);
+      if (response != null) {
+        token = AccountToken.fromJson(jsonDecode(response));
+      }
+      if(isLogin){
+        print('Load account form locale');
+        print(account.toJson());
+        print(token.toJson());
+      }
+    } catch (e) {
+      print('account_controller: ' + e.toString());
+    }
+  }
+
+  saveToLocale() {
+    StorageManager.setObject(_keyAccount, json.encode(account.toJson()));
+    StorageManager.setObject(_keyToken, json.encode(token.toJson()));
   }
 }

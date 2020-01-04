@@ -1,7 +1,7 @@
 class AccountToken {
   String accessToken;
   String tokenType;
-  int expiresIn;
+  String expiresIn;
   String userName;
   String issued;
   String expires;

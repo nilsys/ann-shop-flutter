@@ -78,17 +78,17 @@ class OptionMenuProduct extends StatelessWidget {
     switch (value) {
       case MenuOptions.home:
         Provider.of<NavigationProvider>(context).switchTo(PageName.home.index);
-        Navigator.popUntil(context, ModalRoute.withName('/'));
+        Navigator.popUntil(context, ModalRoute.withName('/home'));
         break;
       case MenuOptions.category:
         Provider.of<NavigationProvider>(context)
             .switchTo(PageName.category.index);
-        Navigator.popUntil(context, ModalRoute.withName('/'));
+        Navigator.popUntil(context, ModalRoute.withName('/home'));
         break;
       case MenuOptions.account:
         Provider.of<NavigationProvider>(context)
             .switchTo(PageName.account.index);
-        Navigator.popUntil(context, ModalRoute.withName('/'));
+        Navigator.popUntil(context, ModalRoute.withName('/home'));
         break;
       case MenuOptions.favorite:
         Navigator.pushNamed(context, '/favorite');

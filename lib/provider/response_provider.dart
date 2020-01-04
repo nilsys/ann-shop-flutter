@@ -42,6 +42,7 @@ class ResponseProvider<T> {
 }
 
 enum Status {
+  none,
   loading,
   error,
   success,

@@ -85,7 +85,6 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    CopyController.instance.loadCopySetting();
     AppOneSignal.instance.initOneSignal(context);
   }
 }

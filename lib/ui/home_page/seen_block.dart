@@ -4,7 +4,7 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
-import 'package:ann_shop_flutter/ui/utility/bottom_view_more.dart';
+import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

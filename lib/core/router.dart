@@ -1,7 +1,9 @@
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/view/account/update_information.dart';
-import 'package:ann_shop_flutter/view/account/login_view.dart';
+import 'package:ann_shop_flutter/view/login/change_password_view.dart';
+import 'package:ann_shop_flutter/view/login/forgot_password_view.dart';
+import 'package:ann_shop_flutter/view/login/login_view.dart';
 import 'package:ann_shop_flutter/view/inapp/blog_view.dart';
 import 'package:ann_shop_flutter/view/inapp/inapp_view.dart';
 import 'package:ann_shop_flutter/view/account/order_management_view.dart';
@@ -12,6 +14,10 @@ import 'package:ann_shop_flutter/view/favorite/favorite_view.dart';
 import 'package:ann_shop_flutter/view/home_view/search_page.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product_by_category.dart';
 import 'package:ann_shop_flutter/view/list_product/seen_view.dart';
+import 'package:ann_shop_flutter/view/login/register_input_otp_view.dart';
+import 'package:ann_shop_flutter/view/login/register_input_password_view.dart';
+import 'package:ann_shop_flutter/view/login/register_input_phone_view.dart';
+import 'package:ann_shop_flutter/view/login/register_success_view.dart';
 import 'package:ann_shop_flutter/view/product/image_view.dart';
 import 'package:ann_shop_flutter/view/product/product_detail_view.dart';
 import 'package:ann_shop_flutter/view/product/product_filter_view.dart';
@@ -20,6 +26,7 @@ import 'package:ann_shop_flutter/view/product/product_image_fancy_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';
 import 'package:ann_shop_flutter/view/utility/file_view.dart';
+import 'package:ann_shop_flutter/view/utility/init_view.dart';
 import 'package:ann_shop_flutter/view/utility/view_more_page.dart';
 import 'package:ann_shop_flutter/view/utility/web_view.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +38,9 @@ class Router {
     var data = settings.arguments;
     switch (settings.name) {
       case '/':
+        return MaterialPageRoute(
+            builder: (_) => InitView(), settings: settings);
+      case '/home':
         return MaterialPageRoute(
             builder: (_) => HomeView(), settings: settings);
       case '/web-view':
@@ -84,6 +94,24 @@ class Router {
       case '/login':
         return MaterialPageRoute(
             builder: (_) => LoginView(), settings: settings);
+      case '/change_password':
+        return MaterialPageRoute(
+            builder: (_) => ChangePasswordView(), settings: settings);
+      case '/forgot_password':
+        return MaterialPageRoute(
+            builder: (_) => ForgotPasswordView(), settings: settings);
+      case '/register_input_otp':
+        return MaterialPageRoute(
+            builder: (_) => RegisterInputOtpView(), settings: settings);
+      case '/register_input_password':
+        return MaterialPageRoute(
+            builder: (_) => RegisterInputPasswordView(), settings: settings);
+      case '/register_input_phone':
+        return MaterialPageRoute(
+            builder: (_) => RegisterInputPhoneView(), settings: settings);
+      case '/register_success':
+        return MaterialPageRoute(
+            builder: (_) => RegisterSuccessView(), settings: settings);
       case '/update-information':
         return MaterialPageRoute(
             builder: (_) => UpdateInformation(), settings: settings);

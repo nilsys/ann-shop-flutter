@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class CoverProvider extends ChangeNotifier {
   CoverProvider() {
-    loadCoverHome();
-    loadNotificationHome();
-    loadPostHome();
+//    loadCoverHome();
+//    loadNotificationHome();
+//    loadPostHome();
   }
 
   ResponseProvider<List<Cover>> coversHome = ResponseProvider();

@@ -10,7 +10,7 @@ import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/block_shadow.dart';
-import 'package:ann_shop_flutter/ui/utility/bottom_view_more.dart';
+import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

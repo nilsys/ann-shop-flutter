@@ -25,12 +25,10 @@ class CopyController{
 
   loadCopySetting() async {
     try {
-      print('loadCopySetting');
       var response = await StorageManager.getObjectByKey(_keyCopySetting);
       if (response == null) {
         copySetting = CopySetting();
       } else {
-        print('loadCopySetting: ' + response);
         var json = jsonDecode(response);
         copySetting = CopySetting.fromJson(json);
       }

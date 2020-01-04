@@ -121,7 +121,7 @@ class AppAction {
     }
     if (index >= 0) {
       Provider.of<NavigationProvider>(context).switchTo(index);
-      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.popUntil(context, ModalRoute.withName('/home'));
     }
   }
 
