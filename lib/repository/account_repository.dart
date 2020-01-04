@@ -28,8 +28,7 @@ class AccountRepository {
           response.statusCode == HttpStatus.noContent) {
         return AppResponse(true);
       } else {
-        var parsed = jsonDecode(response.body);
-        return AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {
       print('Server Exception!!!' + e);
@@ -56,8 +55,7 @@ class AccountRepository {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed);
       } else {
-        var parsed = jsonDecode(response.body);
-        return AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {}
     return AppResponse(false);
@@ -80,8 +78,7 @@ class AccountRepository {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed);
       } else {
-        var parsed = jsonDecode(response.body);
-        return AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {}
     return AppResponse(false);
@@ -90,17 +87,20 @@ class AccountRepository {
   Future<AppResponse> updateInformation(Account account) async {
     try {
       final url = 'http://xuongann.com/api/flutter/user/update-info';
-      final response = await http.post(
+      final response = await http.patch(
         url,
-        body: account.toJson(),
+        body: jsonEncode(account.toJson()),
         headers: AccountController.instance.header,
       );
+      log(url);
+      log(account.toJson());
+      log(response.statusCode);
+      log(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed);
       } else {
-        var parsed = jsonDecode(response.body);
-        return AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {
       print(e.toString());
@@ -125,8 +125,7 @@ class AccountRepository {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed['password']);
       } else {
-        var parsed = jsonDecode(response.body);
-        return AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {}
     return AppResponse(false);
@@ -140,7 +139,7 @@ class AccountRepository {
       };
       String url = 'http://xuongann.com/api/flutter/user/change-password';
       final response = await http
-          .post(
+          .patch(
             url,
             body: data,
             headers: AccountController.instance.header,
@@ -150,11 +149,24 @@ class AccountRepository {
       if (response.statusCode == HttpStatus.ok) {
         return AppResponse(true);
       } else {
-        var parsed = jsonDecode(response.body);
-        return AppResponse(false, message: parsed['Message']);
+        return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {}
     return AppResponse(false);
+  }
+
+  String getMessage(body) {
+    try {
+      Map parsed = jsonDecode(body);
+      if (parsed.containsKey('Message')) {
+        return parsed['Message'];
+      }
+      if (parsed.containsKey('ModelState')) {
+      }
+    } catch (e) {
+      log(e);
+    }
+    return null;
   }
 
   log(object) {

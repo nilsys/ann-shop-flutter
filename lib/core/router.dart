@@ -94,7 +94,7 @@ class Router {
       case '/login':
         return MaterialPageRoute(
             builder: (_) => LoginView(), settings: settings);
-      case '/change_password':
+      case '/change-password':
         return MaterialPageRoute(
             builder: (_) => ChangePasswordView(), settings: settings);
       case '/forgot_password':

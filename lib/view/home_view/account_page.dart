@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
@@ -113,7 +114,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget _buildAccount() {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/add-information');
+        Navigator.pushNamed(context, '/update-information');
       },
       child: Container(
         height: 80,
@@ -141,7 +142,7 @@ class _AccountPageState extends State<AccountPage> {
                       maxLines: 1,
                     ),
                     Text(
-                      'Ping Ping',
+                      AccountController.instance.account.fullName??'Cập nhật thông tin ngay!',
                       style: Theme.of(context).textTheme.body2.merge(
                           TextStyle(color: Theme.of(context).primaryColor)),
                     )
