@@ -4,7 +4,9 @@ import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +40,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   }
 
   ScrollController _scrollController;
-  String phone;
+  String confirmPassword;
   String password;
   bool showPassword;
 
@@ -46,7 +48,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Đăng nhập'),
+        title: Text('Đổi mật khẩu'),
       ),
       body: Form(
         key: _formKey,
@@ -62,38 +64,13 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
               Padding(
                 padding: EdgeInsets.only(bottom: 8),
                 child: Text(
-                  'Số di động',
-                  style: Theme.of(context).textTheme.body2,
-                ),
-              ),
-              TextFormField(
-                maxLength: 10,
-                decoration: InputDecoration(
-                  hintText: 'Nhập số điện thoại',
-                  contentPadding: EdgeInsets.all(12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                        color: Colors.red, width: 1, style: BorderStyle.solid),
-                  ),
-                ),
-                keyboardType: TextInputType.number,
-                validator: Validator.phoneNumberValidator,
-                onSaved: (String value) {
-                  phone = value;
-                },
-              ),
-              SizedBox(height: 5,),
-              Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: Text(
                   'Mật khẩu',
                   style: Theme.of(context).textTheme.body2,
                 ),
               ),
               Stack(children: [
                 TextFormField(
-                  obscureText: showPassword,
+                  obscureText: !showPassword,
                   decoration: InputDecoration(
                     hintText: 'Nhập mật khẩu',
                     contentPadding: EdgeInsets.all(12),
@@ -125,35 +102,52 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   ),
                 )
               ]),
-              SizedBox(height: 30),
-              Container(
-                height: 45,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    )),
-                child: FlatButton(
-                  child: Text(
-                    'Đăng nhập',
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
-                        .merge(TextStyle(color: Colors.white)),
+              SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 8),
+                child: Text(
+                  'Nhập lại mật khẩu',
+                  style: Theme.of(context).textTheme.body2,
+                ),
+              ),
+              Stack(children: [
+                TextFormField(
+                  obscureText: !showPassword,
+                  decoration: InputDecoration(
+                    hintText: 'Nhập lại mật khẩu',
+                    contentPadding: EdgeInsets.all(12),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                          style: BorderStyle.solid),
+                    ),
                   ),
-                  onPressed: _validateInput,
+                  validator: Validator.passwordValidator,
+                  onSaved: (String value) {
+                    confirmPassword = value;
+                  },
                 ),
-              ),
-              Container(
-                height: 70,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    _buildTextButton('Đăng ký ngay.'),
-                    _buildTextButton('Quên mật khẩu.'),
-                  ],
-                ),
-              ),
+                Positioned(
+                  right: 0,
+                  child: IconButton(
+                    icon: Icon(
+                      showPassword ? Icons.visibility : Icons.visibility_off,
+                      color: AppStyles.dartIcon,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        showPassword = !showPassword;
+                      });
+                    },
+                  ),
+                )
+              ]),
+              SizedBox(height: 30),
+              PrimaryButton('Đổi mật khẩu', onPressed: _validateInput,),
             ],
           ),
         ),
@@ -177,7 +171,11 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      onLogin();
+      if(password != confirmPassword){
+        AppSnackBar.showFlushbar(context, 'Nhập lại mật khẩu chưa đúng');
+      }else{
+        onSubmit();
+      }
     } else {
       setState(() {
         _autoValidate = true;
@@ -185,14 +183,16 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
     }
   }
 
-  Future onLogin() async {
+  Future onSubmit() async {
     bool _checkInternet = await checkInternet();
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
+        showLoading();
         AppResponse response =
-        await AccountRepository.instance.login(phone, password);
+            await AccountRepository.instance.changePassword(password);
+        hideLoading();
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
           Navigator.pushReplacementNamed(context, '/home');
@@ -211,5 +211,20 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   checkInternet() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     return (connectivityResult != ConnectivityResult.none);
+  }
+
+  ProgressDialog _progressDialog;
+  showLoading() {
+    if (_progressDialog == null) {
+      _progressDialog = ProgressDialog(context, message: 'Đăng nhập...')
+        ..show();
+    }
+  }
+
+  hideLoading() {
+    if (_progressDialog != null) {
+      _progressDialog.hide(contextHide: context);
+      _progressDialog = null;
+    }
   }
 }

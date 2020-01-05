@@ -1,3 +1,5 @@
+import 'package:ann_shop_flutter/core/utility.dart';
+
 class Account {
   int id;
   String phone;

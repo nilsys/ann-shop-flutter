@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 
 class Utility {
-
   static bool isNullOrEmpty(object) {
     if (object == null) return true;
     if (object is String) return object.trim().isEmpty;
@@ -25,8 +24,13 @@ class Utility {
     }
   }
 
-  static String fixFormatDate(String oldDay){
-    DateTime dateTime = DateTime.parse(oldDay);
-    return DateFormat('dd/MM/yyyy').format(dateTime);
+  static String fixFormatDate(String oldDay) {
+    try {
+      DateTime dateTime = DateTime.parse(oldDay);
+      return DateFormat('dd/MM/yyyy').format(dateTime);
+    } catch (e) {
+      print('parse $oldDay fail: ' + e.toString());
+      return '';
+    }
   }
 }

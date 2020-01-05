@@ -32,12 +32,15 @@ class AccountController {
   logout() {
     account = null;
     token = null;
+    saveToLocale();
   }
 
   final _keyAccount = '_keyAccount';
   final _keyToken = '_keyToken';
 
-  updateAccountInfo() {
+  updateAccountInfo(Account _account) {
+    this.account = _account;
+    saveToLocale();
   }
 
   loadFormLocale() async {
@@ -50,7 +53,7 @@ class AccountController {
       if (response != null) {
         token = AccountToken.fromJson(jsonDecode(response));
       }
-      if(isLogin){
+      if (isLogin) {
         print('Load account form locale');
         print(account.toJson());
         print(token.toJson());
@@ -61,7 +64,12 @@ class AccountController {
   }
 
   saveToLocale() {
-    StorageManager.setObject(_keyAccount, json.encode(account.toJson()));
-    StorageManager.setObject(_keyToken, json.encode(token.toJson()));
+    if (account == null) {
+      StorageManager.clearObjectByKey(_keyAccount);
+      StorageManager.clearObjectByKey(_keyToken);
+    } else {
+      StorageManager.setObject(_keyAccount, json.encode(account.toJson()));
+      StorageManager.setObject(_keyToken, json.encode(token.toJson()));
+    }
   }
 }

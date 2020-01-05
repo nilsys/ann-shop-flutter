@@ -8,8 +8,11 @@ import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
+import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:intl/intl.dart';
 
 class UpdateInformation extends StatefulWidget {
   @override
@@ -21,6 +24,9 @@ class _UpdateInformationState extends State<UpdateInformation> {
 
   bool _autoValidate = false;
   Account account;
+  TextEditingController _controllerBirthDate;
+  TextEditingController _controllerCity;
+  final hintStyle = (TextStyle(fontStyle: FontStyle.italic));
 
   @override
   void initState() {
@@ -34,6 +40,9 @@ class _UpdateInformationState extends State<UpdateInformation> {
       }
     });
     account = new Account.fromJson(AccountController.instance.account.toJson());
+    _controllerBirthDate =
+        TextEditingController(text: Utility.fixFormatDate(account.birthDay));
+    _controllerCity = TextEditingController(text: account.city);
   }
 
   @override
@@ -91,6 +100,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       initialValue: account.fullName,
                       decoration: InputDecoration(
                         hintText: 'Họ và tên',
+                        hintStyle: hintStyle,
                         contentPadding: EdgeInsets.all(contentPadding),
                         border: UnderlineInputBorder(),
                       ),
@@ -116,10 +126,32 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         account.phone = value;
                       },
                     ),
+                    InkWell(
+                      onTap: _showDateTimePicker,
+                      child: IgnorePointer(
+                        child: TextFormField(
+                          controller: _controllerBirthDate,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                              hintText: 'Chọn ngày sinh',
+                              hintStyle: hintStyle,
+                              contentPadding: EdgeInsets.all(contentPadding),
+                              border: UnderlineInputBorder()),
+                          keyboardType: TextInputType.datetime,
+                          validator: (value) {
+                            if (Utility.isNullOrEmpty(value)) {
+                              return 'Chưa chọn ngày sinh';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
                     TextFormField(
                       initialValue: account.address,
                       decoration: InputDecoration(
                         hintText: 'Địa chỉ',
+                        hintStyle: hintStyle,
                         contentPadding: EdgeInsets.all(contentPadding),
                         border: UnderlineInputBorder(),
                       ),
@@ -133,26 +165,34 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         account.address = value;
                       },
                     ),
-                    TextFormField(
-                      initialValue: account.city,
-                      expands: false,
-                      decoration: InputDecoration(
-                        hintText: 'Thành phố',
-                        contentPadding: EdgeInsets.all(contentPadding),
-                        border: UnderlineInputBorder(),
+                    InkWell(
+                      onTap: _showCityPicker,
+                      child: IgnorePointer(
+                        child: TextFormField(
+                          controller: _controllerCity,
+                          readOnly: true,
+                          expands: false,
+                          decoration: InputDecoration(
+                            hintText: 'Thành phố',
+                            hintStyle: hintStyle,
+                            contentPadding: EdgeInsets.all(contentPadding),
+                            border: UnderlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            if (Utility.isNullOrEmpty(value)) {
+                              return 'Chưa nhập thành phố';
+                            }
+                            return null;
+                          },
+                          onSaved: (String value) {
+                            account.city = value;
+                          },
+                        ),
                       ),
-                      validator: (value) {
-                        if (Utility.isNullOrEmpty(value)) {
-                          return 'Chưa nhập thành phố';
-                        }
-                        return null;
-                      },
-                      onSaved: (String value) {
-                        account.city = value;
-                      },
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(contentPadding,10,contentPadding,0),
+                      padding: EdgeInsets.fromLTRB(
+                          contentPadding, 10, contentPadding, 0),
                       child: Row(
                         children: <Widget>[
                           Text('Nam'),
@@ -189,17 +229,21 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     ),
                     (_autoValidate && Utility.isNullOrEmpty(account.gender))
                         ? Container(
-                          padding: EdgeInsets.only(bottom: contentPadding + 10, left: contentPadding),
-                          alignment: Alignment.centerLeft,
-                          child: Text(
+                            padding: EdgeInsets.only(
+                                bottom: contentPadding + 10,
+                                left: contentPadding),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
                               'Chưa chọn giới tín',
                               style: Theme.of(context)
                                   .textTheme
                                   .caption
                                   .merge(TextStyle(color: Colors.red)),
                             ),
-                        )
-                        : SizedBox(height: 10,)
+                          )
+                        : SizedBox(
+                            height: 10,
+                          )
                   ],
                 ),
               ),
@@ -209,11 +253,24 @@ class _UpdateInformationState extends State<UpdateInformation> {
               ),
               Padding(
                 padding: EdgeInsets.all(defaultPadding),
-                child: TextButton(
-                  'Đổi mật khẩu.',
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/change-password');
-                  },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    TextButton(
+                      'Đổi mật khẩu',
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/change-password');
+                      },
+                    ),
+                    TextButton(
+                      'Đăng xuất',
+                      onPressed: () {
+                        AccountController.instance.logout();
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/login', (Route<dynamic> route) => false);
+                      },
+                    )
+                  ],
                 ),
               )
             ],
@@ -223,9 +280,54 @@ class _UpdateInformationState extends State<UpdateInformation> {
     );
   }
 
+  final _formatDatePicker = 'd  M  yyyy';
+
+  _showDateTimePicker() {
+    DateTime temp = DateTime.now();
+    if (Utility.isNullOrEmpty(account.birthDay) == false) {
+      temp = DateTime.parse(account.birthDay);
+    }
+    DateTime maxDay = new DateTime.utc(DateTime.now().year - 1, 12, 31);
+
+    DatePicker.showDatePicker(
+      context,
+      initialDateTime: temp,
+      dateFormat: _formatDatePicker,
+      maxDateTime: maxDay,
+      pickerMode: DateTimePickerMode.date,
+      onCancel: () {
+        updateDate(null);
+      },
+      onChange: (dateTime, List<int> index) {
+        updateDate(dateTime);
+      },
+      onConfirm: (dateTime, List<int> index) {
+        updateDate(dateTime);
+      },
+    );
+  }
+
+
+  void updateDate(DateTime dateTime) {
+    if (dateTime != null) {
+      setState(() {
+        account.birthDay = DateFormat('yyyy-MM-dd').format(dateTime);
+        _controllerBirthDate.text = Utility.fixFormatDate(account.birthDay);
+      });
+    }
+  }
+
+  _showCityPicker() {
+    ChooseCityBottomSheet.showBottomSheet(context, account.city, (value) {
+      account.city = value;
+      _controllerCity.text = account.city;
+    });
+  }
+
+
   void _validateInput() {
     final form = _formKey.currentState;
-    if (form.validate()) {
+    if (form.validate() && Utility.isNullOrEmpty(account.gender) == false) {
       form.save();
       onFinish();
     } else {
@@ -246,8 +348,9 @@ class _UpdateInformationState extends State<UpdateInformation> {
             await AccountRepository.instance.updateInformation(account);
         hideLoading();
         if (response.status) {
-          AccountController.instance.finishLogin(response.data);
-          Navigator.pushReplacementNamed(context, '/home');
+          AccountController.instance.updateAccountInfo(account);
+          Navigator.pop(context);
+          AppSnackBar.showFlushbar(context, 'Cập nhật thành công');
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');

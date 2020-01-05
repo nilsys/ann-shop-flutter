@@ -98,7 +98,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               Stack(children: [
                 TextFormField(
-                  obscureText: showPassword,
+                  obscureText: !showPassword,
                   decoration: InputDecoration(
                     hintText: 'Nhập mật khẩu',
                     contentPadding: EdgeInsets.all(12),

@@ -11,6 +11,8 @@ import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:intl/intl.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   @override
@@ -20,6 +22,7 @@ class ForgotPasswordView extends StatefulWidget {
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
+  TextEditingController _controllerBirthDate;
 
   @override
   void initState() {
@@ -32,6 +35,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         }
       }
     });
+
+    _controllerBirthDate =
+        TextEditingController(text: Utility.fixFormatDate(''));
   }
 
   @override
@@ -43,12 +49,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   ScrollController _scrollController;
   String phone;
   String password;
+  String birthDay;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tạo mật khẩu mới'),
+        title: Text('Quên mật khẩu'),
       ),
       body: Form(
         key: _formKey,
@@ -86,6 +93,43 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   phone = value;
                 },
               ),
+              SizedBox(
+                height: 5,
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 8),
+                child: Text(
+                  'Ngày sinh',
+                  style: Theme.of(context).textTheme.body2,
+                ),
+              ),
+              InkWell(
+                onTap: _showDateTimePicker,
+                child: IgnorePointer(
+                  child: TextFormField(
+                    controller: _controllerBirthDate,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: 'Chọn ngày sinh',
+                      contentPadding: EdgeInsets.all(12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                            color: Colors.red,
+                            width: 1,
+                            style: BorderStyle.solid),
+                      ),
+                    ),
+                    keyboardType: TextInputType.datetime,
+                    validator: (value) {
+                      if (Utility.isNullOrEmpty(value)) {
+                        return 'Chưa chọn ngày sinh';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ),
               Utility.isNullOrEmpty(password)
                   ? SizedBox(
                       height: 5,
@@ -108,18 +152,54 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               SizedBox(height: 30),
               Utility.isNullOrEmpty(password)
                   ? PrimaryButton(
-                      'Tạo mật khẩu',
+                      'Quên mật khẩu',
                       onPressed: _validateInput,
                     )
                   : PrimaryButton(
                       'Đăng nhập ngay',
-                      onPressed: _onLogin,
+                      onPressed: _onSubmit,
                     ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  final _formatDatePicker = 'd  M  yyyy';
+
+  _showDateTimePicker() {
+    DateTime temp = DateTime.now();
+    if (Utility.isNullOrEmpty(birthDay) == false) {
+      temp = DateTime.parse(birthDay);
+    }
+    DateTime maxDay = new DateTime.utc(DateTime.now().year - 1, 12, 31);
+
+    DatePicker.showDatePicker(
+      context,
+      initialDateTime: temp,
+      dateFormat: _formatDatePicker,
+      maxDateTime: maxDay,
+      pickerMode: DateTimePickerMode.date,
+      onCancel: () {
+        updateDate(null);
+      },
+      onChange: (dateTime, List<int> index) {
+        updateDate(dateTime);
+      },
+      onConfirm: (dateTime, List<int> index) {
+        updateDate(dateTime);
+      },
+    );
+  }
+
+  void updateDate(DateTime dateTime) {
+    if (dateTime != null) {
+      setState(() {
+        birthDay = DateFormat('yyyy-MM-dd').format(dateTime);
+        _controllerBirthDate.text = Utility.fixFormatDate(birthDay);
+      });
+    }
   }
 
   void _validateInput() {
@@ -158,7 +238,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     }
   }
 
-  Future _onLogin() async {
+  Future _onSubmit() async {
     bool _checkInternet = await checkInternet();
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
@@ -193,8 +273,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
   showLoading() {
     if (_progressDialog == null) {
-      _progressDialog = ProgressDialog(context)
-        ..show();
+      _progressDialog = ProgressDialog(context)..show();
     }
   }
 

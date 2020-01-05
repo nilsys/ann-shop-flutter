@@ -72,7 +72,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
               ),
               Stack(children: [
                 TextFormField(
-                  obscureText: showPassword,
+                  obscureText: !showPassword,
                   decoration: InputDecoration(
                     hintText: 'Nhập mật khẩu',
                     contentPadding: EdgeInsets.all(12),
@@ -116,7 +116,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
               ),
               Stack(children: [
                 TextFormField(
-                  obscureText: showPassword,
+                  obscureText: !showPassword,
                   decoration: InputDecoration(
                     hintText: 'Nhập lại mật khẩu',
                     contentPadding: EdgeInsets.all(12),

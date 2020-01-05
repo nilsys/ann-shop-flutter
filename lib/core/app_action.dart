@@ -136,8 +136,8 @@ class ActionType {
   static const String linkToCategory = "category";
   static const String linkToTag = "product_tag";
   static const String linkToSearch = "product_search";
-  static const String linkToWebPage = "show_web";
-  static const String linkToWebView = "show_web_view";
+  static const String linkToWebPage = "open_browser";
+  static const String linkToWebView = "show_web";
   static const String linkToScreen = "go_to_screen";
   static const String linkToViewMore = "view_more";
 }
