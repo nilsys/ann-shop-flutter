@@ -84,6 +84,14 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
               SizedBox(
                 height: 10,
               ),
+              Container(
+                padding: EdgeInsets.only(bottom: 8),
+                child: Text(
+                  'Vui lòng nhập OTP đã được gửi đến số điện thoại của Quý khách',
+                  style: Theme.of(context).textTheme.body2,
+                  textAlign: TextAlign.center,
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.only(bottom: 8),
                 child: countDown <= 0
@@ -100,8 +108,14 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
               ),
               TextFormField(
                 maxLength: 6,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 15,
+                  fontSize: 20,
+                  color: Colors.black87),
+                textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  hintText: 'Nhập OTP',
+                  hintText: '______',
                   contentPadding: EdgeInsets.all(12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -150,13 +164,13 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
     } else {
       try {
         showLoading(context, message: 'Xác nhận OTP...');
-        AppResponse response = await AccountRepository.instance.registerStep3ValidateOTP(
-            AccountRegisterState.instance.phone,
-            AccountRegisterState.instance.otp);
+        AppResponse response = await AccountRepository.instance
+            .registerStep3ValidateOTP(AccountRegisterState.instance.phone,
+                AccountRegisterState.instance.otp);
         hideLoading(context);
         if (response.status) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/register_input_password', ModalRoute.withName('/login'));
+          Navigator.pushNamedAndRemoveUntil(context, '/register_input_password',
+              ModalRoute.withName('/login'));
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
@@ -169,7 +183,6 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
     }
   }
 
-
   Future _onResentOTP() async {
     bool _checkInternet = await checkInternet();
     if (_checkInternet == false) {
@@ -177,9 +190,9 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
     } else {
       try {
         showLoading(context);
-        AppResponse response = await AccountRepository.instance.registerStep2RequestOTP(
-            AccountRegisterState.instance.phone,
-            AccountRegisterState.instance.otp);
+        AppResponse response = await AccountRepository.instance
+            .registerStep2RequestOTP(AccountRegisterState.instance.phone,
+                AccountRegisterState.instance.otp);
         hideLoading(context);
         if (response.status) {
           AccountRegisterState.instance.timeOTP = DateTime.now();
