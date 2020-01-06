@@ -6,10 +6,9 @@ import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:intl/intl.dart';
@@ -336,10 +335,10 @@ class _UpdateInformationState extends State<UpdateInformation> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading();
+        showLoading(context, message: 'Cập nhật...');
         AppResponse response =
             await AccountRepository.instance.updateInformation(account);
-        hideLoading();
+        hideLoading(context);
         if (response.status) {
           AccountController.instance.updateAccountInfo(account);
           Navigator.pop(context);
@@ -353,26 +352,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
-    }
-  }
-
-  checkInternet() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    return (connectivityResult != ConnectivityResult.none);
-  }
-
-  ProgressDialog _progressDialog;
-
-  showLoading() {
-    if (_progressDialog == null) {
-      _progressDialog = ProgressDialog(context, message: 'Cập nhập...')..show();
-    }
-  }
-
-  hideLoading() {
-    if (_progressDialog != null) {
-      _progressDialog.hide(contextHide: context);
-      _progressDialog = null;
     }
   }
 }

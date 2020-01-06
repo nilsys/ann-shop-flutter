@@ -7,7 +7,6 @@ import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
 class RegisterInputOtpView extends StatefulWidget {
@@ -213,10 +212,5 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
     }
-  }
-
-  checkInternet() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    return (connectivityResult != ConnectivityResult.none);
   }
 }
