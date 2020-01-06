@@ -2,7 +2,6 @@ import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/list_product_repository.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 
 class CategoryProductProvider extends ChangeNotifier {

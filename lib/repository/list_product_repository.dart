@@ -204,8 +204,9 @@ class ListProductRepository {
   final _prefixCategoryKey = 'key_product_by_category_';
 
   cacheProduct(String _keyCache, List<Product> products) {
-    var list = products.map((v) => v.toJson()).toList();
-    StorageManager.setObject(_prefixCategoryKey + _keyCache, list.toString());
+    var myJsonString =
+    json.encode(products.map((value) => value.toJson()).toList());
+    StorageManager.setObject(_prefixCategoryKey + _keyCache, myJsonString);
   }
 
   Future<List<Product>> loadByCache(String _keyCache) async {
