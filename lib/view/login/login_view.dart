@@ -7,6 +7,7 @@ import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -195,10 +196,10 @@ class _LoginViewState extends State<LoginView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading();
+        showLoading(context, message: 'Đăng nhập...');
         AppResponse response =
             await AccountRepository.instance.login(phone, password);
-        hideLoading();
+        hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
           Navigator.pushReplacementNamed(context, '/home');
@@ -211,27 +212,6 @@ class _LoginViewState extends State<LoginView> {
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
-    }
-  }
-
-  checkInternet() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    return (connectivityResult != ConnectivityResult.none);
-  }
-
-  ProgressDialog _progressDialog;
-
-  showLoading() {
-    if (_progressDialog == null) {
-      _progressDialog = ProgressDialog(context, message: 'Đăng nhập...')
-        ..show();
-    }
-  }
-
-  hideLoading() {
-    if (_progressDialog != null) {
-      _progressDialog.hide(contextHide: context);
-      _progressDialog = null;
     }
   }
 }

@@ -100,6 +100,6 @@ class AskLogin extends StatelessWidget {
 
   _onLogIn(context) {
     Navigator.pushNamedAndRemoveUntil(
-        context, '/login', ModalRoute.withName('/home'));
+        context, '/login', (Route<dynamic> route) => false );
   }
 }

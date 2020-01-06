@@ -158,18 +158,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
     );
   }
 
-  Widget _buildTextButton(String text, {GestureTapCallback onTap}) {
-    return InkWell(
-      onTap: onTap,
-      child: Text(
-        text,
-        style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            decoration: TextDecoration.underline),
-      ),
-    );
-  }
-
   void _validateInput() {
     final form = _formKey.currentState;
     if (form.validate()) {
@@ -209,10 +197,5 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
     }
-  }
-
-  checkInternet() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    return (connectivityResult != ConnectivityResult.none);
   }
 }

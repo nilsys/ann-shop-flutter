@@ -186,7 +186,10 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
         hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+          if(AccountRegisterState.instance.isRegister) {
+            Navigator.pushNamed(context, '/update-information');
+          }
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
@@ -197,10 +200,5 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
     }
-  }
-
-  checkInternet() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    return (connectivityResult != ConnectivityResult.none);
   }
 }

@@ -6,7 +6,6 @@ import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
 class RegisterInputPhoneView extends StatefulWidget {
@@ -121,7 +120,7 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
             return;
           } else {
             AppSnackBar.showFlushbar(
-                context, 'Số điện thoại này đã được đăng ký.');
+                context, AccountRegisterState.instance.isRegister?'Số điện thoại này đã được đăng ký.':'Số điện thoại này chưa được đăng ký.');
           }
         } else {
           AppSnackBar.showFlushbar(context,
@@ -156,10 +155,5 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
       print(e);
       AppSnackBar.showFlushbar(context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
     }
-  }
-
-  checkInternet() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    return (connectivityResult != ConnectivityResult.none);
   }
 }
