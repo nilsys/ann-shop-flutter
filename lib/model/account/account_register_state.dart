@@ -9,6 +9,8 @@ class AccountRegisterState {
     /// init
   }
 
+  bool isRegister;
+
   String _phone;
 
   String get phone => _phone;
@@ -23,7 +25,7 @@ class AccountRegisterState {
   String password;
   String otp;
 
-  reset() {
+  reset(_isRegister) {
     _phone = null;
     password = null;
     Random rand = Random();
@@ -33,6 +35,7 @@ class AccountRegisterState {
     }
     print('otp: $otp');
     timeOTP = null;
+    isRegister = _isRegister;
   }
 
   DateTime timeOTP;
@@ -51,7 +54,7 @@ class AccountRegisterState {
   }
 
   int getDifferenceOTP() {
-    if(timeOTP==null){
+    if (timeOTP == null) {
       return 60;
     }
     return DateTime.now().difference(timeOTP).inSeconds;

@@ -2,14 +2,13 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
+import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
+import 'package:ann_shop_flutter/ui/button/text_button.dart';
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/button/primary_button.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:intl/intl.dart';
@@ -159,6 +158,18 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       'Đăng nhập ngay',
                       onPressed: _onSubmit,
                     ),
+              Utility.isNullOrEmpty(password)
+                  ? Container(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: TextButton(
+                        'Quên ngày sinh',
+                        onPressed: () {
+                          AccountRegisterState.instance.reset(false);
+                          Navigator.popAndPushNamed(context, '/register_input_phone');
+                        },
+                      ),
+                    )
+                  : Container()
             ],
           ),
         ),
@@ -206,7 +217,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      _onForgotPassword();
+      _onCheckPhoneNumber();
     } else {
       setState(() {
         _autoValidate = true;
@@ -214,18 +225,24 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     }
   }
 
-  Future _onForgotPassword() async {
+  Future _onCheckPhoneNumber() async {
     bool _checkInternet = await checkInternet();
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading();
+        showLoading(context);
         AppResponse response =
-            await AccountRepository.instance.forgotPassword(phone);
-        hideLoading();
+            await AccountRepository.instance.checkPhoneNumber(phone);
+        hideLoading(context);
         if (response.status) {
-          password = response.data.toString();
+          if (response.data) {
+            _onForgotPassword();
+            return;
+          } else {
+            AppSnackBar.showFlushbar(
+                context, 'Số điện thoại này chưa được đăng ký.');
+          }
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
@@ -235,6 +252,22 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
+      hideLoading(context);
+    }
+  }
+
+  Future _onForgotPassword() async {
+    try {
+      AppResponse response = await AccountRepository.instance
+          .forgotPasswordByBirthDay(phone, '000000', birthDay);
+      if (response.status) {
+        password = response.data.toString();
+      } else {
+        AppSnackBar.showFlushbar(context, 'Ngày sinh không đúng.');
+      }
+    } catch (e) {
+      print(e);
+      AppSnackBar.showFlushbar(context, 'Ngày sinh không đúng.');
     }
   }
 
@@ -244,10 +277,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading();
+        showLoading(context);
         AppResponse response =
             await AccountRepository.instance.login(phone, password);
-        hideLoading();
+        hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
           Navigator.of(context).pushNamedAndRemoveUntil(
@@ -261,26 +294,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
-    }
-  }
-
-  checkInternet() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    return (connectivityResult != ConnectivityResult.none);
-  }
-
-  ProgressDialog _progressDialog;
-
-  showLoading() {
-    if (_progressDialog == null) {
-      _progressDialog = ProgressDialog(context)..show();
-    }
-  }
-
-  hideLoading() {
-    if (_progressDialog != null) {
-      _progressDialog.hide(contextHide: context);
-      _progressDialog = null;
     }
   }
 }

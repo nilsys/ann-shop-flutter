@@ -4,8 +4,8 @@ import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/ui/button/primary_button.dart';
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +29,6 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
         }
       }
     });
-    AccountRegisterState.instance.reset();
   }
 
   @override
@@ -97,7 +96,7 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      onSubmit();
+      _onCheckPhoneNumber();
     } else {
       setState(() {
         _autoValidate = true;
@@ -105,27 +104,27 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
     }
   }
 
-  Future onSubmit() async {
+  Future _onCheckPhoneNumber() async {
     bool _checkInternet = await checkInternet();
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        if (AccountRegisterState.instance.checkTimeOTP() == false) {
-          Navigator.pushNamed(context, '/register_input_otp');
-        } else {
-          showLoading();
-          AppResponse response = await AccountRepository.instance.requestOTP(
-              AccountRegisterState.instance.phone,
-              AccountRegisterState.instance.otp);
-          hideLoading();
-          if (response.status) {
-            AccountRegisterState.instance.timeOTP = DateTime.now();
-            Navigator.pushNamed(context, '/register_input_otp');
+        showLoading(context, message: 'Gửi OTP...');
+        AppResponse response = await AccountRepository.instance
+            .checkPhoneNumber(AccountRegisterState.instance.phone);
+        hideLoading(context);
+        if (response.status) {
+          if (response.data != AccountRegisterState.instance.isRegister) {
+            _onSubmit();
+            return;
           } else {
-            AppSnackBar.showFlushbar(context,
-                response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
+            AppSnackBar.showFlushbar(
+                context, 'Số điện thoại này đã được đăng ký.');
           }
+        } else {
+          AppSnackBar.showFlushbar(context,
+              response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
         }
       } catch (e) {
         print(e);
@@ -135,23 +134,31 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
     }
   }
 
+  Future _onSubmit() async {
+    try {
+      if (AccountRegisterState.instance.checkTimeOTP() == false) {
+        hideLoading(context);
+        Navigator.pushNamed(context, '/register_input_otp');
+      } else {
+        AppResponse response = await AccountRepository.instance
+            .registerStep2RequestOTP(AccountRegisterState.instance.phone,
+                AccountRegisterState.instance.otp);
+        if (response.status) {
+          AccountRegisterState.instance.timeOTP = DateTime.now();
+          Navigator.pushNamed(context, '/register_input_otp');
+        } else {
+          AppSnackBar.showFlushbar(context,
+              response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
+        }
+      }
+    } catch (e) {
+      print(e);
+      AppSnackBar.showFlushbar(context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
+    }
+  }
+
   checkInternet() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     return (connectivityResult != ConnectivityResult.none);
-  }
-
-  ProgressDialog _progressDialog;
-
-  showLoading() {
-    if (_progressDialog == null) {
-      _progressDialog = ProgressDialog(context, message: 'Gửi OTP...')..show();
-    }
-  }
-
-  hideLoading() {
-    if (_progressDialog != null) {
-      _progressDialog.hide(contextHide: context);
-      _progressDialog = null;
-    }
   }
 }

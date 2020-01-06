@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
@@ -141,6 +142,7 @@ class _LoginViewState extends State<LoginView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     TextButton('Đăng ký ngay.', onPressed: () {
+                      AccountRegisterState.instance.reset(true);
                       Navigator.pushNamed(context, '/register_input_phone');
                     }),
                     TextButton('Quên mật khẩu.', onPressed: () {

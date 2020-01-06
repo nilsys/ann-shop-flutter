@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:connectivity/connectivity.dart';
@@ -89,7 +90,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                     ? TextButton(
                         'Gửi lại OTP',
                         onPressed: () {
-                          onResentOTP();
+                          _onResentOTP();
                         },
                       )
                     : Text(
@@ -131,23 +132,10 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
     );
   }
 
-  Widget _buildTextButton(String text, {GestureTapCallback onTap}) {
-    return InkWell(
-      onTap: onTap,
-      child: Text(
-        text,
-        style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            decoration: TextDecoration.underline),
-      ),
-    );
-  }
-
   void _validateInput() {
     final form = _formKey.currentState;
     if (form.validate()) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/register_input_password', ModalRoute.withName('/login'));
+      _onValidateOTP();
     } else {
       setState(() {
         _autoValidate = true;
@@ -155,17 +143,44 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
     }
   }
 
-  Future onResentOTP() async {
+  Future _onValidateOTP() async {
     bool _checkInternet = await checkInternet();
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading();
-        AppResponse response = await AccountRepository.instance.requestOTP(
+        showLoading(context, message: 'Xác nhận OTP...');
+        AppResponse response = await AccountRepository.instance.registerStep3ValidateOTP(
             AccountRegisterState.instance.phone,
             AccountRegisterState.instance.otp);
-        hideLoading();
+        hideLoading(context);
+        if (response.status) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/register_input_password', ModalRoute.withName('/login'));
+        } else {
+          AppSnackBar.showFlushbar(context,
+              response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
+        }
+      } catch (e) {
+        print(e);
+        AppSnackBar.showFlushbar(
+            context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
+      }
+    }
+  }
+
+
+  Future _onResentOTP() async {
+    bool _checkInternet = await checkInternet();
+    if (_checkInternet == false) {
+      AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
+    } else {
+      try {
+        showLoading(context);
+        AppResponse response = await AccountRepository.instance.registerStep2RequestOTP(
+            AccountRegisterState.instance.phone,
+            AccountRegisterState.instance.otp);
+        hideLoading(context);
         if (response.status) {
           AccountRegisterState.instance.timeOTP = DateTime.now();
           registerStream();
@@ -184,20 +199,5 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
   checkInternet() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     return (connectivityResult != ConnectivityResult.none);
-  }
-
-  ProgressDialog _progressDialog;
-
-  showLoading() {
-    if (_progressDialog == null) {
-      _progressDialog = ProgressDialog(context, message: 'Gửi OTP...')..show();
-    }
-  }
-
-  hideLoading() {
-    if (_progressDialog != null) {
-      _progressDialog.hide(contextHide: context);
-      _progressDialog = null;
-    }
   }
 }

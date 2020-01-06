@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 
 class AppPopup {
@@ -262,5 +263,21 @@ class ButtonData {
         if (callback != null) callback();
       },
     );
+  }
+}
+
+
+ProgressDialog _progressDialog;
+showLoading(context, {message = 'Loading...'}) {
+  if (_progressDialog == null) {
+    _progressDialog = ProgressDialog(context, message: message)
+      ..show();
+  }
+}
+
+hideLoading(context) {
+  if (_progressDialog != null) {
+    _progressDialog.hide(contextHide: context);
+    _progressDialog = null;
   }
 }

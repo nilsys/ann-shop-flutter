@@ -5,8 +5,8 @@ import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/primary_button.dart';
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
@@ -147,7 +147,10 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 )
               ]),
               SizedBox(height: 30),
-              PrimaryButton('Đổi mật khẩu', onPressed: _validateInput,),
+              PrimaryButton(
+                'Đổi mật khẩu',
+                onPressed: _validateInput,
+              ),
             ],
           ),
         ),
@@ -171,9 +174,9 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      if(password != confirmPassword){
+      if (password != confirmPassword) {
         AppSnackBar.showFlushbar(context, 'Nhập lại mật khẩu chưa đúng');
-      }else{
+      } else {
         onSubmit();
       }
     } else {
@@ -189,13 +192,13 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading();
+        showLoading(context);
         AppResponse response =
             await AccountRepository.instance.changePassword(password);
-        hideLoading();
+        hideLoading(context);
         if (response.status) {
-          AccountController.instance.finishLogin(response.data);
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pop(context);
+          AppSnackBar.showFlushbar(context, 'Đổi mật khẩu thành công');
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
@@ -211,20 +214,5 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   checkInternet() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     return (connectivityResult != ConnectivityResult.none);
-  }
-
-  ProgressDialog _progressDialog;
-  showLoading() {
-    if (_progressDialog == null) {
-      _progressDialog = ProgressDialog(context, message: 'Đăng nhập...')
-        ..show();
-    }
-  }
-
-  hideLoading() {
-    if (_progressDialog != null) {
-      _progressDialog.hide(contextHide: context);
-      _progressDialog = null;
-    }
   }
 }

@@ -15,17 +15,37 @@ class AccountRepository {
     // todo
   }
 
-  Future<AppResponse> requestOTP(String phone, String otp) async {
+  Future<AppResponse> checkPhoneNumber(String phone) async {
     try {
-      Map data = {"phone": phone, "otp": otp};
+      final url = 'http://xuongann.com/api/flutter/user/check?phone=$phone';
+      final response = await http.get(url);
+      log(url);
+      log(response.statusCode);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        Map parsed = jsonDecode(response.body);
+        var result = parsed['exists'];
+        return AppResponse(true, data: result);
+      } else {
+        return AppResponse(false);
+      }
+    } catch (e) {
+      print('Server Exception!!!' + e);
+    }
+    return AppResponse(false);
+  }
+
+  Future<AppResponse> registerStep2RequestOTP(String phone, String otp) async {
+    try {
+      String formatPhone = '84' + phone.substring(1);
+      Map data = {"phone": formatPhone, "otp": otp};
       final url = 'http://xuongann.com/api/sms/otp';
       final response = await http.post(url, body: data);
       log(url);
       log(data);
       log(response.statusCode);
       log(response.body);
-      if (response.statusCode == HttpStatus.ok ||
-          response.statusCode == HttpStatus.noContent) {
+      if (response.statusCode == HttpStatus.ok) {
         return AppResponse(true);
       } else {
         return AppResponse(false, message: getMessage(response.body));
@@ -36,10 +56,31 @@ class AccountRepository {
     return AppResponse(false);
   }
 
-  Future<AppResponse> register(String phone, String password) async {
+  Future<AppResponse> registerStep3ValidateOTP(String phone, String otp) async {
     try {
-      Map data = {"phone": phone, "password": password};
-      String url = 'http://xuongann.com/api/flutter/user/register';
+      Map data = {"phone": phone, "otp": otp};
+      final url = 'http://xuongann.com/api/flutter/user/confirm-otp';
+      final response = await http.post(url, body: data);
+      log(url);
+      log(data);
+      log(response.statusCode);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        return AppResponse(true);
+      } else {
+        return AppResponse(false, message: getMessage(response.body));
+      }
+    } catch (e) {
+      print('Server Exception!!!' + e);
+    }
+    return AppResponse(false);
+  }
+
+  Future<AppResponse> registerStep4CreatePassword(
+      String phone, String otp, String password) async {
+    try {
+      Map data = {"phone": phone, 'otp': otp, "passwordNew": password};
+      String url = 'http://xuongann.com/api/flutter/user/create-password';
       final response = await http
           .post(
             url,
@@ -108,12 +149,16 @@ class AccountRepository {
     return AppResponse(false);
   }
 
-  Future<AppResponse> forgotPassword(String phone) async {
+  Future<AppResponse> forgotPasswordByBirthDay(
+      String phone, String birthDay, String otp) async {
     try {
       Map data = {
         "phone": phone,
+        "otp": otp,
+        "birthday": birthDay,
       };
-      String url = 'http://xuongann.com/api/flutter/user/password-new';
+      String url =
+          'http://xuongann.com/api/flutter/user/password-new-by-birthday';
       final response =
           await http.patch(url, body: data).timeout(Duration(seconds: 10));
 
@@ -127,27 +172,25 @@ class AccountRepository {
       } else {
         return AppResponse(false, message: getMessage(response.body));
       }
-    } catch (e) {}
+    } catch (e) {
+      log(e);
+    }
     return AppResponse(false);
   }
 
   Future<AppResponse> changePassword(String newPassword) async {
     try {
-      Map data = {
-        "phone": AccountController.instance.account.phone,
-        "password": newPassword
-      };
-      String url = 'http://xuongann.com/api/flutter/user/change-password';
+      String url =
+          'http://xuongann.com/api/flutter/user/change-password?passwordNew=$newPassword';
+
       final response = await http
           .patch(
             url,
-            body: data,
             headers: AccountController.instance.header,
           )
           .timeout(Duration(seconds: 10));
 
       log(url);
-      log(data);
       log(response.statusCode);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -155,7 +198,9 @@ class AccountRepository {
       } else {
         return AppResponse(false, message: getMessage(response.body));
       }
-    } catch (e) {}
+    } catch (e) {
+      log(e);
+    }
     return AppResponse(false);
   }
 

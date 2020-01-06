@@ -1,3 +1,6 @@
+
+import 'package:connectivity/connectivity.dart';
+
 final double defaultPadding = 15;
 const int itemPerPage = 20;
 
@@ -13,4 +16,10 @@ class Core {
   static const appVersion = '1.0.0';
 
   static const domain = 'http://xuongann.com/';
+}
+
+
+checkInternet() async {
+  var connectivityResult = await (Connectivity().checkConnectivity());
+  return (connectivityResult != ConnectivityResult.none);
 }
