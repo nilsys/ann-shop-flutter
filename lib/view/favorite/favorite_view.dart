@@ -30,18 +30,18 @@ class _FavoriteViewState extends State<FavoriteView> {
           },
         ),
         title: Text('Danh sách yêu thích'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.delete, color: Colors.white),
-            onPressed: _onRemoveAll,
-          ),
-          Utility.isNullOrEmpty(data)
-              ? null
-              : IconButton(
+        actions: Utility.isNullOrEmpty(data)
+            ? null
+            : [
+                IconButton(
+                  icon: Icon(Icons.delete, color: Colors.white),
+                  onPressed: _onRemoveAll,
+                ),
+                IconButton(
                   icon: Icon(Icons.share, color: Colors.white),
                   onPressed: _onShare,
                 ),
-        ],
+              ],
       ),
       body: Container(
         child: CustomScrollView(

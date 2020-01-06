@@ -262,14 +262,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         Navigator.pushNamed(context, '/change-password');
                       },
                     ),
-                    TextButton(
-                      'Đăng xuất',
-                      onPressed: () {
-                        AccountController.instance.logout();
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/login', (Route<dynamic> route) => false);
-                      },
-                    )
+                    Container(),
                   ],
                 ),
               )

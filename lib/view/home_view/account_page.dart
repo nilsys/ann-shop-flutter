@@ -37,7 +37,9 @@ class _AccountPageState extends State<AccountPage> {
           physics: BouncingScrollPhysics(),
           slivers: <Widget>[
             SliverToBoxAdapter(
-              child: AccountController.instance.isLogin ? _buildAccount() : _buildNoLogin(),
+              child: AccountController.instance.isLogin
+                  ? _buildAccount()
+                  : _buildNoLogin(),
             ),
             SliverList(
               delegate: SliverChildListDelegate([
@@ -78,11 +80,35 @@ class _AccountPageState extends State<AccountPage> {
                   Navigator.pushNamed(context, '/setting');
                 }),
                 Container(
-                  height: 50,
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-                  child: Text('Version: ${Core.appVersion}'),
-                )
+                  height: 45,
+                  margin: EdgeInsets.symmetric(
+                      horizontal: defaultPadding, vertical: defaultPadding),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                          color: Theme.of(context).primaryColor, width: 1)),
+                  child: InkWell(
+                    onTap: () {
+                      AccountController.instance.logout();
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (Route<dynamic> route) => false);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'ĐĂNG XUẤT',
+                        style: Theme.of(context).textTheme.button.merge(
+                            TextStyle(color: Theme.of(context).primaryColor)),
+                      ),
+                    ),
+                  ),
+                ),
+//                Container(
+//                  height: 30,
+//                  alignment: Alignment.centerRight,
+//                  padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+//                  child: Text('Version: ${Core.appVersion}'),
+//                )
               ]),
             ),
           ],
@@ -142,9 +168,13 @@ class _AccountPageState extends State<AccountPage> {
                       maxLines: 1,
                     ),
                     Text(
-                      AccountController.instance.account.fullName??'Cập nhật thông tin ngay!',
+                      AccountController.instance.account.fullName ??
+                          'Cập nhật thông tin ngay!',
                       maxLines: 1,
-                      style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
                     )
                   ],
                 ),
