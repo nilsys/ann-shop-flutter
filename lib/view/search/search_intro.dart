@@ -31,7 +31,6 @@ class _SearchIntroState extends State<SearchIntro> {
     bool hasHotKey = Utility.isNullOrEmpty(provider.hotKeys.data) == false;
     bool hasHistory = Utility.isNullOrEmpty(provider.history) == false;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: defaultPadding),
       child: RefreshIndicator(
         onRefresh: () async {
           if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
@@ -41,7 +40,11 @@ class _SearchIntroState extends State<SearchIntro> {
         child: ListView(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: 15, bottom: 5),
+              padding: EdgeInsets.only(
+                  top: 15,
+                  bottom: 5,
+                  left: defaultPadding,
+                  right: defaultPadding),
               child: Row(
                 children: <Widget>[
                   Icon(
@@ -63,10 +66,14 @@ class _SearchIntroState extends State<SearchIntro> {
               ),
             ),
             hasHotKey
-                ? Wrap(
-                    children: provider.hotKeys.data
-                        .map((title) => _buildHotKey(title))
-                        .toList(),
+                ? Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        defaultPadding, 0, defaultPadding, 10),
+                    child: Wrap(
+                      children: provider.hotKeys.data
+                          .map((title) => _buildHotKey(title))
+                          .toList(),
+                    ),
                   )
                 : Container(),
             ProductBanner(
@@ -76,7 +83,8 @@ class _SearchIntroState extends State<SearchIntro> {
             ),
             hasHistory
                 ? Container(
-                    padding: EdgeInsets.only(top: 15),
+                    padding: EdgeInsets.only(
+                        top: 15, left: defaultPadding, right: defaultPadding),
                     child: Row(
                       children: <Widget>[
                         Icon(
@@ -109,10 +117,13 @@ class _SearchIntroState extends State<SearchIntro> {
                   )
                 : Container(),
             hasHistory
-                ? Wrap(
-                    children: provider.history
-                        .map((title) => _buildHistory(title))
-                        .toList(),
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                    child: Wrap(
+                      children: provider.history
+                          .map((title) => _buildHistory(title))
+                          .toList(),
+                    ),
                   )
                 : Container(),
           ],

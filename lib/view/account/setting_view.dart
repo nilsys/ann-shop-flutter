@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/currency_input_formatter.dart';
+import 'package:ann_shop_flutter/core/app_input_formatter.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';

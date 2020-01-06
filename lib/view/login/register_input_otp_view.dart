@@ -1,4 +1,6 @@
+import 'package:ann_shop_flutter/core/app_input_formatter.dart';
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
@@ -30,11 +32,13 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
         }
       }
     });
+
     registerStream();
   }
 
   Stream<int> stream;
   int countDown;
+  TextEditingController controllerOTP = TextEditingController();
 
   registerStream() {
     countDown = 60 - AccountRegisterState.instance.getDifferenceOTP();
@@ -107,22 +111,26 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                       ),
               ),
               TextFormField(
-                maxLength: 6,
+                controller: controllerOTP,
                 style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 15,
-                  fontSize: 20,
-                  color: Colors.black87),
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 15,
+                    fontSize: 25,
+                    color: Colors.black87),
                 textAlign: TextAlign.center,
+                showCursor: false,
                 decoration: InputDecoration(
                   hintText: '______',
                   contentPadding: EdgeInsets.all(12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                        color: Colors.red, width: 1, style: BorderStyle.solid),
-                  ),
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  errorStyle: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .merge(TextStyle(color: Colors.red)),
                 ),
+                inputFormatters: [OTPInputFormatter()],
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value != AccountRegisterState.instance.otp) {
