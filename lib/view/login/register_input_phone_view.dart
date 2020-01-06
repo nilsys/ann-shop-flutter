@@ -65,6 +65,7 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
               ),
               TextFormField(
                 maxLength: 10,
+                initialValue: AccountRegisterState.instance.phone,
                 decoration: InputDecoration(
                   hintText: 'Nhập số điện thoại',
                   contentPadding: EdgeInsets.all(12),

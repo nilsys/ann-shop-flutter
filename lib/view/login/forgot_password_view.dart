@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
@@ -35,6 +37,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       }
     });
 
+    step = 0;
     _controllerBirthDate =
         TextEditingController(text: Utility.fixFormatDate(''));
   }
@@ -50,11 +53,166 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   String password;
   String birthDay;
 
+  int step;
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> children = [
+      SizedBox(
+        height: 10,
+      ),
+      Padding(
+        padding: EdgeInsets.only(bottom: 8),
+        child: Text(
+          'Số di động',
+          style: Theme.of(context).textTheme.body2,
+        ),
+      )
+    ];
+    if (step == 0) {
+      children.addAll([
+        TextFormField(
+          maxLength: 10,
+          readOnly: Utility.isNullOrEmpty(password) == false,
+          decoration: InputDecoration(
+            hintText: 'Nhập số điện thoại',
+            contentPadding: EdgeInsets.all(12),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(
+                  color: Colors.red, width: 1, style: BorderStyle.solid),
+            ),
+          ),
+          keyboardType: TextInputType.number,
+          validator: Validator.phoneNumberValidator,
+          onSaved: (String value) {
+            phone = value;
+          },
+        ),
+        SizedBox(
+          height: 20,
+        )
+      ]);
+    } else {
+      children.addAll([
+        Container(
+          child: Text(
+            phone,
+            style: Theme.of(context).textTheme.title,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        )
+      ]);
+    }
+    if (step == 1) {
+      children.addAll([
+        Padding(
+          padding: EdgeInsets.only(bottom: 8),
+          child: Text(
+            'Ngày sinh',
+            style: Theme.of(context).textTheme.body2,
+          ),
+        ),
+        InkWell(
+          onTap: Utility.isNullOrEmpty(password) ? _showDateTimePicker : null,
+          child: IgnorePointer(
+            child: TextFormField(
+              controller: _controllerBirthDate,
+              readOnly: true,
+              decoration: InputDecoration(
+                hintText: 'Chọn ngày sinh',
+                contentPadding: EdgeInsets.all(12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(
+                      color: Colors.red, width: 1, style: BorderStyle.solid),
+                ),
+              ),
+              keyboardType: TextInputType.datetime,
+              validator: (value) {
+                if (Utility.isNullOrEmpty(value)) {
+                  return 'Chưa chọn ngày sinh';
+                }
+                return null;
+              },
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+      ]);
+    }
+
+    if (step == 0) {
+      children.addAll([
+        PrimaryButton(
+          'Quên mật khẩu',
+          onPressed: _validateInput,
+        ),
+        SizedBox(height: 5),
+      ]);
+    } else {
+      if (Utility.isNullOrEmpty(password)) {
+        children.addAll([
+          PrimaryButton(
+            'Quên mật khẩu',
+            onPressed: _validateInput,
+          ),
+          SizedBox(height: 5),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: TextButton(
+              'Quên ngày sinh',
+              onPressed: () {
+                AccountRegisterState.instance.reset(false, phone: phone);
+                Navigator.popAndPushNamed(context, '/register_input_phone');
+              },
+            ),
+          )
+        ]);
+      } else {
+        children.addAll([
+          Container(
+            padding: EdgeInsets.only(top: 15),
+            alignment: Alignment.center,
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(children: [
+                TextSpan(
+                    text: 'Mật khẩu mới của bạn là:\n',
+                    style: Theme.of(context).textTheme.body1),
+                TextSpan(
+                    text: password, style: Theme.of(context).textTheme.title),
+              ]),
+            ),
+          ),
+          SizedBox(height: 30),
+          PrimaryButton(
+            'Đăng nhập ngay',
+            onPressed: _onSubmit,
+          ),
+        ]);
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Quên mật khẩu'),
+        leading: IconButton(
+            icon:
+                Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
+            onPressed: () {
+              if (step > 0 && Utility.isNullOrEmpty(password) == false) {
+                setState(() {
+                  step--;
+                });
+              } else {
+                Navigator.pop(context);
+              }
+            }),
       ),
       body: Form(
         key: _formKey,
@@ -63,114 +221,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           padding: EdgeInsets.all(defaultPadding),
           child: ListView(
             controller: _scrollController,
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: Text(
-                  'Số di động',
-                  style: Theme.of(context).textTheme.body2,
-                ),
-              ),
-              TextFormField(
-                maxLength: 10,
-                readOnly: Utility.isNullOrEmpty(password) == false,
-                decoration: InputDecoration(
-                  hintText: 'Nhập số điện thoại',
-                  contentPadding: EdgeInsets.all(12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                        color: Colors.red, width: 1, style: BorderStyle.solid),
-                  ),
-                ),
-                keyboardType: TextInputType.number,
-                validator: Validator.phoneNumberValidator,
-                onSaved: (String value) {
-                  phone = value;
-                },
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: Text(
-                  'Ngày sinh',
-                  style: Theme.of(context).textTheme.body2,
-                ),
-              ),
-              InkWell(
-                onTap: _showDateTimePicker,
-                child: IgnorePointer(
-                  child: TextFormField(
-                    controller: _controllerBirthDate,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      hintText: 'Chọn ngày sinh',
-                      contentPadding: EdgeInsets.all(12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 1,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
-                    keyboardType: TextInputType.datetime,
-                    validator: (value) {
-                      if (Utility.isNullOrEmpty(value)) {
-                        return 'Chưa chọn ngày sinh';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ),
-              Utility.isNullOrEmpty(password)
-                  ? SizedBox(
-                      height: 5,
-                    )
-                  : Container(
-                      padding: EdgeInsets.only(top: 15),
-                      alignment: Alignment.center,
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: 'Mật khẩu mới của bạn là:\n',
-                              style: Theme.of(context).textTheme.body1),
-                          TextSpan(
-                              text: password,
-                              style: Theme.of(context).textTheme.button),
-                        ]),
-                      ),
-                    ),
-              SizedBox(height: 30),
-              Utility.isNullOrEmpty(password)
-                  ? PrimaryButton(
-                      'Quên mật khẩu',
-                      onPressed: _validateInput,
-                    )
-                  : PrimaryButton(
-                      'Đăng nhập ngay',
-                      onPressed: _onSubmit,
-                    ),
-              Utility.isNullOrEmpty(password)
-                  ? Container(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: TextButton(
-                        'Quên ngày sinh',
-                        onPressed: () {
-                          AccountRegisterState.instance.reset(false);
-                          Navigator.popAndPushNamed(context, '/register_input_phone');
-                        },
-                      ),
-                    )
-                  : Container()
-            ],
+            children: children,
           ),
         ),
       ),
@@ -217,7 +268,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      _onCheckPhoneNumber();
+      if (step == 0) {
+        _onCheckPhoneNumber();
+      } else {
+        _onForgotPassword();
+      }
     } else {
       setState(() {
         _autoValidate = true;
@@ -237,8 +292,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         hideLoading(context);
         if (response.status) {
           if (response.data) {
-            _onForgotPassword();
-            return;
+            setState(() {
+              step++;
+            });
           } else {
             AppSnackBar.showFlushbar(
                 context, 'Số điện thoại này chưa được đăng ký.');
@@ -252,14 +308,15 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
-      hideLoading(context);
     }
   }
 
   Future _onForgotPassword() async {
     try {
+      showLoading(context);
       AppResponse response = await AccountRepository.instance
           .forgotPasswordByBirthDay(phone, birthDay);
+      hideLoading(context);
       if (response.status) {
         setState(() {
           password = response.data.toString();

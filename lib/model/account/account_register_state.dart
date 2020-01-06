@@ -25,8 +25,8 @@ class AccountRegisterState {
   String password;
   String otp;
 
-  reset(_isRegister) {
-    _phone = null;
+  reset(_isRegister, {phone}) {
+    _phone = phone;
     password = null;
     Random rand = Random();
     otp = '';
