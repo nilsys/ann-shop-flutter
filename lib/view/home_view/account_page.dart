@@ -137,14 +137,14 @@ class _AccountPageState extends State<AccountPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Chào mừng bạn đến với Xưỡng ANN',
-                      style: Theme.of(context).textTheme.caption,
+                      'Chào mừng bạn đến với ANN',
+                      style: Theme.of(context).textTheme.body1,
                       maxLines: 1,
                     ),
                     Text(
                       AccountController.instance.account.fullName??'Cập nhật thông tin ngay!',
-                      style: Theme.of(context).textTheme.body2.merge(
-                          TextStyle(color: Theme.of(context).primaryColor)),
+                      maxLines: 1,
+                      style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18, fontWeight: FontWeight.w600),
                     )
                   ],
                 ),
@@ -186,8 +186,8 @@ class _AccountPageState extends State<AccountPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Chào mừng bạn đến với Xưỡng ANN',
-                      style: Theme.of(context).textTheme.caption,
+                      'Chào mừng bạn đến với ANN',
+                      style: Theme.of(context).textTheme.body1,
                       maxLines: 1,
                     ),
                     Text(

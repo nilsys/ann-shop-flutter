@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
@@ -11,6 +12,7 @@ import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -51,6 +53,23 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Đăng nhập'),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.transparent,
+        elevation: 0,
+        child: Container(
+          height: 50,
+          alignment: Alignment.center,
+          child: TextButton(
+            'Chính sách và điều khoản của ANN',
+            onPressed: () {
+              Navigator.pushNamed(context, '/web-view', arguments: {
+                'url': 'https://ann.com.vn/chinh-sach-bao-mat-thong-tin',
+                'title': 'Chính sách và điều khoản'
+              });
+            },
+          ),
+        ),
       ),
       body: Form(
         key: _formKey,
@@ -141,11 +160,11 @@ class _LoginViewState extends State<LoginView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    TextButton('Đăng ký ngay.', onPressed: () {
+                    TextButton('Đăng ký ngay', onPressed: () {
                       AccountRegisterState.instance.reset(true);
                       Navigator.pushNamed(context, '/register_input_phone');
                     }),
-                    TextButton('Quên mật khẩu.', onPressed: () {
+                    TextButton('Quên mật khẩu', onPressed: () {
                       Navigator.pushNamed(context, '/forgot_password');
                     }),
                   ],
@@ -201,6 +220,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   ProgressDialog _progressDialog;
+
   showLoading() {
     if (_progressDialog == null) {
       _progressDialog = ProgressDialog(context, message: 'Đăng nhập...')

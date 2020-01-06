@@ -44,7 +44,7 @@ class AppAction {
       case ActionType.linkToWebView:
         linkToWebView(context, value, message);
         break;
-      case ActionType.linkToWebPage:
+      case ActionType.linkToBrowser:
         linkToWebPage(context, value);
         break;
       case ActionType.linkToViewMore:
@@ -136,7 +136,7 @@ class ActionType {
   static const String linkToCategory = "category";
   static const String linkToTag = "product_tag";
   static const String linkToSearch = "product_search";
-  static const String linkToWebPage = "open_browser";
+  static const String linkToBrowser = "open_browser";
   static const String linkToWebView = "show_web";
   static const String linkToScreen = "go_to_screen";
   static const String linkToViewMore = "view_more";

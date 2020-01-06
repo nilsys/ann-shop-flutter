@@ -150,11 +150,12 @@ class AccountRepository {
   }
 
   Future<AppResponse> forgotPasswordByBirthDay(
-      String phone, String birthDay, String otp) async {
+      String phone, String birthDay) async {
     try {
+      String newPass = birthDay.replaceAll('-', '').substring(0, 6);
       Map data = {
         "phone": phone,
-        "otp": otp,
+        "otp": newPass,
         "birthday": birthDay,
       };
       String url =

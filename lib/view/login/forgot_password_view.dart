@@ -259,9 +259,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Future _onForgotPassword() async {
     try {
       AppResponse response = await AccountRepository.instance
-          .forgotPasswordByBirthDay(phone, '000000', birthDay);
+          .forgotPasswordByBirthDay(phone, birthDay);
       if (response.status) {
-        password = response.data.toString();
+        setState(() {
+          password = response.data.toString();
+        });
       } else {
         AppSnackBar.showFlushbar(context, 'Ngày sinh không đúng.');
       }
