@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -42,12 +44,13 @@ class AppDynamicLinks{
 
     // todo
     if (deepLink.queryParameters != null) {
-      String type = deepLink.queryParameters['acction']??'';
-      String value = deepLink.queryParameters['acctionValue']??'';
+      String type = deepLink.queryParameters['action']??'';
+      String value = deepLink.queryParameters['actionValue']??'';
+      String message = deepLink.queryParameters['message']??'';
       if (init) {
-        AppAction.instance.onHandleActionInit(context, type, value, 'dynamic_link');
+        AppAction.instance.onHandleActionInit(context, type, value, message);
       } else {
-        AppAction.instance.onHandleAction(context, type, value, 'dynamic_link');
+        AppAction.instance.onHandleAction(context, type, value, message);
       }
     }
   }

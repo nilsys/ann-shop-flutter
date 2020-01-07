@@ -51,7 +51,7 @@ class AppAction {
         linkToViewMore(context, value);
         break;
       default:
-        print("Type don't exist: $action");
+        print("Action don't exist: $action");
         break;
     }
   }

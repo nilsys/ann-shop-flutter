@@ -71,10 +71,10 @@ class AppOneSignal {
 
       if (init) {
         AppAction.instance
-            .onHandleActionInit(MyApp.context, action, value, payload.title);
+            .onHandleActionInit(MyApp.context, action, value, '');
       } else {
         AppAction.instance
-            .onHandleAction(MyApp.context, action, value, payload.title);
+            .onHandleAction(MyApp.context, action, value, '');
       }
     } else if (Utility.isNullOrEmpty(launchUrl) == false) {
       launch(launchUrl);
