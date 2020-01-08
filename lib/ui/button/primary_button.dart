@@ -11,7 +11,8 @@ class PrimaryButton extends StatelessWidget {
     return Container(
       height: 45,
       decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color:
+              onPressed == null ? Colors.grey : Theme.of(context).primaryColor,
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           )),

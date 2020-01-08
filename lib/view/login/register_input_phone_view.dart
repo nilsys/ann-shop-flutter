@@ -82,7 +82,7 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
               ),
               SizedBox(height: 30),
               PrimaryButton(
-                'Gửi OTP',
+                'Xác nhận',
                 onPressed: _validateInput,
               ),
             ],

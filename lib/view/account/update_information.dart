@@ -155,9 +155,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         border: UnderlineInputBorder(),
                       ),
                       validator: (value) {
-                        if (Utility.isNullOrEmpty(value)) {
-                          return 'Chưa nhập địa chỉ';
-                        }
                         return null;
                       },
                       onSaved: (String value) {

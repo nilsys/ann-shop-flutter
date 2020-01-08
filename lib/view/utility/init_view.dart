@@ -18,8 +18,11 @@ class _InitViewState extends State<InitView> {
         children: <Widget>[
           Container(
             color: Theme.of(context).primaryColor,
-            child: Center(
-              child: Image.asset('assets/images/ui/ann.png'),
+            alignment: Alignment.center,
+            child: Container(
+              height: 90,
+              width: 200,
+              child: Image.asset('assets/images/ui/ann.png', fit: BoxFit.fitWidth,),
             ),
           ),
           Positioned(

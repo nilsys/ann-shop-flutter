@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/custom_fade_roue.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/view/account/update_information.dart';
@@ -41,7 +42,7 @@ class Router {
         return MaterialPageRoute(
             builder: (_) => InitView(), settings: settings);
       case '/home':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => HomeView(), settings: settings);
       case '/web-view':
         return MaterialPageRoute(

@@ -129,6 +129,9 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                 ),
                 inputFormatters: [OTPInputFormatter()],
                 keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  setState(() {});
+                },
                 validator: (value) {
                   if (value != AccountRegisterState.instance.otp) {
                     return 'OTP không trùng khớp';
@@ -141,14 +144,19 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
               ),
               SizedBox(height: 30),
               PrimaryButton(
-                'Gửi OTP',
-                onPressed: _validateInput,
+                'Xác nhận',
+                onPressed: checkLength6() ? _validateInput : null,
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  checkLength6() {
+    String text = controllerOTP.text.replaceAll('_', '');
+    return text.length == 6;
   }
 
   void _validateInput() {

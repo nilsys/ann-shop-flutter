@@ -13,8 +13,6 @@ class Core {
     /// init
   }
 
-  static const appVersion = '1.0.0';
-
   static const domain = 'http://xuongann.com/';
 }
 

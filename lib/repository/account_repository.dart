@@ -223,6 +223,7 @@ class AccountRepository {
   }
 
   final cityOfVietnam = [
+    "TP Hồ Chí Minh",
     "An Giang",
     "Bà Rịa – Vũng Tàu",
     "Bắc Giang",
@@ -280,7 +281,6 @@ class AccountRepository {
     "Thanh Hóa",
     "Thừa Thiên Huế",
     "Tiền Giang",
-    "TP Hồ Chí Minh",
     "Trà Vinh",
     "Tuyên Quang",
     "Vĩnh Long",
