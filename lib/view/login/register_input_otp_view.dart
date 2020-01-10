@@ -88,7 +88,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
               Container(
                 padding: EdgeInsets.only(bottom: 8),
                 child: Text(
-                  'Vui lòng nhập OTP đã được gửi đến số điện thoại của Quý khách',
+                  'Vui lòng nhập OTP đã gửi đến số điện thoại ${AccountRegisterState.instance.phone} của Quý khách',
                   style: Theme.of(context).textTheme.body2,
                   textAlign: TextAlign.center,
                 ),

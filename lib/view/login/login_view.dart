@@ -1,8 +1,8 @@
-import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
+import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
@@ -10,10 +10,8 @@ import 'package:ann_shop_flutter/ui/button/text_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/button/primary_button.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -202,6 +200,7 @@ class _LoginViewState extends State<LoginView> {
         hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
+          Provider.of<NavigationProvider>(context).switchTo(PageName.home.index);
           Navigator.pushReplacementNamed(context, '/home');
         } else {
           AppSnackBar.showFlushbar(context,

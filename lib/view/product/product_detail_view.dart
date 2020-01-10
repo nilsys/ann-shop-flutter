@@ -762,11 +762,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
   Widget _buildByCatalog() {
     if (detail != null && Utility.isNullOrEmpty(detail.categorySlug) == false) {
       var category = Category(
-          name: 'Sản phẩm cùng danh mục',
+          name: detail.categoryName,
           filter: ProductFilter(categorySlug: detail.categorySlug));
       return SliverToBoxAdapter(
           child: ProductSlide(
-        category,
+        category,customName: 'Sản phẩm cùng danh mục',
       ));
     } else {
       return SliverToBoxAdapter();

@@ -13,7 +13,6 @@ class BlogItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       child: Container(
         padding: EdgeInsets.all(defaultPadding),
         child: InkWell(

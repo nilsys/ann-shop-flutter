@@ -59,9 +59,9 @@ class _HomeBannerState extends State<HomeBanner>
     CoverProvider provider = Provider.of(context);
     final width = MediaQuery.of(context).size.width - (defaultPadding * 2);
     final height = width * ratio;
-    if(provider.coversHome.data!=null){
-      length=provider.coversHome.data.length;
-    }else{
+    if (provider.coversHome.data != null) {
+      length = provider.coversHome.data.length;
+    } else {
       length = -1;
     }
     return Container(
@@ -70,8 +70,8 @@ class _HomeBannerState extends State<HomeBanner>
         fit: StackFit.expand,
         children: [
           Container(
-            color: Colors.white,
-            margin: EdgeInsets.only(top: height / 2),
+            color: Theme.of(context).primaryColor,
+            margin: EdgeInsets.only(bottom: height / 2),
           ),
           Container(
             decoration: BoxDecoration(

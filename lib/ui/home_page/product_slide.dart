@@ -17,10 +17,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductSlide extends StatefulWidget {
-  ProductSlide(this.group, {this.banner});
+  ProductSlide(this.group, {this.banner, this.customName});
 
   final Cover banner;
   final Category group;
+  final String customName;
 
   @override
   _ProductSlideState createState() => _ProductSlideState();
@@ -43,44 +44,41 @@ class _ProductSlideState extends State<ProductSlide> {
     CategoryProductProvider provider = Provider.of(context);
     var products = provider.getByCategory(currentCategory);
 
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 10,
-            color: AppStyles.dividerColor,
-          ),
-          TitleViewMore(title: widget.group.name),
-          Column(
-            children: <Widget>[
-              _buildBanner(),
-              _buildCategoryButtonList(),
-              Consumer<CategoryProductProvider>(
-                builder: (_, provider, child) {
-                  if (products.isLoading) {
-                    return buildLoading(context);
-                  } else if (products.isError) {
-                    return buildError(context);
+    return Column(
+      children: <Widget>[
+        Container(
+          height: 10,
+          color: AppStyles.dividerColor,
+        ),
+        TitleViewMore(title: widget.customName ?? widget.group.name),
+        Column(
+          children: <Widget>[
+            _buildBanner(),
+            _buildCategoryButtonList(),
+            Consumer<CategoryProductProvider>(
+              builder: (_, provider, child) {
+                if (products.isLoading) {
+                  return buildLoading(context);
+                } else if (products.isError) {
+                  return buildError(context);
+                } else {
+                  if (Utility.isNullOrEmpty(products.data)) {
+                    return buildEmpty(context);
                   } else {
-                    if (Utility.isNullOrEmpty(products.data)) {
-                      return buildEmpty(context);
-                    } else {
-                      return buildProductList(context, products.data);
-                    }
+                    return buildProductList(context, products.data);
                   }
-                },
-              ),
-              BottomViewMore(
-                onPressed: () {
-                  ListProduct.showByCategory(context, currentCategory,
-                      initData: products.data);
-                },
-              ),
-            ],
-          )
-        ],
-      ),
+                }
+              },
+            ),
+            BottomViewMore(
+              onPressed: () {
+                ListProduct.showByCategory(context, currentCategory,
+                    initData: products.data);
+              },
+            ),
+          ],
+        )
+      ],
     );
   }
 

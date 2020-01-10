@@ -4,8 +4,7 @@ import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/ui/button/text_button.dart';
+import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
@@ -60,211 +59,210 @@ class _UpdateInformationState extends State<UpdateInformation> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Thông tin tài khoản'),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'Lưu',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: _validateInput,
-          ),
-        ],
       ),
       body: Container(
+        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         child: Form(
           key: _formKey,
           autovalidate: _autoValidate,
           child: ListView(
             controller: _scrollController,
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
-                child: Text(
-                  'Thông tin cá nhân',
-                  style: Theme.of(context).textTheme.title,
+              SizedBox(height: 20),
+              _buildTitle('Họ và tên'),
+              TextFormField(
+                initialValue: account.fullName,
+                decoration: InputDecoration(
+                  hintText: 'Nhập họ và tên',
+                  hintStyle: hintStyle,
+                  contentPadding: EdgeInsets.all(contentPadding),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: Colors.red, width: 1, style: BorderStyle.solid),
+                  ),
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
+                validator: (value) {
+                  if (Utility.isNullOrEmpty(value)) {
+                    return 'Chưa nhập họ và tên';
+                  }
+                  return null;
+                },
+                onSaved: (String value) {
+                  account.fullName = value;
+                },
+              ),
+              _buildTitle('Số điện thoại'),
+              TextFormField(
+                readOnly: true,
+                initialValue: account.phone,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(contentPadding),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: Colors.red, width: 1, style: BorderStyle.solid),
+                  ),
                 ),
+                keyboardType: TextInputType.number,
+                onSaved: (String value) {
+                  account.phone = value;
+                },
               ),
-              Container(
-                height: 1,
-                color: AppStyles.dividerColor,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      initialValue: account.fullName,
-                      decoration: InputDecoration(
-                        hintText: 'Họ và tên',
+              _buildTitle('Ngày sinh'),
+              InkWell(
+                onTap: _showDateTimePicker,
+                child: IgnorePointer(
+                  child: TextFormField(
+                    controller: _controllerBirthDate,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                        hintText: 'Chọn ngày sinh',
                         hintStyle: hintStyle,
                         contentPadding: EdgeInsets.all(contentPadding),
-                        border: UnderlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (Utility.isNullOrEmpty(value)) {
-                          return 'Chưa nhập họ và tên';
-                        }
-                        return null;
-                      },
-                      onSaved: (String value) {
-                        account.fullName = value;
-                      },
-                    ),
-                    TextFormField(
-                      readOnly: true,
-                      initialValue: account.phone,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(contentPadding),
-                        border: UnderlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                      onSaved: (String value) {
-                        account.phone = value;
-                      },
-                    ),
-                    InkWell(
-                      onTap: _showDateTimePicker,
-                      child: IgnorePointer(
-                        child: TextFormField(
-                          controller: _controllerBirthDate,
-                          readOnly: true,
-                          decoration: InputDecoration(
-                              hintText: 'Chọn ngày sinh',
-                              hintStyle: hintStyle,
-                              contentPadding: EdgeInsets.all(contentPadding),
-                              border: UnderlineInputBorder()),
-                          keyboardType: TextInputType.datetime,
-                          validator: (value) {
-                            if (Utility.isNullOrEmpty(value)) {
-                              return 'Chưa chọn ngày sinh';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      initialValue: account.address,
-                      decoration: InputDecoration(
-                        hintText: 'Địa chỉ',
-                        hintStyle: hintStyle,
-                        contentPadding: EdgeInsets.all(contentPadding),
-                        border: UnderlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        return null;
-                      },
-                      onSaved: (String value) {
-                        account.address = value;
-                      },
-                    ),
-                    InkWell(
-                      onTap: _showCityPicker,
-                      child: IgnorePointer(
-                        child: TextFormField(
-                          controller: _controllerCity,
-                          readOnly: true,
-                          expands: false,
-                          decoration: InputDecoration(
-                            hintText: 'Thành phố',
-                            hintStyle: hintStyle,
-                            contentPadding: EdgeInsets.all(contentPadding),
-                            border: UnderlineInputBorder(),
-                          ),
-                          validator: (value) {
-                            if (Utility.isNullOrEmpty(value)) {
-                              return 'Chưa nhập thành phố';
-                            }
-                            return null;
-                          },
-                          onSaved: (String value) {
-                            account.city = value;
-                          },
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(
-                          contentPadding, 10, contentPadding, 0),
-                      child: Row(
-                        children: <Widget>[
-                          Text('Nam'),
-                          Checkbox(
-                            value: account.gender == 'M',
-                            onChanged: (bool value) {
-                              setState(
-                                () {
-                                  if (value == true) {
-                                    account.gender = 'M';
-                                  }
-                                },
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            width: 50,
-                          ),
-                          Text('Nữ'),
-                          Checkbox(
-                            value: account.gender == 'F',
-                            onChanged: (bool value) {
-                              setState(
-                                () {
-                                  if (value == true) {
-                                    account.gender = 'F';
-                                  }
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    (_autoValidate && Utility.isNullOrEmpty(account.gender))
-                        ? Container(
-                            padding: EdgeInsets.only(
-                                bottom: contentPadding + 10,
-                                left: contentPadding),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Chưa chọn giới tín',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  .merge(TextStyle(color: Colors.red)),
-                            ),
-                          )
-                        : SizedBox(
-                            height: 10,
-                          )
-                  ],
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                              color: Colors.red,
+                              width: 1,
+                              style: BorderStyle.solid),
+                        )),
+                    keyboardType: TextInputType.datetime,
+                    validator: (value) {
+                      if (Utility.isNullOrEmpty(value)) {
+                        return 'Chưa chọn ngày sinh';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ),
-              Container(
-                height: 10,
-                color: AppStyles.dividerColor,
+              _buildTitle('Địa chỉ'),
+              TextFormField(
+                initialValue: account.address,
+                decoration: InputDecoration(
+                  hintText: 'Chọn địa chỉ',
+                  hintStyle: hintStyle,
+                  contentPadding: EdgeInsets.all(contentPadding),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: Colors.red, width: 1, style: BorderStyle.solid),
+                  ),
+                ),
+                validator: (value) {
+                  return null;
+                },
+                onSaved: (String value) {
+                  account.address = value;
+                },
               ),
-              Padding(
-                padding: EdgeInsets.all(defaultPadding),
+              _buildTitle('Thành phố'),
+              InkWell(
+                onTap: _showCityPicker,
+                child: IgnorePointer(
+                  child: TextFormField(
+                    controller: _controllerCity,
+                    readOnly: true,
+                    expands: false,
+                    decoration: InputDecoration(
+                      hintText: 'Chọn thành phố',
+                      hintStyle: hintStyle,
+                      contentPadding: EdgeInsets.all(contentPadding),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                            color: Colors.red,
+                            width: 1,
+                            style: BorderStyle.solid),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (Utility.isNullOrEmpty(value)) {
+                        return 'Chưa nhập thành phố';
+                      }
+                      return null;
+                    },
+                    onSaved: (String value) {
+                      account.city = value;
+                    },
+                  ),
+                ),
+              ),
+              _buildTitle(
+                'Giới tính',
+                padding: EdgeInsets.only(top: 15),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: contentPadding),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    TextButton(
-                      'Đổi mật khẩu',
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/change-password');
+                    Text('Nam'),
+                    Checkbox(
+                      value: account.gender == 'M',
+                      onChanged: (bool value) {
+                        setState(
+                          () {
+                            if (value == true) {
+                              account.gender = 'M';
+                            }
+                          },
+                        );
                       },
                     ),
-                    Container(),
+                    SizedBox(
+                      width: 50,
+                    ),
+                    Text('Nữ'),
+                    Checkbox(
+                      value: account.gender == 'F',
+                      onChanged: (bool value) {
+                        setState(
+                          () {
+                            if (value == true) {
+                              account.gender = 'F';
+                            }
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
-              )
+              ),
+              (_autoValidate && Utility.isNullOrEmpty(account.gender))
+                  ? Container(
+                      padding: EdgeInsets.only(
+                          bottom: contentPadding + 10, left: contentPadding),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Chưa chọn giới tín',
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .merge(TextStyle(color: Colors.red)),
+                      ),
+                    )
+                  : SizedBox(
+                      height: 10,
+                    ),
+              PrimaryButton(
+                'Cập nhật',
+                onPressed: _validateInput,
+              ),
+              SizedBox(height: 30),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  _buildTitle(title, {EdgeInsetsGeometry padding}) {
+    return Padding(
+      padding: padding ?? EdgeInsets.only(bottom: 8, top: 15),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.body2,
       ),
     );
   }
@@ -296,7 +294,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
     );
   }
 
-
   void updateDate(DateTime dateTime) {
     if (dateTime != null) {
       setState(() {
@@ -312,7 +309,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
       _controllerCity.text = account.city;
     });
   }
-
 
   void _validateInput() {
     final form = _formKey.currentState;

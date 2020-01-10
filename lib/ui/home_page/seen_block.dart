@@ -37,7 +37,7 @@ class SeenBlock extends StatelessWidget {
       return SliverToBoxAdapter(
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+//            color: Colors.white,
             border: new Border(
               top: BorderSide(
                 color: AppStyles.dividerColor,

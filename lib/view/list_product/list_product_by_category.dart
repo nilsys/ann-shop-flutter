@@ -66,7 +66,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
           initData: initData,
           topObject: _buildCategoryButtonGrid()),
       bottomNavigationBar:
-          Utility.isNullOrEmpty(message) ? null : DownLoadBackground(),
+          Utility.isNullOrEmpty(message) ? null : BottomAppBar(child: DownLoadBackground(),),
     );
   }
 

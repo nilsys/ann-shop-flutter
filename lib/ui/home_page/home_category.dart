@@ -17,7 +17,6 @@ class HomeCategory extends StatelessWidget {
       return Container();
     } else {
       return Container(
-        color: Colors.white,
         child: Column(
           children: <Widget>[
             TitleViewMore(

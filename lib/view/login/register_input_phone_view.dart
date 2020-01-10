@@ -105,6 +105,11 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
   }
 
   Future _onCheckPhoneNumber() async {
+    if (AccountRegisterState.instance.checkTimeOTP() == false) {
+      Navigator.pushNamed(context, '/register_input_otp');
+      return;
+    }
+
     bool _checkInternet = await checkInternet();
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
@@ -120,7 +125,10 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
             return;
           } else {
             AppSnackBar.showFlushbar(
-                context, AccountRegisterState.instance.isRegister?'Số điện thoại này đã được đăng ký.':'Số điện thoại này chưa được đăng ký.');
+                context,
+                AccountRegisterState.instance.isRegister
+                    ? 'Số điện thoại này đã được đăng ký.'
+                    : 'Số điện thoại này chưa được đăng ký.');
           }
         } else {
           AppSnackBar.showFlushbar(context,
@@ -136,20 +144,15 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
 
   Future _onSubmit() async {
     try {
-      if (AccountRegisterState.instance.checkTimeOTP() == false) {
-        hideLoading(context);
+      AppResponse response = await AccountRepository.instance
+          .registerStep2RequestOTP(AccountRegisterState.instance.phone,
+              AccountRegisterState.instance.otp);
+      if (response.status) {
+        AccountRegisterState.instance.timeOTP = DateTime.now();
         Navigator.pushNamed(context, '/register_input_otp');
       } else {
-        AppResponse response = await AccountRepository.instance
-            .registerStep2RequestOTP(AccountRegisterState.instance.phone,
-                AccountRegisterState.instance.otp);
-        if (response.status) {
-          AccountRegisterState.instance.timeOTP = DateTime.now();
-          Navigator.pushNamed(context, '/register_input_otp');
-        } else {
-          AppSnackBar.showFlushbar(context,
-              response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
-        }
+        AppSnackBar.showFlushbar(context,
+            response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
     } catch (e) {
       print(e);
