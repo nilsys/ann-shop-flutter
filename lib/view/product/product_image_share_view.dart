@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:ann_shop_flutter/core/core.dart';
@@ -5,6 +6,7 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:share_extend/share_extend.dart';
@@ -40,46 +42,73 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Chọn hình ảnh'),
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 5),
-        child: GridView.builder(
-            itemCount: images.length,
-            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 3 / 4,
-                crossAxisSpacing: 5,
-            ),
-            itemBuilder: (context, index) {
-              return _buildImageSelect(images[index]);
-            }),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          height: 45,
-          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Đã chọn ${imagesSelected.length}/6 hình',
-                    style: Theme.of(context).textTheme.button,
+      body: SafeArea(
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: Container(
+                      height: 60,
+                    ),
                   ),
+                  SliverGrid(
+                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio: 3 / 4,
+                      crossAxisSpacing: 5,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return _buildImageSelect(images[index]);
+                      },
+                      childCount: images.length,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Positioned(
+              top: 0,
+              child: Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Platform.isIOS
+                          ? Icons.arrow_back_ios
+                          : Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Đã chọn ${imagesSelected.length}/$maxImage hình',
+                          style: Theme.of(context).textTheme.title,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.share),
+                      onPressed: () {
+                        _onShare();
+                      },
+                    )
+                  ],
                 ),
               ),
-              IconButton(
-                icon: Icon(Icons.share),
-                onPressed: () {
-                  _onShare();
-                },
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
