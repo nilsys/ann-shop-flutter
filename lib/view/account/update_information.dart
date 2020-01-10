@@ -24,7 +24,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
   Account account;
   TextEditingController _controllerBirthDate;
   TextEditingController _controllerCity;
-  final hintStyle = (TextStyle(fontStyle: FontStyle.italic));
 
   @override
   void initState() {
@@ -74,7 +73,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                 initialValue: account.fullName,
                 decoration: InputDecoration(
                   hintText: 'Nhập họ và tên',
-                  hintStyle: hintStyle,
+                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
                   contentPadding: EdgeInsets.all(contentPadding),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -118,7 +117,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     readOnly: true,
                     decoration: InputDecoration(
                         hintText: 'Chọn ngày sinh',
-                        hintStyle: hintStyle,
+                        hintStyle: TextStyle(fontStyle: FontStyle.italic),
                         contentPadding: EdgeInsets.all(contentPadding),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -142,7 +141,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                 initialValue: account.address,
                 decoration: InputDecoration(
                   hintText: 'Chọn địa chỉ',
-                  hintStyle: hintStyle,
+                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
                   contentPadding: EdgeInsets.all(contentPadding),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -167,7 +166,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     expands: false,
                     decoration: InputDecoration(
                       hintText: 'Chọn thành phố',
-                      hintStyle: hintStyle,
+                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
                       contentPadding: EdgeInsets.all(contentPadding),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),

@@ -1,13 +1,11 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordView extends StatefulWidget {
@@ -73,6 +71,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   obscureText: !showPassword,
                   decoration: InputDecoration(
                     hintText: 'Nhập mật khẩu',
+                    hintStyle: TextStyle(fontStyle: FontStyle.italic),
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -117,6 +116,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   obscureText: !showPassword,
                   decoration: InputDecoration(
                     hintText: 'Nhập lại mật khẩu',
+                    hintStyle: TextStyle(fontStyle: FontStyle.italic),
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),

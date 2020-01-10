@@ -76,6 +76,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           readOnly: Utility.isNullOrEmpty(password) == false,
           decoration: InputDecoration(
             hintText: 'Nhập số điện thoại',
+            hintStyle: TextStyle(fontStyle: FontStyle.italic),
             contentPadding: EdgeInsets.all(12),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -123,6 +124,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: 'Chọn ngày sinh',
+                hintStyle: TextStyle(fontStyle: FontStyle.italic),
                 contentPadding: EdgeInsets.all(12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),

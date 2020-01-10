@@ -81,6 +81,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
                     obscureText: !showPassword,
                     decoration: InputDecoration(
                       hintText: 'Nhập mật khẩu',
+                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
                       contentPadding: EdgeInsets.all(12),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -125,6 +126,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
                     obscureText: !showPassword,
                     decoration: InputDecoration(
                       hintText: 'Nhập lại mật khẩu',
+                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
                       contentPadding: EdgeInsets.all(12),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),

@@ -118,6 +118,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                 showCursor: false,
                 decoration: InputDecoration(
                   hintText: '______',
+                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
                   contentPadding: EdgeInsets.all(12),
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,

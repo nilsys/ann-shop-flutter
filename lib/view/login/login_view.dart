@@ -92,6 +92,7 @@ class _LoginViewState extends State<LoginView> {
                 maxLength: 10,
                 decoration: InputDecoration(
                   hintText: 'Nhập số điện thoại',
+                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
                   contentPadding: EdgeInsets.all(12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -120,6 +121,7 @@ class _LoginViewState extends State<LoginView> {
                   obscureText: !showPassword,
                   decoration: InputDecoration(
                     hintText: 'Nhập mật khẩu',
+                    hintStyle: TextStyle(fontStyle: FontStyle.italic),
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),

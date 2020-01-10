@@ -67,6 +67,7 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
                 initialValue: AccountRegisterState.instance.phone,
                 decoration: InputDecoration(
                   hintText: 'Nhập số điện thoại',
+                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
                   contentPadding: EdgeInsets.all(12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
