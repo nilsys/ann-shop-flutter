@@ -247,6 +247,8 @@ class _ProductSlideState extends State<ProductSlide> {
   }
 
   _buildViewMoreButton() {
+    CategoryProductProvider provider = Provider.of(context);
+    var products = provider.getByCategory(currentCategory);
     return Container(
       color: Colors.white,
       width: imageWidth + 15,
@@ -254,7 +256,8 @@ class _ProductSlideState extends State<ProductSlide> {
       child: Center(
         child: InkWell(
           onTap: () {
-            ListProduct.showByCategory(context, currentCategory);
+            ListProduct.showByCategory(context, currentCategory,
+                initData: products.data);
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
