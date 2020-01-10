@@ -65,17 +65,20 @@ class ListProductRepository {
       {page = 1, pageSize = itemPerPage, AppFilter filter}) {
     if (productFilter != null) {
       if (Utility.isNullOrEmpty(productFilter.categorySlug) == false) {
-        return _loadByCategory(productFilter.categorySlug, filter: filter);
+        return _loadByCategory(productFilter.categorySlug,
+            filter: filter, page: page, pageSize: pageSize);
       } else if (Utility.isNullOrEmpty(productFilter.categorySlugList) ==
           false) {
         return _loadByListCategory(productFilter.categorySlugList,
-            filter: filter);
+            filter: filter, page: page, pageSize: pageSize);
       } else if (Utility.isNullOrEmpty(productFilter.productSearch) == false) {
-        return loadBySearch(productFilter.productSearch, filter: filter);
+        return loadBySearch(productFilter.productSearch,
+            filter: filter, page: page, pageSize: pageSize);
       } else if (Utility.isNullOrEmpty(productFilter.tagSlug) == false) {
-        return loadByTag(productFilter.tagSlug, filter: filter);
+        return _loadByTag(productFilter.tagSlug,
+            filter: filter, page: page, pageSize: pageSize);
       } else {
-        return _loadAllByFilter(filter: filter);
+        return _loadAllByFilter(filter: filter, page: page, pageSize: pageSize);
       }
     }
     return null;
@@ -179,7 +182,7 @@ class ListProductRepository {
     return null;
   }
 
-  Future<List<Product>> loadByTag(String text,
+  Future<List<Product>> _loadByTag(String text,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
       var url = Core.domain +
@@ -205,7 +208,7 @@ class ListProductRepository {
 
   cacheProduct(String _keyCache, List<Product> products) {
     var myJsonString =
-    json.encode(products.map((value) => value.toJson()).toList());
+        json.encode(products.map((value) => value.toJson()).toList());
     StorageManager.setObject(_prefixCategoryKey + _keyCache, myJsonString);
   }
 

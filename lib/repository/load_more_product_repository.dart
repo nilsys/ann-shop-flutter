@@ -27,7 +27,7 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
     super.dispose();
   }
 
-  final List<Product> initData;
+  List<Product> initData;
   final ProductFilter productFilter;
 
   int pageIndex;
@@ -52,6 +52,7 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
     print('refresh Loadmore');
     _hasMore = true;
     pageIndex = 1;
+    initData = null;
     var result = await super.refresh(true);
     forceRefresh = true;
     return result;
