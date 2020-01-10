@@ -10,6 +10,7 @@ import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
@@ -287,13 +288,13 @@ class _ProductFullState extends State<ProductFull> {
     print(CopyController.instance.copySetting.showed);
     if (CopyController.instance.copySetting.showed) {
       await _onCopy(context);
-      AppSnackBar.showFlushbar(context, 'Copy', duration: Duration(seconds: 1));
+      AppSnackBar.showFlushbar(context, 'Đã copy', duration: Duration(seconds: 1));
     } else {
       Navigator.pushNamed(context, '/setting');
     }
   }
 
-  _onCopy(context) async{
+  _onCopy(context) async {
     var _text = await widget.product.getTextCopy(hasContent: true);
     _text += '\n';
     _text += CopyController.instance.copySetting.getUserInfo();
@@ -323,26 +324,13 @@ class _ProductFullState extends State<ProductFull> {
 
   _onShare(context) async {
     try {
-      ProgressDialog loading =
-          ProgressDialog(context, message: 'Download images')..show();
+      await _onCopy(context);
+      showLoading(context, message: 'Download...');
       var images = await ProductRepository.instance
           .loadProductAdvertisementImage(widget.product.productID);
-      List<String> files = [];
-      for (int i = 0; i < images.length; i++) {
-        try {
-          var file = await DefaultCacheManager()
-              .getSingleFile(Core.domain + images[i])
-              .timeout(Duration(seconds: 5));
-          files.add(file.path);
-          loading.update('Download ${i + 1}/${images.length} images');
-        } catch (e) {
-          // fail 1
-        }
-      }
-      loading.hide(contextHide: context);
-      if (Utility.isNullOrEmpty(files) == false) {
-        await _onCopy(context);
-        ShareExtend.shareMultiple(files, "image");
+      hideLoading(context);
+      if (Utility.isNullOrEmpty(images) == false) {
+        Navigator.pushNamed(context, '/product-share-image', arguments: images);
       } else {
         throw ('Data empty');
       }

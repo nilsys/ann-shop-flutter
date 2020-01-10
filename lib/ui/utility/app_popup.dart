@@ -4,15 +4,12 @@ import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 
 class AppPopup {
-
   static TextStyle styleTitle({Color color = Colors.black87}) {
-    return TextStyle(
-        color: color, fontWeight: FontWeight.w500, fontSize: 16);
+    return TextStyle(color: color, fontWeight: FontWeight.w500, fontSize: 16);
   }
 
   static TextStyle styleBody({Color color = Colors.black87}) {
-    return TextStyle(
-        color: color, fontWeight: FontWeight.w400, fontSize: 14);
+    return TextStyle(color: color, fontWeight: FontWeight.w400, fontSize: 14);
   }
 
   static Future<void> showImageDialog(BuildContext context,
@@ -93,8 +90,7 @@ class AppPopup {
         textAlign: TextAlign.center,
       );
     }
-    if (messageWidget == null &&
-        Utility.isNullOrEmpty(message) == false) {
+    if (messageWidget == null && Utility.isNullOrEmpty(message) == false) {
       messageWidget = Text(
         message,
         style: styleBody(),
@@ -228,8 +224,7 @@ class ButtonData {
   ButtonData({this.title, this.callback});
 
   static TextStyle styleButton({Color color}) {
-    return TextStyle(
-        color: color, fontWeight: FontWeight.w500, fontSize: 14);
+    return TextStyle(color: color, fontWeight: FontWeight.w500, fontSize: 14);
   }
 
   String title;
@@ -266,12 +261,11 @@ class ButtonData {
   }
 }
 
-
 ProgressDialog _progressDialog;
+
 showLoading(context, {message = 'Loading...'}) {
   if (_progressDialog == null) {
-    _progressDialog = ProgressDialog(context, message: message)
-      ..show();
+    _progressDialog = ProgressDialog(context, message: message)..show();
   }
 }
 
@@ -279,5 +273,11 @@ hideLoading(context) {
   if (_progressDialog != null) {
     _progressDialog.hide(contextHide: context);
     _progressDialog = null;
+  }
+}
+
+updateLoading(String message) {
+  if (_progressDialog != null) {
+    _progressDialog.update(message);
   }
 }

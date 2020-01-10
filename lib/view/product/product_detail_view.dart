@@ -78,7 +78,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   @override
-  void dispose(){
+  void dispose() {
     controllerScroll.dispose();
     super.dispose();
   }
@@ -289,7 +289,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
       AppSnackBar.showFlushbar(context, 'Đang tải dữ liệu. Thử lại sau');
     } else if (CopyController.instance.copySetting.showed) {
       await _onCopy();
-      AppSnackBar.showFlushbar(context, 'Copy', duration: Duration(seconds: 1));
+      AppSnackBar.showFlushbar(context, 'Đã copy',
+          duration: Duration(seconds: 1));
     } else {
       Navigator.pushNamed(context, '/setting');
     }
@@ -589,7 +590,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                           icon: Icon(Icons.favorite_border),
                           onPressed: () {
                             Provider.of<FavoriteProvider>(context)
-                                .addNewProduct(context, detail.toProduct(), count: 1);
+                                .addNewProduct(context, detail.toProduct(),
+                                    count: 1);
                           },
                         ),
                   IconButton(
@@ -661,25 +663,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   _onShare() async {
-    ProgressDialog loading = ProgressDialog(context,
-        message: 'Download ${detail.images.length} images')
-      ..show();
-    var imageList = List<String>();
-    for (int i = 0; i < detail.images.length; i++) {
-      try {
-        var file = await DefaultCacheManager()
-            .getSingleFile(Core.domain + detail.images[i])
-            .timeout(Duration(seconds: 5));
-        imageList.add(file.path);
-        loading.update('Download ${i + 1}/${detail.images.length} images');
-      } catch (e) {
-        // fail 1
-      }
-    }
-
-    loading.hide(contextHide: context);
     await _onCopy();
-    ShareExtend.shareMultiple(imageList, "image");
+    Navigator.pushNamed(context, '/product-share-image',
+        arguments: detail.images);
   }
 
   Widget _buildProductColorSize() {
@@ -766,7 +752,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
           filter: ProductFilter(categorySlug: detail.categorySlug));
       return SliverToBoxAdapter(
           child: ProductSlide(
-        category,customName: 'Sản phẩm cùng danh mục',
+        category,
+        customName: 'Sản phẩm cùng danh mục',
       ));
     } else {
       return SliverToBoxAdapter();
