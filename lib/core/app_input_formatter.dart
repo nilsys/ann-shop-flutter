@@ -36,8 +36,6 @@ class OTPInputFormatter extends TextInputFormatter {
           newText = newText.substring(0, newText.length - 1);
         }
       } else {
-        print(oldValue.text);
-        print(newValue.text);
       }
     }else {
       newText = newText.replaceAll(RegExp('[^0-9]'), '');
