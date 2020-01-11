@@ -21,6 +21,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
   @override
   void initState() {
     super.initState();
+    print(AccountRegisterState.instance.otp);
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.offset < -50) {
@@ -69,7 +70,6 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
 
   @override
   Widget build(BuildContext context) {
-    print(AccountRegisterState.instance.otp);
     return Scaffold(
       appBar: AppBar(
         title: Text('Nhập OTP'),

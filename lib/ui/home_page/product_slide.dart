@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
@@ -133,15 +135,16 @@ class _ProductSlideState extends State<ProductSlide> {
   double get itemHeight => imageHeight + 140;
 
   Widget buildProductList(BuildContext context, List<Product> data) {
+    int length = min(data.length, 8);
     return Container(
       height: itemHeight,
       padding: EdgeInsets.only(left: 0, right: 0),
       child: ListView.builder(
         controller: controller,
         scrollDirection: Axis.horizontal,
-        itemCount: data.length + 1,
+        itemCount: length + 1,
         itemBuilder: (context, index) {
-          if (index == data.length) {
+          if (index == length) {
             return _buildViewMoreButton();
           }
           return ProductItem(
@@ -250,7 +253,6 @@ class _ProductSlideState extends State<ProductSlide> {
     CategoryProductProvider provider = Provider.of(context);
     var products = provider.getByCategory(currentCategory);
     return Container(
-      color: Colors.white,
       width: imageWidth + 15,
       padding: EdgeInsets.only(right: 15, bottom: 120),
       child: Center(

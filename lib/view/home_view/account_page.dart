@@ -140,7 +140,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget _buildAccount() {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/update-information');
+        Navigator.pushNamed(context, '/update-information', arguments: false);
       },
       child: Container(
         height: 80,

@@ -119,7 +119,7 @@ class Router {
             builder: (_) => RegisterSuccessView(), settings: settings);
       case '/update-information':
         return MaterialPageRoute(
-            builder: (_) => UpdateInformation(), settings: settings);
+            builder: (_) => UpdateInformation(isRegister: data??false,), settings: settings);
       case '/order-management':
         return MaterialPageRoute(
             builder: (_) => OrderManagementView(), settings: settings);

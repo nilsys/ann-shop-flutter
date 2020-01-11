@@ -198,17 +198,13 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
         hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
-          if (AccountRegisterState.instance.isRegister) {
-            Provider.of<NavigationProvider>(context)
-                .switchTo(PageName.account.index);
-          } else {
-            Provider.of<NavigationProvider>(context)
-                .switchTo(PageName.home.index);
-          }
+          Provider.of<NavigationProvider>(context)
+              .switchTo(PageName.home.index);
           Navigator.pushNamedAndRemoveUntil(
               context, '/home', (Route<dynamic> route) => false);
           if (AccountRegisterState.instance.isRegister) {
-            Navigator.pushNamed(context, '/update-information');
+            Navigator.pushNamed(context, '/update-information',
+                arguments: true);
           }
         } else {
           AppSnackBar.showFlushbar(context,

@@ -29,15 +29,19 @@ class OTPInputFormatter extends TextInputFormatter {
     }
 
     String newText = newValue.text;
-
-    if (oldValue.text.contains('_') && newText.length == 5) {
-      newText = newText.replaceAll(RegExp('[^0-9.]'), '');
-      if (newText.length > 0) {
-        newText = newText.substring(0, newText.length - 1);
+    if(newText.length == 5) {
+      if (oldValue.text.contains('_')) {
+        newText = newText.replaceAll(RegExp('[^0-9]'), '');
+        if (newText.length > 0) {
+          newText = newText.substring(0, newText.length - 1);
+        }
+      } else {
+        print(oldValue.text);
+        print(newValue.text);
       }
+    }else {
+      newText = newText.replaceAll(RegExp('[^0-9]'), '');
     }
-
-    newText = newText.replaceAll(RegExp('[^0-9.]'), '');
     for (int i = newText.length; i < 6; i++) {
       newText += '_';
     }
