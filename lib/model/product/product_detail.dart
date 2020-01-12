@@ -8,7 +8,7 @@ class ProductDetail extends Product {
   List<ProductSize> sizes;
   List<ProductTag> tags;
   List<ProductDiscount> discounts;
-
+  List<ProductCarousel> carousel;
   String content;
   List<String> contentImages;
 
@@ -64,6 +64,15 @@ class ProductDetail extends Product {
       json['discounts'].forEach((v) {
         _detail.discounts.add(new ProductDiscount.fromJson(v));
       });
+    }
+    if (json['carousel'] != null) {
+      _detail.carousel = new List<ProductCarousel>();
+      json['carousel'].forEach((v) {
+        _detail.carousel.add(new ProductCarousel.fromJson(v));
+      });
+    }
+    if(Utility.isNullOrEmpty(_detail.carousel)){
+      _detail.carousel=[ProductCarousel(origin: '', feature: '', thumbnail: '')];
     }
 
     _detail.content = json['content'];

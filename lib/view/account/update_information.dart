@@ -6,7 +6,6 @@ import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
-import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
@@ -15,7 +14,6 @@ import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart
 import 'package:intl/intl.dart';
 
 class UpdateInformation extends StatefulWidget {
-
   UpdateInformation({this.isRegister = false});
 
   @override
@@ -62,10 +60,10 @@ class _UpdateInformationState extends State<UpdateInformation> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async{
-        if(widget.isRegister){
+      onWillPop: () async {
+        if (widget.isRegister) {
           return Future.value(false);
-        }else{
+        } else {
           return Future.value(true);
         }
       },
@@ -73,12 +71,27 @@ class _UpdateInformationState extends State<UpdateInformation> {
         appBar: AppBar(
           centerTitle: true,
           title: Text('Thông tin tài khoản'),
-          leading: widget.isRegister?Container():IconButton(
-            icon: Icon(
-                Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          leading: widget.isRegister
+              ? Container()
+              : IconButton(
+                  icon: Icon(
+                      Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: Theme.of(context).primaryColor,
+          child: FlatButton(
+            child: Text(
+              'Cập nhật',
+              style: Theme.of(context)
+                  .textTheme
+                  .button
+                  .merge(TextStyle(color: Colors.white)),
+            ),
+            onPressed: _validateInput,
           ),
         ),
         body: Container(
@@ -100,7 +113,9 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                          color: Colors.red, width: 1, style: BorderStyle.solid),
+                          color: Colors.red,
+                          width: 1,
+                          style: BorderStyle.solid),
                     ),
                   ),
                   validator: (value) {
@@ -122,7 +137,9 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                          color: Colors.red, width: 1, style: BorderStyle.solid),
+                          color: Colors.red,
+                          width: 1,
+                          style: BorderStyle.solid),
                     ),
                   ),
                   keyboardType: TextInputType.number,
@@ -168,7 +185,9 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                          color: Colors.red, width: 1, style: BorderStyle.solid),
+                          color: Colors.red,
+                          width: 1,
+                          style: BorderStyle.solid),
                     ),
                   ),
                   validator: (value) {
@@ -266,10 +285,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     : SizedBox(
                         height: 10,
                       ),
-                PrimaryButton(
-                  'Cập nhật',
-                  onPressed: _validateInput,
-                ),
                 SizedBox(height: 30),
               ],
             ),

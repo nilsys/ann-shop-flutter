@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/core/core.dart';
@@ -10,7 +10,7 @@ import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
+import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/button_gradient.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
@@ -28,13 +28,9 @@ import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/download_background.dart';
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:share_extend/share_extend.dart';
 
 class ProductDetailView extends StatefulWidget {
   ProductDetailView({@required this.slug});
@@ -130,7 +126,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
               ),
               OptionMenuProduct(
                 onCopy: () {
-                  _onCheckAndCopy();
+                  ProductRepository.instance
+                      .onCheckAndCopy(context, detail.productID);
                 },
                 onDownload: () {
                   if (data.isCompleted) {
@@ -142,7 +139,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 },
                 onShare: () {
                   if (data.isCompleted) {
-                    _onShare();
+                    ProductRepository.instance
+                        .onShare(context, detail.productID);
                   } else {
                     AppSnackBar.showFlushbar(
                         context, 'Đang tải dữ liệu. Thử lại sau');
@@ -163,32 +161,26 @@ class _ProductDetailViewState extends State<ProductDetailView>
                         arguments: {'index': indexImage, 'data': data.data});
                   },
                   child: Stack(
+                    fit: StackFit.expand,
                     children: <Widget>[
                       PageView.builder(
-                        itemCount: detail.images.length,
+                        itemCount: detail.carousel.length,
                         controller: controllerPage,
                         onPageChanged: (index) {
-                          setState(() {
-                            indexImage = index;
-                          });
+                          indexImage = index;
                         },
                         itemBuilder: (context, index) {
                           return Container(
                             alignment: Alignment.center,
-                            child: Hero(
-                              tag: detail.images[0] +
-                                  index.toString() +
-                                  detail.sku,
-                              child: AppImage(
-                                Core.domain + detail.images[index],
-                                fit: BoxFit.contain,
-                              ),
+                            child: AppImage(
+                              Core.domain + detail.carousel[index].feature,
+                              fit: BoxFit.contain,
                             ),
                           );
                         },
                       ),
                       ButtonDownload(
-                        imageName: detail.images[indexImage],
+                        imageName: detail.carousel[indexImage].origin,
                       ),
                     ],
                   ),
@@ -197,7 +189,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               SizedBox(
                 height: 10,
               ),
-              _buildImageSelect(detail.images),
+              _buildImageSelect(detail.carousel),
             ]),
           ),
           SliverPadding(
@@ -283,26 +275,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  _onCheckAndCopy() async {
-    print(CopyController.instance.copySetting.showed);
-    if (detail == null) {
-      AppSnackBar.showFlushbar(context, 'Đang tải dữ liệu. Thử lại sau');
-    } else if (CopyController.instance.copySetting.showed) {
-      await _onCopy();
-      AppSnackBar.showFlushbar(context, 'Đã copy',
-          duration: Duration(seconds: 1));
-    } else {
-      Navigator.pushNamed(context, '/setting');
-    }
-  }
-
-  _onCopy() async {
-    var _text = await detail.getTextCopy(hasContent: true);
-    _text += '\n';
-    _text += CopyController.instance.copySetting.getUserInfo();
-    Clipboard.setData(new ClipboardData(text: _text));
-  }
-
   _buildTitle(title) {
     return SliverList(
       delegate: SliverChildListDelegate([
@@ -335,19 +307,19 @@ class _ProductDetailViewState extends State<ProductDetailView>
 
   _buildListImageOrLoadMore() {
     if (detail != null) {
-      List<String> images = [];
+      List images = [];
       if (Utility.isNullOrEmpty(detail.contentImages) == false) {
         images.addAll(detail.contentImages);
       }
-      if (Utility.isNullOrEmpty(detail.images) == false) {
+      if (Utility.isNullOrEmpty(detail.carousel) == false) {
         if ((Utility.isNullOrEmpty(detail.contentImages) == false)) {
-          for (var item in detail.images) {
-            if (images.contains(item) == false) {
-              images.remove(item);
+          for (var item in detail.carousel) {
+            if (images.contains(item.origin) == false) {
+              images.remove(item.origin);
             }
           }
         }
-        images.addAll(detail.images);
+        images.addAll(detail.carousel);
       }
       if (Utility.isNullOrEmpty(images)) {
         return SliverToBoxAdapter();
@@ -400,13 +372,31 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  int indexImage = 0;
+  int _indexImage = 0;
 
-  Widget _buildImageSelect(images) {
+  int get indexImage => _indexImage;
+
+  set indexImage(int indexImage) {
+    double _offset = 0;
+    if (indexImage >= 4) {
+      _offset = (indexImage - 3) * 75.0;
+    }
+    thumbnailController.animateTo(_offset,
+        duration: Duration(milliseconds: 500), curve: Curves.linear);
+    setState(() {
+      _indexImage = indexImage;
+    });
+  }
+
+  ScrollController thumbnailController = ScrollController();
+
+  Widget _buildImageSelect(List<ProductCarousel> images) {
     return Container(
       height: 70,
       child: ListView.builder(
+        physics: ClampingScrollPhysics(),
         scrollDirection: Axis.horizontal,
+        controller: thumbnailController,
         itemCount: images.length + 2,
         itemBuilder: (context, index) {
           if (index == (images.length + 1) || index == 0) {
@@ -414,7 +404,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               width: defaultPadding,
             );
           } else {
-            return _imageButton(images[index - 1], index: index - 1);
+            return _imageButton(images[index - 1].thumbnail, index: index - 1);
           }
         },
       ),
@@ -461,12 +451,22 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  Widget _buildViewMore(String image) {
+  Widget _buildViewMore(var image) {
+    String feature = '';
+    String origin = '';
+    if (image is String) {
+      feature = image;
+      origin = image;
+    } else {
+      ProductCarousel carousel = image;
+      feature = carousel.feature;
+      origin = carousel.origin;
+    }
     return SliverToBoxAdapter(
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          AppImage(image),
+          AppImage(feature),
           InkWell(
             onTap: () {
               setState(() {
@@ -517,7 +517,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  Widget _buildListImage(List<String> images) {
+  Widget _buildListImage(List images) {
     if (Utility.isNullOrEmpty(images)) {
       return SliverToBoxAdapter();
     } else {
@@ -526,23 +526,36 @@ class _ProductDetailViewState extends State<ProductDetailView>
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              var tag = 'list_image$index';
+              var tag = 'list_content_image$index';
+              String feature = '';
+              String origin = '';
+              if (images[index] is String) {
+                feature = images[index];
+                origin = images[index];
+              } else {
+                ProductCarousel carousel = images[index];
+                feature = carousel.feature;
+                origin = carousel.origin;
+              }
               return InkWell(
                 onTap: () {
                   Navigator.pushNamed(context, '/image-view',
-                      arguments: {'url': images[index], 'tag': tag});
+                      arguments: {'url': origin, 'tag': tag});
                 },
                 child: Container(
                   margin: EdgeInsets.only(bottom: 15),
                   child: Stack(
                     children: <Widget>[
-                      Hero(
-                          tag: images[index] + tag,
-                          child: AppImage(images[index])),
-                      ButtonDownload(
-                        imageName: images[index],
-                        cache: true,
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Hero(
+                            tag: tag,
+                            child: AppImage(
+                              feature,
+                              fit: BoxFit.fitWidth,
+                            )),
                       ),
+                      ButtonDownload(imageName: origin, cache: true),
                     ],
                   ),
                 ),
@@ -615,7 +628,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     ),
                     onPressed: () {
                       if (detail != null) {
-                        _onShare();
+                        ProductRepository.instance
+                            .onShare(context, detail.productID);
                       } else {
                         AppSnackBar.showFlushbar(
                             context, 'Đang tải dữ liệu. Thử lại sau');
@@ -628,7 +642,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                       color: iconColor,
                     ),
                     onPressed: () {
-                      _onCheckAndCopy();
+                      ProductRepository.instance
+                          .onCheckAndCopy(context, detail.productID);
                     },
                   ),
                 ],
@@ -652,20 +667,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
         btnHighlight: ButtonData(
             title: 'Lưu',
             callback: () {
-              bool result = Provider.of<DownloadImageProvider>(context)
-                  .downloadImages(detail.images);
-              if (result == false) {
-                AppSnackBar.showFlushbar(
-                    context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
-              }
+              ProductRepository.instance.onDownLoad(context, detail.productID);
             }),
         btnNormal: ButtonData(title: 'Không', callback: null));
-  }
-
-  _onShare() async {
-    await _onCopy();
-    Navigator.pushNamed(context, '/product-share-image',
-        arguments: detail.images);
   }
 
   Widget _buildProductColorSize() {

@@ -17,6 +17,7 @@ class NavigationProvider extends ChangeNotifier{
       reTap.add(index);
     }
   }
+
 }
 
 enum PageName { home, category, search,notification, account}

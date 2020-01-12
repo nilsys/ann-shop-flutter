@@ -20,8 +20,7 @@ class ProductImageBySizeAndColor extends StatefulWidget {
 
 class _ProductImageBySizeAndColorState
     extends State<ProductImageBySizeAndColor> {
-  int indexImage = 0;
-  List<String> images;
+  List<ProductCarousel> carousel;
   ProductDetail detail;
   PageController controller;
   int currentSize;
@@ -40,7 +39,7 @@ class _ProductImageBySizeAndColorState
       setState(() {
         isLoading = false;
         if (Utility.isNullOrEmpty(image) == false) {
-          int index = images.indexOf(image);
+          int index = indexOf(image);
           print('indexOf: $index');
           if (index >= 0) {
             animationToPage(index);
@@ -54,6 +53,15 @@ class _ProductImageBySizeAndColorState
     }
   }
 
+  indexOf(String url) {
+    for (int i = 0; i < carousel.length; i++) {
+      if (carousel[i].origin == url) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   animationToPage(index) {
     controller.animateToPage(index,
         duration: Duration(milliseconds: 500), curve: Curves.easeIn);
@@ -63,12 +71,13 @@ class _ProductImageBySizeAndColorState
   void initState() {
     // TODO: implement initState
     super.initState();
-    indexImage = widget.data['index'];
+    _indexImage = widget.data['index']??0;
     detail = widget.data['data'];
-    images = detail.images;
+    carousel = detail.carousel;
     currentSize = 0;
     currentColor = 0;
     controller = new PageController(initialPage: indexImage);
+    thumbnailController =  ScrollController(initialScrollOffset: getOffsetByIndex(_indexImage));
   }
 
   @override
@@ -100,51 +109,70 @@ class _ProductImageBySizeAndColorState
             child: Stack(
               children: <Widget>[
                 PageView.builder(
-                    itemCount: images.length,
+                    itemCount: carousel.length,
                     controller: controller,
                     onPageChanged: (index) {
-                      setState(() {
                         indexImage = index;
-                      });
                     },
                     itemBuilder: (context, index) {
                       return Container(
                         alignment: Alignment.center,
-                        child: Hero(
-                          tag: images[0] + index.toString() + detail.sku,
-                          child: AppImage(
-                            Core.domain + images[index],
-                            fit: BoxFit.contain,
-                          ),
+                        child: AppImage(
+                          Core.domain + carousel[index].origin,
+                          fit: BoxFit.contain,
                         ),
                       );
                     }),
                 ButtonDownload(
-                  imageName: images[indexImage],
+                  imageName: carousel[indexImage].origin,
                 ),
               ],
             )),
-        _buildImageSelect(images),
+        _buildImageSelect(carousel),
         _buildSizesSelect(),
         _buildColorsSelect(),
       ],
     );
   }
 
-  Widget _buildImageSelect(images) {
+  int _indexImage = 0;
+
+  int get indexImage => _indexImage;
+
+  set indexImage(int indexImage) {
+    thumbnailController.animateTo(getOffsetByIndex(indexImage),
+        duration: Duration(milliseconds: 500), curve: Curves.linear);
+    setState(() {
+      _indexImage = indexImage;
+    });
+  }
+  double getOffsetByIndex(indexImage){
+    double _offset = 0;
+    if (indexImage >= 4) {
+      _offset = (indexImage - 3) * 75.0;
+    }
+    return _offset;
+  }
+
+  ScrollController thumbnailController;
+
+
+  Widget _buildImageSelect(List<ProductCarousel> carousel) {
     return Container(
       height: 80,
       padding: EdgeInsets.symmetric(vertical: 5),
       child: ListView.builder(
+        physics: ClampingScrollPhysics(),
+        controller: thumbnailController,
         scrollDirection: Axis.horizontal,
-        itemCount: images.length + 2,
+        itemCount: carousel.length + 2,
         itemBuilder: (context, index) {
-          if (index == (images.length + 1) || index == 0) {
+          if (index == (carousel.length + 1) || index == 0) {
             return SizedBox(
               width: defaultPadding,
             );
           } else {
-            return _imageButton(images[index - 1], index: index - 1);
+            return _imageButton(carousel[index - 1].thumbnail, index: index - 1);
           }
         },
       ),

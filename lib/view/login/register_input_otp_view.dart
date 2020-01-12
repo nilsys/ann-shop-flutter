@@ -63,6 +63,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
   @override
   void dispose() {
     _scrollController.dispose();
+    stream.takeWhile((value){return true;});
     super.dispose();
   }
 

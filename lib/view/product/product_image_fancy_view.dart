@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
@@ -15,10 +16,8 @@ class ProductImageFancyView extends StatefulWidget {
   _ProductImageFancyViewState createState() => _ProductImageFancyViewState();
 }
 
-class _ProductImageFancyViewState extends State<ProductImageFancyView>
-{
-  int indexImage = 0;
-  List<String> images;
+class _ProductImageFancyViewState extends State<ProductImageFancyView> {
+  List<ProductCarousel> carousel;
   ProductDetail detail;
   PageController controller;
 
@@ -26,10 +25,11 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView>
   void initState() {
     // TODO: implement initState
     super.initState();
-    indexImage = widget.data['index'];
+    _indexImage = widget.data['index'];
     detail = widget.data['data'];
-    images = detail.images;
+    carousel = detail.carousel;
     controller = new PageController(initialPage: indexImage);
+    thumbnailController =  ScrollController(initialScrollOffset: getOffsetByIndex(_indexImage));
   }
 
   @override
@@ -40,26 +40,18 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView>
           fit: StackFit.expand,
           children: <Widget>[
             PageView.builder(
-                itemCount: images.length,
+                itemCount: carousel.length,
                 controller: controller,
                 onPageChanged: (index) {
-                  setState(() {
-                    indexImage = index;
-                  });
+                  indexImage = index;
                 },
                 itemBuilder: (context, index) {
                   return Container(
                     alignment: Alignment.center,
-                    child: Hero(
-                      tag: images[0] +
-                          index.toString() +
-                          detail.sku,
-                      child: GestureZoomBox(
-                        child: AppImage(
-                          Core.domain + images[index],
-                          fit: BoxFit.contain,
-                        ),
-
+                    child: GestureZoomBox(
+                      child: AppImage(
+                        Core.domain + carousel[index].origin,
+                        fit: BoxFit.contain,
                       ),
                     ),
                   );
@@ -71,21 +63,46 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView>
                 Navigator.pop(context, indexImage);
               }),
             ),
-            ButtonDownload(imageName: images[indexImage],),
+            ButtonDownload(
+              imageName: carousel[indexImage].origin,
+            ),
           ],
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        child: _buildImageSelect(images),
+        child: _buildImageSelect(carousel),
       ),
     );
   }
 
-  Widget _buildImageSelect(images) {
+  int _indexImage = 0;
+
+  int get indexImage => _indexImage;
+
+  set indexImage(int indexImage) {
+    thumbnailController.animateTo(getOffsetByIndex(indexImage),
+        duration: Duration(milliseconds: 500), curve: Curves.linear);
+    setState(() {
+      _indexImage = indexImage;
+    });
+  }
+  double getOffsetByIndex(indexImage){
+    double _offset = 0;
+    if (indexImage >= 4) {
+      _offset = (indexImage - 3) * 75.0;
+    }
+    return _offset;
+  }
+
+  ScrollController thumbnailController;
+
+  Widget _buildImageSelect(List<ProductCarousel> images) {
     return Container(
       height: 80,
       padding: EdgeInsets.symmetric(vertical: 5),
       child: ListView.builder(
+        controller: thumbnailController,
+        physics: ClampingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: images.length + 2,
         itemBuilder: (context, index) {
@@ -94,7 +111,7 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView>
               width: defaultPadding,
             );
           } else {
-            return _imageButton(images[index - 1], index: index - 1);
+            return _imageButton(images[index - 1].thumbnail, index: index - 1);
           }
         },
       ),
@@ -122,7 +139,8 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView>
       margin: EdgeInsets.symmetric(horizontal: 5),
       child: InkWell(
         onTap: () {
-          controller.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+          controller.animateToPage(index,
+              duration: Duration(milliseconds: 500), curve: Curves.easeIn);
         },
         child: Opacity(
           opacity: isSelect ? 1 : 0.5,

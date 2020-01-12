@@ -141,5 +141,6 @@ class _HomeViewState extends State<HomeView>
   resumeCallBack() {
     print('App resume call back');
     FocusScope.of(context).requestFocus(FocusNode());
+    print(MediaQuery.of(context).viewInsets.bottom);
   }
 }

@@ -87,7 +87,7 @@ class Product {
     badge = json['badge'];
     availability = json['availability'];
     avatar = json['avatar'];
-    images = json['images'].cast<String>();
+    images = json['images']==null?[]:json['images'].cast<String>();
     regularPrice = json['regularPrice'];
     oldPrice = json['oldPrice'];
     retailPrice = json['retailPrice'];
@@ -219,6 +219,28 @@ class ProductDiscount {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['price'] = this.price;
+    return data;
+  }
+}
+
+class ProductCarousel {
+  String origin;
+  String feature;
+  String thumbnail;
+
+  ProductCarousel({this.origin, this.feature, this.thumbnail});
+
+  ProductCarousel.fromJson(Map<String, dynamic> json) {
+    origin = json['origin'];
+    feature = json['feature'];
+    thumbnail = json['thumbnail'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['origin'] = this.origin;
+    data['feature'] = this.feature;
+    data['thumbnail'] = this.thumbnail;
     return data;
   }
 }

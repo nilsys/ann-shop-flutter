@@ -202,7 +202,7 @@ class _LoginViewState extends State<LoginView> {
         hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
-          Provider.of<NavigationProvider>(context).switchTo(PageName.home.index);
+          Provider.of<NavigationProvider>(context).index = PageName.home.index;
           Navigator.pushReplacementNamed(context, '/home');
         } else {
           AppSnackBar.showFlushbar(context,

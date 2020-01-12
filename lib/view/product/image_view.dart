@@ -5,11 +5,17 @@ import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:gesture_zoom_box/gesture_zoom_box.dart';
 
-class ImageView extends StatelessWidget {
-  ImageView(data) {
-    url = data['url'];
-    tag = data['tag'];
-  }
+class ImageView extends StatefulWidget {
+  ImageView(this.data);
+
+  final data;
+
+  @override
+  _ImageViewState createState() => _ImageViewState(data['url'], data['tag']);
+}
+
+class _ImageViewState extends State<ImageView> {
+  _ImageViewState(this.url, this.tag);
 
   var url;
   var tag;
@@ -24,7 +30,7 @@ class ImageView extends StatelessWidget {
               alignment: Alignment.center,
               child: GestureZoomBox(
                 child: Hero(
-                  tag: url + tag,
+                  tag: tag,
                   child: AppImage(
                     Core.domain + url,
                     fit: BoxFit.contain,
@@ -40,7 +46,7 @@ class ImageView extends StatelessWidget {
               }),
             ),
             ButtonDownload(
-              imageName: url,
+              imageName:  url,
               cache: true,
             ),
           ],

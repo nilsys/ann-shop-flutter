@@ -3,21 +3,13 @@ import 'dart:math';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
-import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
-import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:share_extend/share_extend.dart';
 
 class ProductFull extends StatefulWidget {
   ProductFull(this.product);
@@ -236,7 +228,8 @@ class _ProductFullState extends State<ProductFull> {
             onPressed: isDownload
                 ? null
                 : () {
-                    _onDownLoad(context);
+                    ProductRepository.instance
+                        .onDownLoad(context, widget.product.productID);
                     setState(() {
                       isDownload = true;
                     });
@@ -248,7 +241,8 @@ class _ProductFullState extends State<ProductFull> {
               color: iconColor,
             ),
             onPressed: () {
-              _onShare(context);
+              ProductRepository.instance
+                  .onShare(context, widget.product.productID);
             },
           ),
           IconButton(
@@ -257,7 +251,8 @@ class _ProductFullState extends State<ProductFull> {
               color: iconColor,
             ),
             onPressed: () {
-              _onCheckAndCopy(context);
+              ProductRepository.instance
+                  .onCheckAndCopy(context, widget.product.productID);
             },
           ),
         ],
@@ -268,77 +263,20 @@ class _ProductFullState extends State<ProductFull> {
   _buildListDot() {
     List listIndex = List.generate(itemCount, (index) => index);
     return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: listIndex
-            .map(
-              (index) => Container(
-                margin: EdgeInsets.all(2),
-                width: index == currentPage ? 16 : 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: index == currentPage ? Colors.white : Colors.grey,
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                ),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: listIndex
+          .map(
+            (index) => Container(
+              margin: EdgeInsets.all(2),
+              width: index == currentPage ? 16 : 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: index == currentPage ? Colors.white : Colors.grey,
+                borderRadius: BorderRadius.all(Radius.circular(5)),
               ),
-            )
-            .toList());
-  }
-
-  _onCheckAndCopy(context) async {
-    print(CopyController.instance.copySetting.showed);
-    if (CopyController.instance.copySetting.showed) {
-      await _onCopy(context);
-      AppSnackBar.showFlushbar(context, 'Đã copy', duration: Duration(seconds: 1));
-    } else {
-      Navigator.pushNamed(context, '/setting');
-    }
-  }
-
-  _onCopy(context) async {
-    var _text = await widget.product.getTextCopy(hasContent: true);
-    _text += '\n';
-    _text += CopyController.instance.copySetting.getUserInfo();
-    Clipboard.setData(new ClipboardData(text: _text));
-  }
-
-  _onDownLoad(context) async {
-    try {
-      var images = await ProductRepository.instance
-          .loadProductAdvertisementImage(widget.product.productID);
-      if (Utility.isNullOrEmpty(images)) {
-        AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
-            duration: Duration(seconds: 1));
-      } else {
-        bool result =
-            Provider.of<DownloadImageProvider>(context).downloadImages(images);
-        if (result == false) {
-          AppSnackBar.showFlushbar(
-              context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
-        }
-      }
-    } catch (e) {
-      AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
-          duration: Duration(seconds: 1));
-    }
-  }
-
-  _onShare(context) async {
-    try {
-      await _onCopy(context);
-      showLoading(context, message: 'Download...');
-      var images = await ProductRepository.instance
-          .loadProductAdvertisementImage(widget.product.productID);
-      hideLoading(context);
-      if (Utility.isNullOrEmpty(images) == false) {
-        Navigator.pushNamed(context, '/product-share-image', arguments: images);
-      } else {
-        throw ('Data empty');
-      }
-    } catch (e) {
-      print(e);
-      AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
-          duration: Duration(seconds: 1));
-      return;
-    }
+            ),
+          )
+          .toList(),
+    );
   }
 }

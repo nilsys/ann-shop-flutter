@@ -198,8 +198,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
         hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
-          Provider.of<NavigationProvider>(context)
-              .switchTo(PageName.home.index);
+          Provider.of<NavigationProvider>(context).index = PageName.home.index;
           Navigator.pushNamedAndRemoveUntil(
               context, '/home', (Route<dynamic> route) => false);
           if (AccountRegisterState.instance.isRegister) {

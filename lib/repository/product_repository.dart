@@ -2,12 +2,21 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
+import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
+import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
+import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:html_unescape/html_unescape.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ProductRepository {
   static final ProductRepository instance = ProductRepository._internal();
@@ -170,14 +179,27 @@ class ProductRepository {
   /// http://xuongann.com/api/flutter/product/1/advertisement-content
   Future<String> loadProductAdvertisementContent(int id) async {
     try {
+      CopySetting copySetting = CopyController.instance.copySetting;
+      Map data = {
+        "shopPhone": copySetting.phoneNumber,
+        "shopAddress": copySetting.address,
+        "showSKU": copySetting.productCode,
+        "showProductName": copySetting.productName,
+        "increntPrice": copySetting.bonusPrice
+      };
       final url = Core.domain + 'api/flutter/product/$id/advertisement-content';
       final response = await http
-          .get(url, headers: AccountController.instance.header)
+          .post(url,
+              headers: AccountController.instance.header,
+              body: jsonEncode(data))
           .timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        return response.body;
+
+        String result = HtmlUnescape().convert(response.body);
+        result=result.replaceAll(r'\r\n', '\n');
+        return result;
       }
     } catch (e) {
       log(e.toString());
@@ -195,6 +217,63 @@ class ProductRepository {
       log(url);
       log(response.body);
     } catch (e) {}
+  }
+
+  onCheckAndCopy(context, productID) async {
+    if (CopyController.instance.copySetting.showed) {
+      await onCopy(context, productID);
+      AppSnackBar.showFlushbar(context, 'Đã copy',
+          duration: Duration(seconds: 1));
+    } else {
+      Navigator.pushNamed(context, '/setting');
+    }
+  }
+
+  onCopy(context, productID) async {
+    String result = await ProductRepository.instance
+        .loadProductAdvertisementContent(productID);
+    Clipboard.setData(new ClipboardData(text: result));
+  }
+
+  onShare(context, int productID) async {
+    try {
+      await onCopy(context, productID);
+      showLoading(context, message: 'Download...');
+      var images = await ProductRepository.instance
+          .loadProductAdvertisementImage(productID);
+      hideLoading(context);
+      if (Utility.isNullOrEmpty(images) == false) {
+        Navigator.pushNamed(context, '/product-share-image', arguments: images);
+      } else {
+        throw ('API fail');
+      }
+    } catch (e) {
+      print(e);
+      AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
+          duration: Duration(seconds: 1));
+      return;
+    }
+  }
+
+  onDownLoad(context, int productID) async {
+    try {
+      var images = await ProductRepository.instance
+          .loadProductAdvertisementImage(productID);
+      if (Utility.isNullOrEmpty(images)) {
+        AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
+            duration: Duration(seconds: 1));
+      } else {
+        bool result =
+            Provider.of<DownloadImageProvider>(context).downloadImages(images);
+        if (result == false) {
+          AppSnackBar.showFlushbar(
+              context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
+        }
+      }
+    } catch (e) {
+      AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
+          duration: Duration(seconds: 1));
+    }
   }
 
   /// LOG
