@@ -11,7 +11,6 @@ class ProductRelatedItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         border: new Border.all(

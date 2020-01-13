@@ -43,7 +43,7 @@ class FavoriteButton extends StatelessWidget {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        provider.products.length.toString(),
+                        provider.products.length< 10 ? provider.products.length.toString(): '+',
                         style: TextStyle(color: Colors.white, fontSize: 10),
                       ),
                     ),

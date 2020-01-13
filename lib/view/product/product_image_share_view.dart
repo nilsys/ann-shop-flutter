@@ -45,11 +45,22 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
 
   @override
   Widget build(BuildContext context) {
+    bool isEmpty = Utility.isNullOrEmpty(imagesSelected);
     return WillPopScope(
       onWillPop: () async {
         return Future.value(false);
       },
       child: Scaffold(
+        bottomNavigationBar: BottomAppBar(
+          color: isEmpty ? Colors.grey : Theme.of(context).primaryColor,
+          child: FlatButton(
+            child: Text(
+              'Tiếp',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: isEmpty ? null : _onCheckAndShare,
+          ),
+        ),
         body: SafeArea(
           child: Stack(
             fit: StackFit.expand,
@@ -113,11 +124,13 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
                           ),
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.share),
-                        onPressed: () {
-                          _onShare();
-                        },
+                      FlatButton(
+                        child: Text(
+                          'Tiếp',
+                          style: Theme.of(context).textTheme.button.merge(
+                              TextStyle(color: Theme.of(context).primaryColor)),
+                        ),
+                        onPressed: _onCheckAndShare,
                       )
                     ],
                   ),
@@ -190,6 +203,27 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
             )
           : imageWidget,
     );
+  }
+
+  _onCheckAndShare() {
+    if (imagesSelected.length > 10) {
+      AppPopup.showImageDialog(context,
+          image: Icon(
+            Icons.share,
+            size: 70,
+            color: Theme.of(context).primaryColor,
+          ),
+          title:
+              'Nếu bạn muốn chia sẽ lên ZALO thì chỉ được chọn tối đa 10 hình',
+          btnHighlight: ButtonData(
+              title: 'Tiếp tục',
+              callback: () {
+                _onShare();
+              }),
+          btnNormal: ButtonData(title: 'Chọn lại', callback: null));
+    } else {
+      _onShare();
+    }
   }
 
   _onShare() async {

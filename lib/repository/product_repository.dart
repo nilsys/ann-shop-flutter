@@ -116,9 +116,9 @@ class ProductRepository {
   }
 
   /// http://xuongann.com/api/flutter/product/ao-thun-nam-ca-sau-adidas/related
-  Future<List<ProductRelated>> loadRelatedOfProduct(String slug) async {
+  Future<List<ProductRelated>> loadRelatedOfProduct(String slug, {page = 1, pageSize = itemPerPage} ) async {
     try {
-      final url = Core.domain + 'api/flutter/product/$slug/related';
+      final url = Core.domain + 'api/flutter/product/$slug/related?pageNumber=$page&pageSize=$pageSize';
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));

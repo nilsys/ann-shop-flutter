@@ -84,16 +84,17 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
         color: Colors.white,
         child: Column(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(defaultPadding),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                category.name,
-                style: Theme.of(context).textTheme.title,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.left,
-              ),
-            ),
+//            Container(
+//              padding: EdgeInsets.all(defaultPadding),
+//              alignment: Alignment.centerLeft,
+//              child: Text(
+//                category.name,
+//                style: Theme.of(context).textTheme.title,
+//                overflow: TextOverflow.ellipsis,
+//                textAlign: TextAlign.left,
+//              ),
+//            ),
+          SizedBox(height: 15,),
             Container(
               height: crossAxisCount * 100.0,
               padding: EdgeInsets.only(left: 0, right: 0),

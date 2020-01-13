@@ -8,8 +8,10 @@ import 'package:loading_more_list/loading_more_list.dart';
 class CustomLoadMoreIndicator extends StatelessWidget {
   final LoadingMoreBase listSourceRepository;
   final IndicatorStatus status;
+  final noMoreLoadText;
+  final emptyText;
 
-  CustomLoadMoreIndicator(this.listSourceRepository, this.status);
+  CustomLoadMoreIndicator(this.listSourceRepository, this.status, {this.noMoreLoadText = 'Đã hiển thị tất cả sản phẩm', this.emptyText = 'Không tìm thấy sản phẩm nào'});
 
   @override
   Widget build(BuildContext context) {
@@ -108,11 +110,11 @@ class CustomLoadMoreIndicator extends StatelessWidget {
         }
         break;
       case IndicatorStatus.noMoreLoad:
-        widget = Text("Đã hiển thị tất cả sản phẩm.");
+        widget = Text(noMoreLoadText);
         widget = _setBackGround(false, widget, 25.0);
         break;
       case IndicatorStatus.empty:
-        widget = EmptyListUI(body: 'Không tìm thấy sản phẩm nào',);
+        widget = EmptyListUI(body: emptyText,);
         widget =
             _setBackGround(true, widget, double.infinity, context: context);
 

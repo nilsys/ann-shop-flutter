@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
-import 'package:ann_shop_flutter/repository/load_more_inapp_repository.dart';
+import 'package:ann_shop_flutter/repository/load_more/load_more_inapp_repository.dart';
 import 'package:ann_shop_flutter/ui/inapp/inapp_item.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +61,7 @@ class _BuildAllViewState extends State<ListInApp> {
   }
 
   Widget _buildIndicator(BuildContext context, IndicatorStatus status) {
-    return CustomLoadMoreIndicator(listSourceRepository, status);
+    return CustomLoadMoreIndicator(listSourceRepository, status, noMoreLoadText: 'Đã hiện thị tất cả tin',emptyText: 'Không có tin nào',);
   }
 
   Future<void> onRefresh() async {
