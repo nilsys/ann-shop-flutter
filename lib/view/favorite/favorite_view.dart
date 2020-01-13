@@ -6,6 +6,7 @@ import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
+import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,48 +21,58 @@ class _FavoriteViewState extends State<FavoriteView> {
   Widget build(BuildContext context) {
     List<ProductFavorite> data =
         Provider.of<FavoriteProvider>(context).products;
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+    return WillPopScope(
+      onWillPop: () async {
+        return Future.value(false);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              if (MediaQuery.of(context).viewInsets.bottom > 100) {
+                Navigator.pop(context);
+                showDialog(context: context, child: FixViewInsetsBottom());
+              } else {
+                Navigator.pop(context);
+              }
+            },
+          ),
+          title: Text('Danh sách yêu thích'),
+          actions: Utility.isNullOrEmpty(data)
+              ? null
+              : [
+                  IconButton(
+                    icon: Icon(Icons.delete, color: Colors.white),
+                    onPressed: _onRemoveAll,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.share, color: Colors.white),
+                    onPressed: _onShare,
+                  ),
+                ],
         ),
-        title: Text('Danh sách yêu thích'),
-        actions: Utility.isNullOrEmpty(data)
-            ? null
-            : [
-                IconButton(
-                  icon: Icon(Icons.delete, color: Colors.white),
-                  onPressed: _onRemoveAll,
-                ),
-                IconButton(
-                  icon: Icon(Icons.share, color: Colors.white),
-                  onPressed: _onShare,
-                ),
-              ],
-      ),
-      body: Container(
-        child: CustomScrollView(
-          physics: BouncingScrollPhysics(),
-          slivers: <Widget>[
-            Utility.isNullOrEmpty(data)
-                ? _buildEmpty(context)
-                : SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return Column(
-                        children: <Widget>[
-                          ProductFavoriteItem(data[index]),
-                          Container(
-                            height: 1,
-                            color: AppStyles.dividerColor,
-                          )
-                        ],
-                      );
-                    }, childCount: data.length),
-                  )
-          ],
+        body: Container(
+          child: CustomScrollView(
+            physics: BouncingScrollPhysics(),
+            slivers: <Widget>[
+              Utility.isNullOrEmpty(data)
+                  ? _buildEmpty(context)
+                  : SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        return Column(
+                          children: <Widget>[
+                            ProductFavoriteItem(data[index]),
+                            Container(
+                              height: 1,
+                              color: AppStyles.dividerColor,
+                            )
+                          ],
+                        );
+                      }, childCount: data.length),
+                    )
+            ],
+          ),
         ),
       ),
     );
