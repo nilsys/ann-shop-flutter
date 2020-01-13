@@ -140,7 +140,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 onShare: () {
                   if (data.isCompleted) {
                     ProductRepository.instance
-                        .onShare(context, detail.productID);
+                        .onShare(context, detail);
                   } else {
                     AppSnackBar.showFlushbar(
                         context, 'Đang tải dữ liệu. Thử lại sau');
@@ -629,7 +629,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     onPressed: () {
                       if (detail != null) {
                         ProductRepository.instance
-                            .onShare(context, detail.productID);
+                            .onShare(context, detail);
                       } else {
                         AppSnackBar.showFlushbar(
                             context, 'Đang tải dữ liệu. Thử lại sau');

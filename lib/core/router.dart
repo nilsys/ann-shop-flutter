@@ -28,6 +28,7 @@ import 'package:ann_shop_flutter/view/product/product_image_share_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';
 import 'package:ann_shop_flutter/view/utility/file_view.dart';
+import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:ann_shop_flutter/view/utility/init_view.dart';
 import 'package:ann_shop_flutter/view/utility/view_more_page.dart';
 import 'package:ann_shop_flutter/view/utility/web_view.dart';

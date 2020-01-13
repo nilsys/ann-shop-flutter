@@ -1,31 +1,35 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
+import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:share_extend/share_extend.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class ProductImageShareView extends StatefulWidget {
   ProductImageShareView(this.data);
 
-  final List<String> data;
+  final Map data;
 
   @override
-  _ProductImageShareViewState createState() =>
-      _ProductImageShareViewState(data);
+  _ProductImageShareViewState createState() => _ProductImageShareViewState(
+      data['images'], data['message'], data['title']);
 }
 
 class _ProductImageShareViewState extends State<ProductImageShareView> {
-  _ProductImageShareViewState(this.images);
+  _ProductImageShareViewState(this.images, this.message, this.title);
 
+  final limit = 30;
   final List<String> images;
-  var maxImage = 6;
+  final String message;
+  final String title;
+  var maxImage = 30;
   List<String> imagesSelected;
 
   @override
@@ -33,82 +37,94 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
     // TODO: implement initState
     super.initState();
     imagesSelected = new List();
-    for (int i = 0; i < images.length && i < 6; i++) {
+    maxImage = min(limit, images.length);
+    for (int i = 0; i < images.length && i < maxImage; i++) {
       imagesSelected.add(images[i]);
     }
-    maxImage = min(6, images.length);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              child: CustomScrollView(
-                slivers: <Widget>[
-                  SliverToBoxAdapter(
-                    child: Container(
-                      height: 60,
-                    ),
-                  ),
-                  SliverGrid(
-                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 3 / 4,
-                      crossAxisSpacing: 5,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return _buildImageSelect(images[index]);
-                      },
-                      childCount: images.length,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Positioned(
-              top: 0,
-              child: Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Platform.isIOS
-                          ? Icons.arrow_back_ios
-                          : Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    Expanded(
-                      flex: 1,
+    return WillPopScope(
+      onWillPop: () async {
+        return Future.value(false);
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverToBoxAdapter(
                       child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Đã chọn ${imagesSelected.length}/$maxImage hình',
-                          style: Theme.of(context).textTheme.title,
-                          maxLines: 1,
-                        ),
+                        height: 60,
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.share),
-                      onPressed: () {
-                        _onShare();
-                      },
+                    SliverGrid(
+                      gridDelegate:
+                          new SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 3 / 4,
+                        crossAxisSpacing: 5,
+                      ),
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return _buildImageSelect(images[index]);
+                        },
+                        childCount: images.length,
+                      ),
                     )
                   ],
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                top: 0,
+                child: Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Platform.isIOS
+                            ? Icons.arrow_back_ios
+                            : Icons.arrow_back),
+                        onPressed: () {
+                          if (MediaQuery.of(context).viewInsets.bottom > 100) {
+                            Navigator.pop(context);
+                            showDialog(
+                                context: context, child: FixViewInsetsBottom());
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        },
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Đã chọn ${imagesSelected.length}/$maxImage hình',
+                            style: Theme.of(context).textTheme.title,
+                            maxLines: 1,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.share),
+                        onPressed: () {
+                          _onShare();
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -123,7 +139,8 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
             imagesSelected.remove(url);
           } else {
             if (imagesSelected.length >= maxImage) {
-              AppSnackBar.showFlushbar(context, 'Chỉ được chọn tối đa 6 hình');
+              AppSnackBar.showFlushbar(
+                  context, 'Chỉ được chọn tối đa $maxImage hình');
             } else {
               imagesSelected.add(url);
             }
@@ -185,12 +202,16 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
       }
       showLoading(context, message: 'Download...');
       List<String> files = [];
+      Map<String, List<int>> mapByte = {};
       for (int i = 0; i < images.length; i++) {
         try {
           var file = await DefaultCacheManager()
               .getSingleFile(Core.domain + images[i])
               .timeout(Duration(seconds: 5));
           files.add(file.path);
+          Uint8List bytes = file.readAsBytesSync();
+          mapByte['image_$i.png'] = bytes;
+          print(file.path);
           updateLoading('Download ${i + 1}/${images.length} images');
         } catch (e) {
           // fail 1
@@ -198,7 +219,8 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
       }
       hideLoading(context);
       if (Utility.isNullOrEmpty(files) == false) {
-        ShareExtend.shareMultiple(files, "image");
+//        ShareExtend.shareMultiple(files, "image");
+        Share.files(title, mapByte, '*/*', text: message);
       } else {
         throw ('Data empty');
       }

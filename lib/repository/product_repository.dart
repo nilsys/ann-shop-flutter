@@ -196,9 +196,8 @@ class ProductRepository {
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
-
         String result = HtmlUnescape().convert(response.body);
-        result=result.replaceAll(r'\r\n', '\n');
+        result = result.replaceAll(r'\r\n', '\n');
         return result;
       }
     } catch (e) {
@@ -229,21 +228,26 @@ class ProductRepository {
     }
   }
 
-  onCopy(context, productID) async {
+  Future<String> onCopy(context, productID) async {
     String result = await ProductRepository.instance
         .loadProductAdvertisementContent(productID);
     Clipboard.setData(new ClipboardData(text: result));
+    return result;
   }
 
-  onShare(context, int productID) async {
+  onShare(context, Product product) async {
     try {
-      await onCopy(context, productID);
+      var message = await onCopy(context, product.productID);
       showLoading(context, message: 'Download...');
       var images = await ProductRepository.instance
-          .loadProductAdvertisementImage(productID);
+          .loadProductAdvertisementImage(product.productID);
       hideLoading(context);
       if (Utility.isNullOrEmpty(images) == false) {
-        Navigator.pushNamed(context, '/product-share-image', arguments: images);
+        Navigator.pushNamed(context, '/product-share-image', arguments: {
+          'images': images,
+          'title': product.name,
+          'message': message
+        });
       } else {
         throw ('API fail');
       }

@@ -8,6 +8,7 @@ import 'package:ann_shop_flutter/view/home_view/account_page.dart';
 import 'package:ann_shop_flutter/view/home_view/category_page.dart';
 import 'package:ann_shop_flutter/view/home_view/home_page.dart';
 import 'package:ann_shop_flutter/view/home_view/search_page.dart';
+import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -140,7 +141,9 @@ class _HomeViewState extends State<HomeView>
 
   resumeCallBack() {
     print('App resume call back');
-    FocusScope.of(context).requestFocus(FocusNode());
     print(MediaQuery.of(context).viewInsets.bottom);
+    if (MediaQuery.of(context).viewInsets.bottom > 100) {
+      showDialog(context: context, child: FixViewInsetsBottom());
+    }
   }
 }

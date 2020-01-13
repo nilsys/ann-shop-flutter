@@ -242,7 +242,7 @@ class _ProductFullState extends State<ProductFull> {
             ),
             onPressed: () {
               ProductRepository.instance
-                  .onShare(context, widget.product.productID);
+                  .onShare(context, widget.product);
             },
           ),
           IconButton(
