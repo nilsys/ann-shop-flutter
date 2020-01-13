@@ -14,7 +14,6 @@ import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:html_unescape/html_unescape.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 

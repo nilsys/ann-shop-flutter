@@ -28,8 +28,9 @@ class UtilityRepository {
     }
     try {
       final url = Core.domain + 'api/flutter/post/policies';
-      final response = await http.get(url,
-          headers: AccountController.instance.header).timeout(Duration(seconds: 5));
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
@@ -40,6 +41,30 @@ class UtilityRepository {
         });
         cachePolicy = _data;
         return _data;
+      }
+    } catch (e) {
+      log(e);
+    }
+    return null;
+  }
+
+  Map cacheContact;
+
+  Future<Map> loadContact() async {
+    if (Utility.isNullOrEmpty(cacheContact) == false) {
+      return cacheContact;
+    }
+    try {
+      final url = Core.domain + 'api/flutter/shop/contact';
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 5));
+      log(url);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(response.body);
+        cachePolicy = message;
+        return message;
       }
     } catch (e) {
       log(e);

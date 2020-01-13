@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
@@ -35,6 +36,11 @@ class SearchPage extends StatelessWidget {
             child: SearchInput(),
             margin: EdgeInsets.only(right: defaultPadding),
           ),
+          actions: <Widget>[
+            IconButton(icon: Icon(AppIcons.barcode),onPressed: (){
+
+            },)
+          ],
         ),
         body: SearchIntro(),
       ),
