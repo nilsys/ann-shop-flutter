@@ -116,9 +116,11 @@ class ProductRepository {
   }
 
   /// http://xuongann.com/api/flutter/product/ao-thun-nam-ca-sau-adidas/related
-  Future<List<ProductRelated>> loadRelatedOfProduct(String slug, {page = 1, pageSize = itemPerPage} ) async {
+  Future<List<ProductRelated>> loadRelatedOfProduct(String slug,
+      {page = 1, pageSize = itemPerPage}) async {
     try {
-      final url = Core.domain + 'api/flutter/product/$slug/related?pageNumber=$page&pageSize=$pageSize';
+      final url = Core.domain +
+          'api/flutter/product/$slug/related?pageNumber=$page&pageSize=$pageSize';
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
@@ -194,10 +196,10 @@ class ProductRepository {
               body: jsonEncode(data))
           .timeout(Duration(seconds: 5));
       log(url);
+      log(data);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        String result = HtmlUnescape().convert(response.body);
-        result = result.replaceAll(r'\r\n', '\n');
+        String result = utf8.decode(response.bodyBytes);
         return result;
       }
     } catch (e) {

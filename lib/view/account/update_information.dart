@@ -128,25 +128,27 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     account.fullName = value;
                   },
                 ),
-                _buildTitle('Số điện thoại'),
-                TextFormField(
-                  readOnly: true,
-                  initialValue: account.phone,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(contentPadding),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                          style: BorderStyle.solid),
-                    ),
-                  ),
-                  keyboardType: TextInputType.number,
-                  onSaved: (String value) {
-                    account.phone = value;
-                  },
-                ),
+                widget.isRegister ? Container() : _buildTitle('Số điện thoại'),
+                widget.isRegister
+                    ? Container()
+                    : TextFormField(
+                        readOnly: true,
+                        initialValue: account.phone,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(contentPadding),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                                color: Colors.red,
+                                width: 1,
+                                style: BorderStyle.solid),
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
+                        onSaved: (String value) {
+                          account.phone = value;
+                        },
+                      ),
                 _buildTitle('Ngày sinh'),
                 InkWell(
                   onTap: _showDateTimePicker,
@@ -179,7 +181,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                 TextFormField(
                   initialValue: account.address,
                   decoration: InputDecoration(
-                    hintText: 'Chọn địa chỉ',
+                    hintText: 'Nhập địa chỉ',
                     hintStyle: TextStyle(fontStyle: FontStyle.italic),
                     contentPadding: EdgeInsets.all(contentPadding),
                     border: OutlineInputBorder(

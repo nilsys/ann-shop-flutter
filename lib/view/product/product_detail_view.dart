@@ -180,7 +180,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 Text(
-                  detail.name,
+                  detail.sku + ' - ' + detail.name,
                   style: Theme.of(context).textTheme.title,
                 ),
                 SizedBox(

@@ -195,9 +195,8 @@ class _InfoProductState extends State<InfoProduct> {
 
     /// 6 View
     if (Utility.isNullOrEmpty(detail.discounts) == false) {
+      children.add(_buildTitle('Chiết khấu'));
       if (isFull) {
-        children.add(_buildTitle('Chiết khấu'));
-
         for (var item in detail.discounts) {
           children.add(Row(
             children: <Widget>[
