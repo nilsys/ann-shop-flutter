@@ -34,7 +34,7 @@ class SearchPage extends StatelessWidget {
           title: SearchInput(),
           actions: <Widget>[
             IconButton(
-              icon: Icon(AppIcons.barcode),
+              icon: Icon(AppIcons.qrcode),
               onPressed: () {
                 Router.scanBarCode(context);
               },
