@@ -76,7 +76,7 @@ class _AccountPageState extends State<AccountPage> {
                     icon: Icons.question_answer, onTap: () {
                   Navigator.pushNamed(context, '/shop-policy');
                 }),
-                _buildItemCommon('Cài đặt', icon: Icons.settings, onTap: () {
+                _buildItemCommon('Cài đặt copy sản phẩm', icon: Icons.settings, onTap: () {
                   Navigator.pushNamed(context, '/setting');
                 }),
                 Container(

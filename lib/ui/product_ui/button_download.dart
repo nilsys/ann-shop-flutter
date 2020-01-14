@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -69,7 +71,8 @@ class _ButtonDownloadState extends State<ButtonDownload> {
           .getSingleFile(Core.domain + widget.imageName)
           .timeout(Duration(seconds: 10));
       print(file.path);
-      await ImageGallerySaver.saveFile(file.path).timeout(Duration(seconds: 3));
+      Uint8List bytes = file.readAsBytesSync();
+      await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));
       if (widget.cache == false) {
         AppSnackBar.showHighlightTopMessage(
             context, 'Lưu hình ảnh thành công.');
@@ -82,6 +85,7 @@ class _ButtonDownloadState extends State<ButtonDownload> {
         }
       });
     } catch (e) {
+      print(e);
       AppSnackBar.showHighlightTopMessage(context, 'Lưu hình ảnh thất bại.');
       setState(() {
         loading = loadState.none;

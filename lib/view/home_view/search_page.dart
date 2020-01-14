@@ -17,14 +17,14 @@ class SearchPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
-                Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
+            icon:
+                Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
             onPressed: () {
               if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
                 FocusScope.of(context).requestFocus(FocusNode());
-                if(Navigator.canPop(context)){
+                if (Navigator.canPop(context)) {
                   Navigator.pop(context);
-                }else{
+                } else {
                   Provider.of<NavigationProvider>(context)
                       .switchTo(PageName.home.index);
                 }
@@ -32,14 +32,13 @@ class SearchPage extends StatelessWidget {
             },
           ),
           titleSpacing: 0,
-          title: Container(
-            child: SearchInput(),
-            margin: EdgeInsets.only(right: defaultPadding),
-          ),
+          title: SearchInput(),
           actions: <Widget>[
-            IconButton(icon: Icon(AppIcons.barcode),onPressed: (){
-
-            },)
+            IconButton(
+              icon: Icon(AppIcons.barcode),
+              onPressed: () {},
+              padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+            )
           ],
         ),
         body: SearchIntro(),

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/main.dart';
@@ -45,7 +47,8 @@ class DownloadImageProvider extends ChangeNotifier {
           .getSingleFile(Core.domain + images[_index])
           .timeout(Duration(seconds: 10));
       print(file.path);
-      await ImageGallerySaver.saveFile(file.path).timeout(Duration(seconds: 3));
+      Uint8List bytes = file.readAsBytesSync();
+      await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));
       print('Save ${_index + 1}/${images.length}');
     } catch (e) {
       countFail++;
