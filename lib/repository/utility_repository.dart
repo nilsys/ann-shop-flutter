@@ -51,7 +51,7 @@ class UtilityRepository {
   Map cacheContact;
 
   Future<Map> loadContact() async {
-    if (Utility.isNullOrEmpty(cacheContact) == false) {
+    if (cacheContact != null) {
       return cacheContact;
     }
     try {
@@ -63,7 +63,7 @@ class UtilityRepository {
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
-        cachePolicy = message;
+        cacheContact = message;
         return message;
       }
     } catch (e) {

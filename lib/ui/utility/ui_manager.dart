@@ -1,6 +1,8 @@
 import 'package:ann_shop_flutter/locale/app_translations.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UIManager {
   static get decorationBorder => BoxDecoration(
@@ -21,7 +23,17 @@ class UIManager {
             Radius.circular(5),
           ),
       );
-
+  static buildLink(name, link) {
+    return TextSpan(
+      text: name,
+      style: TextStyle(
+          decoration: TextDecoration.underline, fontWeight: FontWeight.normal, color: Colors.blue),
+      recognizer: new TapGestureRecognizer()
+        ..onTap = () {
+          launch(link);
+        },
+    );
+  }
   static Widget btnClose({VoidCallback onPressed}) {
     return InkWell(
       onTap: onPressed,

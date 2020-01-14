@@ -1,20 +1,29 @@
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/repository/utility_repository.dart';
+import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ShopContact extends StatelessWidget {
+class ShopContact extends StatefulWidget {
+  @override
+  _ShopContactState createState() => _ShopContactState();
+}
+
+class _ShopContactState extends State<ShopContact> {
   final styleTitle = TextStyle(
       fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black87);
+
   final styleBody = TextStyle(
-      fontSize: 18, fontWeight: FontWeight.normal, color: Colors.black87);
+      fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black87);
+
   final styleLink = TextStyle(
-      fontSize: 18, fontWeight: FontWeight.normal, color: Colors.blue);
+      fontSize: 16, fontWeight: FontWeight.normal, color: Colors.blue);
 
   @override
   Widget build(BuildContext context) {
@@ -34,56 +43,50 @@ class ShopContact extends StatelessWidget {
                 final urlWebsite = data['urlWebsite'];
                 final address = data['address'];
                 final timeWork = data['timeWork'];
-                final phones =
+                final List<String> phones =
                     data['phone'] == null ? [] : data['phone'].cast<String>();
 
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-                  child: ListView(
-                    children: <Widget>[
-                      SizedBox(height: 20),
-                      RichText(
-                        text: TextSpan(children: [
-                          _buildTitle('Địa chỉ: '),
-                          _buildBody(address),
-                          _buildLink('(xem bản đồ Google)', urlMap),
-                        ]),
-                      ),
-                      SizedBox(height: 20),
-                      RichText(
-                        text: TextSpan(children: [
-                          _buildTitle('Zalo: '),
-                          _buildLinkZalo(phones[0]),
-                          _buildBody('  -  '),
-                          _buildLinkZalo(phones[1]),
-                          _buildBody('  -  '),
-                          _buildLinkZalo(phones[2]),
-                          _buildBody('  -  '),
-                          _buildLinkZalo(phones[3]),
-                        ]),
-                      ),
-                      SizedBox(height: 20),
-                      RichText(
-                        text: TextSpan(children: [
-                          _buildTitle('Facebook: '),
-                          _buildLink(urlFB, urlFB),
-                        ]),
-                      ),
-                      SizedBox(height: 20),
-                      RichText(
-                        text: TextSpan(children: [
-                          _buildTitle('Website: '),
-                          _buildLink(urlWebsite, urlWebsite),
-                        ]),
-                      ),
-                      SizedBox(height: 20),
-                      RichText(
-                        text: TextSpan(children: [
-                          _buildTitle(timeWork),
-                        ]),
-                      ),
-                    ],
-                  ),
+                List<Widget> children = [
+                  _buildTitle('Địa chỉ', Icons.location_on)
+                ];
+                if (Utility.isNullOrEmpty(address) == false) {
+                  children.add(_buildSubMenu(address));
+                }
+                if (Utility.isNullOrEmpty(urlMap) == false) {
+                  children.add(_buildSubLink('Xem trên bản đồ', onTap: () {
+                    launch(urlMap);
+                  }));
+                }
+                children.add(_buildTitle('Website', Icons.web));
+                if (Utility.isNullOrEmpty(urlWebsite) == false) {
+                  children.add(_buildSubLink(urlWebsite, onTap: () {
+                    launch(urlWebsite);
+                  }));
+                }
+                if (Utility.isNullOrEmpty(urlFB) == false) {
+                  children.add(_buildSubLink('Facebook', onTap: () {
+                    launch(urlFB);
+                  }));
+                }
+                if (Utility.isNullOrEmpty(phones) == false) {
+                  children.add(_buildTitle('Zalo/ Điện thoại', Icons.phone));
+                  children.addAll(
+                    phones
+                        .map((item) => _buildSubLink(item, onTap: () {
+                              _callPhone(item);
+                            }))
+                        .toList(),
+                  );
+                }
+                if (Utility.isNullOrEmpty(timeWork) == false) {
+                  children.add(
+                      _buildTitle('Thời gian làm việc', Icons.access_time));
+                  children.add(_buildSubMenu(timeWork));
+                }
+                children.add(SizedBox(height: 20));
+
+                return ListView(
+                  children: children,
                 );
               }
             },
@@ -91,54 +94,113 @@ class ShopContact extends StatelessWidget {
     );
   }
 
-  _buildTitle(name) {
-    return TextSpan(
-      text: name,
-      style: styleTitle,
+  Widget _buildTitle(String title, IconData icon) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+      decoration: BoxDecoration(
+        border:
+            Border(top: BorderSide(width: 1, color: AppStyles.dividerColor)),
+      ),
+      child: ListTile(
+        leading: Icon(icon, color: Theme.of(context).primaryColor),
+        contentPadding: EdgeInsets.all(0),
+        dense: false,
+        isThreeLine: false,
+        title: Text(
+          title,
+          style: styleTitle,
+        ),
+      ),
     );
   }
 
-  _buildBody(name) {
-    return TextSpan(
-      text: name,
-      style: styleBody,
+  Widget _buildSubMenu(String item, {GestureTapCallback onTap}) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+      child: ListTile(
+        leading:
+            Icon(Icons.remove, size: 16, color: Theme.of(context).primaryColor),
+        contentPadding: EdgeInsets.all(0),
+        dense: true,
+        trailing: Icon(Icons.navigate_next),
+        title: Text(
+          item,
+          style: styleBody,
+        ),
+        onTap: onTap,
+      ),
     );
   }
 
-  _buildLink(name, link) {
-    return TextSpan(
-      text: name,
-      style: styleLink,
-      recognizer: new TapGestureRecognizer()
-        ..onTap = () {
-          launch(link);
-        },
+  Widget _buildSubLink(String item, {GestureTapCallback onTap}) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+      child: ListTile(
+        leading:
+            Icon(Icons.remove, size: 16, color: Theme.of(context).primaryColor),
+        contentPadding: EdgeInsets.all(0),
+        dense: true,
+        trailing: Icon(Icons.navigate_next),
+        title: Text(
+          item,
+          style: styleLink,
+        ),
+        onTap: onTap,
+      ),
     );
   }
 
-  _buildLinkZalo(name) {
-    return TextSpan(
-      text: name,
-      style: styleLink,
-      recognizer: new TapGestureRecognizer()
-        ..onTap = () {
-          launch("https://zalo.me/$name");
-        },
-    );
-  }
-
-  _buildLinkPhone(name) {
-    return TextSpan(
-      text: name,
-      style: styleLink,
-      recognizer: new TapGestureRecognizer()
-        ..onTap = () {
-          if (Platform.isIOS) {
-            launch("tel:/$name");
-          } else {
-            launch("tel:$name");
-          }
-        },
-    );
+  _callPhone(phoneNumber) {
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+            ),
+            padding: EdgeInsets.fromLTRB(15, 30, 15, 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                InkWell(
+                    onTap: () {
+                      if (Platform.isIOS) {
+                        launch("tel:/$phoneNumber");
+                      } else {
+                        launch("tel:$phoneNumber");
+                      }
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Icon(
+                        Icons.phone,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    )),
+                SizedBox(
+                  width: 50,
+                ),
+                InkWell(
+                    onTap: () {
+                      launch("https://zalo.me/$phoneNumber");
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      child: Image.asset('assets/images/ui/zalo-logo.png'),
+                    ))
+              ],
+            ),
+          );
+        });
   }
 }
