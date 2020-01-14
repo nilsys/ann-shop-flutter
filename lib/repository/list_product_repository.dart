@@ -204,6 +204,29 @@ class ListProductRepository {
     return null;
   }
 
+  /// http://xuongann.com/api/flutter/products?productSKU=cs001
+  Future<List<Product>> loadBySku(String sku,
+      {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
+    try {
+      var url = Core.domain +
+          'api/flutter/products?productSKU=$sku&pageNumber=$page&pageSize=$pageSize';
+      url += getFilterParams(filter);
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 10));
+      log(url);
+      log(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        return listProductByString(response.body);
+      } else if (response.statusCode == HttpStatus.notFound) {
+        return [];
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
   final _prefixCategoryKey = 'key_product_by_category_';
 
   cacheProduct(String _keyCache, List<Product> products) {

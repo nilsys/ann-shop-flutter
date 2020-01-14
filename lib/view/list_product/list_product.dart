@@ -27,26 +27,23 @@ class ListProduct extends StatefulWidget {
   @override
   _BuildAllViewState createState() => _BuildAllViewState();
 
-  static showByCategory(context, Category category, {List<Product> initData}) {
-    var data = {'category': category, 'initData': initData};
-    Navigator.pushNamed(context, '/list-product-by-category', arguments: data);
+  static showByCategory(context, Category category,
+      {List<Product> initData, showSearch = false}) async {
+    var data = {'category': category, 'initData': initData,'showSearch': true};
+    await Navigator.pushNamed(context, '/list-product-by-category',
+        arguments: data);
   }
 
-  static showByTag(context, ProductTag tag, {List<Product> initData}) {
-    Category category =
-        Category(name: tag.name, filter: ProductFilter(tagSlug: tag.slug));
-    var data = {'category': category, 'initData': initData};
-    Navigator.pushNamed(context, '/list-product-by-category', arguments: data);
-  }
-
-  static showBySearch(context, Category category, {List<Product> initData}) {
+  static showBySearch(context, Category category,
+      {List<Product> initData}) async {
     Provider.of<SearchProvider>(context).setText();
     var data = {'category': category, 'initData': initData, 'showSearch': true};
     if (Navigator.canPop(context)) {
-      Navigator.pushReplacementNamed(context, '/list-product-by-category',
+      await Navigator.pushReplacementNamed(context, '/list-product-by-category',
           arguments: data);
     } else {
-      Navigator.pushNamed(context, '/list-product-by-category', arguments: data);
+      await Navigator.pushNamed(context, '/list-product-by-category',
+          arguments: data);
     }
   }
 }

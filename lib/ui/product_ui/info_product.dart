@@ -91,7 +91,11 @@ class _InfoProductState extends State<InfoProduct> {
               children: detail.tags
                   .map((item) => InkWell(
                         onTap: () {
-                          ListProduct.showByTag(context, item);
+                          ListProduct.showByCategory(
+                              context,
+                              Category(
+                                  name: item.name,
+                                  filter: ProductFilter(tagSlug: item.slug)));
                         },
                         child: Text(
                           item.name + ', ',
@@ -252,7 +256,10 @@ class _InfoProductState extends State<InfoProduct> {
                   .button
                   .merge(TextStyle(color: Colors.blue)),
             ),
-            Icon(isFull ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.blue,)
+            Icon(
+              isFull ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+              color: Colors.blue,
+            )
           ],
         ),
       ),

@@ -70,7 +70,7 @@ class AppAction {
 
   void linkToTag(BuildContext context, String value, String message) {
     print('link to tag: ' + value);
-    ListProduct.showByTag(context, ProductTag(name: message, slug: value));
+    ListProduct.showByCategory(context,Category(name: message, filter: ProductFilter(tagSlug: value)));
   }
 
   void linkToSearch(BuildContext context, String value, String message) {

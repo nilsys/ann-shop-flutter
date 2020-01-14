@@ -42,6 +42,8 @@
 	</dict>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) cần quyền sử dụng PHOTO để lưu hình ảnh</string>
+	<key>NSCameraUsageDescription</key>
+    <string>$(PRODUCT_NAME) cần quyền sử dụng CAMERA để quét mã sản phẩm, giúp việc tìm kiếm sản phẩm dể dàng hơn</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

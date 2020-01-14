@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:ann_shop_flutter/core/custom_fade_roue.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/model/product/product_detail.dart';
+import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/view/account/update_information.dart';
 import 'package:ann_shop_flutter/view/login/change_password_view.dart';
 import 'package:ann_shop_flutter/view/login/forgot_password_view.dart';
@@ -25,14 +30,15 @@ import 'package:ann_shop_flutter/view/product/product_filter_view.dart';
 import 'package:ann_shop_flutter/view/product/product_image_by_size_and_color.dart';
 import 'package:ann_shop_flutter/view/product/product_image_fancy_view.dart';
 import 'package:ann_shop_flutter/view/product/product_image_share_view.dart';
+import 'package:ann_shop_flutter/view/scan_barcode/scan_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';
 import 'package:ann_shop_flutter/view/utility/file_view.dart';
-import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:ann_shop_flutter/view/utility/init_view.dart';
 import 'package:ann_shop_flutter/view/utility/view_more_page.dart';
 import 'package:ann_shop_flutter/view/utility/web_view.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class Router {
@@ -44,8 +50,7 @@ class Router {
         return MaterialPageRoute(
             builder: (_) => InitView(), settings: settings);
       case '/home':
-        return CustomFadeRoute(
-            builder: (_) => HomeView(), settings: settings);
+        return CustomFadeRoute(builder: (_) => HomeView(), settings: settings);
       case '/web-view':
         return MaterialPageRoute(
             builder: (_) => WebViewRouter(data), settings: settings);
@@ -76,6 +81,9 @@ class Router {
       case '/search':
         return MaterialPageRoute(
             builder: (_) => SearchPage(), settings: settings);
+      case '/scan':
+        return MaterialPageRoute(
+            builder: (_) => ScanView(), settings: settings);
       case '/favorite':
         return MaterialPageRoute(
             builder: (_) => FavoriteView(), settings: settings);
@@ -120,7 +128,10 @@ class Router {
             builder: (_) => RegisterSuccessView(), settings: settings);
       case '/update-information':
         return MaterialPageRoute(
-            builder: (_) => UpdateInformation(isRegister: data??false,), settings: settings);
+            builder: (_) => UpdateInformation(
+                  isRegister: data ?? false,
+                ),
+            settings: settings);
       case '/order-management':
         return MaterialPageRoute(
             builder: (_) => OrderManagementView(), settings: settings);
@@ -146,11 +157,55 @@ class Router {
     }
   }
 
-  static showProductDetail(context, {String slug, Product product}) {
-    if (product != null) {
-      Provider.of<SeenProvider>(context).addNewProduct(product);
-      slug = product.slug;
+  static showProductDetail(context,
+      {String slug, Product product, ProductDetail detail}) async {
+    if (detail != null) {
+      Provider.of<SeenProvider>(context).addNewProduct(detail);
+      slug = detail.slug;
+      Provider.of<ProductProvider>(context).getBySlug(detail.slug).completed =
+          detail;
+    } else {
+      if (product != null) {
+        Provider.of<SeenProvider>(context).addNewProduct(product);
+        slug = product.slug;
+      }
+      await Navigator.pushNamed(context, '/product-detail', arguments: slug);
     }
-    Navigator.pushNamed(context, '/product-detail', arguments: slug);
+  }
+
+  static scanBarCode(BuildContext context) async {
+    var _cameraPermissionStatus =
+        await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
+    if (_cameraPermissionStatus == PermissionStatus.granted) {
+      Navigator.pushNamed(context, "/scan");
+    } else {
+      if (_cameraPermissionStatus == PermissionStatus.unknown ||
+          !Platform.isIOS) {
+        final List<PermissionGroup> permissions = <PermissionGroup>[
+          PermissionGroup.camera
+        ];
+        Map<PermissionGroup, PermissionStatus> permissionRequestResult =
+            await PermissionHandler().requestPermissions(permissions);
+        _cameraPermissionStatus =
+            permissionRequestResult[PermissionGroup.camera];
+      }
+
+      if (_cameraPermissionStatus == PermissionStatus.granted) {
+        Navigator.pushNamed(context, "/scan");
+      } else {
+        AppPopup.showCustomDialog(
+          context,
+          title:
+              'Cần quyền truy cập máy ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
+          btnNormal: ButtonData(title: 'Không'),
+          btnHighlight: ButtonData(
+            title: 'Mở cài đặt',
+            callback: () async {
+              PermissionHandler().openAppSettings();
+            },
+          ),
+        );
+      }
+    }
   }
 }

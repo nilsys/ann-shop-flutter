@@ -1,5 +1,6 @@
 class ProductFilter {
   String categorySlug;
+  String productSKU;
   List<String> categorySlugList;
   int productBadge;
   String productSearch;
@@ -10,6 +11,7 @@ class ProductFilter {
 
   ProductFilter(
       {this.categorySlug,
+        this.productSKU,
       this.categorySlugList,
       this.productBadge,
       this.productSearch,
@@ -24,6 +26,7 @@ class ProductFilter {
         ? json['categorySlugList'].cast<String>()
         : null;
     productBadge = json['productBadge'];
+    productSKU = json['productSKU'];
     productSearch = json['productSearch'];
     productSort = json['productSort'];
     tagSlug = json['tagSlug'];
@@ -34,6 +37,7 @@ class ProductFilter {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['categorySlug'] = this.categorySlug;
+    data['productSKU'] = this.productSKU;
     data['categorySlugList'] = this.categorySlugList;
     data['productBadge'] = this.productBadge;
     data['productSearch'] = this.productSearch;
