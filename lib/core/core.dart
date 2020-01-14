@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 
@@ -14,8 +15,23 @@ class Core {
   }
 
   static const domain = 'http://xuongann.com/';
-}
 
+  static get urlStore {
+    if (Platform.isIOS) {
+      return 'itms-apps://itunes.apple.com/app/1493113793';
+    } else {
+      return 'https://play.google.com/store/apps/details?id=com.ann.app';
+    }
+  }
+
+  static get urlStoreReview {
+    if (Platform.isIOS) {
+      return "itms-apps://itunes.apple.com/app/id1493113793?action=write-review";
+    } else {
+      return 'https://play.google.com/store/apps/details?id=com.ann.app';
+    }
+  }
+}
 
 checkInternet() async {
   var connectivityResult = await (Connectivity().checkConnectivity());

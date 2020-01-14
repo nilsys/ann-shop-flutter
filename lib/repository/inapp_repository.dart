@@ -94,15 +94,17 @@ class InAppRepository {
           headers: AccountController.instance.header).timeout(Duration(seconds: 5));
       log(url);
       log(response.body);
-      final body = response.body;
-
       if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(body);
-        List<InApp> _data = new List();
-        message.forEach((v) {
-          _data.add(new InApp.fromJson(v));
-        });
-        return _data;
+        var message = jsonDecode(response.body);
+        if(Utility.isNullOrEmpty(message)){
+          return [];
+        }else {
+          List<InApp> _data = new List();
+          message.forEach((v) {
+            _data.add(new InApp.fromJson(v));
+          });
+          return _data;
+        }
       }
     } catch (e) {
       log(e);

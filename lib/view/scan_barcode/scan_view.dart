@@ -6,7 +6,6 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/repository/list_product_repository.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';

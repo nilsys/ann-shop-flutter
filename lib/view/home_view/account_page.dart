@@ -8,6 +8,7 @@ import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AccountPage extends StatefulWidget {
@@ -68,6 +69,16 @@ class _AccountPageState extends State<AccountPage> {
                   Navigator.pushNamed(context, '/blog');
                 }),
                 SizedBox(height: 12),
+                _buildItemCommon(
+                    'Đánh giá ANN trên ' +
+                        (Platform.isIOS ? 'App Store' : 'Google Play'),
+                    icon: Icons.star_border, onTap: () {
+                  launch(Core.urlStoreReview);
+                }),
+                _buildItemCommon('Chia sẽ ứng dụng này', icon: Icons.share, onTap: () {
+                  Share.share(Core.urlStore);
+                }),
+                SizedBox(height: 12),
                 _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {
                   Navigator.pushNamed(context, '/shop-contact');
                 }),
@@ -75,7 +86,8 @@ class _AccountPageState extends State<AccountPage> {
                     icon: Icons.question_answer, onTap: () {
                   Navigator.pushNamed(context, '/shop-policy');
                 }),
-                _buildItemCommon('Cài đặt copy sản phẩm', icon: Icons.settings, onTap: () {
+                _buildItemCommon('Cài đặt copy sản phẩm', icon: Icons.settings,
+                    onTap: () {
                   Navigator.pushNamed(context, '/setting');
                 }),
                 Container(

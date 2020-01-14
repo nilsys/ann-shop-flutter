@@ -8,6 +8,7 @@ import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_list_notification.dart';
+import 'package:ann_shop_flutter/ui/home_page/home_navigation.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_product_slide.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_list_post.dart';
@@ -106,6 +107,7 @@ class _HomePageState extends State<HomePage>
                   HomeBanner(),
                   // category
                   HomeCategory(),
+                  HomeNavigation(),
                 ]),
               ),
               HomeListNotification(),
