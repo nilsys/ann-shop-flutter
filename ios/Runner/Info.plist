@@ -40,10 +40,24 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền sử dụng APPLE MUSCIC</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền sử dụng CALENDARS</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền sử dụng CAMERA để quét mã sản phẩm, giúp việc tìm kiếm sản phẩm dể dàng hơn</string>
+	<key>NSContactsUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền sử dụng CONTACT</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền sử dụng LOCATION</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền sử dụng LOCATION</string>
+	<key>NSMotionUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền sử dụng MOTION</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) cần quyền sử dụng PHOTO để lưu hình ảnh</string>
-	<key>NSCameraUsageDescription</key>
-    <string>$(PRODUCT_NAME) cần quyền sử dụng CAMERA để quét mã sản phẩm, giúp việc tìm kiếm sản phẩm dể dàng hơn</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền sử dụng RECOGNITION</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
