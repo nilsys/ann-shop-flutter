@@ -32,6 +32,12 @@
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/esys_flutter_share/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/esys_flutter_share/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/esys_flutter_share/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/fast_qr_reader_view/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/fast_qr_reader_view/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/fast_qr_reader_view/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/fast_qr_reader_view/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/fast_qr_reader_view/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/fast_qr_reader_view/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/build" />
@@ -74,6 +80,12 @@
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider/path_provider_macos/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider/path_provider_macos/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider/path_provider_macos/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/permission_handler/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/permission_handler/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/permission_handler/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/permission_handler/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/permission_handler/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/permission_handler/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share/build" />

@@ -4,8 +4,6 @@ PODS:
     - Reachability
   - esys_flutter_share (0.0.1):
     - Flutter
-  - fast_qr_reader_view (0.0.1):
-    - Flutter
   - Firebase/Analytics (6.14.0):
     - Firebase/Core
   - Firebase/Core (6.14.0):
@@ -91,6 +89,7 @@ PODS:
     - GoogleUtilities/Logger
   - image_gallery_saver (0.0.1):
     - Flutter
+  - MTBBarcodeScanner (5.0.11)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -104,6 +103,9 @@ PODS:
     - Flutter
   - permission_handler (4.1.0):
     - Flutter
+  - qr_code_scanner (0.0.2):
+    - Flutter
+    - MTBBarcodeScanner
   - Reachability (3.2)
   - share (0.5.2):
     - Flutter
@@ -128,7 +130,6 @@ PODS:
 DEPENDENCIES:
   - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - esys_flutter_share (from `.symlinks/plugins/esys_flutter_share/ios`)
-  - fast_qr_reader_view (from `.symlinks/plugins/fast_qr_reader_view/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
@@ -139,6 +140,7 @@ DEPENDENCIES:
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
@@ -164,6 +166,7 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
+    - MTBBarcodeScanner
     - nanopb
     - OneSignal
     - Reachability
@@ -173,8 +176,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/connectivity/ios"
   esys_flutter_share:
     :path: ".symlinks/plugins/esys_flutter_share/ios"
-  fast_qr_reader_view:
-    :path: ".symlinks/plugins/fast_qr_reader_view/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
@@ -193,6 +194,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
+  qr_code_scanner:
+    :path: ".symlinks/plugins/qr_code_scanner/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences:
@@ -215,10 +218,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   connectivity: 6e94255659cc86dcbef1d452ad3e0491bb1b3e75
   esys_flutter_share: 403498dab005b36ce1f8d7aff377e81f0621b0b4
-  fast_qr_reader_view: 53b38a544886e650381ca579e0cdd5ae142fffa6
   Firebase: 0219bb4782eb1406f1b9b0628a2e625484ce910d
   firebase_analytics: d83001d25b9a58ca5eda8db0ef566c02d7af5258
-  firebase_core: 87e4c7cef68de46c0326ce2ee907fc7e365ead7e
+  firebase_core: 9bd2e66a276153e219a87ff39dfecb6b671f524a
   firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
   firebase_dynamic_links: cbb9595bfa14fa51daa01fe2ccb071fbb759ad5b
   FirebaseAnalytics: f68b9f3f1241385129ae0a83b63627fc420c05e5
@@ -235,22 +237,24 @@ SPEC CHECKSUMS:
   GoogleDataTransportCCTSupport: 202d7cdf9c4a7d81a2bb7f7e7e1ba6faa421b1f2
   GoogleUtilities: 29bd0d8f850efbd28cff6d99e8b7da1f8d236bcf
   image_gallery_saver: 73b3cd8ad9c950c739878af9c311744d1bf5405d
+  MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   OneSignal: b2c1511c6b5db2d3b0ce1859f574dcf190dde5f3
   onesignal_flutter: 289d8b75eaa81fc80d657ffa450253a654f5514a
-  path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
+  path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
   permission_handler: b41310bab60fffbf8b5732cd9b4f565671d14762
+  qr_code_scanner: 16107718bdad7d708cdf6a5eacdca24b56cdf471
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   share: bae0a282aab4483288913fc4dc0b935d4b491f2e
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
-  sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  sqflite: ff1d9da63c06588cc8d1faf7256d741f16989d5a
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
   webview_flutter: db3aba222b23e4dc432e0c5882834123dc50ff9f
 
-PODFILE CHECKSUM: af40df913c535df8bd7254c5ea5bd98400d524db
+PODFILE CHECKSUM: deb259359b94a44945ce3de186e6a7afe1798a27
 
 COCOAPODS: 1.8.4

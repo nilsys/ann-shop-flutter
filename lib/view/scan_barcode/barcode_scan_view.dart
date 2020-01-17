@@ -9,83 +9,37 @@ import 'package:ann_shop_flutter/repository/list_product_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
-import 'package:fast_qr_reader_view/fast_qr_reader_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class ScanView extends StatefulWidget {
+class BarcodeScanView extends StatefulWidget {
   @override
-  _ScanViewState createState() => new _ScanViewState();
+  _BarcodeScanViewState createState() => new _BarcodeScanViewState();
 }
 
-class _ScanViewState extends State<ScanView>
+class _BarcodeScanViewState extends State<BarcodeScanView>
     with SingleTickerProviderStateMixin {
-  List<CameraDescription> cameras;
-  QRReaderController controller;
-
+  QRViewController controllerQR;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  AnimationController animationController;
-  Animation<double> animation;
-
-  final _barcodeTextController = TextEditingController();
-  var bottomSheetController;
 
   bool flashOn = false;
   bool bottomSheetIsOpen = true;
-  double redLineTop = 150;
-  int offset = 50;
-  double squareSize = 270;
-
-  Future<Null> loadCamera() async {
-    try {
-      cameras = await availableCameras();
-    } on QRReaderException catch (e) {}
-    initCameraView();
-  }
 
   @override
   void dispose() {
-    controller?.dispose();
-    animationController.dispose();
+    controllerQR?.dispose();
     super.dispose();
   }
 
-  WidgetsBindingObserver tempResumeCallback;
 
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(Duration(milliseconds: 100), () {
-      bottomSheetIsOpen = false;
-      loadCamera();
-    });
-
-    animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 2));
-    animation =
-        Tween<double>(begin: (-squareSize / 2 + 20), end: squareSize / 2 - 20)
-            .animate(animationController)
-              ..addListener(() {
-                setState(() {});
-              });
-
-    animationController.addStatusListener((AnimationStatus status) {
-      if (status == AnimationStatus.completed) {
-        animationController.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        animationController.forward();
-      }
-    });
-    animationController.forward();
+    bottomSheetIsOpen = false;
   }
 
   _openResultView(dynamic value) async {
-    if (controller != null) {
-      flashOn = false;
-      controller.dispose();
-    }
     var products = await ListProductRepository.instance.loadBySku(value);
     if (Utility.isNullOrEmpty(products) == false) {
       if (products.length == 1) {
@@ -99,84 +53,52 @@ class _ScanViewState extends State<ScanView>
       AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm $value');
       await Future.delayed(Duration(milliseconds: 500));
     }
-    bottomSheetIsOpen = false;
-    initCameraView();
+    controllerQR.resumeCamera();
   }
 
-  initCameraView() {
-    if (bottomSheetIsOpen == false) {
-      controller = new QRReaderController(cameras[0], ResolutionPreset.high, [
-        CodeFormat.code128,
-//      CodeFormat.code39,
-//      CodeFormat.codabar,
-//      CodeFormat.upca,
-//      CodeFormat.ean13,
-//      CodeFormat.upce,
-//      CodeFormat.ean8
-      ], (dynamic value) {
-        print('Show camera.Then $value');
-        flashOn = false;
-        controller.stopScanning();
-        if (!bottomSheetIsOpen) {
-          _openResultView(value);
-        }
-      });
-
-      controller.initialize().then((_) {
-        if (!mounted) {
-          return;
-        }
-        setState(() {});
-        controller.startScanning();
-
-        setState(() {
-          redLineTop = 320;
-        });
-      });
+  scanResponse(value) {
+    if (!bottomSheetIsOpen) {
+      flashOn = false;
+      controllerQR.pauseCamera();
+      _openResultView(value);
     }
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    this.controllerQR = controller;
+    controller.scannedDataStream.listen(scanResponse);
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final deviceRatio = size.width / (size.height);
-
+    double sizeRect = size.width < 300 ? (size.width - 50) : 250;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
       key: _scaffoldKey,
       body: Stack(
         overflow: Overflow.clip,
-        fit: StackFit.loose,
+        fit: StackFit.expand,
         children: <Widget>[
-          ConstrainedBox(
-            constraints: BoxConstraints.expand(),
+          QRView(
+            key: GlobalKey(debugLabel: 'QR'),
+            onQRViewCreated: _onQRViewCreated,
+          ),
+          Container(
+            alignment: Alignment.center,
             child: Container(
-              child: ClipRect(
-                child: OverflowBox(
-                  alignment: Alignment.center,
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Transform.scale(
-                      scale:
-                          (controller != null && controller.value.isInitialized)
-                              ? deviceRatio > controller.value.aspectRatio
-                                  ? deviceRatio / controller.value.aspectRatio
-                                  : controller.value.aspectRatio / deviceRatio
-                              : 1,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: _cameraPreviewWidget(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              width: sizeRect,
+              height: sizeRect,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
+                    style: BorderStyle.solid,
+                  )),
             ),
           ),
-
           Positioned(
             top: 38,
             left: 10,
@@ -234,52 +156,6 @@ class _ScanViewState extends State<ScanView>
               ),
             ),
           ),
-
-          Positioned(
-            top: MediaQuery.of(context).size.height / 2 -
-                squareSize / 2 -
-                offset +
-                50,
-            width: MediaQuery.of(context).size.width,
-            child: Align(
-              alignment: Alignment.center,
-              child: Container(
-                  height: squareSize,
-                  width: squareSize,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(color: Colors.white, width: 2.0),
-                  )),
-            ),
-          ),
-
-          Align(
-              alignment: Alignment.center,
-              child: Container(
-                child: AnimatedBuilder(
-                  animation: animationController,
-                  child: SizedBox(
-                    width: 170,
-                    child: Container(
-                      height: 1,
-                      color: controller != null
-                          ? controller.value != null
-                              ? controller.value.isScanning
-                                  ? Colors.redAccent
-                                  : Colors.transparent
-                              : Colors.transparent
-                          : Colors.transparent,
-                    ),
-                  ),
-                  builder: (BuildContext context, Widget _widget) {
-                    return new Transform.translate(
-                      offset: Offset(0, animation.value),
-                      // animationController.value * -0.5,
-                      child: _widget,
-                    );
-                  },
-                ),
-              )),
         ],
       ),
     );
@@ -290,20 +166,27 @@ class _ScanViewState extends State<ScanView>
     setState(() {
       bottomSheetIsOpen = true;
     });
-    persistentBottomSheetController();
-    bottomSheetController.closed.then((value) {
-      setState(() {
-        bottomSheetIsOpen = false;
-      });
-
-      if (controller != null && controller.value.isInitialized)
-        controller.startScanning();
-    });
+    persistentBottomSheetController().closed.then(_closeBottomSheet);
   }
 
+  String _valueInput;
+
+  _closeBottomSheet(value) {
+    setState(() {
+      bottomSheetIsOpen = false;
+    });
+    if (Utility.isNullOrEmpty(_valueInput)) {
+      if (controllerQR != null) controllerQR.resumeCamera();
+    } else {
+      _openResultView(_valueInput);
+    }
+  }
+
+  final _barcodeTextController = TextEditingController();
   PersistentBottomSheetController persistentBottomSheetController() {
     _barcodeTextController.text = "";
-    return bottomSheetController = _scaffoldKey.currentState.showBottomSheet(
+    _valueInput = '';
+    return _scaffoldKey.currentState.showBottomSheet(
       (BuildContext context) {
         return Container(
           padding: EdgeInsets.all(defaultPadding),
@@ -360,10 +243,8 @@ class _ScanViewState extends State<ScanView>
                       ),
                       child: IconButton(
                         onPressed: () {
-                          controller.dispose();
-                          controller = null;
+                          _valueInput = _barcodeTextController.text;
                           Navigator.pop(context);
-                          _openResultView(_barcodeTextController.text);
                         },
                         icon: Icon(
                           Icons.keyboard_backspace,
@@ -383,21 +264,8 @@ class _ScanViewState extends State<ScanView>
     );
   }
 
-  /// Display the preview from the camera (or a message if the preview is not available).
-  Widget _cameraPreviewWidget() {
-    if (controller == null || !controller.value.isInitialized) {
-      return Container();
-    } else {
-      return new AspectRatio(
-        aspectRatio: controller.value.aspectRatio,
-        child: new QRReaderPreview(controller),
-      );
-    }
-  }
-
   _turnFlash() async {
-    controller.toggleFlash();
-    controller.startScanning();
+    controllerQR.toggleFlash();
     setState(() {
       flashOn = !flashOn;
     });

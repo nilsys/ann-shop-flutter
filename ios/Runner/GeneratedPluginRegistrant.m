@@ -16,12 +16,6 @@
 @import esys_flutter_share;
 #endif
 
-#if __has_include(<fast_qr_reader_view/FastQrReaderViewPlugin.h>)
-#import <fast_qr_reader_view/FastQrReaderViewPlugin.h>
-#else
-@import fast_qr_reader_view;
-#endif
-
 #if __has_include(<firebase_analytics/FLTFirebaseAnalyticsPlugin.h>)
 #import <firebase_analytics/FLTFirebaseAnalyticsPlugin.h>
 #else
@@ -52,8 +46,8 @@
 @import onesignal_flutter;
 #endif
 
-#if __has_include(<path_provider/FLTPathProviderPlugin.h>)
-#import <path_provider/FLTPathProviderPlugin.h>
+#if __has_include(<path_provider/PathProviderPlugin.h>)
+#import <path_provider/PathProviderPlugin.h>
 #else
 @import path_provider;
 #endif
@@ -62,6 +56,12 @@
 #import <permission_handler/PermissionHandlerPlugin.h>
 #else
 @import permission_handler;
+#endif
+
+#if __has_include(<qr_code_scanner/FlutterQrPlugin.h>)
+#import <qr_code_scanner/FlutterQrPlugin.h>
+#else
+@import qr_code_scanner;
 #endif
 
 #if __has_include(<share/FLTSharePlugin.h>)
@@ -99,7 +99,6 @@
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [FLTConnectivityPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTConnectivityPlugin"]];
   [EsysFlutterSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"EsysFlutterSharePlugin"]];
-  [FastQrReaderViewPlugin registerWithRegistrar:[registry registrarForPlugin:@"FastQrReaderViewPlugin"]];
   [FLTFirebaseAnalyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAnalyticsPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseDynamicLinksPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseDynamicLinksPlugin"]];
@@ -107,6 +106,7 @@
   [OneSignalPlugin registerWithRegistrar:[registry registrarForPlugin:@"OneSignalPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
+  [FlutterQrPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterQrPlugin"]];
   [FLTSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharePlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
