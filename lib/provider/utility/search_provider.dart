@@ -110,6 +110,19 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void addHistory(String text ) {
+    if (text.isNotEmpty) {
+      if (_history.contains(text) == false) {
+        _history.insert(0, text);
+      } else {
+        _history.remove(text);
+        _history.insert(0, text);
+      }
+      StorageManager.setObject(_keyHistory, jsonEncode(history));
+      print('add History: $text');
+    }
+  }
+
   void removeHistoryUnit(String title) {
     history.removeWhere((m) => m == title);
     StorageManager.setObject(_keyHistory, jsonEncode(history));

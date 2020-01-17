@@ -65,16 +65,15 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
           productFilter: category.filter,
           initData: initData,
           topObject: _buildCategoryButtonGrid()),
-      bottomNavigationBar:
-          Utility.isNullOrEmpty(message) ? null : BottomAppBar(child: DownLoadBackground(),),
+      bottomNavigationBar: Utility.isNullOrEmpty(message)
+          ? null
+          : BottomAppBar(
+              child: DownLoadBackground(),
+            ),
     );
   }
 
   Widget _buildCategoryButtonGrid() {
-    ResponseProvider<List<Cover>> _covers =
-        Provider.of<SpamCoverProvider>(context)
-            .getBySlug(category.getSlugBanner);
-
     List<Category> _categories = category.children;
 
     List<Widget> children = [];
@@ -94,7 +93,9 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
 //                textAlign: TextAlign.left,
 //              ),
 //            ),
-          SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             Container(
               height: crossAxisCount * 100.0,
               padding: EdgeInsets.only(left: 0, right: 0),
@@ -117,14 +118,19 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
         ),
       ));
     }
-    if (Utility.isNullOrEmpty(_covers.data) == false) {
-      children.add(
-        ProductBanner(
-          _covers.data,
-          border: Border(
-              bottom: BorderSide(color: AppStyles.dividerColor, width: 10)),
-        ),
-      );
+    if (Utility.isNullOrEmpty(category.getSlugBanner) == false) {
+      ResponseProvider<List<Cover>> _covers =
+          Provider.of<SpamCoverProvider>(context)
+              .getBySlug(category.getSlugBanner);
+      if (Utility.isNullOrEmpty(_covers.data) == false) {
+        children.add(
+          ProductBanner(
+            _covers.data,
+            border: Border(
+                bottom: BorderSide(color: AppStyles.dividerColor, width: 10)),
+          ),
+        );
+      }
     }
     if (Utility.isNullOrEmpty(children)) {
       return null;

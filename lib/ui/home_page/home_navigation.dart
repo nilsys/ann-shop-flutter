@@ -12,21 +12,21 @@ class HomeNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       decoration: BoxDecoration(
           border:
-              Border(top: BorderSide(width: 2, color: AppStyles.dividerColor))),
+              Border(top: BorderSide(width: 10, color: AppStyles.dividerColor))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           RoundedButton(
-            title: 'Kiểm tra giá',
+            title: 'Tra giá',
             onItemTapped: () {
               Router.scanBarCode(context);
             },
             icon: AppIcons.qrcode,
-            color: Colors.blue,
+            color: Color(0xff5aac44),
           ),
           RoundedButton(
             title: 'Đơn hàng',
@@ -74,49 +74,54 @@ class RoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      child: Column(
-        children: <Widget>[
-          InkWell(
-            onTap: onItemTapped,
-            child: Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  color.withAlpha(200),
-                  color,
-                  color.withAlpha(180)
-                ]),
-                borderRadius: BorderRadius.all(Radius.circular(25)),
-                border: new Border.all(
-                  color: Colors.white,
-                  width: 1,
-                  style: BorderStyle.solid,
-                ),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black.withAlpha(40),
-                    offset: Offset(1.0, 2.0),
-                    blurRadius: 5.0,
+    return Expanded(
+      flex: 1,
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            InkWell(
+              onTap: onItemTapped,
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    color.withAlpha(200),
+                    color,
+                    color.withAlpha(180)
+                  ]),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  border: new Border.all(
+                    color: Colors.white,
+                    width: 1,
+                    style: BorderStyle.solid,
                   ),
-                ],
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                icon,
-                size: 30,
-                color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black.withAlpha(40),
+                      offset: Offset(1.0, 2.0),
+                      blurRadius: 5.0,
+                    ),
+                  ],
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  icon,
+                  size: 30,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 10),
-          Text(
-            this.title,
-            style: TextStyle(fontSize: 12),
-          ),
-        ],
+            SizedBox(height: 10),
+            Text(
+              this.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14),
+            ),
+          ],
+        ),
       ),
     );
   }

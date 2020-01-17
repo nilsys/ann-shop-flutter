@@ -52,15 +52,30 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
       },
       child: Scaffold(
         bottomNavigationBar: BottomAppBar(
-          color: isEmpty ? Colors.grey : Theme.of(context).primaryColor,
-          child: FlatButton(
-            child: Text(
-              'Tiếp',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: isEmpty ? null : _onCheckAndShare,
-          ),
-        ),
+            color: Colors.white,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: defaultPadding, vertical: 10),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: RaisedButton(
+                      child: Text('Đăng Facebook', style: Theme.of(context).textTheme.button.merge(TextStyle(color: Colors.white)),),
+                      onPressed: _onShareFacebook,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    flex: 1,
+                    child: RaisedButton(
+                      child: Text('Đăng Zalo', style: Theme.of(context).textTheme.button.merge(TextStyle(color: Colors.white))),
+                      onPressed: _onShareZalo,
+                    ),
+                  ),
+                ],
+              ),
+            )),
         body: SafeArea(
           child: Stack(
             fit: StackFit.expand,
@@ -87,7 +102,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
                         },
                         childCount: images.length,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -126,11 +141,15 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
                       ),
                       FlatButton(
                         child: Text(
-                          'Tiếp',
+                          'Bỏ chọn',
                           style: Theme.of(context).textTheme.button.merge(
                               TextStyle(color: Theme.of(context).primaryColor)),
                         ),
-                        onPressed: _onCheckAndShare,
+                        onPressed: (){
+                          setState(() {
+                            imagesSelected = [];
+                          });
+                        },
                       )
                     ],
                   ),
@@ -166,7 +185,6 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
           borderRadius: BorderRadius.circular(5),
           child: AppImage(
             Core.domain + url,
-            showLoading: false,
           ),
         ),
       ),
@@ -205,8 +223,12 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
     );
   }
 
-  _onCheckAndShare() {
-    if (imagesSelected.length > 10) {
+  _onShareFacebook(){
+    _onShare(message: message);
+  }
+  _onShareZalo() {
+    final maxForZalo = 9;
+    if (imagesSelected.length > maxForZalo) {
       AppPopup.showImageDialog(context,
           image: Icon(
             Icons.share,
@@ -214,19 +236,25 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
             color: Theme.of(context).primaryColor,
           ),
           title:
-              'Nếu bạn muốn chia sẽ lên ZALO thì chỉ được chọn tối đa 10 hình',
+              'Nếu bạn muốn chia sẽ lên ZALO thì chỉ được chọn tối đa $maxForZalo hình',
           btnHighlight: ButtonData(
-              title: 'Tiếp tục',
+              title: 'Chọn $maxForZalo hình',
               callback: () {
-                _onShare();
+                setState(() {
+                  imagesSelected.removeRange(8, (imagesSelected.length - 1));
+                });
               }),
-          btnNormal: ButtonData(title: 'Chọn lại', callback: null));
+          btnNormal: ButtonData(title: 'Đóng', callback: null));
     } else {
-      _onShare();
+      if(imagesSelected.length == 1){
+        _onShare(message: message);
+      }else{
+        _onShare();
+      }
     }
   }
 
-  _onShare() async {
+  _onShare({message}) async {
     try {
       var images = imagesSelected;
       if (Utility.isNullOrEmpty(images)) {

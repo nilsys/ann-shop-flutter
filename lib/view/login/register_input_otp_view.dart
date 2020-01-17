@@ -207,7 +207,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
         showLoading(context);
         AppResponse response = await AccountRepository.instance
             .registerStep2RequestOTP(AccountRegisterState.instance.phone,
-                AccountRegisterState.instance.otp);
+                AccountRegisterState.instance.randomNewOtp());
         hideLoading(context);
         if (response.status) {
           AccountRegisterState.instance.timeOTP = DateTime.now();

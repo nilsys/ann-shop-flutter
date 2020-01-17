@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/repository/utility_repository.dart';
@@ -64,7 +65,11 @@ class _ShopContactState extends State<ShopContact> {
                   }));
                 }
                 if (Utility.isNullOrEmpty(urlFB) == false) {
-                  children.add(_buildSubLink('Facebook', onTap: () {
+                  children.add(_buildSubLink('Facebook',
+                      leading: Icon(
+                        AppIcons.facebook,
+                        color: Colors.blue,
+                      ), onTap: () {
                     launch(urlFB);
                   }));
                 }
@@ -114,14 +119,14 @@ class _ShopContactState extends State<ShopContact> {
     );
   }
 
-  Widget _buildSubMenu(String item, {GestureTapCallback onTap}) {
+  Widget _buildSubMenu(String item,
+      {GestureTapCallback onTap, Widget leading}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
       child: ListTile(
-        leading:
-            Icon(Icons.remove, size: 16, color: Theme.of(context).primaryColor),
-        contentPadding: EdgeInsets.all(0),
+        contentPadding: EdgeInsets.only(left: leading == null ? 15 : 0),
         dense: true,
+        leading: leading,
         trailing: Icon(Icons.navigate_next),
         title: Text(
           item,
@@ -132,14 +137,14 @@ class _ShopContactState extends State<ShopContact> {
     );
   }
 
-  Widget _buildSubLink(String item, {GestureTapCallback onTap}) {
+  Widget _buildSubLink(String item,
+      {GestureTapCallback onTap, Widget leading}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
       child: ListTile(
-        leading:
-            Icon(Icons.remove, size: 16, color: Theme.of(context).primaryColor),
-        contentPadding: EdgeInsets.all(0),
+        contentPadding: EdgeInsets.only(left: leading == null ? 15 : 0),
         dense: true,
+        leading: leading,
         trailing: Icon(Icons.navigate_next),
         title: Text(
           item,
@@ -174,17 +179,26 @@ class _ShopContactState extends State<ShopContact> {
                         launch("tel:$phoneNumber");
                       }
                     },
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      child: Icon(
-                        Icons.phone,
-                        color: Colors.white,
-                        size: 30,
-                      ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            child: Icon(
+                              Icons.phone,
+                              color: Colors.white,
+                              size: 30,
+                            )),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text('Điện thoại'),
+                      ],
                     )),
                 SizedBox(
                   width: 50,
@@ -193,10 +207,23 @@ class _ShopContactState extends State<ShopContact> {
                     onTap: () {
                       launch("https://zalo.me/$phoneNumber");
                     },
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      child: Image.asset('assets/images/ui/zalo-logo.png'),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          width: 50,
+                          height: 50,
+                          child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              child: Image.asset(
+                                  'assets/images/ui/zalo-logo.png')),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text('Zalo'),
+                      ],
                     ))
               ],
             ),

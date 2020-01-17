@@ -77,6 +77,9 @@ class ListProductRepository {
       } else if (Utility.isNullOrEmpty(productFilter.tagSlug) == false) {
         return _loadByTag(productFilter.tagSlug,
             filter: filter, page: page, pageSize: pageSize);
+      } else if (Utility.isNullOrEmpty(productFilter.productSKU) == false) {
+        return loadBySku(productFilter.productSKU,
+            filter: filter, page: page, pageSize: pageSize);
       } else {
         return _loadAllByFilter(filter: filter, page: page, pageSize: pageSize);
       }

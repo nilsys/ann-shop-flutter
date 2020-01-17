@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/cover_repository.dart';
@@ -13,7 +14,7 @@ class SpamCoverProvider extends ChangeNotifier {
   ResponseProvider<List<Cover>> getBySlug(String code) {
     if (covers[code] == null) {
       covers[code] = ResponseProvider<List<Cover>>();
-      loadProduct(code);
+      loadCover(code);
     }
     return covers[code];
   }
@@ -21,18 +22,21 @@ class SpamCoverProvider extends ChangeNotifier {
   checkLoad(String code) {
     if (covers[code] == null) {
       covers[code] = ResponseProvider<List<Cover>>();
-      loadProduct(code);
+      loadCover(code);
     } else {
       if (covers[code].isLoading == false ||
           covers[code].isCompleted == false) {
-        loadProduct(code);
+        loadCover(code);
       }
     }
   }
 
-  loadProduct(String code) async {
+  loadCover(String code) async {
     if (covers[code] == null) {
       covers[code] = ResponseProvider<List<Cover>>();
+    }
+    if (Utility.isNullOrEmpty(code)) {
+      covers[code].completed = [];
     }
     try {
       covers[code].loading = 'Loading';

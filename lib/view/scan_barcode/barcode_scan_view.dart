@@ -1,16 +1,15 @@
 import 'dart:async';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
-import 'package:ann_shop_flutter/repository/list_product_repository.dart';
-import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class BarcodeScanView extends StatefulWidget {
@@ -24,7 +23,7 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   bool flashOn = false;
-  bool bottomSheetIsOpen = true;
+  bool bottomSheetIsOpen = false;
 
   @override
   void dispose() {
@@ -32,47 +31,60 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
     super.dispose();
   }
 
-
   @override
   void initState() {
     super.initState();
-    bottomSheetIsOpen = false;
   }
 
   _openResultView(dynamic value) async {
-    var products = await ListProductRepository.instance.loadBySku(value);
-    if (Utility.isNullOrEmpty(products) == false) {
-      if (products.length == 1) {
-        await Router.showProductDetail(context, product: products[0]);
-      } else {
-        await ListProduct.showByCategory(context,
-            Category(name: value, filter: ProductFilter(productSKU: value)),
-            initData: products, showSearch: true);
-      }
-    } else {
-      AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm $value');
-      await Future.delayed(Duration(milliseconds: 500));
+//    var products = await ListProductRepository.instance.loadBySku(value);
+//    if (Utility.isNullOrEmpty(products) == false) {
+//      if (products.length == 1) {
+//        await Router.showProductDetail(context, product: products[0]);
+//      } else {
+//        await ListProduct.showByCategory(context,
+//            Category(name: value, filter: ProductFilter(productSKU: value)),
+//            initData: products, showSearch: true);
+//      }
+//    } else {
+//      AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm $value');
+//      await Future.delayed(Duration(milliseconds: 500));
+//    }
+    await ListProduct.showByCategory(context,
+        Category(name: value, filter: ProductFilter(productSKU: value)),
+        initData: null, showSearch: true);
+    print('Back to scan');
+    try{
+      await Future.delayed(Duration(milliseconds: 100));
+      controllerQR.resumeCamera();
+    }catch(e){
+      print(e);
     }
-    controllerQR.resumeCamera();
   }
 
   scanResponse(value) {
+    print('scanResponse: $value');
     if (!bottomSheetIsOpen) {
       flashOn = false;
       controllerQR.pauseCamera();
       _openResultView(value);
+      Provider.of<SearchProvider>(context).addHistory(value);
     }
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    this.controllerQR = controller;
-    controller.scannedDataStream.listen(scanResponse);
+    if (this.controllerQR == null) {
+      this.controllerQR = controller;
+      controller.scannedDataStream.listen(scanResponse);
+    }
   }
+
+  final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    double sizeRect = size.width < 300 ? (size.width - 50) : 250;
+    final double sizeRect = size.width < 300 ? (size.width - 50) : 250;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
@@ -82,7 +94,7 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
         fit: StackFit.expand,
         children: <Widget>[
           QRView(
-            key: GlobalKey(debugLabel: 'QR'),
+            key: _qrKey,
             onQRViewCreated: _onQRViewCreated,
           ),
           Container(
@@ -101,7 +113,7 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
           ),
           Positioned(
             top: 38,
-            left: 10,
+            left: 15,
             child: UIManager.btnClose(
               onPressed: () {
                 Navigator.pop(context);
@@ -122,7 +134,7 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
           ),
           // Change Store
           Positioned(
-            top: 37,
+            bottom: (size.height - sizeRect) / 4,
             width: size.width,
             child: Align(
               alignment: Alignment.center,
@@ -163,18 +175,15 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
   }
 
   _showInputCode() {
-    setState(() {
-      bottomSheetIsOpen = true;
-    });
+    bottomSheetIsOpen = true;
+    controllerQR.pauseCamera();
     persistentBottomSheetController().closed.then(_closeBottomSheet);
   }
 
   String _valueInput;
 
   _closeBottomSheet(value) {
-    setState(() {
-      bottomSheetIsOpen = false;
-    });
+    bottomSheetIsOpen = false;
     if (Utility.isNullOrEmpty(_valueInput)) {
       if (controllerQR != null) controllerQR.resumeCamera();
     } else {
@@ -183,6 +192,7 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
   }
 
   final _barcodeTextController = TextEditingController();
+
   PersistentBottomSheetController persistentBottomSheetController() {
     _barcodeTextController.text = "";
     _valueInput = '';

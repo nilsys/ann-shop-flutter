@@ -28,14 +28,18 @@ class AccountRegisterState {
   reset(_isRegister, {phone}) {
     _phone = phone;
     password = null;
+    timeOTP = null;
+    isRegister = _isRegister;
+  }
+
+  String randomNewOtp(){
     Random rand = Random();
     otp = '';
     for (int i = 0; i < 6; i++) {
       otp += rand.nextInt(9).toString();
     }
     print('otp: $otp');
-    timeOTP = null;
-    isRegister = _isRegister;
+    return otp;
   }
 
   DateTime timeOTP;

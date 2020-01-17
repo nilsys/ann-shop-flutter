@@ -44,4 +44,6 @@ class AppIcons {
   static const IconData search = const IconData(0xe805, fontFamily: _kFontFam);
   static const IconData barcode = const IconData(0xe806, fontFamily: _kFontFam);
   static const IconData qrcode = const IconData(0xe807, fontFamily: _kFontFam);
+  static const IconData facebook = const IconData(0xf09a, fontFamily: _kFontFam);
+  static const IconData facebook_official = const IconData(0xf230, fontFamily: _kFontFam);
 }

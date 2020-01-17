@@ -220,7 +220,7 @@ SPEC CHECKSUMS:
   esys_flutter_share: 403498dab005b36ce1f8d7aff377e81f0621b0b4
   Firebase: 0219bb4782eb1406f1b9b0628a2e625484ce910d
   firebase_analytics: d83001d25b9a58ca5eda8db0ef566c02d7af5258
-  firebase_core: 9bd2e66a276153e219a87ff39dfecb6b671f524a
+  firebase_core: 87e4c7cef68de46c0326ce2ee907fc7e365ead7e
   firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
   firebase_dynamic_links: cbb9595bfa14fa51daa01fe2ccb071fbb759ad5b
   FirebaseAnalytics: f68b9f3f1241385129ae0a83b63627fc420c05e5

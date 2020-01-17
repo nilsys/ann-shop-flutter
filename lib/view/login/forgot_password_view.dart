@@ -151,7 +151,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     if (step == 0) {
       children.addAll([
         PrimaryButton(
-          'Quên mật khẩu',
+          'Tiếp tục',
           onPressed: _validateInput,
         ),
         SizedBox(height: 5),
@@ -160,7 +160,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       if (Utility.isNullOrEmpty(password)) {
         children.addAll([
           PrimaryButton(
-            'Quên mật khẩu',
+            'Xác nhận',
             onPressed: _validateInput,
           ),
           SizedBox(height: 5),

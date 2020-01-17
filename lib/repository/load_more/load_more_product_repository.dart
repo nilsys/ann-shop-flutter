@@ -19,6 +19,9 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
       initData.forEach((item) {
         this.add(item);
       });
+      if(initData.length < itemPerPage){
+        _hasMore = false;
+      }
     }
   }
 

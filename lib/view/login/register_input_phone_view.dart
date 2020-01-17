@@ -147,7 +147,7 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
     try {
       AppResponse response = await AccountRepository.instance
           .registerStep2RequestOTP(AccountRegisterState.instance.phone,
-              AccountRegisterState.instance.otp);
+              AccountRegisterState.instance.randomNewOtp());
       if (response.status) {
         AccountRegisterState.instance.timeOTP = DateTime.now();
         Navigator.pushNamed(context, '/register_input_otp');
