@@ -86,7 +86,6 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
     final size = MediaQuery.of(context).size;
     final double sizeRect = size.width < 300 ? (size.width - 50) : 250;
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
       key: _scaffoldKey,
       body: Stack(

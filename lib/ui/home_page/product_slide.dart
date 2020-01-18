@@ -121,7 +121,7 @@ class _ProductSlideState extends State<ProductSlide> {
       height: itemHeight - 10,
       margin: EdgeInsets.fromLTRB(15, 0, 15, 10),
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+//        color: Colors.grey[300],
         borderRadius: BorderRadius.circular(15),
       ),
       alignment: Alignment.center,

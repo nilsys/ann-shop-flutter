@@ -36,26 +36,10 @@ class ProductRepository {
       ProductBadge(id: 3, title: 'Hàng order'),
       ProductBadge(id: 4, title: 'Hàng sale'),
     ];
-
-    _productColors = {
-      10: Colors.black,
-      23: Colors.red[800], //Đỏ đô
-      32: Colors.deepOrangeAccent[100], //Hồng cam
-      38: Colors.orangeAccent[100], //Hồng phấn
-      51: Colors.brown, //Kem đậm
-      52: Colors.deepOrangeAccent[100], //Kem nhạt
-      88: Colors.yellow,
-      96: Colors.blueGrey[100], //Vỏ đậu
-      108: Colors.grey, //Xám tiêu
-      123: Colors.blueGrey, //Xanh đen
-      128: Colors.green, //Xanh lá
-      132: Colors.cyan, //Xanh lông công
-    };
   }
 
   List<ProductSort> productSorts;
   List<ProductBadge> productBadge;
-  Map<int, Color> _productColors;
 
   String getBadgeName(badge) {
     switch (badge) {
@@ -91,15 +75,12 @@ class ProductRepository {
     }
   }
 
-  Color getColorByID(id) {
-    return _productColors[id] ?? Colors.red;
-  }
-
   /// http://xuongann.com/api/flutter/product/ao-thun-nam-ca-sau-adidas
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {
       final url = Core.domain + 'api/flutter/product/$slug';
       final response = await http
+
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
       log(url);

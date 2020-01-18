@@ -19,7 +19,13 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
-  TabController tabController;
+  final children = <Widget>[
+    HomePage(),
+    CategoryPage(),
+    SearchPage(),
+    InAppView(),
+    AccountPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,22 +38,8 @@ class _HomeViewState extends State<HomeView>
       },
       child: Consumer<NavigationProvider>(
           builder: (context, navigationProvider, _) {
-        if (navigationProvider.index != tabController.index) {
-          tabController.animateTo(navigationProvider.index);
-        }
-
         return Scaffold(
-          body: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: tabController,
-            children: <Widget>[
-              HomePage(),
-              CategoryPage(),
-              SearchPage(),
-              InAppView(),
-              AccountPage(),
-            ],
-          ),
+          body: children.elementAt(navigationProvider.index),
           bottomNavigationBar: BottomNavigationBar(
             showUnselectedLabels: bigScreen,
             selectedFontSize: 12,
@@ -110,8 +102,6 @@ class _HomeViewState extends State<HomeView>
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController = new TabController(length: 5, vsync: this);
-
     AppDynamicLinks.instance.initDynamicLinks(context);
     AppOneSignal.instance.initOneSignalOpenedHandler(context);
     WidgetsBinding.instance.addObserver(this);
