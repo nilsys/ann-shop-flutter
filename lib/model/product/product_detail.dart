@@ -75,7 +75,7 @@ class ProductDetail extends Product {
       _detail.carousel=[ProductCarousel(origin: '', feature: '', thumbnail: '')];
     }
 
-    _detail.content = json['content'];
+    _detail.content = json['content'] ?? '';
     List<RegExpMatch> matches =
         RegExp(r"/uploads[\w\W]+?.jpg|/uploads[\w\W]+?.png")
             .allMatches(_detail.content)

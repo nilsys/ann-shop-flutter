@@ -16,6 +16,8 @@ class Core {
 
   static const domain = 'http://xuongann.com/';
 
+  static const dynamicLinkStore = 'https://annapp.page.link/store';
+
   static get urlStore {
     if (Platform.isIOS) {
       return 'itms-apps://itunes.apple.com/app/1493113793';

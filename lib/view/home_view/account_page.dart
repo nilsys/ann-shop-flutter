@@ -6,6 +6,7 @@ import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
+import 'package:ann_shop_flutter/view/coupon/inform_before_rate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -52,6 +53,10 @@ class _AccountPageState extends State<AccountPage> {
                     _showLoginBottomSheet();
                   }
                 }),
+                _buildItemCommon('Ưu đãi của bạn', icon: Icons.card_giftcard,
+                    onTap: () {
+                  Navigator.pushNamed(context, '/coupon');
+                }),
                 _buildItemCommon('Sản phẩm đã xem', icon: Icons.remove_red_eye,
                     onTap: () {
                   Navigator.pushNamed(context, '/seen');
@@ -72,11 +77,11 @@ class _AccountPageState extends State<AccountPage> {
                 _buildItemCommon(
                     'Đánh giá ANN trên ' +
                         (Platform.isIOS ? 'App Store' : 'Google Play'),
-                    icon: Icons.star_border, onTap: () {
-                  launch(Core.urlStoreReview);
-                }),
-                _buildItemCommon('Chia sẽ ứng dụng này', icon: Icons.share, onTap: () {
-                  Share.share(Core.urlStore);
+                    icon: Icons.star_border,
+                    onTap: _showInformBeforeRate),
+                _buildItemCommon('Chia sẽ ứng dụng này', icon: Icons.share,
+                    onTap: () {
+                  Share.share(Core.dynamicLinkStore);
                 }),
                 SizedBox(height: 12),
                 _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {
@@ -261,11 +266,13 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  _onLaunchURL() {
-    if (Platform.isIOS) {
-      launch("tel:/1800555555");
-    } else {
-      launch("tel:1800555555");
-    }
+  _showInformBeforeRate() {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext bc) {
+        return InformBeforeRate();
+      },
+    );
   }
 }
