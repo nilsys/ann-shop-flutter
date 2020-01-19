@@ -41,9 +41,27 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) cần quyền sử dụng CAMERA để quét mã sản phẩm, giúp việc tìm kiếm sản phẩm dể dàng hơn</string>
+	<string>ANN cần quyền sử dụng CAMERA để quét mã sản phẩm, giúp việc tìm kiếm sản phẩm dể dàng hơn</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>$(PRODUCT_NAME) cần quyền sử dụng PHOTO để lưu hình ảnh</string>
+	<string>ANN cần quyền sử dụng PHOTO để lưu hình ảnh</string>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>ANN cần quyền sử dụng APPLE MUSCIC</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>ANN cần quyền sử dụng CALENDARS</string>
+	<key>NSContactsUsageDescription</key>
+	<string>ANN cần quyền sử dụng CONTACT</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>ANN cần quyền sử dụng LOCATION</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ANN cần quyền sử dụng LOCATION</string>
+	<key>NSMotionUsageDescription</key>
+	<string>ANN cần quyền sử dụng MOTION</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>ANN cần quyền sử dụng RECOGNITION</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>ANN cần quyền sử dụng Hình Ảnh</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>ANN cần quyền sử dụng Microphone</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

@@ -34,10 +34,22 @@
 @import firebase_dynamic_links;
 #endif
 
+#if __has_include(<flutter_image_compress/FlutterImageCompressPlugin.h>)
+#import <flutter_image_compress/FlutterImageCompressPlugin.h>
+#else
+@import flutter_image_compress;
+#endif
+
 #if __has_include(<image_gallery_saver/ImageGallerySaverPlugin.h>)
 #import <image_gallery_saver/ImageGallerySaverPlugin.h>
 #else
 @import image_gallery_saver;
+#endif
+
+#if __has_include(<image_picker/FLTImagePickerPlugin.h>)
+#import <image_picker/FLTImagePickerPlugin.h>
+#else
+@import image_picker;
 #endif
 
 #if __has_include(<onesignal_flutter/OneSignalPlugin.h>)
@@ -102,7 +114,9 @@
   [FLTFirebaseAnalyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAnalyticsPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseDynamicLinksPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseDynamicLinksPlugin"]];
+  [FlutterImageCompressPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterImageCompressPlugin"]];
   [ImageGallerySaverPlugin registerWithRegistrar:[registry registrarForPlugin:@"ImageGallerySaverPlugin"]];
+  [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [OneSignalPlugin registerWithRegistrar:[registry registrarForPlugin:@"OneSignalPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
