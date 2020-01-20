@@ -7,9 +7,9 @@ import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
 import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
 
 class FavoriteView extends StatefulWidget {
   @override
@@ -120,7 +120,7 @@ class _FavoriteViewState extends State<FavoriteView> {
     _value += '\n';
 
     _value += CopyController.instance.copySetting.getUserInfo();
-    Share.share(_value, subject: 'Danh sách sản phẩm yêu thích');
+    Share.text('Danh sách sản phẩm yêu thích', _value, 'text/plain');
   }
 
   _onRemoveAll() {

@@ -11,6 +11,7 @@ import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:share_extend/share_extend.dart';
 
 class ProductImageShareView extends StatefulWidget {
   ProductImageShareView(this.data);
@@ -61,7 +62,13 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
                   Expanded(
                     flex: 1,
                     child: RaisedButton(
-                      child: Text('Đăng Facebook', style: Theme.of(context).textTheme.button.merge(TextStyle(color: Colors.white)),),
+                      child: Text(
+                        'Đăng Facebook',
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .merge(TextStyle(color: Colors.white)),
+                      ),
                       onPressed: _onShareFacebook,
                     ),
                   ),
@@ -69,7 +76,11 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
                   Expanded(
                     flex: 1,
                     child: RaisedButton(
-                      child: Text('Đăng Zalo', style: Theme.of(context).textTheme.button.merge(TextStyle(color: Colors.white))),
+                      child: Text('Đăng Zalo',
+                          style: Theme.of(context)
+                              .textTheme
+                              .button
+                              .merge(TextStyle(color: Colors.white))),
                       onPressed: _onShareZalo,
                     ),
                   ),
@@ -145,7 +156,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
                           style: Theme.of(context).textTheme.button.merge(
                               TextStyle(color: Theme.of(context).primaryColor)),
                         ),
-                        onPressed: (){
+                        onPressed: () {
                           setState(() {
                             imagesSelected = [];
                           });
@@ -223,9 +234,10 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
     );
   }
 
-  _onShareFacebook(){
+  _onShareFacebook() {
     _onShare(message: message);
   }
+
   _onShareZalo() {
     final maxForZalo = 9;
     if (imagesSelected.length > maxForZalo) {
@@ -246,15 +258,15 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
               }),
           btnNormal: ButtonData(title: 'Đóng', callback: null));
     } else {
-      if(imagesSelected.length == 1){
+      if (imagesSelected.length == 1) {
         _onShare(message: message);
-      }else{
-        _onShare();
+      } else {
+        _onShare(fixZalo: true);
       }
     }
   }
 
-  _onShare({message}) async {
+  _onShare({message, fixZalo = false}) async {
     try {
       var images = imagesSelected;
       if (Utility.isNullOrEmpty(images)) {
@@ -281,8 +293,11 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
       }
       hideLoading(context);
       if (Utility.isNullOrEmpty(files) == false) {
-//        ShareExtend.shareMultiple(files, "image");
-        Share.files(title, mapByte, '*/*', text: message);
+        if (fixZalo) {
+          ShareExtend.shareMultiple(files, "image");
+        } else {
+          Share.files(title, mapByte, '*/*', text: message);
+        }
       } else {
         throw ('Data empty');
       }

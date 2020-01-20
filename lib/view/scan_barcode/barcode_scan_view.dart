@@ -25,15 +25,37 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
   bool flashOn = false;
   bool bottomSheetIsOpen = false;
 
-  @override
-  void dispose() {
-    controllerQR?.dispose();
-    super.dispose();
-  }
+  AnimationController animationController;
+  Animation<double> animation;
+  double redLineTop = 150;
+  int offset = 50;
+  double squareSize = 270;
 
   @override
   void initState() {
     super.initState();
+
+    animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
+    animation =
+        Tween<double>(begin: (-squareSize / 2 + 20), end: squareSize / 2 - 20)
+            .animate(animationController);
+
+    animationController.addStatusListener((AnimationStatus status) {
+      if (status == AnimationStatus.completed) {
+        animationController.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        animationController.forward();
+      }
+    });
+    animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    controllerQR?.dispose();
+    super.dispose();
   }
 
   _openResultView(dynamic value) async {
@@ -54,10 +76,10 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
         Category(name: value, filter: ProductFilter(productSKU: value)),
         initData: null, showSearch: true);
     print('Back to scan');
-    try{
+    try {
       await Future.delayed(Duration(milliseconds: 100));
       controllerQR.resumeCamera();
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -84,23 +106,22 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final double sizeRect = size.width < 300 ? (size.width - 50) : 250;
     return Scaffold(
       backgroundColor: Colors.black,
       key: _scaffoldKey,
       body: Stack(
         overflow: Overflow.clip,
-        fit: StackFit.expand,
+        fit: StackFit.loose,
         children: <Widget>[
           QRView(
             key: _qrKey,
             onQRViewCreated: _onQRViewCreated,
           ),
-          Container(
+          Align(
             alignment: Alignment.center,
             child: Container(
-              width: sizeRect,
-              height: sizeRect,
+              width: squareSize,
+              height: squareSize,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   border: Border.all(
@@ -110,59 +131,111 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
                   )),
             ),
           ),
-          Positioned(
-            top: 38,
-            left: 15,
-            child: UIManager.btnClose(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
+          Align(
+              alignment: Alignment.center,
+              child: Container(
+                child: AnimatedBuilder(
+                  animation: animationController,
+                  child: SizedBox(
+                    width: 170,
+                    child: Container(
+                      height: 1,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                  builder: (BuildContext context, Widget _widget) {
+                    return new Transform.translate(
+                      offset: Offset(0, animation.value),
+                      // animationController.value * -0.5,
+                      child: _widget,
+                    );
+                  },
+                ),
+              )),
           Positioned(
             top: 30,
-            right: 10,
-            child: IconButton(
-                padding: EdgeInsets.all(0),
-                onPressed: () => _turnFlash(),
-                icon: Icon(
-                  flashOn ? Icons.flash_off : Icons.flash_on,
-                  size: 30,
-                  color: Colors.white,
-                )),
+            width: size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: UIManager.btnClose(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withAlpha(50),
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      'Quét mã vạch sản phẩm',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      maxLines: 1,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => _turnFlash(),
+                  icon: Icon(
+                    flashOn ? Icons.flash_off : Icons.flash_on,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
           ),
           // Change Store
           Positioned(
-            bottom: (size.height - sizeRect) / 4,
+            bottom: (size.height - squareSize) / 4,
             width: size.width,
-            child: Align(
-              alignment: Alignment.center,
-              child: InkWell(
-                onTap: _showInputCode,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-                  decoration: BoxDecoration(
-                    border: new Border.all(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid,
+            child: InkWell(
+              onTap: _showInputCode,
+              child: Container(
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))),
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        'Nhập mã vạch bằng tay',
+                        style: Theme.of(context).textTheme.button,
+                      ),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.keyboard,
+                    Container(
+                      width: 45,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                      ),
+                      child: Icon(
+                        Icons.keyboard_backspace,
+                        textDirection: TextDirection.rtl,
                         color: Colors.white,
                       ),
-                      Text(
-                        '  Nhập mã bằng tay',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -240,6 +313,10 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
                                   width: 1,
                                   style: BorderStyle.solid)),
                         ),
+                        onFieldSubmitted: (value) {
+                          _valueInput = _barcodeTextController.text;
+                          Navigator.pop(context);
+                        },
                       ),
                     ),
                     Container(

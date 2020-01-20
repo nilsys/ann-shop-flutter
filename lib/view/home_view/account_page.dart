@@ -7,10 +7,9 @@ import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/view/coupon/inform_before_rate.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -81,7 +80,8 @@ class _AccountPageState extends State<AccountPage> {
                     onTap: _showInformBeforeRate),
                 _buildItemCommon('Chia sẽ ứng dụng này', icon: Icons.share,
                     onTap: () {
-                  Share.share(Core.dynamicLinkStore);
+                  Share.text(Core.dynamicLinkStore, Core.dynamicLinkStore,
+                      'text/plain');
                 }),
                 SizedBox(height: 12),
                 _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {
