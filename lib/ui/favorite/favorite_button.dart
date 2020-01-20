@@ -34,16 +34,18 @@ class FavoriteButton extends StatelessWidget {
                     height: 30,
                     alignment: Alignment.topRight,
                     child: Container(
-                      width: 14,
+                      width: provider.products.length < 10 ? 14 : 18,
                       height: 14,
                       decoration: BoxDecoration(
                         color: Colors.red,
-                        shape: BoxShape.circle,
+                        borderRadius: BorderRadius.all(Radius.circular(7)),
                         border: Border.all(color: Colors.white, width: 1),
                       ),
-                      alignment: Alignment.center,
                       child: Text(
-                        provider.products.length< 10 ? provider.products.length.toString(): '+',
+                        provider.products.length < 10
+                            ? provider.products.length.toString()
+                            : '9+',
+                        textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 10),
                       ),
                     ),

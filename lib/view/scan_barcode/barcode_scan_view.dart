@@ -106,141 +106,148 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: Colors.black,
-      key: _scaffoldKey,
-      body: Stack(
-        overflow: Overflow.clip,
-        fit: StackFit.loose,
-        children: <Widget>[
-          QRView(
-            key: _qrKey,
-            onQRViewCreated: _onQRViewCreated,
+    bool hasKeyboard = MediaQuery.of(context).viewInsets.bottom > 100;
+    List<Widget> _children = [
+      QRView(
+        key: _qrKey,
+        onQRViewCreated: _onQRViewCreated,
+      )
+    ];
+    if (hasKeyboard == false) {
+      _children.addAll([
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            width: squareSize,
+            height: squareSize,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                border: Border.all(
+                  color: Colors.white,
+                  width: 2,
+                  style: BorderStyle.solid,
+                )),
           ),
-          Align(
+        ),
+        Align(
             alignment: Alignment.center,
             child: Container(
-              width: squareSize,
-              height: squareSize,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2,
-                    style: BorderStyle.solid,
-                  )),
+              child: AnimatedBuilder(
+                animation: animationController,
+                child: SizedBox(
+                  width: 170,
+                  child: Container(
+                    height: 1,
+                    color: Colors.redAccent,
+                  ),
+                ),
+                builder: (BuildContext context, Widget _widget) {
+                  return new Transform.translate(
+                    offset: Offset(0, animation.value),
+                    // animationController.value * -0.5,
+                    child: _widget,
+                  );
+                },
+              ),
+            )),
+      ]);
+    }
+    _children.add(Positioned(
+      top: 30,
+      width: size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: UIManager.btnClose(
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ),
-          Align(
+          Expanded(
+            flex: 1,
+            child: Container(
+              height: 38,
+              decoration: BoxDecoration(
+                color: Colors.black.withAlpha(50),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+              ),
               alignment: Alignment.center,
-              child: Container(
-                child: AnimatedBuilder(
-                  animation: animationController,
-                  child: SizedBox(
-                    width: 170,
-                    child: Container(
-                      height: 1,
-                      color: Colors.redAccent,
-                    ),
-                  ),
-                  builder: (BuildContext context, Widget _widget) {
-                    return new Transform.translate(
-                      offset: Offset(0, animation.value),
-                      // animationController.value * -0.5,
-                      child: _widget,
-                    );
-                  },
-                ),
-              )),
-          Positioned(
-            top: 30,
-            width: size.width,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                'Quét mã vạch sản phẩm',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+                maxLines: 1,
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: () => _turnFlash(),
+            icon: Icon(
+              flashOn ? Icons.flash_off : Icons.flash_on,
+              size: 30,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    ));
+    if (hasKeyboard == false) {
+      _children.add(Positioned(
+        bottom: (size.height - squareSize) / 4,
+        width: size.width,
+        child: InkWell(
+          onTap: _showInputCode,
+          child: Container(
+            alignment: Alignment.center,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: UIManager.btnClose(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                Container(
+                  height: 45,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10))),
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(
+                    'Nhập mã vạch bằng tay',
+                    style: Theme.of(context).textTheme.button,
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: Colors.black.withAlpha(50),
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                    ),
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      'Quét mã vạch sản phẩm',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                      maxLines: 1,
-                    ),
+                Container(
+                  width: 45,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        bottomRight: Radius.circular(10)),
                   ),
-                ),
-                IconButton(
-                  onPressed: () => _turnFlash(),
-                  icon: Icon(
-                    flashOn ? Icons.flash_off : Icons.flash_on,
-                    size: 30,
+                  child: Icon(
+                    Icons.keyboard_backspace,
+                    textDirection: TextDirection.rtl,
                     color: Colors.white,
                   ),
                 ),
               ],
             ),
           ),
-          // Change Store
-          Positioned(
-            bottom: (size.height - squareSize) / 4,
-            width: size.width,
-            child: InkWell(
-              onTap: _showInputCode,
-              child: Container(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      height: 45,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              bottomLeft: Radius.circular(10))),
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(
-                        'Nhập mã vạch bằng tay',
-                        style: Theme.of(context).textTheme.button,
-                      ),
-                    ),
-                    Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                      ),
-                      child: Icon(
-                        Icons.keyboard_backspace,
-                        textDirection: TextDirection.rtl,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
+      ));
+    }
+    return Scaffold(
+      backgroundColor: Colors.black,
+      key: _scaffoldKey,
+      body: Stack(
+        overflow: Overflow.clip,
+        fit: StackFit.loose,
+        children: _children,
       ),
     );
     // );
