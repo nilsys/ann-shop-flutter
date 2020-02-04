@@ -10,11 +10,13 @@ import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
+import 'package:ann_shop_flutter/repository/permission_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class ProductRepository {
@@ -250,14 +252,33 @@ class ProductRepository {
         AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
             duration: Duration(seconds: 1));
       } else {
-        bool result =
-            Provider.of<DownloadImageProvider>(context).downloadImages(images);
-        if (result == false) {
-          AppSnackBar.showFlushbar(
-              context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
+        bool permission = await PermissionRepository.instance.checkAndRequestPermission(
+            PermissionGroup.storage);
+        if(permission) {
+          bool result =
+          await Provider.of<DownloadImageProvider>(context, listen: false)
+              .downloadImages(images);
+          if (result == false) {
+            AppSnackBar.showFlushbar(
+                context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
+          }
+        }else{
+          AppPopup.showCustomDialog(
+            context,
+            title:
+            'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
+            btnNormal: ButtonData(title: 'Không'),
+            btnHighlight: ButtonData(
+              title: 'Mở cài đặt',
+              callback: () async {
+                PermissionHandler().openAppSettings();
+              },
+            ),
+          );
         }
       }
     } catch (e) {
+      print(e);
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
           duration: Duration(seconds: 1));
     }

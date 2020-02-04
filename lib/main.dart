@@ -88,6 +88,5 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    AppOneSignal.instance.initOneSignal(context);
   }
 }

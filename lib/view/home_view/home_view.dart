@@ -102,8 +102,8 @@ class _HomeViewState extends State<HomeView>
   void initState() {
     // TODO: implement initState
     super.initState();
-    AppDynamicLinks.instance.initDynamicLinks(context);
-    AppOneSignal.instance.initOneSignalOpenedHandler(context);
+    AppDynamicLinks.instance.checkAndInit();
+//    AppOneSignal.instance.checkAndInit();
     WidgetsBinding.instance.addObserver(this);
   }
 

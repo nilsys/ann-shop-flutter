@@ -5,6 +5,7 @@ import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
+import 'package:ann_shop_flutter/repository/permission_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/view/account/update_information.dart';
 import 'package:ann_shop_flutter/view/coupon/coupon_view.dart';
@@ -130,7 +131,8 @@ class Router {
             builder: (_) => RegisterSuccessView(), settings: settings);
       case '/update-information':
         return MaterialPageRoute(
-            builder: (_) => UpdateInformation(
+            builder: (_) =>
+                UpdateInformation(
                   isRegister: data ?? false,
                 ),
             settings: settings);
@@ -168,13 +170,17 @@ class Router {
   static showProductDetail(context,
       {String slug, Product product, ProductDetail detail}) async {
     if (detail != null) {
-      Provider.of<SeenProvider>(context).addNewProduct(detail);
+      Provider.of<SeenProvider>(context, listen: false).addNewProduct(detail);
       slug = detail.slug;
-      Provider.of<ProductProvider>(context).getBySlug(detail.slug).completed =
+      Provider
+          .of<ProductProvider>(context, listen: false)
+          .getBySlug(detail.slug)
+          .completed =
           detail;
     } else {
       if (product != null) {
-        Provider.of<SeenProvider>(context).addNewProduct(product);
+        Provider.of<SeenProvider>(context, listen: false).addNewProduct(
+            product);
         slug = product.slug;
       }
       await Navigator.pushNamed(context, '/product-detail', arguments: slug);
@@ -182,39 +188,23 @@ class Router {
   }
 
   static scanBarCode(BuildContext context) async {
-    var _cameraPermissionStatus =
-        await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
-    if (_cameraPermissionStatus == PermissionStatus.granted) {
+    bool result = await PermissionRepository.instance.checkAndRequestPermission(
+        PermissionGroup.camera);
+    if (result) {
       Navigator.pushNamed(context, "/scan");
     } else {
-      if (_cameraPermissionStatus == PermissionStatus.unknown ||
-          !Platform.isIOS) {
-        final List<PermissionGroup> permissions = <PermissionGroup>[
-          PermissionGroup.camera
-        ];
-        Map<PermissionGroup, PermissionStatus> permissionRequestResult =
-            await PermissionHandler().requestPermissions(permissions);
-        _cameraPermissionStatus =
-            permissionRequestResult[PermissionGroup.camera];
-      }
-
-
-      if (_cameraPermissionStatus == PermissionStatus.granted) {
-        Navigator.pushNamed(context, "/scan");
-      } else {
-        AppPopup.showCustomDialog(
-          context,
-          title:
-              'Cần quyền truy cập máy ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
-          btnNormal: ButtonData(title: 'Không'),
-          btnHighlight: ButtonData(
-            title: 'Mở cài đặt',
-            callback: () async {
-              PermissionHandler().openAppSettings();
-            },
-          ),
-        );
-      }
+      AppPopup.showCustomDialog(
+        context,
+        title:
+        'Cần quyền truy cập máy ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
+        btnNormal: ButtonData(title: 'Không'),
+        btnHighlight: ButtonData(
+          title: 'Mở cài đặt',
+          callback: () async {
+            PermissionHandler().openAppSettings();
+          },
+        ),
+      );
     }
   }
 }

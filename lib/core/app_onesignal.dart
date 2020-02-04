@@ -12,23 +12,30 @@ class AppOneSignal {
     return instance;
   }
 
-  AppOneSignal._internal();
+  AppOneSignal._internal(){
+    _initOneSignal(MyApp.context);
+  }
+
 
   String userId;
   String pushToken;
   final _privateKey = "4cfab7f0-6dc2-4004-a631-fc4ba7cbf046";
 
-  void initOneSignal(BuildContext context) async {
+  void checkAndInit(){
+    print('AppOneSignal Check and Init');
+  }
 
-    OneSignal.shared.init(_privateKey, iOSSettings: {
+  void _initOneSignal(BuildContext context) async {
+
+    await OneSignal.shared.init(_privateKey, iOSSettings: {
       OSiOSSettings.autoPrompt: true,
       OSiOSSettings.inAppLaunchUrl: true
     });
-    OneSignal.shared
+    await OneSignal.shared
         .promptUserForPushNotificationPermission(fallbackToSettings: true);
-    OneSignal.shared.promptLocationPermission();
+    await OneSignal.shared.promptLocationPermission();
 
-    OneSignal.shared
+    await OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
     OneSignal.shared.setPermissionObserver((OSPermissionStateChanges changes) {
@@ -48,9 +55,6 @@ class AppOneSignal {
       // (ie. OneSignal.setEmail(email) is called and the user gets registered
     });
 
-  }
-
-  void initOneSignalOpenedHandler(BuildContext context) {
     OneSignal.shared.setNotificationReceivedHandler((notification) {
 //      _processNotificationReceived(notification, false);
     });
@@ -59,6 +63,7 @@ class AppOneSignal {
       _processNotificationReceived(notificationOpen.notification, false);
     });
   }
+
 
   void _processNotificationReceived(OSNotification notification, bool init) {
     OSNotificationPayload payload = notification.payload;

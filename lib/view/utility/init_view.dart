@@ -20,7 +20,7 @@ class _InitViewState extends State<InitView> {
             color: Theme.of(context).primaryColor,
             alignment: Alignment.center,
             child: Container(
-              height: 90,
+              height: 70,
               width: 200,
               child: Image.asset('assets/images/ui/ann.png', fit: BoxFit.fitWidth,),
             ),
@@ -51,7 +51,7 @@ class _InitViewState extends State<InitView> {
     if(AccountController.instance.isLogin == false){
       Navigator.pushReplacementNamed(context, '/login');
     }else{
-      CoverProvider provider = Provider.of(context);
+      CoverProvider provider = Provider.of(context, listen:  false);
       await provider.loadPostHome();
       if(provider.postsHome.isCompleted){
         AccountController.instance.saveToLocale();

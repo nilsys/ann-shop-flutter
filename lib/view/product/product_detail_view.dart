@@ -68,7 +68,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
       }
     });
     WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      Provider.of<CoverProvider>(context).refreshCoverProductPage(widget.slug);
+      Provider.of<CoverProvider>(context, listen: false).refreshCoverProductPage(widget.slug);
     });
   }
 

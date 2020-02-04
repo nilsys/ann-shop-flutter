@@ -1,5 +1,4 @@
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 

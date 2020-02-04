@@ -13,10 +13,8 @@ class DownloadImageProvider extends ChangeNotifier {
 
   List<String> get images => _images;
 
-  bool downloadImages(List<String> images) {
-    if(_images!=null){
-      return false;
-    }else {
+  Future<bool> downloadImages(List<String> images) async {
+    if (_images == null) {
       _images = images;
       if (Utility.isNullOrEmpty(images) == false) {
         countFail = 0;
@@ -24,6 +22,7 @@ class DownloadImageProvider extends ChangeNotifier {
       }
       return true;
     }
+    return false;
   }
 
   int index = 0;
@@ -33,7 +32,7 @@ class DownloadImageProvider extends ChangeNotifier {
       images != null ? 'Đang tải $index/${images.length}' : null;
 
   _saveImage(_index) async {
-    index=_index;
+    index = _index;
     if (_index >= images.length) {
       AppSnackBar.showHighlightTopMessage(MyApp.context,
           'Tải thành công ${images.length - countFail}/${images.length} hình');

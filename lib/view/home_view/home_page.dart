@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage>
     scrollController = ScrollController();
 
     WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      reTapBottom = Provider.of<NavigationProvider>(context)
+      reTapBottom = Provider.of<NavigationProvider>(context, listen: false)
           .reTap
           .stream
           .listen(onReTapBottom);

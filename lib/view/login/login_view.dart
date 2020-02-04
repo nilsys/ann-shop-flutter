@@ -202,8 +202,8 @@ class _LoginViewState extends State<LoginView> {
         hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
-          Provider.of<NavigationProvider>(context).index = PageName.home.index;
           Navigator.pushReplacementNamed(context, '/home');
+          Provider.of<NavigationProvider>(context, listen: false).index = PageName.home.index;
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');

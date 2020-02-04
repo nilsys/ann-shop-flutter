@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:ann_shop_flutter/core/app_action.dart';
+import 'package:ann_shop_flutter/main.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +14,15 @@ class AppDynamicLinks{
     return instance;
   }
 
-  AppDynamicLinks._internal();
+  AppDynamicLinks._internal(){
+    _initDynamicLinks(MyApp.context);
+  }
 
+  void checkAndInit(){
+    print('AppDynamicLinks Check and Init');
+  }
 
-  void initDynamicLinks(BuildContext context) async {
+  void _initDynamicLinks(BuildContext context) async {
     final PendingDynamicLinkData data =
     await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri deepLink = data?.link;

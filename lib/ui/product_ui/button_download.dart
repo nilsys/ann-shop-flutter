@@ -2,11 +2,14 @@ import 'dart:typed_data';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/repository/permission_repository.dart';
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ButtonDownload extends StatefulWidget {
   ButtonDownload({this.imageName, this.cache = false});
@@ -64,6 +67,26 @@ class _ButtonDownloadState extends State<ButtonDownload> {
 
   _download() async {
     try {
+
+      bool permission = await PermissionRepository.instance.checkAndRequestPermission(
+          PermissionGroup.storage);
+      if(permission == false){
+        AppPopup.showCustomDialog(
+          context,
+          title:
+          'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
+          btnNormal: ButtonData(title: 'Không'),
+          btnHighlight: ButtonData(
+            title: 'Mở cài đặt',
+            callback: () async {
+              PermissionHandler().openAppSettings();
+            },
+          ),
+        );
+        return;
+      }
+
+
       setState(() {
         loading = loadState.loading;
       });

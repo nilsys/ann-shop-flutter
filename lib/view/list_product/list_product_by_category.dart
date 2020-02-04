@@ -37,7 +37,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
     filter = AppFilter.fromCategoryFilter(category.filter);
 
     WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      Provider.of<SpamCoverProvider>(context).checkLoad(category.getSlugBanner);
+      Provider.of<SpamCoverProvider>(context,listen: false).checkLoad(category.getSlugBanner);
     });
   }
 

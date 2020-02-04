@@ -121,7 +121,7 @@ PODS:
     - OneSignal (= 2.12.2)
   - path_provider (0.0.1):
     - Flutter
-  - permission_handler (4.1.0):
+  - "permission_handler (4.2.0+hotfix.3)":
     - Flutter
   - qr_code_scanner (0.0.2):
     - Flutter
@@ -143,8 +143,6 @@ PODS:
     - Flutter
     - FMDB (~> 2.7.2)
   - url_launcher (0.0.1):
-    - Flutter
-  - url_launcher_macos (0.0.1):
     - Flutter
   - url_launcher_web (0.0.1):
     - Flutter
@@ -174,7 +172,6 @@ DEPENDENCIES:
   - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
-  - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
   - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
@@ -245,8 +242,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
-  url_launcher_macos:
-    :path: ".symlinks/plugins/url_launcher_macos/ios"
   url_launcher_web:
     :path: ".symlinks/plugins/url_launcher_web/ios"
   webview_flutter:
@@ -284,7 +279,7 @@ SPEC CHECKSUMS:
   OneSignal: b2c1511c6b5db2d3b0ce1859f574dcf190dde5f3
   onesignal_flutter: 289d8b75eaa81fc80d657ffa450253a654f5514a
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
-  permission_handler: b41310bab60fffbf8b5732cd9b4f565671d14762
+  permission_handler: 40520ab8ad1bb78a282b832464e995ec87f77ec6
   qr_code_scanner: 16107718bdad7d708cdf6a5eacdca24b56cdf471
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: 1245d058b7b8f59adef7a6da6bbafd4f1ab67041
@@ -295,10 +290,9 @@ SPEC CHECKSUMS:
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
   sqflite: ff1d9da63c06588cc8d1faf7256d741f16989d5a
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
-  url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
   webview_flutter: db3aba222b23e4dc432e0c5882834123dc50ff9f
 
-PODFILE CHECKSUM: af40df913c535df8bd7254c5ea5bd98400d524db
+PODFILE CHECKSUM: d3ac7d23d43d1e349798b99fdaad7ade4fa6a384
 
 COCOAPODS: 1.8.4
