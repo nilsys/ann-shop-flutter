@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage>
           .reTap
           .stream
           .listen(onReTapBottom);
-      Provider.of<CoverProvider>(context).checkLoadCoverHomePage();
+      Provider.of<CoverProvider>(context, listen: false).checkLoadCoverHomePage();
     });
   }
 

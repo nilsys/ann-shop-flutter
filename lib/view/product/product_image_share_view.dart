@@ -235,7 +235,11 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
   }
 
   _onShareFacebook() {
-    _onShare(message: message);
+    if (Platform.isAndroid) {
+      _onShare(message: message, fixZalo: true);
+    } else {
+      _onShare(message: message);
+    }
   }
 
   _onShareZalo() {
@@ -258,10 +262,14 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
               }),
           btnNormal: ButtonData(title: 'Đóng', callback: null));
     } else {
-      if (imagesSelected.length == 1) {
-        _onShare(message: message);
+      if (Platform.isAndroid) {
+        _onShare(message: message, fixZalo: true);
       } else {
-        _onShare(fixZalo: true);
+        if (imagesSelected.length == 1) {
+          _onShare(message: message);
+        } else {
+          _onShare(fixZalo: true);
+        }
       }
     }
   }
