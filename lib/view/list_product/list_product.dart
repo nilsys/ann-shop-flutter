@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
@@ -10,6 +11,7 @@ import 'package:ann_shop_flutter/ui/product_ui/config_product_ui.dart';
 import 'package:ann_shop_flutter/ui/product/product_block.dart';
 import 'package:ann_shop_flutter/ui/product/product_full.dart';
 import 'package:ann_shop_flutter/ui/product/product_title.dart';
+import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -36,7 +38,7 @@ class ListProduct extends StatefulWidget {
 
   static showBySearch(context, Category category,
       {List<Product> initData}) async {
-    Provider.of<SearchProvider>(context).setText();
+    Provider.of<SearchProvider>(context, listen: false).setText();
     var data = {'category': category, 'initData': initData, 'showSearch': true};
     if (Navigator.canPop(context)) {
       await Navigator.pushReplacementNamed(context, '/list-product-by-category',

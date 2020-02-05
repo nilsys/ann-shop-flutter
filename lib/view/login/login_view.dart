@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
@@ -6,6 +8,7 @@ import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/ui/button/border_button.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -156,6 +159,18 @@ class _LoginViewState extends State<LoginView> {
                 'Đăng nhập',
                 onPressed: _validateInput,
               ),
+              SizedBox(height: Platform.isIOS ? 30 : 1),
+              Platform.isIOS
+                  ? BorderButton(
+                      'Đăng ký sau',
+                      onPressed: () {
+                        AccountController.instance.loginLater();
+                        Navigator.pushReplacementNamed(context, '/home');
+                        Provider.of<NavigationProvider>(context, listen: false)
+                            .index = PageName.home.index;
+                      },
+                    )
+                  : SizedBox(),
               Container(
                 height: 70,
                 child: Row(
@@ -203,7 +218,8 @@ class _LoginViewState extends State<LoginView> {
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
           Navigator.pushReplacementNamed(context, '/home');
-          Provider.of<NavigationProvider>(context, listen: false).index = PageName.home.index;
+          Provider.of<NavigationProvider>(context, listen: false).index =
+              PageName.home.index;
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');

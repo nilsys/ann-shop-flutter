@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_token.dart';
+import 'package:ann_shop_flutter/model/account/no_login_info.dart';
 
 class AccountController {
   static final AccountController instance = AccountController._internal();
@@ -15,8 +16,35 @@ class AccountController {
 
   Account account;
   AccountToken token;
+  NoLoginInfo noLoginInfo;
 
   bool get isLogin => account != null && token != null;
+
+  bool get canViewProduct {
+    if(isLogin){
+      return true;
+    }
+    if(noLoginInfo.canViewProduct){
+      noLoginInfo.viewProduct++;
+      print('noLoginInfo.viewProduct: ${noLoginInfo.viewProduct}');
+      StorageManager.setObject(_keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
+      return true;
+    }
+    return false;
+  }
+
+  bool get canSearchProduct {
+    if(isLogin){
+      return true;
+    }
+    if(noLoginInfo.canSearchProduct){
+      noLoginInfo.searchProduct++;
+      print('noLoginInfo.searchProduct: ${noLoginInfo.searchProduct}');
+      StorageManager.setObject(_keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
+      return true;
+    }
+    return false;
+  }
 
   Map<String, String> get header => {
         "Content-Type": "application/json",
@@ -37,6 +65,20 @@ class AccountController {
 
   final _keyAccount = '_keyAccount';
   final _keyToken = '_keyToken';
+  final _keyNoLoginInfo = '_keyNoLoginInfo';
+
+  loginLater() async {
+    var response = await StorageManager.getObjectByKey(_keyNoLoginInfo);
+    print('Login later');
+    print(response);
+    try {
+      noLoginInfo = NoLoginInfo.fromJson(jsonDecode(response));
+    } catch (e) {}
+    if (noLoginInfo == null) {
+      noLoginInfo = NoLoginInfo();
+    }
+    logout();
+  }
 
   updateAccountInfo(Account _account) {
     this.account = _account;
@@ -70,6 +112,8 @@ class AccountController {
     } else {
       StorageManager.setObject(_keyAccount, json.encode(account.toJson()));
       StorageManager.setObject(_keyToken, json.encode(token.toJson()));
+      StorageManager.clearObjectByKey(_keyNoLoginInfo);
+      noLoginInfo = null;
     }
   }
 }

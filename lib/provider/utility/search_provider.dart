@@ -3,6 +3,7 @@ import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/main.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
@@ -68,6 +69,11 @@ class SearchProvider with ChangeNotifier {
   onSearch(context, value) async {
     value = value.trim();
     if (value.isNotEmpty) {
+      if(AccountController.instance.canSearchProduct == false){
+        AppSnackBar.showFlushbar(context, 'Bạn cần đăng nhập để tiếp tục tìm kiếm sản phẩm');
+        return;
+      }
+
       setText(text: value);
       if (checkFirst == false) {
         ListProduct.showBySearch(context,

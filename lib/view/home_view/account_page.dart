@@ -10,6 +10,7 @@ import 'package:ann_shop_flutter/view/coupon/inform_before_rate.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -267,12 +268,13 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   _showInformBeforeRate() {
-    showModalBottomSheet(
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (BuildContext bc) {
-        return InformBeforeRate();
-      },
-    );
+    launch(Core.urlStoreReview);
+//    showModalBottomSheet(
+//      backgroundColor: Colors.transparent,
+//      context: context,
+//      builder: (BuildContext bc) {
+//        return InformBeforeRate();
+//      },
+//    );
   }
 }

@@ -21,7 +21,7 @@ class SearchPage extends StatelessWidget {
               if (Navigator.canPop(context)) {
                 Navigator.pop(context);
               } else {
-                Provider.of<NavigationProvider>(context)
+                Provider.of<NavigationProvider>(context, listen: false)
                     .switchTo(PageName.home.index);
               }
             }

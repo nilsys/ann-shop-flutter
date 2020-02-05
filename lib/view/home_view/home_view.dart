@@ -94,7 +94,7 @@ class _HomeViewState extends State<HomeView>
   }
 
   _onItemTapped(_index) {
-    Provider.of<NavigationProvider>(context).switchTo(_index);
+    Provider.of<NavigationProvider>(context, listen: false).switchTo(_index);
 //      tabController.animateTo(_index);
   }
 

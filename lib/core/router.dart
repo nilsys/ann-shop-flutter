@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/custom_fade_roue.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/repository/permission_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
+import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/view/account/update_information.dart';
 import 'package:ann_shop_flutter/view/coupon/coupon_view.dart';
 import 'package:ann_shop_flutter/view/coupon/upload_photo.dart';
@@ -169,6 +171,12 @@ class Router {
 
   static showProductDetail(context,
       {String slug, Product product, ProductDetail detail}) async {
+
+    if(AccountController.instance.canViewProduct == false){
+      AppSnackBar.showFlushbar(context, 'Bạn cần đăng nhập để tiếp tục xêm thêm thông tin sản phẩm');
+      return;
+    }
+
     if (detail != null) {
       Provider.of<SeenProvider>(context, listen: false).addNewProduct(detail);
       slug = detail.slug;

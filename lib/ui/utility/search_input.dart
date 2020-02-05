@@ -54,8 +54,8 @@ class _SearchInputState extends State<SearchInput> {
                   .merge(TextStyle(fontStyle: FontStyle.italic)),
               hintText: 'Tên sản phẩm, Mã sản phẩm...'),
           onSubmitted: (text) {
-            Provider.of<SearchProvider>(context).onSearch(
-                context, Provider.of<SearchProvider>(context).controller.text);
+            Provider.of<SearchProvider>(context, listen: false).onSearch(
+                context, Provider.of<SearchProvider>(context, listen: false).controller.text);
           }),
     );
   }
