@@ -1,6 +1,8 @@
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
 import 'package:ann_shop_flutter/provider/utility/blog_provider.dart';
+import 'package:ann_shop_flutter/ui/utility/request_login.dart';
 import 'package:ann_shop_flutter/view/inapp/list_blog.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +37,12 @@ class _BlogViewState extends State<BlogView> {
       appBar: AppBar(
         title: Text(currentTitle),
       ),
-      body: ListBlog(
-        currentSlug,
-        topObject: _buildCategoryButtonList(),
-      ),
+      body: AccountController.instance.isLogin == false
+          ? RequestLogin()
+          : ListBlog(
+              currentSlug,
+              topObject: _buildCategoryButtonList(),
+            ),
     );
   }
 

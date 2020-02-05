@@ -4,9 +4,11 @@ import 'dart:typed_data';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -235,6 +237,10 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
   }
 
   _onShareFacebook() {
+    if(AccountController.instance.isLogin == false){
+      AskLogin.show(context);
+      return;
+    }
     if (Platform.isAndroid) {
       _onShare(message: message, fixZalo: true);
     } else {
@@ -243,6 +249,11 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
   }
 
   _onShareZalo() {
+
+    if(AccountController.instance.isLogin == false){
+      AskLogin.show(context);
+      return;
+    }
     final maxForZalo = 9;
     if (imagesSelected.length > maxForZalo) {
       AppPopup.showImageDialog(context,

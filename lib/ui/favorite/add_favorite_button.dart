@@ -18,10 +18,10 @@ class AddFavoriteButton extends StatelessWidget {
       child: IconButton(
         onPressed: () {
           if (favorite) {
-            Provider.of<FavoriteProvider>(context)
+            Provider.of<FavoriteProvider>(context, listen: false)
                 .removeProduct(product.productID);
           } else {
-            Provider.of<FavoriteProvider>(context)
+            Provider.of<FavoriteProvider>(context, listen: false)
                 .addNewProduct(context, product, count: 1);
           }
         },

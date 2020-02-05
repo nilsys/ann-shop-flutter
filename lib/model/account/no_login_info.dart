@@ -2,8 +2,8 @@ class NoLoginInfo {
 
   int viewProduct;
   int searchProduct;
-  bool get canViewProduct => viewProduct <= 5;
-  bool get canSearchProduct => searchProduct <= 5;
+  bool get canViewProduct => viewProduct < 20;
+  bool get canSearchProduct => searchProduct < 20;
 
   NoLoginInfo({this.viewProduct = 0, this.searchProduct = 0});
 

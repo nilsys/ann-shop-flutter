@@ -13,6 +13,7 @@ import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/repository/permission_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -203,6 +204,10 @@ class ProductRepository {
   }
 
   onCheckAndCopy(context, productID) async {
+    if(AccountController.instance.isLogin == false){
+      AskLogin.show(context);
+      return;
+    }
     if (CopyController.instance.copySetting.showed) {
       await onCopy(context, productID);
       AppSnackBar.showFlushbar(context, 'Đã copy',
@@ -245,6 +250,10 @@ class ProductRepository {
 
   /// save to gallery
   onDownLoad(context, int productID) async {
+    if(AccountController.instance.isLogin == false){
+      AskLogin.show(context);
+      return;
+    }
     try {
       var images = await ProductRepository.instance
           .loadProductAdvertisementImage(productID);

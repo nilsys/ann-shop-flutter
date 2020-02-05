@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
@@ -9,7 +10,8 @@ import 'package:ann_shop_flutter/repository/list_product_repository.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class LoadMoreProductRepository extends LoadingMoreBase<Product> {
-  LoadMoreProductRepository({this.productFilter, this.initData, AppFilter appFilter}) {
+  LoadMoreProductRepository(
+      {this.productFilter, this.initData, AppFilter appFilter}) {
     // TODO:
     _filter = AppFilter.clone(appFilter);
     if (Utility.isNullOrEmpty(this.initData)) {
@@ -19,7 +21,7 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
       initData.forEach((item) {
         this.add(item);
       });
-      if(initData.length < itemPerPage){
+      if (initData.length < itemPerPage) {
         _hasMore = false;
       }
     }
@@ -90,6 +92,9 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
     if (_filter == null) {
       return [];
     } else {
+      if (pageIndex > 1 && AccountController.instance.isLogin == false) {
+        return null;
+      }
       var list = await ListProductRepository.instance.loadByProductFilter(
           productFilter,
           page: pageIndex,

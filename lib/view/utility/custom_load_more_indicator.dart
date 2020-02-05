@@ -1,3 +1,5 @@
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
@@ -11,7 +13,9 @@ class CustomLoadMoreIndicator extends StatelessWidget {
   final noMoreLoadText;
   final emptyText;
 
-  CustomLoadMoreIndicator(this.listSourceRepository, this.status, {this.noMoreLoadText = 'Đã hiển thị tất cả sản phẩm', this.emptyText = 'Không tìm thấy sản phẩm nào'});
+  CustomLoadMoreIndicator(this.listSourceRepository, this.status,
+      {this.noMoreLoadText = 'Đã hiển thị tất cả sản phẩm',
+      this.emptyText = 'Không tìm thấy sản phẩm nào'});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +76,12 @@ class CustomLoadMoreIndicator extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Icon(Icons.error, size: 25),
-              Text("Có lỗi xảy ra, chạm để thử lại...")
+              Text(
+                AccountController.instance.isLogin
+                    ? "Có lỗi xảy ra, chạm để thử lại..."
+                    : "Bạn cần đăng nhập hoặc đăng ký để xem thêm sản phẩm!",
+                textAlign: TextAlign.center,
+              )
             ],
           ),
         );
@@ -80,7 +89,12 @@ class CustomLoadMoreIndicator extends StatelessWidget {
 
         widget = GestureDetector(
           onTap: () {
-            listSourceRepository.errorRefresh();
+            if (AccountController.instance.isLogin) {
+              listSourceRepository.errorRefresh();
+            } else {
+              AskLogin.show(context,message:
+                  'Vui lòng đăng nhập hoặc đăng ký để xem thêm sản phẩm');
+            }
           },
           child: widget,
         );
@@ -114,7 +128,9 @@ class CustomLoadMoreIndicator extends StatelessWidget {
         widget = _setBackGround(false, widget, 25.0);
         break;
       case IndicatorStatus.empty:
-        widget = EmptyListUI(body: emptyText,);
+        widget = EmptyListUI(
+          body: emptyText,
+        );
         widget =
             _setBackGround(true, widget, double.infinity, context: context);
 

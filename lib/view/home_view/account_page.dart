@@ -46,13 +46,7 @@ class _AccountPageState extends State<AccountPage> {
               delegate: SliverChildListDelegate([
                 SizedBox(height: 12),
                 _buildItemCommon('Quản lý đơn hàng', icon: Icons.description,
-                    onTap: () {
-                  if (AccountController.instance.isLogin) {
-                    Navigator.pushNamed(context, '/order-management');
-                  } else {
-                    _showLoginBottomSheet();
-                  }
-                }),
+                    onTap: _viewOrderManagement),
                 _buildItemCommon('Ưu đãi của bạn', icon: Icons.card_giftcard,
                     onTap: () {
                   Navigator.pushNamed(context, '/coupon');
@@ -67,7 +61,7 @@ class _AccountPageState extends State<AccountPage> {
                 }),
                 _buildItemCommon('Thông báo', icon: Icons.notifications,
                     onTap: () {
-                  Provider.of<NavigationProvider>(context)
+                  Provider.of<NavigationProvider>(context, listen: false)
                       .switchTo(PageName.notification.index);
                 }),
                 _buildItemCommon('ANN Blog', icon: AppIcons.blogger, onTap: () {
@@ -256,15 +250,14 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  _showLoginBottomSheet() {
-    showModalBottomSheet(
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (BuildContext bc) {
-        return AskLogin(
-            'Vui lòng đăng nhập hoặc đăng ký để xem đơn hàng của bạn tại XuongAnn');
-      },
-    );
+  _viewOrderManagement() {
+    if (AccountController.instance.isLogin) {
+      Navigator.pushNamed(context, '/order-management');
+    } else {
+      return AskLogin.show(context,
+          message:
+          'Vui lòng đăng nhập hoặc đăng ký để xem đơn hàng của bạn tại XuongAnn');
+    }
   }
 
   _showInformBeforeRate() {

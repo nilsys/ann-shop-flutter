@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
@@ -6,6 +7,7 @@ import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
+import 'package:ann_shop_flutter/ui/utility/request_login.dart';
 import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
@@ -52,28 +54,31 @@ class _FavoriteViewState extends State<FavoriteView> {
                   ),
                 ],
         ),
-        body: Container(
-          child: CustomScrollView(
-            physics: BouncingScrollPhysics(),
-            slivers: <Widget>[
-              Utility.isNullOrEmpty(data)
-                  ? _buildEmpty(context)
-                  : SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        return Column(
-                          children: <Widget>[
-                            ProductFavoriteItem(data[index]),
-                            Container(
-                              height: 1,
-                              color: AppStyles.dividerColor,
-                            )
-                          ],
-                        );
-                      }, childCount: data.length),
-                    )
-            ],
-          ),
-        ),
+        body: AccountController.instance.isLogin == false
+            ? RequestLogin()
+            : Container(
+                child: CustomScrollView(
+                  physics: BouncingScrollPhysics(),
+                  slivers: <Widget>[
+                    Utility.isNullOrEmpty(data)
+                        ? _buildEmpty(context)
+                        : SliverList(
+                            delegate:
+                                SliverChildBuilderDelegate((context, index) {
+                              return Column(
+                                children: <Widget>[
+                                  ProductFavoriteItem(data[index]),
+                                  Container(
+                                    height: 1,
+                                    color: AppStyles.dividerColor,
+                                  )
+                                ],
+                              );
+                            }, childCount: data.length),
+                          )
+                  ],
+                ),
+              ),
       ),
     );
   }
@@ -95,7 +100,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                Provider.of<NavigationProvider>(context)
+                Provider.of<NavigationProvider>(context, listen: false)
                     .switchTo(PageName.category.index);
                 Navigator.popUntil(
                   context,

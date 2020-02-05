@@ -1,8 +1,10 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/app_input_formatter.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
+import 'package:ann_shop_flutter/ui/utility/request_login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -67,70 +69,76 @@ class _SettingViewState extends State<SettingView> {
             },
           ),
         ),
-        body: Container(
-          child: CustomScrollView(physics: BouncingScrollPhysics(), slivers: <
-              Widget>[
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  _buildTitleCommon('Cài đặt copy sản phẩm'),
-                  _buildItemCommon('Mã sản phẩm',
-                      trailing: CupertinoSwitch(
-                        value: valueCode,
-                        activeColor: Theme.of(context).primaryColor,
-                        onChanged: (value) {
-                          setState(() {
-                            valueCode = value;
-                          });
-                        },
-                      )),
-                  _buildItemCommon('Tên sản phẩm',
-                      trailing: CupertinoSwitch(
-                        value: valueName,
-                        activeColor: Theme.of(context).primaryColor,
-                        onChanged: (value) {
-                          setState(() {
-                            valueName = value;
-                          });
-                        },
-                      )),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    child: TextField(
-                      controller: controllerBonus,
-                      keyboardType: TextInputType.number,
-                      decoration:
-                          InputDecoration(labelText: 'Giá lẽ cộng thêm (vnđ)'),
-                      inputFormatters: [
-                        WhitelistingTextInputFormatter.digitsOnly,
-                        CurrencyInputFormatter()
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    child: TextField(
-                      controller: controllerPhone,
-                      keyboardType: TextInputType.number,
-                      maxLength: 11,
-                      decoration:
-                          InputDecoration(labelText: 'Điện thoại của khách'),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    child: TextField(
-                      controller: controllerAddress,
-                      keyboardType: TextInputType.text,
-                      decoration:
-                          InputDecoration(labelText: 'Địa chỉ của khách'),
-                    ),
-                  ),
-                ],
+        body: AccountController.instance.isLogin == false
+            ? RequestLogin()
+            : Container(
+                child: CustomScrollView(
+                    physics: BouncingScrollPhysics(),
+                    slivers: <Widget>[
+                      SliverList(
+                        delegate: SliverChildListDelegate(
+                          [
+                            _buildTitleCommon('Cài đặt copy sản phẩm'),
+                            _buildItemCommon('Mã sản phẩm',
+                                trailing: CupertinoSwitch(
+                                  value: valueCode,
+                                  activeColor: Theme.of(context).primaryColor,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      valueCode = value;
+                                    });
+                                  },
+                                )),
+                            _buildItemCommon('Tên sản phẩm',
+                                trailing: CupertinoSwitch(
+                                  value: valueName,
+                                  activeColor: Theme.of(context).primaryColor,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      valueName = value;
+                                    });
+                                  },
+                                )),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              child: TextField(
+                                controller: controllerBonus,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    labelText: 'Giá lẽ cộng thêm (vnđ)'),
+                                inputFormatters: [
+                                  WhitelistingTextInputFormatter.digitsOnly,
+                                  CurrencyInputFormatter()
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              child: TextField(
+                                controller: controllerPhone,
+                                keyboardType: TextInputType.number,
+                                maxLength: 11,
+                                decoration: InputDecoration(
+                                    labelText: 'Điện thoại của khách'),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              child: TextField(
+                                controller: controllerAddress,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                    labelText: 'Địa chỉ của khách'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ]),
               ),
-            )
-          ]),
-        ),
       ),
     );
   }

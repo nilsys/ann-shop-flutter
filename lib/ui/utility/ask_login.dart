@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AskLogin extends StatelessWidget {
+
+  static show(context, {message = 'Vui lòng đăng nhập hoặc đăng ký để sử dụng chức năng này'}){
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext bc) {
+        return AskLogin(message);
+      },
+    );
+  }
+
   AskLogin(this.message);
   final message;
 

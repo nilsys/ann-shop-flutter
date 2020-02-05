@@ -2,9 +2,11 @@ import 'dart:typed_data';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/repository/permission_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -66,6 +68,10 @@ class _ButtonDownloadState extends State<ButtonDownload> {
   loadState loading = loadState.none;
 
   _download() async {
+    if(AccountController.instance.isLogin == false){
+      AskLogin.show(context);
+      return;
+    }
     try {
 
       bool permission = await PermissionRepository.instance.checkAndRequestPermission(
