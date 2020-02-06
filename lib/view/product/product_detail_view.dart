@@ -90,162 +90,173 @@ class _ProductDetailViewState extends State<ProductDetailView>
     ResponseProvider<ProductDetail> data = provider.getBySlug(widget.slug);
     detail = data.data;
 
-    return Scaffold(
+    if (data.isCompleted) {
+      return Scaffold(
         floatingActionButton: _buildFloatButton(),
         bottomNavigationBar: _buildButtonControl(),
-        body: _buildBody());
-  }
-
-  Widget _buildBody() {
-    ProductProvider provider = Provider.of<ProductProvider>(context);
-    ResponseProvider<ProductDetail> data = provider.getBySlug(widget.slug);
-
-    if (data.isCompleted) {
-      return CustomScrollView(
-        controller: controllerScroll,
-        slivers: <Widget>[
-          /// app bar
-          SliverAppBar(
-            floating: true,
-            pinned: false,
-            iconTheme: IconThemeData(color: AppStyles.dartIcon),
-            backgroundColor: Colors.white,
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(AppIcons.search, color: AppStyles.dartIcon),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/search');
-                },
-              ),
-              IconButton(
-                  icon: Icon(Icons.home, color: AppStyles.dartIcon),
+        body: CustomScrollView(
+          controller: controllerScroll,
+          slivers: <Widget>[
+            /// app bar
+            SliverAppBar(
+              floating: true,
+              pinned: false,
+              iconTheme: IconThemeData(color: AppStyles.dartIcon),
+              backgroundColor: Colors.white,
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(AppIcons.search, color: AppStyles.dartIcon),
                   onPressed: () {
-                    Navigator.popUntil(context, ModalRoute.withName('/home'));
-                  }),
-              FavoriteButton(
-                color: AppStyles.dartIcon,
-              ),
-              OptionMenuProduct(
-                onCopy: () {
-                  ProductRepository.instance
-                      .onCheckAndCopy(context, detail.productID);
-                },
-                onDownload: () {
-                  if (data.isCompleted) {
-                    _onAksBeforeDownload();
-                  } else {
-                    AppSnackBar.showFlushbar(
-                        context, 'Đang tải dữ liệu. Thử lại sau');
-                  }
-                },
-                onShare: () {
-                  if (data.isCompleted) {
-                    ProductRepository.instance.onShare(context, detail);
-                  } else {
-                    AppSnackBar.showFlushbar(
-                        context, 'Đang tải dữ liệu. Thử lại sau');
-                  }
-                },
-              ),
-            ],
-          ),
+                    Navigator.pushNamed(context, '/search');
+                  },
+                ),
+                IconButton(
+                    icon: Icon(Icons.home, color: AppStyles.dartIcon),
+                    onPressed: () {
+                      Navigator.popUntil(context, ModalRoute.withName('/home'));
+                    }),
+                FavoriteButton(
+                  color: AppStyles.dartIcon,
+                ),
+                OptionMenuProduct(
+                  onCopy: () {
+                    ProductRepository.instance
+                        .onCheckAndCopy(context, detail.productID);
+                  },
+                  onDownload: () {
+                    if (data.isCompleted) {
+                      _onAksBeforeDownload();
+                    } else {
+                      AppSnackBar.showFlushbar(
+                          context, 'Đang tải dữ liệu. Thử lại sau');
+                    }
+                  },
+                  onShare: () {
+                    if (data.isCompleted) {
+                      ProductRepository.instance.onShare(context, detail);
+                    } else {
+                      AppSnackBar.showFlushbar(
+                          context, 'Đang tải dữ liệu. Thử lại sau');
+                    }
+                  },
+                ),
+              ],
+            ),
 
-          /// page view image
-          SliverToBoxAdapter(
-            child: Container(
-              height: MediaQuery.of(context).size.height / 2 + 80,
-              child: PreviewImageProduct(
-                detail.carousel,
-                controller: controllerPage,
-                tapExpanded: () {
-                  Navigator.pushNamed(context, '/product-fancy-image',
-                      arguments: {
-                        'index': controllerPage.page.round(),
-                        'data': data.data
-                      });
-                },
-                initIndex: 0,
+            /// page view image
+            SliverToBoxAdapter(
+              child: Container(
+                height: MediaQuery.of(context).size.height / 2 + 80,
+                child: PreviewImageProduct(
+                  detail.carousel,
+                  controller: controllerPage,
+                  tapExpanded: () {
+                    Navigator.pushNamed(context, '/product-fancy-image',
+                        arguments: {
+                          'index': controllerPage.page.round(),
+                          'data': data.data
+                        });
+                  },
+                  initIndex: 0,
+                ),
               ),
             ),
-          ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                _buildProductColorSize(),
-              ]),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  _buildProductColorSize(),
+                ]),
+              ),
             ),
-          ),
-          SliverPadding(
-            padding:
-                EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 15),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                Text(
-                  detail.sku + ' - ' + detail.name,
-                  style: Theme.of(context).textTheme.title,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Giá sỉ: ' + Utility.formatPrice(detail.regularPrice),
-                  style: Theme.of(context)
-                      .textTheme
-                      .title
-                      .merge(TextStyle(color: Colors.red)),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  'Giá lẻ: ' + Utility.formatPrice(detail.retailPrice),
-                  style: Theme.of(context).textTheme.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ]),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: defaultPadding, vertical: 15),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  Text(
+                    detail.sku + ' - ' + detail.name,
+                    style: Theme.of(context).textTheme.title,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Giá sỉ: ' + Utility.formatPrice(detail.regularPrice),
+                    style: Theme.of(context)
+                        .textTheme
+                        .title
+                        .merge(TextStyle(color: Colors.red)),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'Giá lẻ: ' + Utility.formatPrice(detail.retailPrice),
+                    style: Theme.of(context).textTheme.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ]),
+              ),
             ),
-          ),
-          PolicyProductBlock(),
-          SliverToBoxAdapter(
-            child: ProductBanner(
-                Provider.of<CoverProvider>(context).headerProduct.data,
+            PolicyProductBlock(),
+            SliverToBoxAdapter(
+              child: ProductBanner(
+                  Provider.of<CoverProvider>(context).headerProduct.data,
+                  border: Border(
+                      top: BorderSide(
+                          color: AppStyles.dividerColor, width: 10))),
+            ),
+            InfoProduct(detail),
+            _buildTitle('Thông tin sản phẩm'),
+            _buildContent(),
+
+            /// List image
+            _buildListImageOrLoadMore(),
+            _buildRelate(),
+            SeenBlock(
+              exceptID: detail.productID,
+            ),
+            _buildByCatalog(),
+            SliverToBoxAdapter(
+              child: ProductBanner(
+                Provider.of<CoverProvider>(context).footerProduct.data,
                 border: Border(
-                    top: BorderSide(color: AppStyles.dividerColor, width: 10))),
-          ),
-          InfoProduct(detail),
-          _buildTitle('Thông tin sản phẩm'),
-          _buildContent(),
-
-          /// List image
-          _buildListImageOrLoadMore(),
-          _buildRelate(),
-          SeenBlock(
-            exceptID: detail.productID,
-          ),
-          _buildByCatalog(),
-          SliverToBoxAdapter(
-            child: ProductBanner(
-              Provider.of<CoverProvider>(context).footerProduct.data,
-              border: Border(
-                  top: BorderSide(color: AppStyles.dividerColor, width: 10)),
+                    top: BorderSide(color: AppStyles.dividerColor, width: 10)),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     } else if (data.isLoading) {
-      return Container(
-        child: Indicator(),
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(color: AppStyles.dartIcon),
+        ),
+        body: Container(
+          child: Indicator(),
+        ),
       );
     } else {
-      return Container(
-        child: SomethingWentWrong(
-          onReload: () {
-            provider.loadProduct(widget.slug);
-          },
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(color: AppStyles.dartIcon),
+        ),
+        body: Container(
+          child: SomethingWentWrong(
+            onReload: () {
+              provider.loadProduct(widget.slug);
+            },
+          ),
         ),
       );
     }
@@ -507,7 +518,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                           'Xoá',
                           Icons.favorite,
                           onPressed: () {
-                            Provider.of<FavoriteProvider>(context, listen: false)
+                            Provider.of<FavoriteProvider>(context,
+                                    listen: false)
                                 .removeProduct(detail.productID);
                           },
                         )
@@ -515,7 +527,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                           'Thêm',
                           Icons.favorite_border,
                           onPressed: () {
-                            Provider.of<FavoriteProvider>(context, listen: false)
+                            Provider.of<FavoriteProvider>(context,
+                                    listen: false)
                                 .addNewProduct(context, detail.toProduct(),
                                     count: 1);
                           },
@@ -571,7 +584,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
           padding: EdgeInsets.symmetric(vertical: 8),
           child: Column(
             children: <Widget>[
-              Icon(icon, color: AppStyles.dartIcon,),
+              Icon(
+                icon,
+                color: AppStyles.dartIcon,
+              ),
               Text(
                 text,
                 maxLines: 1,
