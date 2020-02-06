@@ -39,8 +39,8 @@ class HomeNavigation extends StatelessWidget {
           RoundedButton(
             title: 'Khuyến mãi',
             onItemTapped: () {
-              Provider.of<InAppProvider>(context).currentCategory = 'promotion';
-              Provider.of<NavigationProvider>(context)
+              Provider.of<InAppProvider>(context,listen: false).currentCategory = 'promotion';
+              Provider.of<NavigationProvider>(context, listen: false)
                   .switchTo(PageName.notification.index);
             },
             icon: Icons.local_atm,

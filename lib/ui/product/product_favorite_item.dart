@@ -111,7 +111,7 @@ class ProductFavoriteItem extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.close, color: AppStyles.dartIcon,),
                 onPressed: () {
-                  Provider.of<FavoriteProvider>(context)
+                  Provider.of<FavoriteProvider>(context, listen: false)
                       .removeProduct(data.product.productID);
                 },
               ),
@@ -130,7 +130,7 @@ class ProductFavoriteItem extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.remove_circle_outline),
           onPressed: () {
-            Provider.of<FavoriteProvider>(context)
+            Provider.of<FavoriteProvider>(context, listen: false)
                 .changeCount(data, data.count - 1);
           },
         ),
@@ -145,7 +145,7 @@ class ProductFavoriteItem extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.add_circle_outline),
           onPressed: () {
-            Provider.of<FavoriteProvider>(context)
+            Provider.of<FavoriteProvider>(context, listen: false)
                 .changeCount(data, data.count + 1);
           },
         ),

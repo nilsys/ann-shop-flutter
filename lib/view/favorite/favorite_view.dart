@@ -116,7 +116,7 @@ class _FavoriteViewState extends State<FavoriteView> {
 
   _onShare() {
     List<ProductFavorite> data =
-        Provider.of<FavoriteProvider>(context).products;
+        Provider.of<FavoriteProvider>(context, listen: false).products;
     String _value = '';
     for (int i = 0; i < data.length; i++) {
       _value += data[i].getTextCopy(index: i + 1);
@@ -169,7 +169,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    Provider.of<FavoriteProvider>(context)
+                    Provider.of<FavoriteProvider>(context, listen: false)
                         .removeAllProductProvider();
                   }),
             ],

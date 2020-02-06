@@ -90,7 +90,7 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
       flashOn = false;
       controllerQR.pauseCamera();
       _openResultView(value);
-      Provider.of<SearchProvider>(context).addHistory(value);
+      Provider.of<SearchProvider>(context, listen: false).addHistory(value);
     }
   }
 
@@ -162,6 +162,9 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: UIManager.btnClose(
               onPressed: () {
+                if(flashOn){
+                  _turnFlash();
+                }
                 Navigator.pop(context);
               },
             ),

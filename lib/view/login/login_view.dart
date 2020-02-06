@@ -160,7 +160,7 @@ class _LoginViewState extends State<LoginView> {
                 onPressed: _validateInput,
               ),
               SizedBox(height: Platform.isIOS ? 30 : 1),
-              Platform.isIOS
+              Platform.isIOS && false
                   ? BorderButton(
                       'Đăng ký sau',
                       onPressed: () {

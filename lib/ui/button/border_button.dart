@@ -25,9 +25,11 @@ class BorderButton extends StatelessWidget {
       child: FlatButton(
         child: Text(
           title,
-          style: Theme.of(context)
-              .textTheme
-              .button,
+          style: Theme.of(context).textTheme.button.merge(TextStyle(
+                color: onPressed == null
+                    ? Colors.grey
+                    : Theme.of(context).primaryColor,
+              )),
         ),
         onPressed: onPressed,
       ),

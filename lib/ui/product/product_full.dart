@@ -208,7 +208,7 @@ class _ProductFullState extends State<ProductFull> {
                   color: iconColor,
                   icon: Icon(Icons.favorite),
                   onPressed: () {
-                    Provider.of<FavoriteProvider>(context)
+                    Provider.of<FavoriteProvider>(context, listen: false)
                         .removeProduct(widget.product.productID);
                   },
                 )
@@ -216,7 +216,7 @@ class _ProductFullState extends State<ProductFull> {
                   color: iconColor,
                   icon: Icon(Icons.favorite_border),
                   onPressed: () {
-                    Provider.of<FavoriteProvider>(context)
+                    Provider.of<FavoriteProvider>(context, listen: false)
                         .addNewProduct(context, widget.product, count: 1);
                   },
                 ),

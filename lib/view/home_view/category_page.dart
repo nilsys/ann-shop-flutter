@@ -92,6 +92,6 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   Future<void> _refreshPage() async {
-    await Provider.of<CategoryProvider>(context).loadCategories();
+    await Provider.of<CategoryProvider>(context, listen: false).loadCategories();
   }
 }

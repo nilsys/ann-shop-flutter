@@ -46,6 +46,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     /// add settings on MaterialPageRoute for which route you want to tracking
@@ -68,19 +69,19 @@ class Router {
             builder: (_) => FileViewRouter(map['url'], map['name']),
             settings: settings);
       case '/product-detail':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => ProductDetailView(slug: data), settings: settings);
       case '/product-fancy-image':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => ProductImageFancyView(data), settings: settings);
       case '/product-share-image':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => ProductImageShareView(data), settings: settings);
       case '/image-view':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => ImageView(data), settings: settings);
       case '/product-image-by-size-and-image':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => ProductImageBySizeAndColor(data),
             settings: settings);
       case '/search':
@@ -102,7 +103,7 @@ class Router {
         return MaterialPageRoute(
             builder: (_) => ProductFilterView(data), settings: settings);
       case '/list-product-by-category':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => ListProductByCategory(data), settings: settings);
       case '/shop-contact':
         return MaterialPageRoute(

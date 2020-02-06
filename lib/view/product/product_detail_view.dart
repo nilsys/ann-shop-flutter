@@ -13,6 +13,7 @@ import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/button_gradient.dart';
+import 'package:ann_shop_flutter/ui/button/icon_text_button.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
@@ -68,7 +69,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
       }
     });
     WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      Provider.of<CoverProvider>(context, listen: false).refreshCoverProductPage(widget.slug);
+      Provider.of<CoverProvider>(context, listen: false)
+          .refreshCoverProductPage(widget.slug);
     });
   }
 
@@ -496,35 +498,31 @@ class _ProductDetailViewState extends State<ProductDetailView>
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
-              height: 50,
-              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   favorite
-                      ? IconButton(
-                          color: iconColor,
-                          icon: Icon(Icons.favorite),
+                      ? _buildIconTextButton(
+                          'Xoá',
+                          Icons.favorite,
                           onPressed: () {
-                            Provider.of<FavoriteProvider>(context)
+                            Provider.of<FavoriteProvider>(context, listen: false)
                                 .removeProduct(detail.productID);
                           },
                         )
-                      : IconButton(
-                          color: iconColor,
-                          icon: Icon(Icons.favorite_border),
+                      : _buildIconTextButton(
+                          'Thêm',
+                          Icons.favorite_border,
                           onPressed: () {
-                            Provider.of<FavoriteProvider>(context)
+                            Provider.of<FavoriteProvider>(context, listen: false)
                                 .addNewProduct(context, detail.toProduct(),
                                     count: 1);
                           },
                         ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.cloud_download,
-                      color: iconColor,
-                    ),
+                  _buildIconTextButton(
+                    'Tải hình',
+                    Icons.cloud_download,
                     onPressed: () {
                       if (detail != null) {
                         _onAksBeforeDownload();
@@ -534,11 +532,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
                       }
                     },
                   ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.share,
-                      color: iconColor,
-                    ),
+                  _buildIconTextButton(
+                    'Chia sẻ',
+                    Icons.share,
                     onPressed: () {
                       if (detail != null) {
                         ProductRepository.instance.onShare(context, detail);
@@ -548,11 +544,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
                       }
                     },
                   ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.content_copy,
-                      color: iconColor,
-                    ),
+                  _buildIconTextButton(
+                    'Copy',
+                    Icons.content_copy,
                     onPressed: () {
                       ProductRepository.instance
                           .onCheckAndCopy(context, detail.productID);
@@ -564,6 +558,28 @@ class _ProductDetailViewState extends State<ProductDetailView>
             DownLoadBackground(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildIconTextButton(String text, IconData icon,
+      {VoidCallback onPressed}) {
+    return Expanded(
+      flex: 1,
+      child: FlatButton(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            children: <Widget>[
+              Icon(icon, color: AppStyles.dartIcon,),
+              Text(
+                text,
+                maxLines: 1,
+              ),
+            ],
+          ),
+        ),
+        onPressed: onPressed,
       ),
     );
   }

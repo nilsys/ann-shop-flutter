@@ -23,7 +23,7 @@ class _SearchIntroState extends State<SearchIntro> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      Provider.of<SpamCoverProvider>(context).checkLoad(slugBanner);
+      Provider.of<SpamCoverProvider>(context, listen: false).checkLoad(slugBanner);
     });
   }
 

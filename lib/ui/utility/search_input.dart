@@ -68,7 +68,7 @@ class _SearchInputState extends State<SearchInput> {
       ),
       onPressed: () {
         setState(() {
-          Provider.of<SearchProvider>(context).setText();
+          Provider.of<SearchProvider>(context, listen: false).setText();
         });
       },
     );

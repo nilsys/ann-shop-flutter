@@ -43,7 +43,7 @@ class _HomeListNotificationState extends State<HomeListNotification> {
       }
       children.add(BottomViewMore(
         onPressed: () {
-          Provider.of<NavigationProvider>(context)
+          Provider.of<NavigationProvider>(context, listen: false)
               .switchTo(PageName.notification.index);
         },
       ));

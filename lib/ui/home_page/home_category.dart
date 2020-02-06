@@ -22,7 +22,7 @@ class HomeCategory extends StatelessWidget {
             TitleViewMore(
               title: 'Danh mục sản phẩm',
               onPressed: () {
-                Provider.of<NavigationProvider>(context)
+                Provider.of<NavigationProvider>(context, listen: false)
                     .switchTo(PageName.category.index);
               },
             ),

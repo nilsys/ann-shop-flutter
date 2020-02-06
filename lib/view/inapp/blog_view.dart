@@ -19,7 +19,7 @@ class _BlogViewState extends State<BlogView> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      Provider.of<BlogProvider>(context).checkReload();
+      Provider.of<BlogProvider>(context, listen: false).checkReload();
     });
   }
 

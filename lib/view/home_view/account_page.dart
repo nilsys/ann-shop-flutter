@@ -47,10 +47,10 @@ class _AccountPageState extends State<AccountPage> {
                 SizedBox(height: 12),
                 _buildItemCommon('Quản lý đơn hàng', icon: Icons.description,
                     onTap: _viewOrderManagement),
-                _buildItemCommon('Ưu đãi của bạn', icon: Icons.card_giftcard,
-                    onTap: () {
-                  Navigator.pushNamed(context, '/coupon');
-                }),
+//                _buildItemCommon('Ưu đãi của bạn', icon: Icons.card_giftcard,
+//                    onTap: () {
+//                  Navigator.pushNamed(context, '/coupon');
+//                }),
                 _buildItemCommon('Sản phẩm đã xem', icon: Icons.remove_red_eye,
                     onTap: () {
                   Navigator.pushNamed(context, '/seen');

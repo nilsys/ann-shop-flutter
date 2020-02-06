@@ -125,12 +125,12 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<void> _refreshHomepage() async {
-    Provider.of<CoverProvider>(context).loadNotificationHome();
-    Provider.of<CoverProvider>(context).loadPostHome();
-    Provider.of<CoverProvider>(context).loadCoverHome();
-    Provider.of<CategoryProvider>(context).loadCDataHome();
-    Provider.of<CategoryProductProvider>(context).forceRefresh();
-    await Provider.of<CategoryProvider>(context).loadCategoryHome();
+    Provider.of<CoverProvider>(context, listen: false).loadNotificationHome();
+    Provider.of<CoverProvider>(context, listen: false).loadPostHome();
+    Provider.of<CoverProvider>(context, listen: false).loadCoverHome();
+    Provider.of<CategoryProvider>(context, listen: false).loadCDataHome();
+    Provider.of<CategoryProductProvider>(context, listen: false).forceRefresh();
+    await Provider.of<CategoryProvider>(context, listen: false).loadCategoryHome();
   }
 
   @override
