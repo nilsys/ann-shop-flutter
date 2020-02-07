@@ -50,7 +50,7 @@ ThemeData primaryTheme() {
         ),
       ),
       iconTheme: IconThemeData(
-        color: Colors.grey[900],
+        color: Colors.grey[800],
       ),
 
       /// Support swipe from edge to navigate the previous scene
