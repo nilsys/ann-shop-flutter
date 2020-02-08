@@ -92,8 +92,9 @@ class CustomLoadMoreIndicator extends StatelessWidget {
             if (AccountController.instance.isLogin) {
               listSourceRepository.errorRefresh();
             } else {
-              AskLogin.show(context,message:
-                  'Vui lòng đăng nhập hoặc đăng ký để xem thêm sản phẩm');
+              AskLogin.show(context,
+                  message:
+                      'Vui lòng đăng nhập hoặc đăng ký để xem thêm sản phẩm');
             }
           },
           child: widget,

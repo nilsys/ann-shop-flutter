@@ -49,10 +49,14 @@ class _CategoryPageState extends State<CategoryPage> {
   _buildCategory() {
     var provider = Provider.of<CategoryProvider>(context);
     if (provider.categories.isLoading) {
-      _buildBox(Indicator());
+      return SliverFillRemaining(
+        child: Center(
+          child: Indicator(),
+        ),
+      );
     } else if (provider.categories.isError) {
-      return _buildBox(
-        SomethingWentWrong(
+      return SliverFillRemaining(
+        child: SomethingWentWrong(
           onReload: () {
             _refreshPage();
           },
@@ -60,10 +64,11 @@ class _CategoryPageState extends State<CategoryPage> {
       );
     } else {
       if (Utility.isNullOrEmpty(provider.categories.data)) {
-        return _buildBox(EmptyListUI(
-          image: Icon(Icons.redeem),
-          title: 'Không tìm thấy danh mục',
-        ));
+        return SliverFillRemaining(
+          child: EmptyListUI(
+            body: 'Không tìm thấy danh mục',
+          ),
+        );
       } else {
         var data = provider.categories.data;
         double width = MediaQuery.of(context).size.width - 30;
@@ -83,15 +88,8 @@ class _CategoryPageState extends State<CategoryPage> {
     }
   }
 
-  _buildBox(Widget _child) {
-    return SliverFillRemaining(
-      child: Center(
-        child: _child,
-      ),
-    );
-  }
-
   Future<void> _refreshPage() async {
-    await Provider.of<CategoryProvider>(context, listen: false).loadCategories();
+    await Provider.of<CategoryProvider>(context, listen: false)
+        .loadCategories();
   }
 }

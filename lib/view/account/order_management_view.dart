@@ -9,9 +9,10 @@ class OrderManagementView extends StatelessWidget {
         title: Text('Quản lý đơn hàng'),
       ),
       body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 30),
         child: EmptyListUI(
-          image: Icon(Icons.redeem),
-          body: 'Bạn chưa có hoá đơn nào',
+          title: 'Bạn chưa có hoá đơn nào',
+          body: 'Các hoá đơn mới nhất của bạn sẽ được cập nhật liên tục tại đây.',
         ),
       ),
     );

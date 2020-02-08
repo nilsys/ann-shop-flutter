@@ -121,7 +121,7 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
 
   Widget _buildImageSelect(List<ProductCarousel> images) {
     return Container(
-      height: 80,
+      height: 70,
       padding: EdgeInsets.symmetric(vertical: 5),
       child: ListView.builder(
         controller: thumbnailController,
@@ -144,14 +144,13 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
   Widget _imageButton(String url, {index = 0}) {
     bool isSelect = indexImage == index;
     return Container(
-      width: 60,
-      height: 70,
+      width: 55,
       decoration: BoxDecoration(
         color: Colors.white,
         border: isSelect
             ? new Border.all(
                 color: Theme.of(context).primaryColor,
-                width: 3,
+                width: 1.5,
                 style: BorderStyle.solid,
               )
             : null,

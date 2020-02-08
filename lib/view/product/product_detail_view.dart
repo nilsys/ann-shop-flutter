@@ -105,7 +105,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
               backgroundColor: Colors.white,
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(AppIcons.search, color: AppStyles.dartIcon),
+                  icon: Icon(AppIcons.search,
+                      size: 20, color: AppStyles.dartIcon),
                   onPressed: () {
                     Navigator.pushNamed(context, '/search');
                   },
@@ -384,7 +385,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          AppImage(feature),
+          Container(
+              width: MediaQuery.of(context).size.width,
+              child: AppImage(feature)),
           InkWell(
             onTap: () {
               setState(() {
@@ -403,27 +406,22 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     Colors.white.withAlpha(0),
                   ],
                 ),
-                border: new Border(
-                    bottom: BorderSide(
-                  color: Colors.grey,
-                  width: 1,
-                  style: BorderStyle.solid,
-                )),
               ),
               alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.only(bottom: 25),
+              padding: EdgeInsets.only(bottom: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     'Xem thêm',
-                    style: Theme.of(context).textTheme.title.merge(
+                    style: AppStyles.body3.merge(
                         TextStyle(color: Theme.of(context).primaryColor)),
                     textAlign: TextAlign.center,
                   ),
                   Icon(
                     Icons.navigate_next,
+                    size: 20,
                     color: Theme.of(context).primaryColor,
                   ),
                 ],
@@ -587,10 +585,12 @@ class _ProductDetailViewState extends State<ProductDetailView>
               Icon(
                 icon,
                 color: AppStyles.dartIcon,
+                size: 20,
               ),
               Text(
                 text,
                 maxLines: 1,
+                style: Theme.of(context).textTheme.caption,
               ),
             ],
           ),

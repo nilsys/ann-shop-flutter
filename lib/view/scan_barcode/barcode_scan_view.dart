@@ -158,8 +158,8 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+          Container(
+            width: 60,
             child: UIManager.btnClose(
               onPressed: () {
                 if(flashOn){
@@ -186,12 +186,15 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
               ),
             ),
           ),
-          IconButton(
-            onPressed: () => _turnFlash(),
-            icon: Icon(
-              flashOn ? Icons.flash_off : Icons.flash_on,
-              size: 30,
-              color: Colors.white,
+          Container(
+            width: 60,
+            child: IconButton(
+              onPressed: () => _turnFlash(),
+              icon: Icon(
+                flashOn ? Icons.flash_off : Icons.flash_on,
+                size: 30,
+                color: Colors.white,
+              ),
             ),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class EmptyListUI extends StatelessWidget {
@@ -15,12 +16,16 @@ class EmptyListUI extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Padding(
+          Container(
             padding: const EdgeInsets.only(bottom: 20),
-            child: Icon(
-              Icons.redeem,
-              size: 30,
-            ),
+            child: image == null
+                ? SizedBox(
+              width: 80,
+              height: 80,
+              child:
+              Image.asset('assets/images/ui/recycle_bin_empty.png'),
+            )
+                : image,
           ),
           title == null
               ? Container()
@@ -28,7 +33,7 @@ class EmptyListUI extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     title,
-                    style: Theme.of(context).textTheme.title,
+                    style: AppStyles.body3,
                     textAlign: TextAlign.center,
                   ),
                 ),

@@ -90,7 +90,6 @@ class _FavoriteViewState extends State<FavoriteView> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             EmptyListUI(
-              image: Icon(Icons.redeem),
               body: 'Bạn chưa có sản phẩm nào',
             ),
             SizedBox(height: 5),

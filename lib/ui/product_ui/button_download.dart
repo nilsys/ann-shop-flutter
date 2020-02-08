@@ -35,23 +35,23 @@ class _ButtonDownloadState extends State<ButtonDownload> {
           width: 40,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.all(
-              Radius.circular(5),
-            ),
+            shape: BoxShape.circle,
           ),
         ),
         IconButton(
           icon: loading == loadState.loading
               ? Indicator(
-                  radius: 12,
+                  radius: 10,
                 )
               : loading == loadState.success
                   ? Icon(
                       Icons.done,
+                      size: 20,
                       color: Colors.white,
                     )
                   : Icon(
                       Icons.file_download,
+                      size: 20,
                       color: Colors.white,
                     ),
           onPressed: (Utility.isNullOrEmpty(this.widget.imageName) == false &&
@@ -68,19 +68,18 @@ class _ButtonDownloadState extends State<ButtonDownload> {
   loadState loading = loadState.none;
 
   _download() async {
-    if(AccountController.instance.isLogin == false){
+    if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
     try {
-
-      bool permission = await PermissionRepository.instance.checkAndRequestPermission(
-          PermissionGroup.storage);
-      if(permission == false){
+      bool permission = await PermissionRepository.instance
+          .checkAndRequestPermission(PermissionGroup.storage);
+      if (permission == false) {
         AppPopup.showCustomDialog(
           context,
           title:
-          'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
+              'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
           btnNormal: ButtonData(title: 'Không'),
           btnHighlight: ButtonData(
             title: 'Mở cài đặt',
@@ -91,7 +90,6 @@ class _ButtonDownloadState extends State<ButtonDownload> {
         );
         return;
       }
-
 
       setState(() {
         loading = loadState.loading;

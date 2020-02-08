@@ -6,4 +6,8 @@ class AppStyles {
   static final dartIcon = Colors.grey[700];
   static final backgroundGray = Colors.grey[50];
 
+  static final TextStyle body3 = TextStyle(
+      color: Colors.black87,
+      fontWeight: FontWeight.w500,
+      fontSize: 16);
 }

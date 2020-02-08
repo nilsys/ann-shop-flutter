@@ -12,21 +12,19 @@ class AppOneSignal {
     return instance;
   }
 
-  AppOneSignal._internal(){
+  AppOneSignal._internal() {
     _initOneSignal(MyApp.context);
   }
-
 
   String userId;
   String pushToken;
   final _privateKey = "4cfab7f0-6dc2-4004-a631-fc4ba7cbf046";
 
-  void checkAndInit(){
+  void checkAndInit() {
     print('AppOneSignal Check and Init');
   }
 
   void _initOneSignal(BuildContext context) async {
-
     await OneSignal.shared.init(_privateKey, iOSSettings: {
       OSiOSSettings.autoPrompt: true,
       OSiOSSettings.inAppLaunchUrl: true
@@ -64,22 +62,22 @@ class AppOneSignal {
     });
   }
 
-
   void _processNotificationReceived(OSNotification notification, bool init) {
     OSNotificationPayload payload = notification.payload;
     String launchUrl = payload.launchUrl;
     Map<String, dynamic> data = payload.additionalData;
 
-    if (data.keys.length > 0) {
-      String action = data.keys.elementAt(0);
-      String value = data[action];
+    if (Utility.isNullOrEmpty(data)) {
+      String action = data['action'] ?? '';
+      String value = data['actionValue'] ?? '';
+      String message = data['message'] ?? 'message';
 
       if (init) {
         AppAction.instance
-            .onHandleActionInit(MyApp.context, action, value, '');
+            .onHandleActionInit(MyApp.context, action, value, message);
       } else {
         AppAction.instance
-            .onHandleAction(MyApp.context, action, value, '');
+            .onHandleAction(MyApp.context, action, value, message);
       }
     } else if (Utility.isNullOrEmpty(launchUrl) == false) {
       launch(launchUrl);
