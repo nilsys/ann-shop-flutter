@@ -237,7 +237,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
   }
 
   _onShareFacebook() {
-    if(AccountController.instance.isLogin == false){
+    if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
@@ -247,14 +247,13 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
       _onShare(message: message);
     }
   }
+  final maxForZalo = Platform.isAndroid ? 1 : 9;
 
   _onShareZalo() {
-
-    if(AccountController.instance.isLogin == false){
+    if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
-    final maxForZalo = 9;
     if (imagesSelected.length > maxForZalo) {
       AppPopup.showImageDialog(context,
           image: Icon(
@@ -268,7 +267,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
               title: 'Chọn $maxForZalo hình',
               callback: () {
                 setState(() {
-                  imagesSelected.removeRange(8, (imagesSelected.length - 1));
+                  imagesSelected.removeRange(maxForZalo, imagesSelected.length );
                 });
               }),
           btnNormal: ButtonData(title: 'Đóng', callback: null));
