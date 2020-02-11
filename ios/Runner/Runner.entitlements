@@ -7,6 +7,12 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:annapp.page.link</string>
+        <string>applinks:m.ann.com.vn</string>
+		<string>applinks:app.ann.com.vn</string>
+        <string>applinks:app.khohangsiann.com</string>
+        <string>applinks:app.xuongann.com</string>
+		<string>applinks:ann.com.vn</string>
+		<string>applinks:xuongann.com</string>
 	</array>
 </dict>
 </plist>

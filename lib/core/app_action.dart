@@ -35,6 +35,9 @@ class AppAction {
       case ActionType.linkToCategory:
         linkToCategory(context, value, message);
         break;
+      case ActionType.linkToTag:
+        linkToTag(context, value, message);
+        break;
       case ActionType.linkToProduct:
         linkToProductDetail(context, value);
         break;
