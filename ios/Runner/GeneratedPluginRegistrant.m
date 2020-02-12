@@ -16,20 +16,26 @@
 @import esys_flutter_share;
 #endif
 
-#if __has_include(<firebase_analytics/FLTFirebaseAnalyticsPlugin.h>)
-#import <firebase_analytics/FLTFirebaseAnalyticsPlugin.h>
+#if __has_include(<fast_qr_reader_view/FastQrReaderViewPlugin.h>)
+#import <fast_qr_reader_view/FastQrReaderViewPlugin.h>
+#else
+@import fast_qr_reader_view;
+#endif
+
+#if __has_include(<firebase_analytics/FirebaseAnalyticsPlugin.h>)
+#import <firebase_analytics/FirebaseAnalyticsPlugin.h>
 #else
 @import firebase_analytics;
 #endif
 
-#if __has_include(<firebase_core/FLTFirebaseCorePlugin.h>)
-#import <firebase_core/FLTFirebaseCorePlugin.h>
+#if __has_include(<firebase_core/FirebaseCorePlugin.h>)
+#import <firebase_core/FirebaseCorePlugin.h>
 #else
 @import firebase_core;
 #endif
 
-#if __has_include(<firebase_dynamic_links/FLTFirebaseDynamicLinksPlugin.h>)
-#import <firebase_dynamic_links/FLTFirebaseDynamicLinksPlugin.h>
+#if __has_include(<firebase_dynamic_links/FirebaseDynamicLinksPlugin.h>)
+#import <firebase_dynamic_links/FirebaseDynamicLinksPlugin.h>
 #else
 @import firebase_dynamic_links;
 #endif
@@ -111,6 +117,7 @@
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [FLTConnectivityPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTConnectivityPlugin"]];
   [EsysFlutterSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"EsysFlutterSharePlugin"]];
+  [FastQrReaderViewPlugin registerWithRegistrar:[registry registrarForPlugin:@"FastQrReaderViewPlugin"]];
   [FLTFirebaseAnalyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAnalyticsPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseDynamicLinksPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseDynamicLinksPlugin"]];

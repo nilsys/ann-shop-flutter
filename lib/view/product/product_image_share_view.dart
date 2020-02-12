@@ -2,9 +2,11 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -54,35 +56,80 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
         return Future.value(false);
       },
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon:
+                Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
+            onPressed: () {
+              if (MediaQuery.of(context).viewInsets.bottom > 100) {
+                Navigator.pop(context);
+                showDialog(context: context, child: FixViewInsetsBottom());
+              } else {
+                Navigator.pop(context);
+              }
+            },
+          ),
+          title: Text(
+            'Đã chọn ${imagesSelected.length}/$maxImage hình',
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                'Bỏ chọn',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                setState(() {
+                  imagesSelected = [];
+                });
+              },
+            )
+          ],
+        ),
         bottomNavigationBar: BottomAppBar(
             color: Colors.white,
             child: Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: defaultPadding, vertical: 10),
+              height: 50,
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
               child: Row(
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: RaisedButton(
-                      child: Text(
-                        'Đăng Facebook',
-                        style: Theme.of(context)
-                            .textTheme
-                            .button
-                            .merge(TextStyle(color: Colors.white)),
+                    child: Center(
+                      child: FlatButton(
+                        child: Row(
+                          children: <Widget>[
+                            Text('Đăng Facebook '),
+                            Icon(
+                              AppIcons.facebook_official,
+                              color: Colors.blue,
+                            ),
+                          ],
+                        ),
+                        onPressed: _onShareFacebook,
                       ),
-                      onPressed: _onShareFacebook,
                     ),
                   ),
-                  SizedBox(width: 10),
+                  Container(
+                    width: 1,
+                    height: 40,
+                    color: AppStyles.dividerColor,
+                  ),
                   Expanded(
                     flex: 1,
-                    child: RaisedButton(
-                      child: Text('Đăng Zalo',
-                          style: Theme.of(context)
-                              .textTheme
-                              .button
-                              .merge(TextStyle(color: Colors.white))),
+                    child: FlatButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Đăng Zalo '),
+                          Container(
+                            width: 20,
+                            height: 20,
+                            child:
+                                Image.asset('assets/images/ui/zalo-logo.png'),
+                          )
+                        ],
+                      ),
                       onPressed: _onShareZalo,
                     ),
                   ),
@@ -90,81 +137,21 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
               ),
             )),
         body: SafeArea(
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverToBoxAdapter(
-                      child: Container(
-                        height: 60,
-                      ),
-                    ),
-                    SliverGrid(
-                      gridDelegate:
-                          new SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 3 / 4,
-                        crossAxisSpacing: 5,
-                      ),
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          return _buildImageSelect(images[index]);
-                        },
-                        childCount: images.length,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                top: 0,
-                child: Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Platform.isIOS
-                            ? Icons.arrow_back_ios
-                            : Icons.arrow_back),
-                        onPressed: () {
-                          if (MediaQuery.of(context).viewInsets.bottom > 100) {
-                            Navigator.pop(context);
-                            showDialog(
-                                context: context, child: FixViewInsetsBottom());
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        },
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Đã chọn ${imagesSelected.length}/$maxImage hình',
-                            style: Theme.of(context).textTheme.title,
-                            maxLines: 1,
-                          ),
-                        ),
-                      ),
-                      FlatButton(
-                        child: Text(
-                          'Bỏ chọn',
-                          style: Theme.of(context).textTheme.button.merge(
-                              TextStyle(color: Theme.of(context).primaryColor)),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            imagesSelected = [];
-                          });
-                        },
-                      )
-                    ],
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverPadding(
+                padding: EdgeInsets.all(10),
+                sliver: SliverGrid(
+                  gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 3 / 4,
+                    crossAxisSpacing: 5,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return _buildImageSelect(images[index]);
+                    },
+                    childCount: images.length,
                   ),
                 ),
               ),
@@ -247,6 +234,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
       _onShare(message: message);
     }
   }
+
   final maxForZalo = Platform.isAndroid ? 1 : 9;
 
   _onShareZalo() {
@@ -267,7 +255,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
               title: 'Chọn $maxForZalo hình',
               callback: () {
                 setState(() {
-                  imagesSelected.removeRange(maxForZalo, imagesSelected.length );
+                  imagesSelected.removeRange(maxForZalo, imagesSelected.length);
                 });
               }),
           btnNormal: ButtonData(title: 'Đóng', callback: null));

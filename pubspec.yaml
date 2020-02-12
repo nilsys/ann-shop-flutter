@@ -4,7 +4,7 @@ description: A new Flutter application.
 version: 1.0.3+6
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -26,14 +26,24 @@ dependencies:
   cached_network_image: ^2.0.0-rc
   image_gallery_saver: ^1.2.2
   gesture_zoom_box: ^0.0.2
-  firebase_core: ^0.4.3+3
-  firebase_dynamic_links: ^0.5.0+9
-  firebase_analytics: ^5.0.11
-  onesignal_flutter: ^2.3.3
+
+#  firebase_core: ^0.4.3+3
+#  firebase_dynamic_links: ^0.5.0+9
+#  firebase_analytics: ^5.0.11
+#  onesignal_flutter: ^2.3.3
+  qr_code_scanner: ^0.0.12
+
+  firebase_core: ^0.4.0+9
+  firebase_dynamic_links: ^0.5.0+1
+  firebase_analytics: ^5.0.2
+  onesignal_flutter: ^2.1.0
+  fast_qr_reader_view:
+    git:
+      url: git://github.com/facundomedica/fast_qr_reader_view.git
+
   share_extend: ^1.1.0
   esys_flutter_share: ^1.0.2
   flutter_cupertino_date_picker: ^1.0.12
-  qr_code_scanner: ^0.0.12
   permission_handler: ^4.2.0+hotfix.3
   flutter_image_compress: ^0.6.5+1
   async: ^2.4.0

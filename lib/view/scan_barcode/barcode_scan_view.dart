@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
@@ -75,7 +76,6 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
     await ListProduct.showByCategory(context,
         Category(name: value, filter: ProductFilter(productSKU: value)),
         initData: null, showSearch: true);
-    print('Back to scan');
     try {
       await Future.delayed(Duration(milliseconds: 100));
       controllerQR.resumeCamera();
@@ -95,6 +95,7 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
   }
 
   void _onQRViewCreated(QRViewController controller) {
+    print('_onQRViewCreated');
     if (this.controllerQR == null) {
       this.controllerQR = controller;
       controller.scannedDataStream.listen(scanResponse);
@@ -162,7 +163,7 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
             width: 60,
             child: UIManager.btnClose(
               onPressed: () {
-                if(flashOn){
+                if (flashOn) {
                   _turnFlash();
                 }
                 Navigator.pop(context);
@@ -256,12 +257,11 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
         children: _children,
       ),
     );
-    // );
   }
 
   _showInputCode() {
     bottomSheetIsOpen = true;
-    controllerQR.pauseCamera();
+      controllerQR.pauseCamera();
     persistentBottomSheetController().closed.then(_closeBottomSheet);
   }
 
@@ -270,7 +270,9 @@ class _BarcodeScanViewState extends State<BarcodeScanView>
   _closeBottomSheet(value) {
     bottomSheetIsOpen = false;
     if (Utility.isNullOrEmpty(_valueInput)) {
-      if (controllerQR != null) controllerQR.resumeCamera();
+      if (controllerQR != null) {
+        controllerQR.resumeCamera();
+      }
     } else {
       _openResultView(_valueInput);
     }

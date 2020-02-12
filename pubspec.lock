@@ -99,48 +99,36 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
-  firebase:
-    dependency: transitive
+  fast_qr_reader_view:
+    dependency: "direct main"
     description:
-      name: firebase
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "7.0.0"
+      path: "."
+      ref: HEAD
+      resolved-ref: "05d629020b19b426c5d8f20a88d5a810ff304d7b"
+      url: "git://github.com/facundomedica/fast_qr_reader_view.git"
+    source: git
+    version: "0.1.6"
   firebase_analytics:
     dependency: "direct main"
     description:
       name: firebase_analytics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.11"
+    version: "5.0.2"
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3+3"
-  firebase_core_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_core_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
-  firebase_core_web:
-    dependency: transitive
-    description:
-      name: firebase_core_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.1"
+    version: "0.4.0+9"
   firebase_dynamic_links:
     dependency: "direct main"
     description:
       name: firebase_dynamic_links
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0+9"
+    version: "0.5.0+1"
   flushbar:
     dependency: "direct main"
     description:
@@ -254,13 +242,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.0"
-  js:
-    dependency: transitive
-    description:
-      name: js
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.1+1"
   loading_more_list:
     dependency: "direct main"
     description:
@@ -309,7 +290,7 @@ packages:
       name: onesignal_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.3"
+    version: "2.1.0"
   path:
     dependency: "direct main"
     description:
@@ -366,13 +347,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-  quiver_hashcode:
-    dependency: transitive
-    description:
-      name: quiver_hashcode
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   share_extend:
     dependency: "direct main"
     description:
