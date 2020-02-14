@@ -140,7 +140,8 @@ class _ScanViewState extends State<ScanView>
 
     if (hasKeyboard == false) {
       _children.add(
-        Align(alignment: Alignment(0.0, 0.2),
+        Align(
+          alignment: Alignment(0.0, 0.2),
           child: Container(
             width: squareSize,
             child: Column(
@@ -151,10 +152,9 @@ class _ScanViewState extends State<ScanView>
                 Container(
                   width: squareSize,
                   height: squareSize,
-                  decoration:
-                      BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.white)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.white)),
                   child: Stack(
                     children: <Widget>[
                       Container(
@@ -392,7 +392,6 @@ class _ScanViewState extends State<ScanView>
                         autofocus: true,
                         decoration: InputDecoration(
                           hintText: 'Nhập mã sản phẩm',
-                          contentPadding: EdgeInsets.all(12),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10),
@@ -442,7 +441,9 @@ class _ScanViewState extends State<ScanView>
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _cameraPreviewWidget() {
     if (controllerQR == null || !controllerQR.value.isInitialized) {
-      return Container(color: Colors.black,);
+      return Container(
+        color: Colors.black,
+      );
     } else {
       return new AspectRatio(
         aspectRatio: controllerQR.value.aspectRatio,

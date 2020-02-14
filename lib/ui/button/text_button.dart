@@ -8,8 +8,9 @@ class TextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
+    return FlatButton(
+      padding: EdgeInsets.symmetric(horizontal: 0),
+      onPressed: onPressed,
       child: Text(
         title,
         style: TextStyle(

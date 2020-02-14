@@ -15,12 +15,12 @@ import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginView extends StatefulWidget {
+class InputPhoneView extends StatefulWidget {
   @override
-  _LoginViewState createState() => _LoginViewState();
+  _InputPhoneViewState createState() => _InputPhoneViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _InputPhoneViewState extends State<InputPhoneView> {
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
 
@@ -139,20 +139,20 @@ class _LoginViewState extends State<LoginView> {
               ]),
               SizedBox(height: 30),
               RaisedButton(
-                child: Text('Đăng nhập', style: TextStyle(color: Colors.white),),
+                child:Text('Đăng nhập', style: TextStyle(color: Colors.white),),
                 onPressed: _validateInput,
               ),
               SizedBox(height: Platform.isIOS ? 30 : 1),
               Platform.isIOS && false
                   ? BorderButton(
-                      'Đăng ký sau',
-                      onPressed: () {
-                        AccountController.instance.loginLater();
-                        Navigator.pushReplacementNamed(context, '/home');
-                        Provider.of<NavigationProvider>(context, listen: false)
-                            .index = PageName.home.index;
-                      },
-                    )
+                'Đăng ký sau',
+                onPressed: () {
+                  AccountController.instance.loginLater();
+                  Navigator.pushReplacementNamed(context, '/home');
+                  Provider.of<NavigationProvider>(context, listen: false)
+                      .index = PageName.home.index;
+                },
+              )
                   : SizedBox(),
               Container(
                 height: 70,
@@ -196,7 +196,7 @@ class _LoginViewState extends State<LoginView> {
       try {
         showLoading(context, message: 'Đăng nhập...');
         AppResponse response =
-            await AccountRepository.instance.login(phone, password);
+        await AccountRepository.instance.login(phone, password);
         hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);

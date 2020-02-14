@@ -6,7 +6,6 @@ import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -81,15 +80,6 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
                     obscureText: !showPassword,
                     decoration: InputDecoration(
                       hintText: 'Nhập mật khẩu',
-                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                      contentPadding: EdgeInsets.all(12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 1,
-                            style: BorderStyle.solid),
-                      ),
                     ),
                     validator: Validator.passwordValidator,
                     onSaved: (String value) {
@@ -126,15 +116,6 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
                     obscureText: !showPassword,
                     decoration: InputDecoration(
                       hintText: 'Nhập lại mật khẩu',
-                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                      contentPadding: EdgeInsets.all(12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 1,
-                            style: BorderStyle.solid),
-                      ),
                     ),
                     validator: Validator.passwordValidator,
                     onSaved: (String value) {
@@ -157,8 +138,8 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
                   )
                 ]),
                 SizedBox(height: 30),
-                PrimaryButton(
-                  'Tạo mật khẩu',
+                RaisedButton(
+                  child:Text('Tạo mật khẩu', style: TextStyle(color: Colors.white),),
                   onPressed: _validateInput,
                 ),
               ],

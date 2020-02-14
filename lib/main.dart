@@ -1,5 +1,4 @@
 import 'package:ann_shop_flutter/core/app_analytics.dart';
-import 'package:ann_shop_flutter/core/app_onesignal.dart';
 import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
@@ -68,7 +67,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         navigatorKey: MyApp.navKey,
         title: 'ANN App',
-        theme: primaryTheme(),
+        theme: primaryTheme,
         initialRoute: '/',
         onGenerateRoute: Router.generateRoute,
         navigatorObservers: [observer],

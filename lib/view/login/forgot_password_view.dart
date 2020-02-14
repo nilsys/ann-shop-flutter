@@ -10,7 +10,6 @@ import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:intl/intl.dart';
@@ -76,13 +75,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           readOnly: Utility.isNullOrEmpty(password) == false,
           decoration: InputDecoration(
             hintText: 'Nhập số điện thoại',
-            hintStyle: TextStyle(fontStyle: FontStyle.italic),
-            contentPadding: EdgeInsets.all(12),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(
-                  color: Colors.red, width: 1, style: BorderStyle.solid),
-            ),
           ),
           keyboardType: TextInputType.number,
           validator: Validator.phoneNumberValidator,
@@ -124,13 +116,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: 'Chọn ngày sinh',
-                hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                contentPadding: EdgeInsets.all(12),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(
-                      color: Colors.red, width: 1, style: BorderStyle.solid),
-                ),
               ),
               keyboardType: TextInputType.datetime,
               validator: (value) {
@@ -150,8 +135,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
     if (step == 0) {
       children.addAll([
-        PrimaryButton(
-          'Tiếp tục',
+        RaisedButton(
+          child: Text(
+            'Tiếp tục',
+            style: TextStyle(color: Colors.white),
+          ),
           onPressed: _validateInput,
         ),
         SizedBox(height: 5),
@@ -159,8 +147,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     } else {
       if (Utility.isNullOrEmpty(password)) {
         children.addAll([
-          PrimaryButton(
-            'Xác nhận',
+          RaisedButton(
+            child: Text('Xác nhận', style: TextStyle(color: Colors.white),),
             onPressed: _validateInput,
           ),
           SizedBox(height: 5),
@@ -192,8 +180,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             ),
           ),
           SizedBox(height: 30),
-          PrimaryButton(
-            'Đăng nhập ngay',
+          RaisedButton(
+           child: Text( 'Đăng nhập ngay', style: TextStyle(color: Colors.white),),
             onPressed: _onSubmit,
           ),
         ]);

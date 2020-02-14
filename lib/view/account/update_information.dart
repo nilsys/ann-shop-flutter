@@ -108,15 +108,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   initialValue: account.fullName,
                   decoration: InputDecoration(
                     hintText: 'Nhập họ và tên',
-                    hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                    contentPadding: EdgeInsets.all(contentPadding),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                          style: BorderStyle.solid),
-                    ),
                   ),
                   validator: (value) {
                     if (Utility.isNullOrEmpty(value)) {
@@ -134,16 +125,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     : TextFormField(
                         readOnly: true,
                         initialValue: account.phone,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(contentPadding),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                                color: Colors.red,
-                                width: 1,
-                                style: BorderStyle.solid),
-                          ),
-                        ),
                         keyboardType: TextInputType.number,
                         onSaved: (String value) {
                           account.phone = value;
@@ -158,15 +139,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       readOnly: true,
                       decoration: InputDecoration(
                           hintText: 'Chọn ngày sinh',
-                          hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                          contentPadding: EdgeInsets.all(contentPadding),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                                color: Colors.red,
-                                width: 1,
-                                style: BorderStyle.solid),
-                          )),
+                         ),
                       keyboardType: TextInputType.datetime,
                       validator: (value) {
                         if (Utility.isNullOrEmpty(value)) {
@@ -182,15 +155,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   initialValue: account.address,
                   decoration: InputDecoration(
                     hintText: 'Nhập địa chỉ',
-                    hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                    contentPadding: EdgeInsets.all(contentPadding),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                          style: BorderStyle.solid),
-                    ),
                   ),
                   validator: (value) {
                     return null;
@@ -209,15 +173,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       expands: false,
                       decoration: InputDecoration(
                         hintText: 'Chọn thành phố',
-                        hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                        contentPadding: EdgeInsets.all(contentPadding),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                              color: Colors.red,
-                              width: 1,
-                              style: BorderStyle.solid),
-                        ),
                       ),
                       validator: (value) {
                         if (Utility.isNullOrEmpty(value)) {

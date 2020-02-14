@@ -100,13 +100,13 @@ class _SettingViewState extends State<SettingView> {
                                   },
                                 )),
                             Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 5),
+                              padding: EdgeInsets.fromLTRB(15,5,15,15),
                               child: TextField(
                                 controller: controllerBonus,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                    labelText: 'Giá lẽ cộng thêm (vnđ)'),
+                                  labelText: 'Giá lẽ cộng thêm (vnđ)',
+                                ),
                                 inputFormatters: [
                                   WhitelistingTextInputFormatter.digitsOnly,
                                   CurrencyInputFormatter()
@@ -121,7 +121,8 @@ class _SettingViewState extends State<SettingView> {
                                 keyboardType: TextInputType.number,
                                 maxLength: 11,
                                 decoration: InputDecoration(
-                                    labelText: 'Điện thoại của khách'),
+                                  labelText: 'Điện thoại của khách',
+                                ),
                               ),
                             ),
                             Padding(

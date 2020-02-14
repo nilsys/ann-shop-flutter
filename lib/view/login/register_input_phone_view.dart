@@ -3,7 +3,6 @@ import 'package:ann_shop_flutter/core/validator.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
-import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -67,13 +66,6 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
                 initialValue: AccountRegisterState.instance.phone,
                 decoration: InputDecoration(
                   hintText: 'Nhập số điện thoại',
-                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                  contentPadding: EdgeInsets.all(12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                        color: Colors.red, width: 1, style: BorderStyle.solid),
-                  ),
                 ),
                 keyboardType: TextInputType.number,
                 validator: Validator.phoneNumberValidator,
@@ -82,8 +74,8 @@ class _RegisterInputPhoneViewState extends State<RegisterInputPhoneView> {
                 },
               ),
               SizedBox(height: 30),
-              PrimaryButton(
-                'Xác nhận',
+              RaisedButton(
+                child:Text('Xác nhận', style: TextStyle(color: Colors.white),),
                 onPressed: _validateInput,
               ),
             ],

@@ -42,8 +42,8 @@ class _HomeViewState extends State<HomeView>
           body: children.elementAt(navigationProvider.index),
           bottomNavigationBar: BottomNavigationBar(
             showUnselectedLabels: bigScreen,
-            selectedFontSize: 12,
-            unselectedFontSize: 12,
+            selectedFontSize: 14,
+            unselectedFontSize: 14,
             type: bigScreen
                 ? BottomNavigationBarType.fixed
                 : BottomNavigationBarType.shifting,

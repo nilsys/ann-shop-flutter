@@ -3,7 +3,6 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
-import 'package:ann_shop_flutter/ui/button/primary_button.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -119,8 +118,6 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                 showCursor: false,
                 decoration: InputDecoration(
                   hintText: '______',
-                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                  contentPadding: EdgeInsets.all(12),
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -145,8 +142,8 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                 height: 5,
               ),
               SizedBox(height: 30),
-              PrimaryButton(
-                'Xác nhận',
+              RaisedButton(
+                child:Text( 'Xác nhận', style: TextStyle(color: Colors.white),),
                 onPressed: checkLength6() ? _validateInput : null,
               ),
             ],
