@@ -35,7 +35,6 @@ import 'package:ann_shop_flutter/view/product/product_filter_view.dart';
 import 'package:ann_shop_flutter/view/product/product_image_by_size_and_color.dart';
 import 'package:ann_shop_flutter/view/product/product_image_fancy_view.dart';
 import 'package:ann_shop_flutter/view/product/product_image_share_view.dart';
-import 'package:ann_shop_flutter/view/scan_barcode/barcode_scan_view.dart';
 import 'package:ann_shop_flutter/view/scan_barcode/scan_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
 import 'package:ann_shop_flutter/view/home_view/home_view.dart';

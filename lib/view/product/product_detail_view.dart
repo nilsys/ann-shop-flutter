@@ -13,7 +13,6 @@ import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/button_gradient.dart';
-import 'package:ann_shop_flutter/ui/button/icon_text_button.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
@@ -218,10 +217,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
             /// List image
             _buildListImageOrLoadMore(),
             _buildRelate(),
+            _buildByCatalog(),
             SeenBlock(
               exceptID: detail.productID,
             ),
-            _buildByCatalog(),
             SliverToBoxAdapter(
               child: ProductBanner(
                 Provider.of<CoverProvider>(context).footerProduct.data,
@@ -311,10 +310,17 @@ class _ProductDetailViewState extends State<ProductDetailView>
       }
       if (Utility.isNullOrEmpty(images)) {
         return SliverToBoxAdapter();
-      } else if (isFull || images.length == 1) {
-        return _buildListImage(images);
       } else {
-        return _buildViewMore(images[0]);
+        return SliverToBoxAdapter(
+          child: AnimatedCrossFade(
+            firstChild: _buildListImage(images),
+            secondChild: _buildViewMore(images[0]),
+            duration: Duration(milliseconds: 300),
+            crossFadeState: (isFull || images.length == 1)
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
+          ),
+        );
       }
     } else {
       return SliverToBoxAdapter();
@@ -381,115 +387,106 @@ class _ProductDetailViewState extends State<ProductDetailView>
       feature = carousel.feature;
       origin = carousel.origin;
     }
-    return SliverToBoxAdapter(
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: <Widget>[
-          Container(
-              width: MediaQuery.of(context).size.width,
-              child: AppImage(feature)),
-          InkWell(
-            onTap: () {
-              setState(() {
-                isFull = true;
-              });
-            },
-            child: Container(
-              height: 200,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    Colors.white,
-                    Colors.white.withAlpha(180),
-                    Colors.white.withAlpha(0),
-                  ],
-                ),
-              ),
-              alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.only(bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Xem thêm',
-                    style: AppStyles.body3.merge(
-                        TextStyle(color: Theme.of(context).primaryColor)),
-                    textAlign: TextAlign.center,
-                  ),
-                  Icon(
-                    Icons.navigate_next,
-                    size: 20,
-                    color: Theme.of(context).primaryColor,
-                  ),
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: <Widget>[
+        Container(
+            width: MediaQuery.of(context).size.width, child: AppImage(feature)),
+        InkWell(
+          onTap: () {
+            setState(() {
+              isFull = true;
+            });
+          },
+          child: Container(
+            height: 200,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Colors.white,
+                  Colors.white.withAlpha(180),
+                  Colors.white.withAlpha(0),
                 ],
               ),
             ),
+            alignment: Alignment.bottomCenter,
+            padding: EdgeInsets.only(bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Xem thêm',
+                  style: AppStyles.body3
+                      .merge(TextStyle(color: Theme.of(context).primaryColor)),
+                  textAlign: TextAlign.center,
+                ),
+                Icon(
+                  Icons.navigate_next,
+                  size: 20,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildListImage(List images) {
-    if (Utility.isNullOrEmpty(images)) {
-      return SliverToBoxAdapter();
+    return Column(
+      children: List.generate(images.length, (index) => index)
+          .map((index) => _buildImage(images[index], index))
+          .toList(),
+    );
+  }
+
+  Widget _buildImage(item, index) {
+    var tag = 'list_content_image$index';
+    String feature = '';
+    String origin = '';
+    if (item is String) {
+      feature = item;
+      origin = item;
     } else {
-      return SliverPadding(
-        padding: EdgeInsets.symmetric(horizontal: 0),
-        sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              var tag = 'list_content_image$index';
-              String feature = '';
-              String origin = '';
-              if (images[index] is String) {
-                feature = images[index];
-                origin = images[index];
-              } else {
-                ProductCarousel carousel = images[index];
-                feature = carousel.feature;
-                origin = carousel.origin;
-              }
-              return InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, '/image-view',
-                      arguments: {'url': origin, 'tag': tag});
-                },
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 15),
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Hero(
-                            tag: tag,
-                            child: AppImage(
-                              feature,
-                              fit: BoxFit.fitWidth,
-                            )),
-                      ),
-                      Positioned(
-                        right: 10,
-                        top: 10,
-                        child: Icon(
-                          Icons.zoom_out_map,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      ButtonDownload(imageName: origin, cache: true),
-                    ],
-                  ),
-                ),
-              );
-            },
-            childCount: images.length,
-          ),
-        ),
-      );
+      ProductCarousel carousel = item;
+      feature = carousel.feature;
+      origin = carousel.origin;
     }
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, '/image-view',
+            arguments: {'url': origin, 'tag': tag});
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 15),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Hero(
+                  tag: tag,
+                  child: AppImage(
+                    feature,
+                    fit: BoxFit.fitWidth,
+                  )),
+            ),
+            Positioned(
+              right: 10,
+              top: 10,
+              child: Icon(
+                Icons.zoom_out_map,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            ButtonDownload(imageName: origin, cache: true),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildButtonControl() {
@@ -499,7 +496,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
 
     bool favorite = Provider.of<FavoriteProvider>(context)
         .containsInFavorite(detail.productID);
-    Color iconColor = Theme.of(context).primaryColor;
     return BottomAppBar(
       color: Colors.white,
       child: Container(

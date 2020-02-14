@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
@@ -32,9 +33,7 @@ class _ScanViewState extends State<ScanView>
 
   bool flashOn = false;
   bool bottomSheetIsOpen = true;
-  double redLineTop = 150;
-  int offset = 50;
-  double squareSize = 270;
+  double squareSize = 250;
 
   Future<Null> loadCamera() async {
     try {
@@ -61,12 +60,10 @@ class _ScanViewState extends State<ScanView>
 
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 2));
-    animation =
-        Tween<double>(begin: (-squareSize / 2 + 20), end: squareSize / 2 - 20)
-            .animate(animationController)
-              ..addListener(() {
-                setState(() {});
-              });
+    animation = Tween<double>(begin: 0.1, end: 0.9).animate(animationController)
+      ..addListener(() {
+        setState(() {});
+      });
 
     animationController.addStatusListener((AnimationStatus status) {
       if (status == AnimationStatus.completed) {
@@ -96,6 +93,7 @@ class _ScanViewState extends State<ScanView>
 //      AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm $value');
 //      await Future.delayed(Duration(milliseconds: 500));
 //    }
+    Provider.of<SearchProvider>(context, listen: false).addHistory(value);
     await ListProduct.showByCategory(context,
         Category(name: value, filter: ProductFilter(productSKU: value)),
         initData: null, showSearch: true);
@@ -119,7 +117,6 @@ class _ScanViewState extends State<ScanView>
         flashOn = false;
         controllerQR.stopScanning();
         if (!bottomSheetIsOpen) {
-          Provider.of<SearchProvider>(context, listen: false).addHistory(value);
           _openResultView(value);
         }
       });
@@ -130,10 +127,6 @@ class _ScanViewState extends State<ScanView>
         }
         setState(() {});
         controllerQR.startScanning();
-
-        setState(() {
-          redLineTop = 320;
-        });
       });
     }
   }
@@ -141,46 +134,107 @@ class _ScanViewState extends State<ScanView>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    squareSize = min(270, size.width);
     bool hasKeyboard = MediaQuery.of(context).viewInsets.bottom > 100;
     List<Widget> _children = [_buildCamera()];
+
     if (hasKeyboard == false) {
-      _children.addAll([
-        Align(
-          alignment: Alignment.center,
+      _children.add(
+        Align(alignment: Alignment(0.0, 0.2),
           child: Container(
             width: squareSize,
-            height: squareSize,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                border: Border.all(
-                  color: Colors.white,
-                  width: 2,
-                  style: BorderStyle.solid,
-                )),
-          ),
-        ),
-        Align(
-            alignment: Alignment.center,
-            child: Container(
-              child: AnimatedBuilder(
-                animation: animationController,
-                child: SizedBox(
-                  width: 170,
-                  child: Container(
-                    height: 1,
-                    color: Colors.redAccent,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                _buildTitle(
+                    'Điều chỉnh camera để mã vạch nằm trong ô vuông bên dưới'),
+                Container(
+                  width: squareSize,
+                  height: squareSize,
+                  decoration:
+                      BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.white)),
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        child: AnimatedBuilder(
+                          animation: animationController,
+                          child: SizedBox(
+                            width: squareSize,
+                            child: Container(
+                              height: 1,
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                          builder: (BuildContext context, Widget _widget) {
+                            return new Transform.translate(
+                              offset: Offset(0, animation.value * squareSize),
+                              child: _widget,
+                            );
+                          },
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                builder: (BuildContext context, Widget _widget) {
-                  return new Transform.translate(
-                    offset: Offset(0, animation.value),
-                    // animationController.value * -0.5,
-                    child: _widget,
-                  );
-                },
-              ),
-            )),
-      ]);
+                _buildTitle('Mã vạch sẽ được quét tự động'),
+                IconButton(
+                  onPressed: () => _turnFlash(),
+                  icon: Icon(
+                    flashOn ? Icons.flash_off : Icons.flash_on,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                ),
+                InkWell(
+                  onTap: _showInputCode,
+                  child: Container(
+                    width: squareSize,
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10))),
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Text(
+                              'Nhập mã vạch bằng tay',
+                              style: Theme.of(context).textTheme.button,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 45,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                bottomRight: Radius.circular(10)),
+                          ),
+                          child: Icon(
+                            Icons.keyboard_backspace,
+                            textDirection: TextDirection.rtl,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
     }
     _children.add(Positioned(
       top: 30,
@@ -218,65 +272,11 @@ class _ScanViewState extends State<ScanView>
           ),
           Container(
             width: 60,
-            child: IconButton(
-              onPressed: () => _turnFlash(),
-              icon: Icon(
-                flashOn ? Icons.flash_off : Icons.flash_on,
-                size: 30,
-                color: Colors.white,
-              ),
-            ),
           ),
         ],
       ),
     ));
-    if (hasKeyboard == false) {
-      _children.add(Positioned(
-        bottom: (size.height - squareSize) / 4,
-        width: size.width,
-        child: InkWell(
-          onTap: _showInputCode,
-          child: Container(
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10))),
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Text(
-                    'Nhập mã vạch bằng tay',
-                    style: Theme.of(context).textTheme.button,
-                  ),
-                ),
-                Container(
-                  width: 45,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                  ),
-                  child: Icon(
-                    Icons.keyboard_backspace,
-                    textDirection: TextDirection.rtl,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ));
-    }
+
     return Scaffold(
       backgroundColor: Colors.black,
       key: _scaffoldKey,
@@ -316,6 +316,19 @@ class _ScanViewState extends State<ScanView>
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  _buildTitle(text) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 5),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.subtitle.merge(
+              TextStyle(color: Colors.white),
+            ),
       ),
     );
   }
@@ -429,7 +442,7 @@ class _ScanViewState extends State<ScanView>
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _cameraPreviewWidget() {
     if (controllerQR == null || !controllerQR.value.isInitialized) {
-      return Container();
+      return Container(color: Colors.black,);
     } else {
       return new AspectRatio(
         aspectRatio: controllerQR.value.aspectRatio,
