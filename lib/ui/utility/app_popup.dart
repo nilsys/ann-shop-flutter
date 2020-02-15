@@ -137,7 +137,7 @@ class CenterButtonPopup extends StatelessWidget {
       btnNormal = ButtonTheme(
         height: 35,
         child: RaisedButton(
-          color: Colors.white,
+          color: Colors.grey[200],
           child: Text(
             normal.text,
             style: TextStyle(color: Colors.black87),

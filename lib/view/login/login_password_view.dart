@@ -151,7 +151,8 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
         hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/home', (Route<dynamic> route) => false);
           Provider.of<NavigationProvider>(context, listen: false).index =
               PageName.home.index;
         } else {
