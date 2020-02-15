@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:ann_shop_flutter/repository/coupon_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
+import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -161,44 +162,69 @@ class _UploadPhotoState extends State<UploadPhoto> {
         base64Image: latestBase64Image, picture: latestCaptureFile);
     hideLoading(context);
     if (resultFeedback) {
-      AppPopup.showComplexDialog(
+      AppPopup.showCustomDialog(
         context,
-        title: 'Đăng hình thành công',
-        body:
-            'Chúng tôi sẽ kiểm trả và thông báo cho bạn, Cảm ơn bạn đã ủng hộ ANN!',
-        image: Icon(
-          Icons.check_circle,
-          size: 50,
-          color: Theme.of(context).primaryColor,
-        ),
-        btnNormal: ButtonData(
-            title: 'Hoàng thành',
-            callback: () {
+        content: [
+          Icon(
+            Icons.check_circle,
+            size: 50,
+            color: Theme.of(context).primaryColor,
+          ),
+          Text(
+            'Đăng hình thành công',
+            style: Theme.of(context).textTheme.subtitle,
+          ),
+          Text(
+              'Chúng tôi sẽ kiểm trả và thông báo cho bạn, Cảm ơn bạn đã ủng hộ ANN!'),
+        ],
+        actions: [
+          FlatButton(
+            child: Text('Hoàng thành'),
+            onPressed: () {
               Navigator.pop(context);
-            }),
-        btnHighlight: ButtonData(
-          title: 'Xem danh sách ưu đãi',
-          callback: () {
-            Navigator.popAndPushNamed(context, '/coupon');
-          },
-        ),
+              Navigator.pop(context);
+            },
+          ),
+          FlatButton(
+            child: Text('Xem danh sách ưu đãi'),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.popAndPushNamed(context, '/coupon');
+            },
+          ),
+        ],
       );
     } else {
-      AppPopup.showComplexDialog(
+      AppPopup.showCustomDialog(
         context,
-        title: 'Đăng hình thất bại. Thử lại ngay?',
-        image: Icon(
-          Icons.error_outline,
-          size: 50,
-          color: Theme.of(context).primaryColor,
-        ),
-        btnNormal: ButtonData(title: 'Thử lại sau'),
-        btnHighlight: ButtonData(
-          title: 'Thử lại',
-          callback: () {
-            sendFeedBack();
-          },
-        ),
+        content: [
+          Icon(
+            Icons.error_outline,
+            size: 50,
+            color: Theme.of(context).primaryColor,
+          ),
+          Text(
+            'Đăng hình thất bại. Thử lại ngay?',
+            style: Theme.of(context).textTheme.subtitle,
+          ),
+          Text(
+              'Chúng tôi sẽ kiểm trả và thông báo cho bạn, Cảm ơn bạn đã ủng hộ ANN!'),
+        ],
+        actions: [
+          FlatButton(
+            child: Text('Thử lại sau'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          FlatButton(
+            child: Text('Thử lại'),
+            onPressed: () {
+              Navigator.pop(context);
+              sendFeedBack();
+            },
+          ),
+        ],
       );
     }
   }

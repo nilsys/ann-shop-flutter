@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/app_input_formatter.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
@@ -100,7 +99,7 @@ class _SettingViewState extends State<SettingView> {
                                   },
                                 )),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(15,5,15,15),
+                              padding: EdgeInsets.fromLTRB(15, 5, 15, 15),
                               child: TextField(
                                 controller: controllerBonus,
                                 keyboardType: TextInputType.number,

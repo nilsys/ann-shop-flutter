@@ -11,6 +11,7 @@ import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
+import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -243,22 +244,32 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
       return;
     }
     if (imagesSelected.length > maxForZalo) {
-      AppPopup.showImageDialog(context,
-          image: Icon(
-            Icons.share,
-            size: 70,
-            color: Theme.of(context).primaryColor,
+      AppPopup.showCustomDialog(
+        context,
+        content: [
+          SizedBox(
+              height: 64, child: Image.asset('assets/images/ui/zalo-logo.png')),
+          Text(
+            'Nếu bạn muốn chia sẽ lên ZALO thì chỉ được chọn tối đa $maxForZalo hình',
+            style: Theme.of(context).textTheme.subtitle,
           ),
-          title:
-              'Nếu bạn muốn chia sẽ lên ZALO thì chỉ được chọn tối đa $maxForZalo hình',
-          btnHighlight: ButtonData(
-              title: 'Chọn $maxForZalo hình',
-              callback: () {
-                setState(() {
-                  imagesSelected.removeRange(maxForZalo, imagesSelected.length);
-                });
-              }),
-          btnNormal: ButtonData(title: 'Đóng', callback: null));
+        ],
+        actions: [
+          FlatButton(
+            child: Text('Chọn $maxForZalo hình'),
+            onPressed: () {
+              Navigator.pop(context);
+              imagesSelected.removeRange(maxForZalo, imagesSelected.length);
+            },
+          ),
+          FlatButton(
+            child: Text('Đóng'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
     } else {
       if (Platform.isAndroid) {
         _onShare(message: message, fixZalo: true);

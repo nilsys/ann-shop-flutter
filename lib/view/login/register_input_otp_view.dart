@@ -4,8 +4,8 @@ import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
-import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 
 class RegisterInputOtpView extends StatefulWidget {
@@ -62,7 +62,9 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
   @override
   void dispose() {
     _scrollController.dispose();
-    stream.takeWhile((value){return true;});
+    stream.takeWhile((value) {
+      return true;
+    });
     super.dispose();
   }
 
@@ -86,15 +88,27 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.only(bottom: 8),
-                child: Text(
-                  'Vui lòng nhập OTP đã gửi đến số điện thoại ${AccountRegisterState.instance.phone} của Quý khách',
-                  style: Theme.of(context).textTheme.body2,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 8),
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text: 'Vui lòng nhập OTP đã gửi đến số điện thoại ',
+                            style: Theme.of(context).textTheme.body1),
+                        TextSpan(
+                            text: AccountRegisterState.instance.phone,
+                            style: Theme.of(context).textTheme.body2.merge(
+                                TextStyle(
+                                    decoration: TextDecoration.underline))),
+                        TextSpan(
+                            text: '  của Quý khách',
+                            style: Theme.of(context).textTheme.body1),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                  )),
+              Container(
+                alignment: Alignment.centerLeft,
                 child: countDown <= 0
                     ? TextButton(
                         'Gửi lại OTP',
@@ -102,10 +116,12 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                           _onResentOTP();
                         },
                       )
-                    : Text(
-                        'OTP (00:$countDown)',
-                        style: Theme.of(context).textTheme.body2,
-                      ),
+                    : Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: Text(
+                          'OTP (00:$countDown)',
+                          style: Theme.of(context).textTheme.body2,
+                        )),
               ),
               TextFormField(
                 controller: controllerOTP,
@@ -143,7 +159,10 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
               ),
               SizedBox(height: 30),
               RaisedButton(
-                child:Text( 'Xác nhận', style: TextStyle(color: Colors.white),),
+                child: Text(
+                  'Xác nhận',
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: checkLength6() ? _validateInput : null,
               ),
             ],

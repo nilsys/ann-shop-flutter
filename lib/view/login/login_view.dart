@@ -7,11 +7,12 @@ import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/border_button.dart';
-import 'package:ann_shop_flutter/ui/button/text_button.dart';
+import 'package:ann_shop_flutter/ui/utility/ann-logo.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/utility/bottom_bar_policy.dart';
+import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,6 @@ class _LoginViewState extends State<LoginView> {
         }
       }
     });
-    showPassword = false;
   }
 
   @override
@@ -46,53 +46,32 @@ class _LoginViewState extends State<LoginView> {
 
   ScrollController _scrollController;
   String phone;
-  String password;
-  bool showPassword;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Đăng nhập'),
+        title: Text('Kho hàng Sỉ ANN'),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.transparent,
-        elevation: 0,
-        child: Container(
-          height: 50,
-          alignment: Alignment.center,
-          child: TextButton(
-            'Chính sách và điều khoản của ANN',
-            onPressed: () {
-              Navigator.pushNamed(context, '/web-view', arguments: {
-                'url': 'https://ann.com.vn/chinh-sach-bao-mat-thong-tin',
-                'title': 'Chính sách và điều khoản'
-              });
-            },
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomBarPolicy(),
       body: Form(
         key: _formKey,
         autovalidate: _autoValidate,
         child: Container(
-          padding: EdgeInsets.all(defaultPadding),
+          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
           child: ListView(
             controller: _scrollController,
             children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: Text(
-                  'Số di động',
-                  style: Theme.of(context).textTheme.body2,
-                ),
+              Container(
+                height: 100,
+                margin: EdgeInsets.only(top: 50, bottom: 40),
+                child: AnnLogo(),
               ),
               TextFormField(
                 maxLength: 10,
+                style: TextStyle(fontWeight: FontWeight.w600),
                 decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.phone_iphone),
                   hintText: 'Nhập số điện thoại',
                 ),
                 keyboardType: TextInputType.number,
@@ -101,45 +80,12 @@ class _LoginViewState extends State<LoginView> {
                   phone = value;
                 },
               ),
-              SizedBox(
-                height: 5,
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: Text(
-                  'Mật khẩu',
-                  style: Theme.of(context).textTheme.body2,
-                ),
-              ),
-              Stack(children: [
-                TextFormField(
-                  obscureText: !showPassword,
-                  decoration: InputDecoration(
-                    hintText: 'Nhập mật khẩu',
-                  ),
-                  validator: Validator.passwordValidator,
-                  onSaved: (String value) {
-                    password = value;
-                  },
-                ),
-                Positioned(
-                  right: 0,
-                  child: IconButton(
-                    icon: Icon(
-                      showPassword ? Icons.visibility : Icons.visibility_off,
-                      color: AppStyles.dartIcon,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                  ),
-                )
-              ]),
-              SizedBox(height: 30),
+              SizedBox(height: 15),
               RaisedButton(
-                child: Text('Đăng nhập', style: TextStyle(color: Colors.white),),
+                child: Text(
+                  'Tiếp tục',
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: _validateInput,
               ),
               SizedBox(height: Platform.isIOS ? 30 : 1),
@@ -154,21 +100,7 @@ class _LoginViewState extends State<LoginView> {
                       },
                     )
                   : SizedBox(),
-              Container(
-                height: 70,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    TextButton('Đăng ký ngay', onPressed: () {
-                      AccountRegisterState.instance.reset(true);
-                      Navigator.pushNamed(context, '/register_input_phone');
-                    }),
-                    TextButton('Quên mật khẩu', onPressed: () {
-                      Navigator.pushNamed(context, '/forgot_password');
-                    }),
-                  ],
-                ),
-              ),
+              SizedBox(height: 30),
             ],
           ),
         ),
@@ -177,6 +109,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _validateInput() {
+    FocusScope.of(context).requestFocus(FocusNode());
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
@@ -194,15 +127,46 @@ class _LoginViewState extends State<LoginView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading(context, message: 'Đăng nhập...');
+        showLoading(context, message: 'Kiểm tra số điện thoại...');
         AppResponse response =
-            await AccountRepository.instance.login(phone, password);
+            await AccountRepository.instance.checkPhoneNumber(phone);
         hideLoading(context);
         if (response.status) {
-          AccountController.instance.finishLogin(response.data);
-          Navigator.pushReplacementNamed(context, '/home');
-          Provider.of<NavigationProvider>(context, listen: false).index =
-              PageName.home.index;
+          if (response.data) {
+            AccountRegisterState.instance.isRegister = false;
+            Navigator.pushNamed(context, '/login-password', arguments: phone);
+          } else {
+            AppPopup.showCustomDialog(context, content: [
+              Icon(
+                Icons.warning,
+                size: 50,
+                color: Theme.of(context).primaryColor,
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                        text: 'Số điện thoại ',
+                        style: Theme.of(context).textTheme.body1),
+                    TextSpan(
+                        text: phone,
+                        style: Theme.of(context).textTheme.body2.merge(
+                            TextStyle(decoration: TextDecoration.underline))),
+                    TextSpan(
+                        text: ' chưa được đăng ký. Bạn có muốn đăng ký?',
+                        style: Theme.of(context).textTheme.body1),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              CenterButtonPopup(
+                normal: ButtonData('Quay lại'),
+                highlight: ButtonData('Đăng ký', onPressed: () {
+                  onSentOTP();
+                }),
+              )
+            ]);
+          }
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
@@ -212,6 +176,33 @@ class _LoginViewState extends State<LoginView> {
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
+    }
+  }
+
+  onSentOTP() async {
+    try {
+      AccountRegisterState.instance.phone = phone;
+      AccountRegisterState.instance.isRegister = true;
+      if (AccountRegisterState.instance.checkTimeOTP() == false) {
+        Navigator.pushNamed(context, '/register_input_otp');
+        return;
+      }
+
+      showLoading(context, message: 'Gửi OTP...');
+      AppResponse response = await AccountRepository.instance
+          .registerStep2RequestOTP(
+              phone, AccountRegisterState.instance.randomNewOtp());
+      hideLoading(context);
+      if (response.status) {
+        AccountRegisterState.instance.timeOTP = DateTime.now();
+        Navigator.pushNamed(context, '/register_input_otp');
+      } else {
+        AppSnackBar.showFlushbar(context,
+            response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
+      }
+    } catch (e) {
+      print(e);
+      AppSnackBar.showFlushbar(context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
     }
   }
 }

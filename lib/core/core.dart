@@ -14,6 +14,9 @@ class Core {
     /// init
   }
 
+  static const annLogoWithLink = 'https://ann.com.vn/wp-content/uploads/ANN-logo-4.png';
+  static const annLogoOrange = 'https://ann.com.vn/logo/ann-logo-2-400x150.png';
+  static const annLogoWhite = 'https://ann.com.vn/logo/ann-logo-400x150.png';
   static const domain = 'http://xuongann.com/';
 
   static const dynamicLinkStore = 'https://annapp.page.link/store';

@@ -9,7 +9,7 @@ class AccountRegisterState {
     /// init
   }
 
-  bool isRegister;
+  bool isRegister = false;
 
   String _phone;
 

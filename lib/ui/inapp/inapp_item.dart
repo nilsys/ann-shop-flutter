@@ -19,10 +19,19 @@ class InAppItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (Utility.isNullOrEmpty(item.action)) {
-          AppPopup.showCustomDialog(context,
-              title: item.name,
-              message: item.message,
-              btnNormal: ButtonData(title: 'Đóng'));
+          AppPopup.showCustomDialog(
+            context,
+            title: item.name,
+            content: [
+              Text(item.message),
+              FlatButton(
+                child: Text('Đóng'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
         } else {
           AppAction.instance.onHandleAction(
               context, item.action, item.actionValue, item.name);

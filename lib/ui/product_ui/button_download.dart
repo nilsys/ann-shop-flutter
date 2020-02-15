@@ -80,13 +80,21 @@ class _ButtonDownloadState extends State<ButtonDownload> {
           context,
           title:
               'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
-          btnNormal: ButtonData(title: 'Không'),
-          btnHighlight: ButtonData(
-            title: 'Mở cài đặt',
-            callback: () async {
-              PermissionHandler().openAppSettings();
-            },
-          ),
+            actions: [
+              FlatButton(
+                child: Text('Không'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text('Mở cài đặt'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  PermissionHandler().openAppSettings();
+                },
+              )
+            ]
         );
         return;
       }

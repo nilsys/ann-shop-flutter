@@ -14,6 +14,7 @@ import 'package:ann_shop_flutter/repository/permission_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
+import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -83,7 +84,6 @@ class ProductRepository {
     try {
       final url = Core.domain + 'api/flutter/product/$slug';
       final response = await http
-
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
       log(url);
@@ -204,7 +204,7 @@ class ProductRepository {
   }
 
   onCheckAndCopy(context, productID) async {
-    if(AccountController.instance.isLogin == false){
+    if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
@@ -250,7 +250,7 @@ class ProductRepository {
 
   /// save to gallery
   onDownLoad(context, int productID) async {
-    if(AccountController.instance.isLogin == false){
+    if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
@@ -261,29 +261,35 @@ class ProductRepository {
         AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
             duration: Duration(seconds: 1));
       } else {
-        bool permission = await PermissionRepository.instance.checkAndRequestPermission(
-            PermissionGroup.storage);
-        if(permission) {
+        bool permission = await PermissionRepository.instance
+            .checkAndRequestPermission(PermissionGroup.storage);
+        if (permission) {
           bool result =
-          await Provider.of<DownloadImageProvider>(context, listen: false)
-              .downloadImages(images);
+              await Provider.of<DownloadImageProvider>(context, listen: false)
+                  .downloadImages(images);
           if (result == false) {
             AppSnackBar.showFlushbar(
                 context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
           }
-        }else{
-          AppPopup.showCustomDialog(
-            context,
-            title:
-            'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
-            btnNormal: ButtonData(title: 'Không'),
-            btnHighlight: ButtonData(
-              title: 'Mở cài đặt',
-              callback: () async {
-                PermissionHandler().openAppSettings();
-              },
-            ),
-          );
+        } else {
+          AppPopup.showCustomDialog(context,
+              title:
+                  'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
+              actions: [
+                FlatButton(
+                  child: Text('Không'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                FlatButton(
+                  child: Text('Mở cài đặt'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    PermissionHandler().openAppSettings();
+                  },
+                )
+              ]);
         }
       }
     } catch (e) {

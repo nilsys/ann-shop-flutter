@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class NavigationProvider extends ChangeNotifier{
+  NavigationProvider();
 
   int index = 0;
 

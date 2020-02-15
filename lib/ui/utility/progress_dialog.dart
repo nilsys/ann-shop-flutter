@@ -6,6 +6,28 @@ String _dialogMessage = "Loading...";
 
 bool _isShowing = false;
 
+ProgressDialog _progressDialog;
+
+showLoading(context, {message = 'Loading...'}) {
+  if (_progressDialog == null) {
+    _progressDialog = ProgressDialog(context, message: message)..show();
+  }
+}
+
+hideLoading(context) {
+  if (_progressDialog != null) {
+    _progressDialog.hide(contextHide: context);
+    _progressDialog = null;
+  }
+}
+
+updateLoading(String message) {
+  if (_progressDialog != null) {
+    _progressDialog.update(message);
+  }
+}
+
+
 class ProgressDialog {
   _MyDialog _dialog;
 

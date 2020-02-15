@@ -5,9 +5,8 @@ import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -61,85 +60,65 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
           key: _formKey,
           autovalidate: _autoValidate,
           child: Container(
-            padding: EdgeInsets.all(defaultPadding),
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
             child: ListView(
               controller: _scrollController,
               children: <Widget>[
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    'Mật khẩu',
-                    style: Theme.of(context).textTheme.body2,
-                  ),
-                ),
-                Stack(children: [
-                  TextFormField(
-                    obscureText: !showPassword,
-                    decoration: InputDecoration(
+                SizedBox(height: 50),
+                TextFormField(
+                  obscureText: !showPassword,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                  decoration: InputDecoration(
                       hintText: 'Nhập mật khẩu',
-                    ),
-                    validator: Validator.passwordValidator,
-                    onSaved: (String value) {
-                      password = value;
-                    },
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: IconButton(
-                      icon: Icon(
-                        showPassword ? Icons.visibility : Icons.visibility_off,
-                        color: AppStyles.dartIcon,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          showPassword = !showPassword;
-                        });
-                      },
-                    ),
-                  )
-                ]),
-                SizedBox(
-                  height: 25,
+                      prefixIcon: Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          showPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            showPassword = !showPassword;
+                          });
+                        },
+                      )),
+                  validator: Validator.passwordValidator,
+                  onSaved: (String value) {
+                    password = value;
+                  },
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    'Nhập lại mật khẩu',
-                    style: Theme.of(context).textTheme.body2,
-                  ),
-                ),
-                Stack(children: [
-                  TextFormField(
-                    obscureText: !showPassword,
-                    decoration: InputDecoration(
+                SizedBox(height: 15),
+                TextFormField(
+                  obscureText: !showPassword,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                  decoration: InputDecoration(
+                      helperText: ' ',
                       hintText: 'Nhập lại mật khẩu',
-                    ),
-                    validator: Validator.passwordValidator,
-                    onSaved: (String value) {
-                      confirmPassword = value;
-                    },
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: IconButton(
-                      icon: Icon(
-                        showPassword ? Icons.visibility : Icons.visibility_off,
-                        color: AppStyles.dartIcon,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          showPassword = !showPassword;
-                        });
-                      },
-                    ),
-                  )
-                ]),
-                SizedBox(height: 30),
+                      prefixIcon: Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          showPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            showPassword = !showPassword;
+                          });
+                        },
+                      )),
+                  validator: Validator.passwordValidator,
+                  onSaved: (String value) {
+                    confirmPassword = value;
+                  },
+                ),
+                SizedBox(height: 15),
                 RaisedButton(
-                  child:Text('Tạo mật khẩu', style: TextStyle(color: Colors.white),),
+                  child: Text(
+                    'Tạo mật khẩu',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onPressed: _validateInput,
                 ),
               ],
@@ -151,6 +130,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
   }
 
   void _validateInput() {
+    FocusScope.of(context).requestFocus(FocusNode());
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
@@ -179,7 +159,8 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
         hideLoading(context);
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
-          Provider.of<NavigationProvider>(context, listen: false).index = PageName.home.index;
+          Provider.of<NavigationProvider>(context, listen: false).index =
+              PageName.home.index;
           Navigator.pushNamedAndRemoveUntil(
               context, '/home', (Route<dynamic> route) => false);
           if (AccountRegisterState.instance.isRegister) {

@@ -10,31 +10,29 @@ class TitleViewMore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (onPressed != null) {
-      return Container(
-        height: 60,
-        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-        alignment: Alignment.centerLeft,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.only(right: 10),
-                child: Text(
-                  title,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+      return InkWell(
+        onTap: onPressed,
+        child: Container(
+          height: 60,
+          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+          alignment: Alignment.centerLeft,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(right: 10),
+                  child: Text(
+                    title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
-            ),
-            MaterialButton(
-              padding: EdgeInsets.all(0),
-              onPressed: onPressed,
-              child: Container(
+              Container(
                 child: Row(
                   children: <Widget>[
                     Text('Xem thêm'),
@@ -42,11 +40,11 @@ class TitleViewMore extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
-    }else{
+    } else {
       return Container(
         height: 60,
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -59,6 +57,5 @@ class TitleViewMore extends StatelessWidget {
         ),
       );
     }
-
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:ann_shop_flutter/core/custom_fade_roue.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -14,6 +12,7 @@ import 'package:ann_shop_flutter/view/coupon/coupon_view.dart';
 import 'package:ann_shop_flutter/view/coupon/upload_photo.dart';
 import 'package:ann_shop_flutter/view/login/change_password_view.dart';
 import 'package:ann_shop_flutter/view/login/forgot_password_view.dart';
+import 'package:ann_shop_flutter/view/login/login_password_view.dart';
 import 'package:ann_shop_flutter/view/login/login_view.dart';
 import 'package:ann_shop_flutter/view/inapp/blog_view.dart';
 import 'package:ann_shop_flutter/view/inapp/inapp_view.dart';
@@ -27,7 +26,6 @@ import 'package:ann_shop_flutter/view/list_product/list_product_by_category.dart
 import 'package:ann_shop_flutter/view/list_product/seen_view.dart';
 import 'package:ann_shop_flutter/view/login/register_input_otp_view.dart';
 import 'package:ann_shop_flutter/view/login/register_input_password_view.dart';
-import 'package:ann_shop_flutter/view/login/register_input_phone_view.dart';
 import 'package:ann_shop_flutter/view/login/register_success_view.dart';
 import 'package:ann_shop_flutter/view/product/image_view.dart';
 import 'package:ann_shop_flutter/view/product/product_detail_view.dart';
@@ -45,7 +43,6 @@ import 'package:ann_shop_flutter/view/utility/web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -88,8 +85,7 @@ class Router {
         return MaterialPageRoute(
             builder: (_) => SearchPage(), settings: settings);
       case '/scan':
-        return CustomFadeRoute(
-            builder: (_) => ScanView(), settings: settings);
+        return CustomFadeRoute(builder: (_) => ScanView(), settings: settings);
       case '/favorite':
         return MaterialPageRoute(
             builder: (_) => FavoriteView(), settings: settings);
@@ -114,28 +110,27 @@ class Router {
       case '/login':
         return MaterialPageRoute(
             builder: (_) => LoginView(), settings: settings);
+      case '/login-password':
+        return MaterialPageRoute(
+            builder: (_) => LoginPasswordView(data), settings: settings);
       case '/change-password':
         return MaterialPageRoute(
             builder: (_) => ChangePasswordView(), settings: settings);
       case '/forgot_password':
         return MaterialPageRoute(
-            builder: (_) => ForgotPasswordView(), settings: settings);
+            builder: (_) => ForgotPasswordView(data), settings: settings);
       case '/register_input_otp':
         return MaterialPageRoute(
             builder: (_) => RegisterInputOtpView(), settings: settings);
       case '/register_input_password':
         return MaterialPageRoute(
             builder: (_) => RegisterInputPasswordView(), settings: settings);
-      case '/register_input_phone':
-        return MaterialPageRoute(
-            builder: (_) => RegisterInputPhoneView(), settings: settings);
       case '/register_success':
         return MaterialPageRoute(
             builder: (_) => RegisterSuccessView(), settings: settings);
       case '/update-information':
         return MaterialPageRoute(
-            builder: (_) =>
-                UpdateInformation(
+            builder: (_) => UpdateInformation(
                   isRegister: data ?? false,
                 ),
             settings: settings);
@@ -172,24 +167,22 @@ class Router {
 
   static showProductDetail(context,
       {String slug, Product product, ProductDetail detail}) async {
-
-    if(AccountController.instance.canViewProduct == false){
-      AppSnackBar.showFlushbar(context, 'Bạn cần đăng nhập để tiếp tục xêm thêm thông tin sản phẩm');
+    if (AccountController.instance.canViewProduct == false) {
+      AppSnackBar.showFlushbar(
+          context, 'Bạn cần đăng nhập để tiếp tục xêm thêm thông tin sản phẩm');
       return;
     }
 
     if (detail != null) {
       Provider.of<SeenProvider>(context, listen: false).addNewProduct(detail);
       slug = detail.slug;
-      Provider
-          .of<ProductProvider>(context, listen: false)
+      Provider.of<ProductProvider>(context, listen: false)
           .getBySlug(detail.slug)
-          .completed =
-          detail;
+          .completed = detail;
     } else {
       if (product != null) {
-        Provider.of<SeenProvider>(context, listen: false).addNewProduct(
-            product);
+        Provider.of<SeenProvider>(context, listen: false)
+            .addNewProduct(product);
         slug = product.slug;
       }
       await Navigator.pushNamed(context, '/product-detail', arguments: slug);
@@ -197,23 +190,29 @@ class Router {
   }
 
   static scanBarCode(BuildContext context) async {
-    bool result = await PermissionRepository.instance.checkAndRequestPermission(
-        PermissionGroup.camera);
+    bool result = await PermissionRepository.instance
+        .checkAndRequestPermission(PermissionGroup.camera);
     if (result) {
       Navigator.pushNamed(context, "/scan");
     } else {
-      AppPopup.showCustomDialog(
-        context,
-        title:
-        'Cần quyền truy cập máy ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
-        btnNormal: ButtonData(title: 'Không'),
-        btnHighlight: ButtonData(
-          title: 'Mở cài đặt',
-          callback: () async {
-            PermissionHandler().openAppSettings();
-          },
-        ),
-      );
+      AppPopup.showCustomDialog(context,
+          title:
+              'Cần quyền truy cập máy ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
+          actions: [
+            FlatButton(
+              child: Text('Không'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: Text('Mở cài đặt'),
+              onPressed: () {
+                Navigator.pop(context);
+                PermissionHandler().openAppSettings();
+              },
+            )
+          ]);
     }
   }
 }

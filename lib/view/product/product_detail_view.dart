@@ -597,19 +597,35 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   _onAksBeforeDownload() {
-    AppPopup.showImageDialog(context,
-        image: Icon(
+    AppPopup.showCustomDialog(
+      context,
+      content: [
+        Icon(
           Icons.cloud_download,
           size: 70,
           color: Theme.of(context).primaryColor,
         ),
-        title: 'Lưu tất cả hình ảnh của sản phẩm về máy?',
-        btnHighlight: ButtonData(
-            title: 'Lưu',
-            callback: () {
-              ProductRepository.instance.onDownLoad(context, detail.productID);
-            }),
-        btnNormal: ButtonData(title: 'Không', callback: null));
+        Text(
+          'Lưu tất cả hình ảnh của sản phẩm về máy?',
+          style: Theme.of(context).textTheme.subtitle,
+        ),
+      ],
+      actions: [
+        FlatButton(
+          child: Text('Lưu'),
+          onPressed: () {
+            Navigator.pop(context);
+            ProductRepository.instance.onDownLoad(context, detail.productID);
+          },
+        ),
+        FlatButton(
+          child: Text('Không'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
   }
 
   Widget _buildProductColorSize() {
