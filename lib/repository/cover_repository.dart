@@ -20,7 +20,7 @@ class CoverRepository {
   /// http://xuongann.com/api/flutter/home/banners
   Future<List<Cover>> loadCover(String slug) async {
     try {
-      final url = Core.domain + 'api/flutter/$slug';
+      final url = '${Core.domain}api/flutter/$slug';
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 5));

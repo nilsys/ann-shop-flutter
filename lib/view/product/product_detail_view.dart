@@ -292,7 +292,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
       }
       if (Utility.isNullOrEmpty(detail.carousel) == false) {
         if ((Utility.isNullOrEmpty(detail.contentImages) == false)) {
-          for (var item in detail.carousel) {
+          for (final item in detail.carousel) {
             if (images.contains(item.origin) == false) {
               images.remove(item.origin);
             }
@@ -301,13 +301,13 @@ class _ProductDetailViewState extends State<ProductDetailView>
         images.addAll(detail.carousel);
       }
       if (Utility.isNullOrEmpty(images)) {
-        return SliverToBoxAdapter();
+        return const SliverToBoxAdapter();
       } else {
         return SliverToBoxAdapter(
           child: AnimatedCrossFade(
             firstChild: _buildListImage(images),
             secondChild: _buildViewMore(images[0]),
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             crossFadeState: (isFull || images.length == 1)
                 ? CrossFadeState.showFirst
                 : CrossFadeState.showSecond,
@@ -315,7 +315,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
         );
       }
     } else {
-      return SliverToBoxAdapter();
+      return const SliverToBoxAdapter();
     }
   }
 

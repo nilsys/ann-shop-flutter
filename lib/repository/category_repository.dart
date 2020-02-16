@@ -20,7 +20,7 @@ class CategoryRepository {
   /// http://xuongann.com/api/flutter/categories
   Future<List<Category>> loadCategories(String slug) async {
     try {
-      final url = Core.domain + 'api/flutter/$slug';
+      final url = '${Core.domain}api/flutter/$slug';
       final response = await http.get(url,
           headers: AccountController.instance.header).timeout(Duration(seconds: 5));
       log(url);
@@ -57,7 +57,7 @@ class CategoryRepository {
   /// http://xuongann.com/api/flutter/home/blocks
   Future<List<CategoryHome>> loadDataHome() async {
     try {
-      final url = Core.domain + 'api/flutter/home/blocks';
+      final url = '${Core.domain}api/flutter/home/blocks';
       final response = await http.get(url,
           headers: AccountController.instance.header).timeout(Duration(seconds: 5));
       log(url);

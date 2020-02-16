@@ -18,7 +18,7 @@ class AccountRepository {
 
   Future<AppResponse> checkPhoneNumber(String phone) async {
     try {
-      final url = Core.domain + 'api/flutter/user/check?phone=$phone';
+      final url = '${Core.domain}api/flutter/user/check?phone=$phone';
       final response = await http.get(url);
       log(url);
       log(response.statusCode);
@@ -40,7 +40,7 @@ class AccountRepository {
     try {
       String formatPhone = '84' + phone.substring(1);
       Map data = {"phone": formatPhone, "otp": otp};
-      final url = Core.domain + 'api/sms/otp';
+      final url = '${Core.domain}api/sms/otp';
       final response = await http.post(url, body: data);
       log(url);
       log(data);
@@ -60,7 +60,7 @@ class AccountRepository {
   Future<AppResponse> registerStep3ValidateOTP(String phone, String otp) async {
     try {
       Map data = {"phone": phone, "otp": otp};
-      final url = Core.domain + 'api/flutter/user/confirm-otp';
+      final url = '${Core.domain}api/flutter/user/confirm-otp';
       final response = await http.post(url, body: data);
       log(url);
       log(data);
@@ -81,7 +81,7 @@ class AccountRepository {
       String phone, String otp, String password) async {
     try {
       Map data = {"phone": phone, 'otp': otp, "passwordNew": password};
-      String url = Core.domain + 'api/flutter/user/create-password';
+      String url = '${Core.domain}api/flutter/user/create-password';
       final response = await http
           .post(
             url,
@@ -108,7 +108,7 @@ class AccountRepository {
   Future<AppResponse> login(String phone, String password) async {
     try {
       Map data = {"phone": phone, "password": password};
-      String url = Core.domain + 'api/flutter/user/login';
+      String url = '${Core.domain}api/flutter/user/login';
       final response = await http
           .post(
             url,
@@ -132,7 +132,7 @@ class AccountRepository {
 
   Future<AppResponse> updateInformation(Account account) async {
     try {
-      final url = Core.domain + 'api/flutter/user/update-info';
+      final url = '${Core.domain}api/flutter/user/update-info';
       final response = await http.patch(
         url,
         body: jsonEncode(account.toJson()),
@@ -163,7 +163,7 @@ class AccountRepository {
         "otp": newPass,
         "birthday": birthDay,
       };
-      String url = Core.domain + 'api/flutter/user/password-new-by-birthday';
+      String url = '${Core.domain}api/flutter/user/password-new-by-birthday';
       final response =
           await http.patch(url, body: data).timeout(Duration(seconds: 10));
 

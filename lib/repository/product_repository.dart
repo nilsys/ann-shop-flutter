@@ -82,7 +82,7 @@ class ProductRepository {
   /// http://xuongann.com/api/flutter/product/ao-thun-nam-ca-sau-adidas
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {
-      final url = Core.domain + 'api/flutter/product/$slug';
+      final url = '${Core.domain}api/flutter/product/$slug';
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
@@ -126,7 +126,7 @@ class ProductRepository {
   Future<String> loadProductImageSize(int id, int color, int size) async {
     try {
       final url =
-          Core.domain + 'api/flutter/product/$id/image?color=$color&size=$size';
+          '${Core.domain}api/flutter/product/$id/image?color=$color&size=$size';
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 5));
@@ -145,7 +145,7 @@ class ProductRepository {
   /// http://xuongann.com/api/flutter/product/1/advertisement-image
   Future<List<String>> loadProductAdvertisementImage(int id) async {
     try {
-      final url = Core.domain + 'api/flutter/product/$id/advertisement-image';
+      final url = '${Core.domain}api/flutter/product/$id/advertisement-image';
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 5));
@@ -172,7 +172,7 @@ class ProductRepository {
         "showProductName": copySetting.productName,
         "increntPrice": copySetting.bonusPrice
       };
-      final url = Core.domain + 'api/flutter/product/$id/advertisement-content';
+      final url = '${Core.domain}api/flutter/product/$id/advertisement-content';
       final response = await http
           .post(url,
               headers: AccountController.instance.header,
@@ -194,7 +194,7 @@ class ProductRepository {
   /// http://xuongann.com/api/flutter/product-sort
   getProductSort() async {
     try {
-      final url = Core.domain + 'api/flutter/product-sort';
+      final url = '${Core.domain}api/flutter/product-sort';
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 5));

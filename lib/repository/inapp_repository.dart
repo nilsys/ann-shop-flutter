@@ -114,7 +114,7 @@ class InAppRepository {
 
   Future<Map> loadContentViewMore(String slug) async {
     try {
-      final url = Core.domain + 'api/flutter/$slug';
+      final url = '${Core.domain}api/flutter/$slug';
       final response = await http.get(url,
           headers: AccountController.instance.header).timeout(Duration(seconds: 10));
       log(url);

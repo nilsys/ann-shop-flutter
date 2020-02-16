@@ -27,7 +27,7 @@ class UtilityRepository {
       return cachePolicy;
     }
     try {
-      final url = Core.domain + 'api/flutter/post/policies';
+      final url = '${Core.domain}api/flutter/post/policies';
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 5));
@@ -55,7 +55,7 @@ class UtilityRepository {
       return cacheContact;
     }
     try {
-      final url = Core.domain + 'api/flutter/shop/contact';
+      final url = '${Core.domain}api/flutter/shop/contact';
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 5));

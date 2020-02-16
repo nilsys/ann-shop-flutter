@@ -20,7 +20,7 @@ class BlogRepository {
   /// http://xuongann.com/api/flutter/post-categories
   Future<List<BlogCategory>> loadCategoryBlog() async {
     try {
-      var url = Core.domain + 'api/flutter/post-categories';
+      var url = '${Core.domain}api/flutter/post-categories';
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
