@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/repository/coupon_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -18,39 +20,26 @@ class _UploadPhotoState extends State<UploadPhoto> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size.width;
+    final size = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Đăng hình'),
+        title: const Text('Đăng hình'),
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Container(
-          height: 80,
-          color: Colors.white,
-          padding: EdgeInsets.all(15),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: double.infinity),
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(5.0),
-              ),
-              padding: EdgeInsets.all(13),
-              color: Theme.of(context).primaryColor,
-              onPressed: () => sendFeedBack(),
-              child: Text('Gửi hình',
-                  style: Theme.of(context)
-                      .textTheme
-                      .button
-                      .merge(TextStyle(color: Colors.white))),
-            ),
+        child: Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 10),
+          child: RaisedButton(
+            onPressed: latestCaptureFile != null ? sendFeedBack : null,
+            child: Text('Gửi hình', style: TextStyle(color: Colors.white)),
           ),
         ),
       ),
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.all(15),
+          margin: const EdgeInsets.all(15),
           child: ListView(children: <Widget>[
             Container(
               width: size,
@@ -72,15 +61,13 @@ class _UploadPhotoState extends State<UploadPhoto> {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        Container(
-          child: Image.file(
-            latestCaptureFile,
-            fit: BoxFit.cover,
-          ),
+        Image.file(
+          latestCaptureFile,
+          fit: BoxFit.cover,
         ),
         Container(
           alignment: Alignment.bottomCenter,
-          padding: EdgeInsets.only(bottom: 15),
+          padding: const EdgeInsets.only(bottom: 15),
           child: _captureAnotherPhotoButton(),
         )
       ],
@@ -89,12 +76,9 @@ class _UploadPhotoState extends State<UploadPhoto> {
 
   Widget _captureButton() {
     return FlatButton(
-      shape:
-          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20)),
-      padding: EdgeInsets.all(7),
-      onPressed: () {
-        _getImage();
-      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      padding: const EdgeInsets.all(7),
+      onPressed: _getImage,
       color: Colors.grey[300],
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +88,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
             size: 50,
             color: Colors.grey[500],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             'Chọn hình ảnh từ thư viện',
             style: Theme.of(context).textTheme.subhead.merge(
@@ -118,26 +102,20 @@ class _UploadPhotoState extends State<UploadPhoto> {
 
   Widget _captureAnotherPhotoButton() {
     return RaisedButton(
-      shape:
-          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20)),
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
       textColor: Theme.of(context).primaryColor,
       color: Colors.white,
-      onPressed: () {
-        _getImage();
-      },
+      onPressed: _getImage,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Icon(Icons.camera_enhance),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           Text(
             'Chọn hình ảnh khác',
-            style: Theme.of(context)
-                .textTheme
-                .button
-                .merge(TextStyle(color: Theme.of(context).primaryColor)),
+            style: TextStyle(color: Theme.of(context).primaryColor),
           ),
         ],
       ),
@@ -145,87 +123,77 @@ class _UploadPhotoState extends State<UploadPhoto> {
   }
 
   Future _getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
+    final image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       latestCaptureFile = image;
     });
   }
 
-  sendFeedBack() async {
+  Future sendFeedBack() async {
     if (latestCaptureFile == null) {
       /// null
       return;
     }
     showLoading(context, message: 'Upload Image...');
-    bool resultFeedback = await CouponRepository.instance.uploadRetailerDetail(
-        base64Image: latestBase64Image, picture: latestCaptureFile);
+    final bool resultFeedback = await CouponRepository.instance
+        .uploadRetailerDetail(
+            base64Image: latestBase64Image, picture: latestCaptureFile);
     hideLoading(context);
     if (resultFeedback) {
-      AppPopup.showCustomDialog(
+      await AppPopup.showCustomDialog(
         context,
         content: [
-          Icon(
-            Icons.check_circle,
-            size: 50,
-            color: Theme.of(context).primaryColor,
+          AvatarGlow(
+            endRadius: 50,
+            duration: const Duration(milliseconds: 1000),
+            glowColor: Colors.green,
+            child: Icon(
+              Icons.check_circle,
+              size: 50,
+              color: Colors.green,
+            ),
           ),
           Text(
             'Đăng hình thành công',
-            style: Theme.of(context).textTheme.subtitle,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.display1,
           ),
+          SizedBox(height: 5),
           Text(
-              'Chúng tôi sẽ kiểm trả và thông báo cho bạn, Cảm ơn bạn đã ủng hộ ANN!'),
-        ],
-        actions: [
-          FlatButton(
-            child: Text('Hoàng thành'),
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-            },
+            'Chúng tôi sẽ kiểm trả và thông báo cho bạn, Cảm ơn bạn đã ủng hộ ANN!',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.body1,
           ),
-          FlatButton(
-            child: Text('Xem danh sách ưu đãi'),
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.popAndPushNamed(context, '/coupon');
-            },
-          ),
+          const SizedBox(height: 15),
+          CenterButtonPopup(
+            highlight: ButtonData('Hoàng thành', onPressed: () {
+              Navigator.popAndPushNamed(context, '/promotion');
+            }),
+          )
         ],
       );
     } else {
-      AppPopup.showCustomDialog(
-        context,
-        content: [
-          Icon(
+      await AppPopup.showCustomDialog(context, content: [
+        AvatarGlow(
+          endRadius: 50,
+          duration: const Duration(milliseconds: 1000),
+          glowColor: Colors.red,
+          child: Icon(
             Icons.error_outline,
             size: 50,
-            color: Theme.of(context).primaryColor,
+            color: Colors.red,
           ),
-          Text(
-            'Đăng hình thất bại. Thử lại ngay?',
-            style: Theme.of(context).textTheme.subtitle,
-          ),
-          Text(
-              'Chúng tôi sẽ kiểm trả và thông báo cho bạn, Cảm ơn bạn đã ủng hộ ANN!'),
-        ],
-        actions: [
-          FlatButton(
-            child: Text('Thử lại sau'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          FlatButton(
-            child: Text('Thử lại'),
-            onPressed: () {
-              Navigator.pop(context);
-              sendFeedBack();
-            },
-          ),
-        ],
-      );
+        ),
+        Text(
+          'Đăng hình thất bại. Thử lại ngay?',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.body2,
+        ),
+        CenterButtonPopup(
+          normal: ButtonData('Để sau'),
+          highlight: ButtonData('Thử lại', onPressed: sendFeedBack),
+        )
+      ]);
     }
   }
 }

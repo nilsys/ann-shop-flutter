@@ -37,7 +37,8 @@ class AppPopup {
     Widget titleWidget;
     if (Utility.isNullOrEmpty(title) == false) {
       titleWidget = Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border(
@@ -76,35 +77,30 @@ class AppPopup {
         ),
       );
     }
-    List<Widget> _children = [
-      Container(
-        height: titleWidget != null ? 60 : 15,
-      )
-    ];
-    _children.addAll(content);
-    _children.add(Container(
-      height: 20,
-    ));
-    Widget _scrollWidget = Padding(
+    final _scrollWidget = Container(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
       child: SingleChildScrollView(
         child: ListBody(
-          children: _children,
+          children: [
+            SizedBox(height: titleWidget != null ? 60 : 15),
+            ...content,
+            Container(height: 20)
+          ],
         ),
       ),
     );
 
     return showModalBottomSheet(
       context: context,
-      builder: (BuildContext bc) {
+      builder: (_) {
         return Container(
           child: titleWidget == null
               ? _scrollWidget
               : Stack(
                   children: <Widget>[
                     _scrollWidget,
-                    Align(
-                      alignment: Alignment.topCenter,
+                    Positioned(
+                      top: 0,
                       child: titleWidget,
                     ),
                   ],
@@ -125,7 +121,7 @@ class ButtonData {
 }
 
 class CenterButtonPopup extends StatelessWidget {
-  CenterButtonPopup({this.normal, this.highlight});
+  const CenterButtonPopup({this.normal, this.highlight});
 
   final ButtonData normal;
   final ButtonData highlight;
@@ -138,16 +134,16 @@ class CenterButtonPopup extends StatelessWidget {
         height: 35,
         child: RaisedButton(
           color: Colors.grey[200],
-          child: Text(
-            normal.text,
-            style: TextStyle(color: Colors.black87),
-          ),
           onPressed: () {
             Navigator.pop(context);
             if (normal.onPressed != null) {
               normal.onPressed();
             }
           },
+          child: Text(
+            normal.text,
+            style: const TextStyle(color: Colors.black87),
+          ),
         ),
       );
     }
@@ -156,28 +152,28 @@ class CenterButtonPopup extends StatelessWidget {
       btnHighlight = ButtonTheme(
         height: 35,
         child: RaisedButton(
-          child: Text(
-            highlight.text,
-            style: TextStyle(color: Colors.white),
-          ),
           onPressed: () {
             Navigator.pop(context);
             if (highlight.onPressed != null) {
               highlight.onPressed();
             }
           },
+          child: Text(
+            highlight.text,
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       );
     }
     return Padding(
-      padding: EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.only(top: 10),
       child: (btnNormal != null && btnHighlight != null)
           ? Row(
               children: <Widget>[
                 Expanded(
                   child: btnNormal,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 15,
                 ),
                 Expanded(

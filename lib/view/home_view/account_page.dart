@@ -76,7 +76,9 @@ class _AccountPageState extends State<AccountPage> {
               _buildItemCommon(
                 'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
                 icon: Icons.star_border,
-                onTap: _showInformBeforeRate,
+                onTap: (){
+                  launch(Core.urlStoreReview);
+                },
               ),
               _buildItemCommon('Chia sẽ ứng dụng này', icon: Icons.share,
                   onTap: () {
@@ -262,16 +264,5 @@ class _AccountPageState extends State<AccountPage> {
           message:
               'Vui lòng đăng nhập hoặc đăng ký để xem đơn hàng của bạn tại XuongAnn');
     }
-  }
-
-  _showInformBeforeRate() {
-    launch(Core.urlStoreReview);
-//    showModalBottomSheet(
-//      backgroundColor: Colors.transparent,
-//      context: context,
-//      builder: (BuildContext bc) {
-//        return InformBeforeRate();
-//      },
-//    );
   }
 }

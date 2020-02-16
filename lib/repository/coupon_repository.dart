@@ -19,24 +19,30 @@ class CouponRepository {
 
   Future<bool> uploadRetailerDetail(
       {String base64Image, File picture, String compare}) async {
-    final mapData = {};
+    try {
+      final Map<String, String> mapData = {};
 
-    final stream = http.ByteStream(DelegatingStream.typed(picture.openRead()));
-    final length = await picture.length();
-    final uri = Uri.parse('${Core.domain}api/flutter/upload-rate');
-    // create multipart request
-    final request = http.MultipartRequest("POST", uri);
-    // multipart that takes file
-    final multipartFile = http.MultipartFile('image', stream, length,
-        filename: basename(picture.path));
-    // add file to multipart
-    request.fields.addAll(mapData);
-    request.files.add(multipartFile);
-    // send
-    final response = await request.send();
-    //if (response.statusCode != 200) return false;
-
-    return response.statusCode == 200;
+      final stream =
+          http.ByteStream(DelegatingStream.typed(picture.openRead()));
+      final length = await picture.length();
+      final uri = Uri.parse('${Core.domain}api/flutter/upload-rate');
+      // create multipart request
+      final request = http.MultipartRequest("POST", uri);
+      // multipart that takes file
+      final multipartFile = http.MultipartFile('image', stream, length,
+          filename: basename(picture.path));
+      // add file to multipart
+      request.fields.addAll(mapData);
+      request.files.add(multipartFile);
+      // send
+      final response = await request.send();
+      log(response.statusCode);
+      log(response.reasonPhrase);
+      return response.statusCode == HttpStatus.ok;
+    } catch (e) {
+      log(e);
+    }
+    return false;
   }
 
   /// http://xuongann.com/api/flutter/
@@ -95,7 +101,6 @@ class CouponRepository {
     return null;
   }
 
-
   /// http://xuongann.com/api/flutter/coupon/${code}
   Future<String> receiveCoupon(String code) async {
     try {
@@ -109,9 +114,9 @@ class CouponRepository {
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
         return null;
-      }else{
+      } else {
         final message = jsonDecode(body);
-        return message['Message']??'Có lỗi xãi ra, vui lòng thử lại sau';
+        return message['Message'] ?? 'Có lỗi xãi ra, vui lòng thử lại sau';
       }
     } catch (e) {
       log(e);

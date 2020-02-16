@@ -1,5 +1,4 @@
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/utility/coupon.dart';
 import 'package:ann_shop_flutter/model/utility/promotion.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/repository/coupon_repository.dart';
