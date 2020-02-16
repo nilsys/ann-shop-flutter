@@ -13,6 +13,7 @@ class PromotionView extends StatefulWidget {
 }
 
 class _PromotionViewState extends State<PromotionView> {
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

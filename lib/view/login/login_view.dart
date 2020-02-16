@@ -13,6 +13,7 @@ import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/bottom_bar_policy.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,9 +32,7 @@ class _LoginViewState extends State<LoginView> {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.offset < -50) {
-        if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
-          FocusScope.of(context).requestFocus(FocusNode());
-        }
+        FocusScope.of(context).requestFocus(FocusNode());
       }
     });
   }
@@ -51,7 +50,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kho hàng Sỉ ANN'),
+        title: const Text('Kho hàng Sỉ ANN'),
       ),
       bottomNavigationBar: BottomBarPolicy(),
       body: Form(
@@ -64,7 +63,7 @@ class _LoginViewState extends State<LoginView> {
             children: <Widget>[
               Container(
                 height: 100,
-                margin: EdgeInsets.only(top: 50, bottom: 40),
+                margin: const EdgeInsets.only(top: 50, bottom: 40),
                 child: AnnLogo(),
               ),
               TextFormField(
@@ -76,31 +75,30 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 keyboardType: TextInputType.number,
                 validator: Validator.phoneNumberValidator,
-                onSaved: (String value) {
+                onSaved: (value) {
                   phone = value;
                 },
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               RaisedButton(
+                onPressed: _validateInput,
                 child: Text(
                   'Tiếp tục',
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: _validateInput,
               ),
               SizedBox(height: Platform.isIOS ? 30 : 1),
-              Platform.isIOS && false
-                  ? BorderButton(
-                      'Đăng ký sau',
-                      onPressed: () {
-                        AccountController.instance.loginLater();
-                        Navigator.pushReplacementNamed(context, '/home');
-                        Provider.of<NavigationProvider>(context, listen: false)
-                            .index = PageName.home.index;
-                      },
-                    )
-                  : SizedBox(),
-              SizedBox(height: 30),
+              if (Platform.isIOS && false)
+                BorderButton(
+                  'Đăng ký sau',
+                  onPressed: () {
+                    AccountController.instance.loginLater();
+                    Navigator.pushReplacementNamed(context, '/home');
+                    Provider.of<NavigationProvider>(context, listen: false)
+                        .index = PageName.home.index;
+                  },
+                ),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -122,25 +120,31 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future onLogin() async {
-    bool _checkInternet = await checkInternet();
+    final bool _checkInternet = await checkInternet();
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
         showLoading(context, message: 'Kiểm tra số điện thoại...');
-        AppResponse response =
+        final AppResponse response =
             await AccountRepository.instance.checkPhoneNumber(phone);
         hideLoading(context);
         if (response.status) {
           if (response.data) {
             AccountRegisterState.instance.isRegister = false;
-            Navigator.pushNamed(context, '/login-password', arguments: phone);
+            await Navigator.pushNamed(context, '/login-password',
+                arguments: phone);
           } else {
-            AppPopup.showCustomDialog(context, content: [
-              Icon(
-                Icons.warning,
-                size: 50,
-                color: Theme.of(context).primaryColor,
+            await AppPopup.showCustomDialog(context, content: [
+              AvatarGlow(
+                endRadius: 50,
+                duration: const Duration(milliseconds: 1000),
+                glowColor: Theme.of(context).primaryColor,
+                child: Icon(
+                  Icons.warning,
+                  size: 50,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
               RichText(
                 text: TextSpan(
@@ -161,9 +165,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               CenterButtonPopup(
                 normal: ButtonData('Quay lại'),
-                highlight: ButtonData('Đăng ký', onPressed: () {
-                  onSentOTP();
-                }),
+                highlight: ButtonData('Đăng ký', onPressed: onSentOTP),
               )
             ]);
           }
@@ -172,36 +174,36 @@ class _LoginViewState extends State<LoginView> {
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
         }
       } catch (e) {
-        print(e);
+        debugPrint(e);
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
     }
   }
 
-  onSentOTP() async {
+  Future onSentOTP() async {
     try {
       AccountRegisterState.instance.phone = phone;
       AccountRegisterState.instance.isRegister = true;
       if (AccountRegisterState.instance.checkTimeOTP() == false) {
-        Navigator.pushNamed(context, '/register_input_otp');
+        await Navigator.pushNamed(context, '/register_input_otp');
         return;
       }
 
       showLoading(context, message: 'Gửi OTP...');
-      AppResponse response = await AccountRepository.instance
+      final AppResponse response = await AccountRepository.instance
           .registerStep2RequestOTP(
               phone, AccountRegisterState.instance.randomNewOtp());
       hideLoading(context);
       if (response.status) {
         AccountRegisterState.instance.timeOTP = DateTime.now();
-        Navigator.pushNamed(context, '/register_input_otp');
+        await Navigator.pushNamed(context, '/register_input_otp');
       } else {
         AppSnackBar.showFlushbar(context,
             response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
     } catch (e) {
-      print(e);
+      debugPrint(e);
       AppSnackBar.showFlushbar(context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
     }
   }

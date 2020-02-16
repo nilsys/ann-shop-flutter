@@ -57,7 +57,7 @@ class AccountController {
     saveToLocale();
   }
 
-  logout() {
+  void logout() {
     account = null;
     token = null;
     saveToLocale();

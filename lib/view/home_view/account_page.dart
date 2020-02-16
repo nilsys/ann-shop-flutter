@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
@@ -69,14 +70,14 @@ class _AccountPageState extends State<AccountPage> {
                 height: 10,
                 thickness: 10,
               ),
-              _buildItemCommon('Mã khuyến mãi', icon: MaterialCommunityIcons.ticket_percent,
-                  onTap: () {
+              _buildItemCommon('Mã khuyến mãi',
+                  icon: MaterialCommunityIcons.ticket_percent, onTap: () {
                 Navigator.pushNamed(context, '/promotion');
               }),
               _buildItemCommon(
                 'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
                 icon: Icons.star_border,
-                onTap: (){
+                onTap: () {
                   launch(Core.urlStoreReview);
                 },
               ),
@@ -113,6 +114,9 @@ class _AccountPageState extends State<AccountPage> {
                     AccountController.instance.logout();
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/login', (route) => false);
+                    Provider.of<CouponProvider>(context, listen: false)
+                        .myCoupons
+                        .error = 'logout';
                   },
                   child: Container(
                     alignment: Alignment.center,
