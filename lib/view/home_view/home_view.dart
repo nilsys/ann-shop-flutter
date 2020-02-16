@@ -30,7 +30,7 @@ class _HomeViewState extends State<HomeView>
   @override
   Widget build(BuildContext context) {
     final navigation = Provider.of<NavigationProvider>(context);
-    bool bigScreen = MediaQuery.of(context).size.width >= 320;
+    final bigScreen = MediaQuery.of(context).size.width >= 320;
     return WillPopScope(
       onWillPop: () async {
         _onItemTapped(0);

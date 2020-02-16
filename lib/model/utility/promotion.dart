@@ -1,14 +1,14 @@
-class Coupon {
+class Promotion {
   String code;
-  double value;
+  String name;
   String startDate;
   String endDate;
 
-  Coupon({this.code, this.value, this.startDate, this.endDate});
+  Promotion({this.code, this.name, this.startDate, this.endDate});
 
-  Coupon.fromJson(Map<String, dynamic> json) {
+  Promotion.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    value = json['value'];
+    name = json['name'];
     startDate = json['startDate'];
     endDate = json['endDate'];
   }
@@ -16,7 +16,7 @@ class Coupon {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
-    data['value'] = this.value;
+    data['name'] = this.name;
     data['startDate'] = this.startDate;
     data['endDate'] = this.endDate;
     return data;

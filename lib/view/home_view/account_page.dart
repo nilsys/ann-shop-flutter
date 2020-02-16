@@ -7,6 +7,7 @@ import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -68,9 +69,9 @@ class _AccountPageState extends State<AccountPage> {
                 height: 10,
                 thickness: 10,
               ),
-              _buildItemCommon('Mã khuyến mãi', icon: Icons.card_giftcard,
+              _buildItemCommon('Mã khuyến mãi', icon: MaterialCommunityIcons.ticket_percent,
                   onTap: () {
-                Navigator.pushNamed(context, '/coupon');
+                Navigator.pushNamed(context, '/promotion');
               }),
               _buildItemCommon(
                 'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',

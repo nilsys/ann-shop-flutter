@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SomethingWentWrong extends StatelessWidget {
-  SomethingWentWrong({this.onReload, this.image});
-  final onReload;
+  const SomethingWentWrong({this.onReload, this.image});
+  final VoidCallback onReload;
   final Widget image;
 
   @override
@@ -17,16 +17,14 @@ class SomethingWentWrong extends StatelessWidget {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.only(bottom: 20),
-              child: image == null
-                  ? SizedBox(
+              child: image ?? SizedBox(
                 width: 80,
                 height: 80,
                 child:
                 Image.asset('assets/images/ui/bullet_error.png'),
-              )
-                  : image,
+              ),
             ),
-            Text('Có lỗi xảy ra, chạm để thử lại...')
+            const Text('Có lỗi xảy ra, chạm để thử lại...')
           ],
         ),
       ),

@@ -1,37 +1,53 @@
 import 'package:ann_shop_flutter/model/utility/coupon.dart';
+import 'package:ann_shop_flutter/model/utility/promotion.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/coupon_repository.dart';
 import 'package:flutter/material.dart';
 
 class CouponProvider extends ChangeNotifier {
   CouponProvider() {
-    coupons = ResponseProvider();
-//    loadData();
+    loadListPromotion();
+    loadMyCoupon();
   }
 
-  ResponseProvider<List<Coupon>> coupons;
+  ResponseProvider<List<Coupon>> myCoupons = ResponseProvider();
+  ResponseProvider<List<Promotion>> promotions = ResponseProvider();
 
-  loadData() async {
+  Future loadMyCoupon() async {
     try {
-      coupons.loading = 'try load categories';
+      myCoupons.loading = 'try load categories';
       notifyListeners();
-      List<Coupon> data =
-      await CouponRepository.instance.loadMyCoupon();
+      final data = await CouponRepository.instance.loadMyCoupon();
       if (data != null) {
-        coupons.completed = data;
+        myCoupons.completed = data;
         notifyListeners();
         return;
       }
     } catch (e) {
       log(e);
     }
-    coupons.error = 'Load fail';
+    myCoupons.error = 'Load fail';
     notifyListeners();
   }
 
+  Future loadListPromotion() async {
+    try {
+      promotions.loading = 'try load categories';
+      notifyListeners();
+      final data = await CouponRepository.instance.loadListPromotion();
+      if (data != null) {
+        promotions.completed = data;
+        notifyListeners();
+        return;
+      }
+    } catch (e) {
+      log(e);
+    }
+    promotions.error = 'Load fail';
+    notifyListeners();
+  }
 
-
-  log(object) {
-    print('coupon_provider: ' + object.toString());
+  void log(object) {
+    debugPrint('coupon_provider: $object');
   }
 }

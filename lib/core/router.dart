@@ -8,7 +8,7 @@ import 'package:ann_shop_flutter/repository/permission_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/view/account/update_information.dart';
-import 'package:ann_shop_flutter/view/coupon/coupon_view.dart';
+import 'package:ann_shop_flutter/view/coupon/promotion_view.dart';
 import 'package:ann_shop_flutter/view/coupon/upload_photo.dart';
 import 'package:ann_shop_flutter/view/login/change_password_view.dart';
 import 'package:ann_shop_flutter/view/login/forgot_password_view.dart';
@@ -143,9 +143,9 @@ class Router {
       case '/blog':
         return MaterialPageRoute(
             builder: (_) => BlogView(), settings: settings);
-      case '/coupon':
+      case '/promotion':
         return MaterialPageRoute(
-            builder: (_) => CouponView(), settings: settings);
+            builder: (_) => PromotionView(), settings: settings);
       case '/upload_photo':
         return MaterialPageRoute(
             builder: (_) => UploadPhoto(), settings: settings);
