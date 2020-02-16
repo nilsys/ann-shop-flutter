@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/repository/coupon_repository.dart';
+import 'package:ann_shop_flutter/repository/permission_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class UploadPhoto extends StatefulWidget {
   @override
@@ -123,6 +125,12 @@ class _UploadPhotoState extends State<UploadPhoto> {
   }
 
   Future _getImage() async {
+    final bool permission = await PermissionRepository.instance
+        .checkAndRequestPermission(PermissionGroup.storage);
+    if (permission == false) {
+      await PermissionRepository.instance.showPopupOpenSetting(context);
+      return;
+    }
     final image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       latestCaptureFile = image;

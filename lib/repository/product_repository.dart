@@ -263,7 +263,7 @@ class ProductRepository {
             duration: const Duration(seconds: 1));
       } else {
         final permission = await PermissionRepository.instance
-            .checkAndRequestPermission(PermissionGroup.mediaLibrary);
+            .checkAndRequestPermission(PermissionGroup.storage);
         if (permission) {
           final result =
               await Provider.of<DownloadImageProvider>(context, listen: false)
@@ -273,36 +273,7 @@ class ProductRepository {
                 context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
           }
         } else {
-          await AppPopup.showCustomDialog(
-            context,
-            content: [
-              AvatarGlow(
-                endRadius: 50,
-                duration: const Duration(milliseconds: 1000),
-                glowColor: Theme.of(context).primaryColor,
-                child: Icon(
-                  Icons.settings,
-                  size: 50,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-              Text(
-                'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
-                style: Theme.of(context).textTheme.body2,
-                textAlign: TextAlign.center,
-              ),
-              CenterButtonPopup(
-                  normal: ButtonData(
-                    'Không',
-                  ),
-                  highlight: ButtonData(
-                    'Mở cài đặt',
-                    onPressed: () {
-                      PermissionHandler().openAppSettings();
-                    },
-                  ))
-            ],
-          );
+          await PermissionRepository.instance.showPopupOpenSetting(context);
         }
       }
     } catch (e) {

@@ -22,12 +22,11 @@ class CouponRepository {
       {String base64Image, File picture, String compare}) async {
     try {
       final Map<String, String> mapData = {};
-
       final stream =
           http.ByteStream(DelegatingStream.typed(picture.openRead()));
       final length = await picture.length();
-      final uri =
-          Uri.parse('${Core.domain}api/flutter/upload/app-review-evidence');
+      final url = '${Core.domain}api/flutter/upload/app-review-evidence';
+      final uri = Uri.parse(url);
       // create multipart request
       final MultipartRequest request = http.MultipartRequest(
         "POST",
@@ -42,7 +41,10 @@ class CouponRepository {
       request.headers.addAll(AccountController.instance.header);
       request.files.add(multipartFile);
       // send
-      final response = await request.send();
+//      final response = await request.send();
+      final response = await http.post(url,
+          headers: AccountController.instance.header,
+          body: json.encode({'imageBase64': base64Image}));
       log(response.statusCode);
       log(response.reasonPhrase);
       return response.statusCode == HttpStatus.ok;
