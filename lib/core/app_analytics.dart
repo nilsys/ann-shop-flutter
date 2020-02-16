@@ -2,15 +2,13 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 class AppAnalytics {
-  static final AppAnalytics instance = AppAnalytics._internal();
-
-  factory AppAnalytics() {
-    return instance;
-  }
+  factory AppAnalytics() => instance;
 
   AppAnalytics._internal() {
     firebase = FirebaseAnalytics();
   }
+
+  static final AppAnalytics instance = AppAnalytics._internal();
 
   FirebaseAnalytics firebase;
 

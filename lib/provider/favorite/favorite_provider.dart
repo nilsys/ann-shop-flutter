@@ -9,27 +9,30 @@ import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:flutter/material.dart';
 
+
 class FavoriteProvider with ChangeNotifier {
-  final String _keyLocaleFavorite = '_keyLocaleFavorite';
-  List<ProductFavorite> products;
 
   FavoriteProvider() {
     loadShoppingList();
   }
 
-  loadShoppingList() async {
+  final String _keyLocaleFavorite = '_keyLocaleFavorite';
+  List<ProductFavorite> products;
+
+
+  Future loadShoppingList() async {
     try {
       /// shopping
-      String response = await StorageManager.getObjectByKey(_keyLocaleFavorite);
+      final response = await StorageManager.getObjectByKey(_keyLocaleFavorite);
       if (Utility.isNullOrEmpty(response)) {
-        products = new List();
+        products = [];
       } else {
-        var message = json.decode(response);
-        var list = message as List;
+        final message = json.decode(response);
+        final list = message as List;
         products = list.map((item) => ProductFavorite.fromJson(item)).toList();
       }
     } catch (e) {
-      products = new List();
+      products = [];
     }
   }
 

@@ -36,14 +36,14 @@ class AppIcons {
 
   static const _kFontFam = 'AppIcons';
 
-  static const IconData th_large_outline = const IconData(0xe800, fontFamily: _kFontFam);
-  static const IconData home_outline = const IconData(0xe801, fontFamily: _kFontFam);
-  static const IconData th_large_1 = const IconData(0xe802, fontFamily: _kFontFam);
-  static const IconData blogger = const IconData(0xe803, fontFamily: _kFontFam);
-  static const IconData home = const IconData(0xe804, fontFamily: _kFontFam);
-  static const IconData search = const IconData(0xe805, fontFamily: _kFontFam);
-  static const IconData barcode = const IconData(0xe806, fontFamily: _kFontFam);
-  static const IconData qrcode = const IconData(0xe807, fontFamily: _kFontFam);
-  static const IconData facebook = const IconData(0xf09a, fontFamily: _kFontFam);
-  static const IconData facebook_official = const IconData(0xf230, fontFamily: _kFontFam);
+  static const th_large_outline = IconData(0xe800, fontFamily: _kFontFam);
+  static const home_outline = IconData(0xe801, fontFamily: _kFontFam);
+  static const th_large_1 = IconData(0xe802, fontFamily: _kFontFam);
+  static const blogger = IconData(0xe803, fontFamily: _kFontFam);
+  static const home = IconData(0xe804, fontFamily: _kFontFam);
+  static const search = IconData(0xe805, fontFamily: _kFontFam);
+  static const barcode = IconData(0xe806, fontFamily: _kFontFam);
+  static const qrcode = IconData(0xe807, fontFamily: _kFontFam);
+  static const facebook = IconData(0xf09a, fontFamily: _kFontFam);
+  static const facebook_official = IconData(0xf230, fontFamily: _kFontFam);
 }

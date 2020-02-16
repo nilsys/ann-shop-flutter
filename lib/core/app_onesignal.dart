@@ -6,25 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppOneSignal {
-  static final AppOneSignal instance = AppOneSignal._internal();
 
-  factory AppOneSignal() {
-    return instance;
-  }
+  factory AppOneSignal() =>instance;
 
   AppOneSignal._internal() {
     _initOneSignal(MyApp.context);
   }
+  static final AppOneSignal instance = AppOneSignal._internal();
 
   String userId;
   String pushToken;
   final _privateKey = "4cfab7f0-6dc2-4004-a631-fc4ba7cbf046";
 
   void checkAndInit() {
-    print('AppOneSignal Check and Init');
+    debugPrint('AppOneSignal Check and Init');
   }
 
-  void _initOneSignal(BuildContext context) async {
+  Future<void> _initOneSignal(BuildContext context) async {
     await OneSignal.shared.init(_privateKey, iOSSettings: {
       OSiOSSettings.autoPrompt: true,
       OSiOSSettings.inAppLaunchUrl: true
@@ -63,14 +61,14 @@ class AppOneSignal {
   }
 
   void _processNotificationReceived(OSNotification notification, bool init) {
-    OSNotificationPayload payload = notification.payload;
-    String launchUrl = payload.launchUrl;
-    Map<String, dynamic> data = payload.additionalData;
+    final payload = notification.payload;
+    final launchUrl = payload.launchUrl;
+    final data = payload.additionalData;
 
     if (Utility.isNullOrEmpty(data)) {
-      String action = data['action'] ?? '';
-      String value = data['actionValue'] ?? '';
-      String message = data['message'] ?? 'message';
+      final action = data['action'] ?? '';
+      final value = data['actionValue'] ?? '';
+      final message = data['message'] ?? 'message';
 
       if (init) {
         AppAction.instance

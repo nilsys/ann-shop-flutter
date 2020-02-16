@@ -1,6 +1,5 @@
 import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
-import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
@@ -9,13 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppAction {
-  static final AppAction instance = AppAction._internal();
 
   factory AppAction() => instance;
-
   AppAction._internal() {
     alreadySpam = false;
   }
+  static final AppAction instance = AppAction._internal();
 
   bool alreadySpam;
 
@@ -29,55 +27,55 @@ class AppAction {
 
   void onHandleAction(
       BuildContext context, String action, String value, String message) {
-    action = action.trim().toLowerCase();
-    value = value.trim();
+    final _action = action.trim().toLowerCase();
+    final _value = value.trim();
     switch (action) {
       case ActionType.linkToCategory:
-        linkToCategory(context, value, message);
+        linkToCategory(context, _value, message);
         break;
       case ActionType.linkToTag:
-        linkToTag(context, value, message);
+        linkToTag(context, _value, message);
         break;
       case ActionType.linkToProduct:
-        linkToProductDetail(context, value);
+        linkToProductDetail(context, _value);
         break;
       case ActionType.linkToScreen:
-        linkToScreen(context, value, message);
+        linkToScreen(context, _value, message);
         break;
       case ActionType.linkToWebView:
-        linkToWebView(context, value, message);
+        linkToWebView(context, _value, message);
         break;
       case ActionType.linkToBrowser:
-        linkToWebPage(context, value);
+        linkToWebPage(context, _value);
         break;
       case ActionType.linkToViewMore:
-        linkToViewMore(context, value);
+        linkToViewMore(context, _value);
         break;
       default:
-        print("Action don't exist: $action");
+        debugPrint("Action don't exist: $_action");
         break;
     }
   }
 
-  void linkToProductDetail(BuildContext context, String value) async {
-    print('link to product detail: $value');
+  void linkToProductDetail(BuildContext context, String value) {
+    debugPrint('link to product detail: $value');
     Router.showProductDetail(context, slug: value);
   }
 
-  void linkToCategory(
-      BuildContext context, String value, String message) async {
-    print('link to product by category: $value');
+  void linkToCategory(BuildContext context, String value, String message) {
+    debugPrint('link to product by category: $value');
     ListProduct.showByCategory(context,
         Category(name: message, filter: ProductFilter(categorySlug: value)));
   }
 
   void linkToTag(BuildContext context, String value, String message) {
-    print('link to tag: ' + value);
-    ListProduct.showByCategory(context,Category(name: message, filter: ProductFilter(tagSlug: value)));
+    debugPrint('link to tag: $value');
+    ListProduct.showByCategory(context,
+        Category(name: message, filter: ProductFilter(tagSlug: value)));
   }
 
   void linkToSearch(BuildContext context, String value, String message) {
-    print('link to search: ' + value);
+    debugPrint('link to search: $value');
     ListProduct.showBySearch(
       context,
       Category(
@@ -88,19 +86,19 @@ class AppAction {
   }
 
   void linkToWebPage(BuildContext context, String value) {
-    print('link to web page: $value');
+    debugPrint('link to web page: $value');
     launch(value);
   }
 
   void linkToWebView(BuildContext context, String value, String message) {
-    print('link to web page: $value');
+    debugPrint('link to web page: $value');
     Navigator.pushNamed(context, '/web-view',
         arguments: {'url': value, 'title': message});
   }
 
   void linkToScreen(BuildContext context, String value, String message) {
-    print('link to scrren: ' + value);
-    int index = -1;
+    debugPrint('link to scrren: $value');
+    var index = -1;
     switch (value) {
       case 'home':
         index = PageName.home.index;
@@ -129,7 +127,7 @@ class AppAction {
   }
 
   void linkToViewMore(BuildContext context, String value) {
-    print('link to view more: ' + value);
+    debugPrint('link to view more: $value');
     Navigator.pushNamed(context, '/view_more', arguments: value);
   }
 }

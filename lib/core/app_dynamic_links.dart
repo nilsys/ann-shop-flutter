@@ -1,58 +1,51 @@
-
-import 'dart:convert';
-
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/main.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 
-class AppDynamicLinks{
+class AppDynamicLinks {
+  factory AppDynamicLinks() => instance;
 
-  static final AppDynamicLinks instance = AppDynamicLinks._internal();
-
-  factory AppDynamicLinks() {
-    return instance;
-  }
-
-  AppDynamicLinks._internal(){
+  AppDynamicLinks._internal() {
     _initDynamicLinks(MyApp.context);
   }
 
-  void checkAndInit(){
-    print('AppDynamicLinks Check and Init');
+  static final AppDynamicLinks instance = AppDynamicLinks._internal();
+
+  void checkAndInit() {
+    debugPrint('AppDynamicLinks Check and Init');
   }
 
-  void _initDynamicLinks(BuildContext context) async {
-    final PendingDynamicLinkData data =
-    await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri deepLink = data?.link;
+  Future<void> _initDynamicLinks(BuildContext context) async {
+    final data =
+        await FirebaseDynamicLinks.instance.getInitialLink();
+    final deepLink = data?.link;
 
     if (deepLink != null) {
       processDynamicLinks(context, deepLink, true);
     }
 
     FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData dynamicLink) async {
-          final Uri deepLink = dynamicLink?.link;
+        onSuccess: (dynamicLink) async {
+      final deepLink = dynamicLink?.link;
 
-          if (deepLink != null) {
-            processDynamicLinks(context, deepLink, false);
-          }
-        }, onError: (OnLinkErrorException e) async {
-      print('onLinkError');
-      print(e.message);
+      if (deepLink != null) {
+        processDynamicLinks(context, deepLink, false);
+      }
+    }, onError: (e) async {
+      debugPrint('onLinkError: ${e.message}');
     });
   }
 
   void processDynamicLinks(BuildContext context, Uri deepLink, bool init) {
-    print('onHandleDeepLink ${deepLink.toString()}');
-    print('queryParameters ${deepLink.queryParameters}');
+    debugPrint('onHandleDeepLink ${deepLink.toString()}');
+    debugPrint('queryParameters ${deepLink.queryParameters}');
 
     // todo
     if (deepLink.queryParameters != null) {
-      String type = deepLink.queryParameters['action']??'';
-      String value = deepLink.queryParameters['actionValue']??'';
-      String message = deepLink.queryParameters['message']??'';
+      final type = deepLink.queryParameters['action'] ?? '';
+      final value = deepLink.queryParameters['actionValue'] ?? '';
+      final message = deepLink.queryParameters['message'] ?? '';
       if (init) {
         AppAction.instance.onHandleActionInit(context, type, value, message);
       } else {

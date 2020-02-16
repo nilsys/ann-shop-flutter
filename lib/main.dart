@@ -33,8 +33,8 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  static final navKey = new GlobalKey<NavigatorState>();
 
+  static final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
   static BuildContext get context => navKey.currentState.overlay.context;
 
   @override
@@ -81,7 +81,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
