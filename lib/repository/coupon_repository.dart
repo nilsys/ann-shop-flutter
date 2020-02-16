@@ -8,6 +8,7 @@ import 'package:ann_shop_flutter/model/utility/promotion.dart';
 import 'package:async/async.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:path/path.dart';
 
 class CouponRepository {
@@ -25,14 +26,20 @@ class CouponRepository {
       final stream =
           http.ByteStream(DelegatingStream.typed(picture.openRead()));
       final length = await picture.length();
-      final uri = Uri.parse('${Core.domain}api/flutter/upload-rate');
+      final uri =
+          Uri.parse('${Core.domain}api/flutter/upload/app-review-evidence');
       // create multipart request
-      final request = http.MultipartRequest("POST", uri);
+      final MultipartRequest request = http.MultipartRequest(
+        "POST",
+        uri,
+      );
       // multipart that takes file
-      final multipartFile = http.MultipartFile('image', stream, length,
+      final MultipartFile multipartFile = http.MultipartFile(
+          'image', stream, length,
           filename: basename(picture.path));
       // add file to multipart
       request.fields.addAll(mapData);
+      request.headers.addAll(AccountController.instance.header);
       request.files.add(multipartFile);
       // send
       final response = await request.send();

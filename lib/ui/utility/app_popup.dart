@@ -9,23 +9,28 @@ class AppPopup {
       List<Widget> content,
       List<Widget> actions,
       bool barrierDismissible = true}) async {
+    Widget _titleWidget;
     if (titleWidget == null && title != null) {
-      titleWidget = Text(
+      _titleWidget = Text(
         title,
         textAlign: TextAlign.center,
       );
+    } else {
+      _titleWidget = titleWidget;
     }
     return showDialog<void>(
       context: context,
       barrierDismissible: barrierDismissible,
-      builder: (BuildContext context) {
+      builder: (_) {
         return AlertDialog(
-          title: titleWidget,
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: content,
-            ),
-          ),
+          title: _titleWidget,
+          content: (content != null)
+              ? SingleChildScrollView(
+                  child: ListBody(
+                    children: content,
+                  ),
+                )
+              : null,
           actions: actions,
         );
       },

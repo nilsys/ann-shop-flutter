@@ -15,6 +15,7 @@ import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -22,8 +23,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class ProductRepository {
-  static final ProductRepository instance = ProductRepository._internal();
-
   factory ProductRepository() => instance;
 
   ProductRepository._internal() {
@@ -41,6 +40,8 @@ class ProductRepository {
       ProductBadge(id: 4, title: 'Hàng sale'),
     ];
   }
+
+  static final ProductRepository instance = ProductRepository._internal();
 
   List<ProductSort> productSorts;
   List<ProductBadge> productBadge;
@@ -85,11 +86,11 @@ class ProductRepository {
       final url = '${Core.domain}api/flutter/product/$slug';
       final response = await http
           .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 10));
+          .timeout(const Duration(seconds: 10));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(response.body);
+        final message = jsonDecode(response.body);
         return ProductDetail.fromJson(message);
       }
     } catch (e) {
@@ -100,19 +101,19 @@ class ProductRepository {
 
   /// http://xuongann.com/api/flutter/product/ao-thun-nam-ca-sau-adidas/related
   Future<List<ProductRelated>> loadRelatedOfProduct(String slug,
-      {page = 1, pageSize = itemPerPage}) async {
+      {int page = 1, int pageSize = itemPerPage}) async {
     try {
-      final url = Core.domain +
-          'api/flutter/product/$slug/related?pageNumber=$page&pageSize=$pageSize';
+      final url =
+          '${Core.domain}api/flutter/product/$slug/related?pageNumber=$page&pageSize=$pageSize';
       final response = await http
           .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 10));
+          .timeout(const Duration(seconds: 10));
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
-        List<ProductRelated> _data = new List();
+        final List<ProductRelated> _data = [];
         message.forEach((v) {
-          _data.add(new ProductRelated.fromJson(v));
+          _data.add(ProductRelated.fromJson(v));
         });
         return _data;
       }
@@ -129,11 +130,11 @@ class ProductRepository {
           '${Core.domain}api/flutter/product/$id/image?color=$color&size=$size';
       final response = await http
           .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 5));
+          .timeout(const Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(response.body);
+        final message = jsonDecode(response.body);
         return message;
       }
     } catch (e) {
@@ -148,15 +149,15 @@ class ProductRepository {
       final url = '${Core.domain}api/flutter/product/$id/advertisement-image';
       final response = await http
           .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 5));
+          .timeout(const Duration(seconds: 5));
       log(url);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        var message = jsonDecode(response.body);
+        final message = jsonDecode(response.body);
         return message.cast<String>();
       }
     } catch (e) {
-      log(e.toString());
+      log(e);
     }
     return null;
   }
@@ -164,8 +165,8 @@ class ProductRepository {
   /// http://xuongann.com/api/flutter/product/1/advertisement-content
   Future<String> loadProductAdvertisementContent(int id) async {
     try {
-      CopySetting copySetting = CopyController.instance.copySetting;
-      Map data = {
+      final CopySetting copySetting = CopyController.instance.copySetting;
+      final Map data = {
         "shopPhone": copySetting.phoneNumber,
         "shopAddress": copySetting.address,
         "showSKU": copySetting.productCode,
@@ -182,7 +183,7 @@ class ProductRepository {
       log(data);
       log(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        String result = utf8.decode(response.bodyBytes);
+        final result = utf8.decode(response.bodyBytes);
         return result;
       }
     } catch (e) {
@@ -192,18 +193,18 @@ class ProductRepository {
   }
 
   /// http://xuongann.com/api/flutter/product-sort
-  getProductSort() async {
+  Future getProductSort() async {
     try {
       final url = '${Core.domain}api/flutter/product-sort';
       final response = await http
           .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 5));
+          .timeout(const Duration(seconds: 5));
       log(url);
       log(response.body);
     } catch (e) {}
   }
 
-  onCheckAndCopy(context, productID) async {
+  Future onCheckAndCopy(BuildContext context, int productID) async {
     if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
       return;
@@ -211,60 +212,60 @@ class ProductRepository {
     if (CopyController.instance.copySetting.showed) {
       await onCopy(context, productID);
       AppSnackBar.showFlushbar(context, 'Đã copy',
-          duration: Duration(seconds: 1));
+          duration: const Duration(seconds: 1));
     } else {
-      Navigator.pushNamed(context, '/setting');
+      await Navigator.pushNamed(context, '/setting');
     }
   }
 
-  Future<String> onCopy(context, productID) async {
-    String result = await ProductRepository.instance
+  Future<String> onCopy(BuildContext context, int productID) async {
+    final result = await ProductRepository.instance
         .loadProductAdvertisementContent(productID);
-    Clipboard.setData(new ClipboardData(text: result));
+    await Clipboard.setData(ClipboardData(text: result));
     return result;
   }
 
-  onShare(context, Product product) async {
+  Future onShare(BuildContext context, Product product) async {
     try {
-      var message = await onCopy(context, product.productID);
+      final message = await onCopy(context, product.productID);
       showLoading(context, message: 'Download...');
-      var images = await ProductRepository.instance
+      final images = await ProductRepository.instance
           .loadProductAdvertisementImage(product.productID);
       hideLoading(context);
       if (Utility.isNullOrEmpty(images) == false) {
-        Navigator.pushNamed(context, '/product-share-image', arguments: {
+        await Navigator.pushNamed(context, '/product-share-image', arguments: {
           'images': images,
           'title': product.name,
           'message': message
         });
       } else {
-        throw ('API fail');
+        throw ArgumentError('API fail');
       }
     } catch (e) {
-      print(e);
+      log(e);
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
-          duration: Duration(seconds: 1));
+          duration: const Duration(seconds: 1));
       return;
     }
   }
 
   /// save to gallery
-  onDownLoad(context, int productID) async {
+  Future onDownLoad(BuildContext context, int productID) async {
     if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
     try {
-      var images = await ProductRepository.instance
+      final images = await ProductRepository.instance
           .loadProductAdvertisementImage(productID);
       if (Utility.isNullOrEmpty(images)) {
         AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
-            duration: Duration(seconds: 1));
+            duration: const Duration(seconds: 1));
       } else {
-        bool permission = await PermissionRepository.instance
-            .checkAndRequestPermission(PermissionGroup.storage);
+        final permission = await PermissionRepository.instance
+            .checkAndRequestPermission(PermissionGroup.mediaLibrary);
         if (permission) {
-          bool result =
+          final result =
               await Provider.of<DownloadImageProvider>(context, listen: false)
                   .downloadImages(images);
           if (result == false) {
@@ -272,35 +273,47 @@ class ProductRepository {
                 context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
           }
         } else {
-          AppPopup.showCustomDialog(context,
-              title:
-                  'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
-              actions: [
-                FlatButton(
-                  child: Text('Không'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+          await AppPopup.showCustomDialog(
+            context,
+            content: [
+              AvatarGlow(
+                endRadius: 50,
+                duration: const Duration(milliseconds: 1000),
+                glowColor: Theme.of(context).primaryColor,
+                child: Icon(
+                  Icons.settings,
+                  size: 50,
+                  color: Theme.of(context).primaryColor,
                 ),
-                FlatButton(
-                  child: Text('Mở cài đặt'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    PermissionHandler().openAppSettings();
-                  },
-                )
-              ]);
+              ),
+              Text(
+                'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
+                style: Theme.of(context).textTheme.body2,
+                textAlign: TextAlign.center,
+              ),
+              CenterButtonPopup(
+                  normal: ButtonData(
+                    'Không',
+                  ),
+                  highlight: ButtonData(
+                    'Mở cài đặt',
+                    onPressed: () {
+                      PermissionHandler().openAppSettings();
+                    },
+                  ))
+            ],
+          );
         }
       }
     } catch (e) {
-      print(e);
+      log(e);
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
-          duration: Duration(seconds: 1));
+          duration: const Duration(seconds: 1));
     }
   }
 
   /// LOG
-  log(object) {
-    print('product_repository: ' + object.toString());
+  void log(object) {
+    debugPrint('product_repository: $object');
   }
 }

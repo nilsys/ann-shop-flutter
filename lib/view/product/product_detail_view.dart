@@ -30,6 +30,7 @@ import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/view/product/product_related_list.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -590,30 +591,32 @@ class _ProductDetailViewState extends State<ProductDetailView>
     AppPopup.showCustomDialog(
       context,
       content: [
-        Icon(
-          Icons.cloud_download,
-          size: 70,
-          color: Theme.of(context).primaryColor,
+        AvatarGlow(
+          endRadius: 50,
+          duration: const Duration(milliseconds: 1000),
+          glowColor: Theme.of(context).primaryColor,
+          child: Icon(
+            Icons.cloud_download,
+            size: 50,
+            color: Theme.of(context).primaryColor,
+          ),
         ),
         Text(
           'Lưu tất cả hình ảnh của sản phẩm về máy?',
-          style: Theme.of(context).textTheme.subtitle,
+          style: Theme.of(context).textTheme.body2,
+          textAlign: TextAlign.center,
         ),
-      ],
-      actions: [
-        FlatButton(
-          onPressed: () {
-            Navigator.pop(context);
-            ProductRepository.instance.onDownLoad(context, detail.productID);
-          },
-          child: const Text('Lưu'),
-        ),
-        FlatButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Không'),
-        ),
+        CenterButtonPopup(
+          normal: ButtonData(
+            'Không',
+          ),
+          highlight: ButtonData(
+            'Lưu',
+            onPressed: () {
+              ProductRepository.instance.onDownLoad(context, detail.productID);
+            },
+          ),
+        )
       ],
     );
   }

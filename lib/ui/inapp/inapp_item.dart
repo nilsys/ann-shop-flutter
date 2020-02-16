@@ -8,7 +8,7 @@ import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:flutter/material.dart';
 
 class InAppItem extends StatelessWidget {
-  InAppItem(this.item);
+  const InAppItem(this.item);
 
   final InApp item;
 
@@ -24,7 +24,7 @@ class InAppItem extends StatelessWidget {
             content: [
               Text(item.message),
               FlatButton(
-                child: Text('Đóng'),
+                child: const Text('Đóng'),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -38,98 +38,93 @@ class InAppItem extends StatelessWidget {
       },
       child: Container(
         color: isNew ? Colors.lightBlue[50] : Colors.white,
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: defaultPadding, vertical: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      width: 35,
-                      height: 35,
-                      margin: EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: InAppRepository.instance
-                              .getColorInApp(item.kind)),
-                      child: Icon(
-                        InAppRepository.instance.getIconInApp(item.kind),
-                        color: Colors.white,
-                      ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: defaultPadding, vertical: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: 35,
+                    height: 35,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color:
+                            InAppRepository.instance.getColorInApp(item.kind)),
+                    child: Icon(
+                      InAppRepository.instance.getIconInApp(item.kind),
+                      color: Colors.white,
                     ),
-                    Expanded(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.name,
-                              textAlign: TextAlign.start,
-                              maxLines: 10,
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.date_range,
-                                  size: 14,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  Utility.fixFormatDate(item.createdDate),
-                                  textAlign: TextAlign.start,
-                                  style: Theme.of(context).textTheme.subtitle,
-                                ),
-                              ],
-                            )
-                          ]),
-                    ),
-                  ],
-                ),
-              ),
-              Utility.isNullOrEmpty(item.image)
-                  ? Container()
-                  : Container(
-                      padding: EdgeInsets.fromLTRB(
-                          defaultPadding, 0, defaultPadding, 8),
-                      child: AppImage(
-                        item.image,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-              Padding(
-                padding:
-                    EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 10),
-                child: RichText(
-                  maxLines: 20,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: item.message + '...',
-                        style: Theme.of(context).textTheme.body1),
-                    TextSpan(
-                      text: 'xem thêm >',
-                      style: Theme.of(context).textTheme.body1.merge(
-                            TextStyle(color: Colors.blue),
+                  ),
+                  Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.name,
+                            textAlign: TextAlign.start,
+                            maxLines: 10,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
-                    )
-                  ]),
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.date_range,
+                                size: 14,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                Utility.fixFormatDate(item.createdDate),
+                                textAlign: TextAlign.start,
+                                style: Theme.of(context).textTheme.subtitle,
+                              ),
+                            ],
+                          )
+                        ]),
+                  ),
+                ],
+              ),
+            ),
+            if (Utility.isNullOrEmpty(item.image) == false)
+              Container(
+                padding:
+                    EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 8),
+                child: AppImage(
+                  item.image,
+                  fit: BoxFit.cover,
                 ),
               ),
-              Container(
-                height: 1,
-                color: Theme.of(context).dividerColor,
+            Padding(
+              padding:
+                  EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 10),
+              child: RichText(
+                maxLines: 20,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.start,
+                text: TextSpan(children: [
+                  TextSpan(
+                      text: '${item.message}...',
+                      style: Theme.of(context).textTheme.body1),
+                  TextSpan(
+                    text: 'xem thêm >',
+                    style: Theme.of(context).textTheme.body1.merge(
+                          TextStyle(color: Colors.blue),
+                        ),
+                  )
+                ]),
               ),
-            ],
-          ),
+            ),
+            Container(
+              height: 1,
+              color: Theme.of(context).dividerColor,
+            ),
+          ],
         ),
       ),
     );

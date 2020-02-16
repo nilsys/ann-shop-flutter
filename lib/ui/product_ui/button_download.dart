@@ -8,13 +8,14 @@ import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ButtonDownload extends StatefulWidget {
-  ButtonDownload({this.imageName, this.cache = false});
+  const ButtonDownload({this.imageName, this.cache = false});
 
   final String imageName;
   final bool cache;
@@ -54,11 +55,9 @@ class _ButtonDownloadState extends State<ButtonDownload> {
                       size: 20,
                       color: Colors.white,
                     ),
-          onPressed: (Utility.isNullOrEmpty(this.widget.imageName) == false &&
+          onPressed: (Utility.isNullOrEmpty(widget.imageName) == false &&
                   loading == loadState.none)
-              ? () {
-                  _download();
-                }
+              ? _download
               : null,
         ),
       ]),
@@ -67,34 +66,44 @@ class _ButtonDownloadState extends State<ButtonDownload> {
 
   loadState loading = loadState.none;
 
-  _download() async {
+  Future _download() async {
     if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
     try {
-      bool permission = await PermissionRepository.instance
-          .checkAndRequestPermission(PermissionGroup.storage);
+      final bool permission = await PermissionRepository.instance
+          .checkAndRequestPermission(PermissionGroup.mediaLibrary);
       if (permission == false) {
-        AppPopup.showCustomDialog(
+        await AppPopup.showCustomDialog(
           context,
-          title:
-              'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
-            actions: [
-              FlatButton(
-                child: Text('Không'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+          content: [
+            AvatarGlow(
+              endRadius: 50,
+              duration: const Duration(milliseconds: 1000),
+              glowColor: Theme.of(context).primaryColor,
+              child: Icon(
+                Icons.settings,
+                size: 50,
+                color: Theme.of(context).primaryColor,
               ),
-              FlatButton(
-                child: Text('Mở cài đặt'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  PermissionHandler().openAppSettings();
-                },
-              )
-            ]
+            ),
+            Text(
+              'Cần quyền truy cập Hình Ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
+              style: Theme.of(context).textTheme.body2,
+              textAlign: TextAlign.center,
+            ),
+            CenterButtonPopup(
+                normal: ButtonData(
+                  'Không',
+                ),
+                highlight: ButtonData(
+                  'Mở cài đặt',
+                  onPressed: () {
+                    PermissionHandler().openAppSettings();
+                  },
+                ))
+          ],
         );
         return;
       }
@@ -102,12 +111,13 @@ class _ButtonDownloadState extends State<ButtonDownload> {
       setState(() {
         loading = loadState.loading;
       });
-      var file = await DefaultCacheManager()
+      final file = await DefaultCacheManager()
           .getSingleFile(Core.domain + widget.imageName)
-          .timeout(Duration(seconds: 10));
-      print(file.path);
-      Uint8List bytes = file.readAsBytesSync();
-      await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));
+          .timeout(const Duration(seconds: 10));
+      debugPrint(file.path);
+      final Uint8List bytes = file.readAsBytesSync();
+      await ImageGallerySaver.saveImage(bytes)
+          .timeout(const Duration(seconds: 5));
       if (widget.cache == false) {
         AppSnackBar.showHighlightTopMessage(
             context, 'Lưu hình ảnh thành công.');
@@ -120,7 +130,7 @@ class _ButtonDownloadState extends State<ButtonDownload> {
         }
       });
     } catch (e) {
-      print(e);
+      debugPrint(e);
       AppSnackBar.showHighlightTopMessage(context, 'Lưu hình ảnh thất bại.');
       setState(() {
         loading = loadState.none;

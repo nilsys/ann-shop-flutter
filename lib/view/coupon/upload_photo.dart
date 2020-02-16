@@ -167,7 +167,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
           const SizedBox(height: 15),
           CenterButtonPopup(
             highlight: ButtonData('Hoàng thành', onPressed: () {
-              Navigator.popAndPushNamed(context, '/promotion');
+              Navigator.pop(context);
             }),
           )
         ],

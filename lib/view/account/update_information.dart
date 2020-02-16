@@ -78,19 +78,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   },
                 ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: Theme.of(context).primaryColor,
-          child: FlatButton(
-            onPressed: _validateInput,
-            child: Text(
-              widget.isRegister ? 'Hoàn tất đăng ký' : 'Cập nhật',
-              style: Theme.of(context)
-                  .textTheme
-                  .button
-                  .merge(TextStyle(color: Colors.white)),
-            ),
-          ),
-        ),
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: defaultPadding),
           child: Form(
@@ -241,6 +228,14 @@ class _UpdateInformationState extends State<UpdateInformation> {
                           .merge(TextStyle(color: Colors.red)),
                     ),
                   ),
+                const SizedBox(height: 15),
+                RaisedButton(
+                  onPressed: _validateInput,
+                  child: Text(
+                    widget.isRegister ? 'Hoàn tất đăng ký' : 'Cập nhật',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
                 const SizedBox(height: 30),
               ],
             ),

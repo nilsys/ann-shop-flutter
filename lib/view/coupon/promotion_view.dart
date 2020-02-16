@@ -81,7 +81,7 @@ class _PromotionViewState extends State<PromotionView> {
           launch(Core.urlStoreReview);
         }),
         highlight: ButtonData('Đăng hình đánh giá', onPressed: () {
-          Navigator.popAndPushNamed(context, '/upload_photo');
+          Navigator.pushNamed(context, '/upload_photo');
         }),
       ),
       const SizedBox(height: 10),
