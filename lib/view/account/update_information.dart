@@ -5,7 +5,6 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
-import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
@@ -14,12 +13,12 @@ import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart
 import 'package:intl/intl.dart';
 
 class UpdateInformation extends StatefulWidget {
-  UpdateInformation({this.isRegister = false});
+  const UpdateInformation({this.isRegister = false});
+
+  final bool isRegister;
 
   @override
   _UpdateInformationState createState() => _UpdateInformationState();
-
-  final isRegister;
 }
 
 class _UpdateInformationState extends State<UpdateInformation> {
@@ -36,12 +35,10 @@ class _UpdateInformationState extends State<UpdateInformation> {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.offset < -50) {
-        if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
-          FocusScope.of(context).requestFocus(FocusNode());
-        }
+        FocusScope.of(context).requestFocus(FocusNode());
       }
     });
-    account = new Account.fromJson(AccountController.instance.account.toJson());
+    account = Account.fromJson(AccountController.instance.account.toJson());
     _controllerBirthDate =
         TextEditingController(text: Utility.fixFormatDate(account.birthDay));
     _controllerCity = TextEditingController(text: account.city);
@@ -70,7 +67,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Thông tin tài khoản'),
+          title: const Text('Thông tin tài khoản'),
           leading: widget.isRegister
               ? Container()
               : IconButton(
@@ -84,6 +81,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
         bottomNavigationBar: BottomAppBar(
           color: Theme.of(context).primaryColor,
           child: FlatButton(
+            onPressed: _validateInput,
             child: Text(
               widget.isRegister ? 'Hoàn tất đăng ký' : 'Cập nhật',
               style: Theme.of(context)
@@ -91,7 +89,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   .button
                   .merge(TextStyle(color: Colors.white)),
             ),
-            onPressed: _validateInput,
           ),
         ),
         body: Container(
@@ -102,7 +99,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
             child: ListView(
               controller: _scrollController,
               children: <Widget>[
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 TextFormField(
                   initialValue: account.fullName,
                   style: TextStyle(fontWeight: FontWeight.w600),
@@ -116,12 +113,12 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     }
                     return null;
                   },
-                  onSaved: (String value) {
+                  onSaved: (value) {
                     account.fullName = value;
                   },
                 ),
                 if (widget.isRegister == false) ...[
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   TextFormField(
                       readOnly: true,
                       initialValue: account.phone,
@@ -130,7 +127,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         prefixIcon: Icon(Icons.phone_iphone),
                       )),
                 ],
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 InkWell(
                   onTap: _showDateTimePicker,
                   child: IgnorePointer(
@@ -152,7 +149,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 TextFormField(
                   initialValue: account.address,
                   style: TextStyle(fontWeight: FontWeight.w600),
@@ -163,11 +160,11 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   validator: (value) {
                     return null;
                   },
-                  onSaved: (String value) {
+                  onSaved: (value) {
                     account.address = value;
                   },
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 InkWell(
                   onTap: _showCityPicker,
                   child: IgnorePointer(
@@ -185,21 +182,24 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         }
                         return null;
                       },
-                      onSaved: (String value) {
+                      onSaved: (value) {
                         account.city = value;
                       },
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: contentPadding),
                   child: Row(
                     children: <Widget>[
-                      Text('Nam'),
+                      Text(
+                        'Nam',
+                        style: Theme.of(context).textTheme.display1,
+                      ),
                       Checkbox(
                         value: account.gender == 'M',
-                        onChanged: (bool value) {
+                        onChanged: (value) {
                           setState(
                             () {
                               if (value == true) {
@@ -209,13 +209,13 @@ class _UpdateInformationState extends State<UpdateInformation> {
                           );
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 50,
                       ),
-                      Text('Nữ'),
+                      Text('Nữ', style: Theme.of(context).textTheme.display1),
                       Checkbox(
                         value: account.gender == 'F',
-                        onChanged: (bool value) {
+                        onChanged: (value) {
                           setState(
                             () {
                               if (value == true) {
@@ -241,7 +241,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                           .merge(TextStyle(color: Colors.red)),
                     ),
                   ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
               ],
             ),
           ),
@@ -252,12 +252,12 @@ class _UpdateInformationState extends State<UpdateInformation> {
 
   final _formatDatePicker = 'd  M  yyyy';
 
-  _showDateTimePicker() {
-    DateTime temp = DateTime.now();
+  void _showDateTimePicker() {
+    var temp = DateTime.now();
     if (Utility.isNullOrEmpty(account.birthDay) == false) {
       temp = DateTime.parse(account.birthDay);
     }
-    DateTime maxDay = new DateTime.utc(DateTime.now().year - 1, 12, 31);
+    final maxDay = DateTime.utc(DateTime.now().year - 1, 12, 31);
 
     DatePicker.showDatePicker(
       context,
@@ -268,10 +268,10 @@ class _UpdateInformationState extends State<UpdateInformation> {
       onCancel: () {
         updateDate(null);
       },
-      onChange: (dateTime, List<int> index) {
+      onChange: (dateTime, index) {
         updateDate(dateTime);
       },
-      onConfirm: (dateTime, List<int> index) {
+      onConfirm: (dateTime, index) {
         updateDate(dateTime);
       },
     );
@@ -286,7 +286,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
     }
   }
 
-  _showCityPicker() {
+  void _showCityPicker() {
     ChooseCityBottomSheet.showBottomSheet(context, account.city, (value) {
       account.city = value;
       _controllerCity.text = account.city;
@@ -306,13 +306,13 @@ class _UpdateInformationState extends State<UpdateInformation> {
   }
 
   Future onFinish() async {
-    bool _checkInternet = await checkInternet();
+    final _checkInternet = await checkInternet();
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
         showLoading(context, message: 'Cập nhật...');
-        AppResponse response =
+        final response =
             await AccountRepository.instance.updateInformation(account);
         hideLoading(context);
         if (response.status) {
@@ -324,7 +324,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
         }
       } catch (e) {
-        print(e);
+        debugPrint('Update information: $e');
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }

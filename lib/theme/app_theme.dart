@@ -30,20 +30,26 @@ final ThemeData primaryTheme = ThemeData(
         ),
       ),
     ),
-    textTheme: TextTheme(title: _title),
+    textTheme: TextTheme(
+        title: _title,
+        display1: const TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black87),
+        display2: const TextStyle(
+            fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black87)),
     iconTheme: IconThemeData(
       color: Colors.grey[800],
     ),
     inputDecorationTheme: InputDecorationTheme(
-      contentPadding: EdgeInsets.all(12),
-      border: OutlineInputBorder(),
-      hintStyle: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.normal),
+      contentPadding: const EdgeInsets.all(12),
+      border: const OutlineInputBorder(),
+      hintStyle:
+          TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.normal),
     ),
-    buttonTheme: ButtonThemeData(height: 40),
+    buttonTheme: const ButtonThemeData(height: 40),
 
     /// Support swipe from edge to navigate the previous scene
     /// for both iOS and android
-    pageTransitionsTheme: PageTransitionsTheme(
+    pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: CupertinoPageTransitionsBuilder(),
         TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
