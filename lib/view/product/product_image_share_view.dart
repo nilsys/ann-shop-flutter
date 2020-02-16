@@ -114,7 +114,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
                   Container(
                     width: 1,
                     height: 40,
-                    color: AppStyles.dividerColor,
+                    color: Theme.of(context).dividerColor,
                   ),
                   Expanded(
                     flex: 1,

@@ -50,7 +50,7 @@ class _ProductSlideState extends State<ProductSlide> {
       children: <Widget>[
         Container(
           height: 10,
-          color: AppStyles.dividerColor,
+          color: Theme.of(context).dividerColor,
         ),
         TitleViewMore(title: widget.customName ?? widget.group.name),
         Column(

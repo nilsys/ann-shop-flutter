@@ -49,7 +49,7 @@ class _ProductRelatedListState extends State<ProductRelatedList> {
         decoration: BoxDecoration(
           border: new Border(
             top: BorderSide(
-              color: AppStyles.dividerColor,
+              color: Theme.of(context).dividerColor,
               width: 10,
               style: BorderStyle.solid,
             ),

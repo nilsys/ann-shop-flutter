@@ -33,13 +33,13 @@ class _HomeListNotificationState extends State<HomeListNotification> {
       List<Widget> children = [
         Container(
           height: 10,
-          color: AppStyles.dividerColor,
+          color: Theme.of(context).dividerColor,
         ),
       ];
 
       for (int i = 0; i < length; i++) {
         children.add(BlogItem(data[i]));
-        children.add(Container(height: 1,color: AppStyles.dividerColor,));
+        children.add(Container(height: 1,color: Theme.of(context).dividerColor,));
       }
       children.add(BottomViewMore(
         onPressed: () {

@@ -3,7 +3,6 @@ import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
@@ -22,107 +21,115 @@ class _AccountPageState extends State<AccountPage> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppStyles.dividerColor,
+      backgroundColor: Theme.of(context).dividerColor,
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Cá nhân'),
+        title: const Text('Cá nhân'),
         actions: <Widget>[
           FavoriteButton(color: Colors.white),
         ],
       ),
-      body: Container(
-        child: CustomScrollView(
-          physics: BouncingScrollPhysics(),
-          slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: AccountController.instance.isLogin
-                  ? _buildAccount()
-                  : _buildNoLogin(),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                SizedBox(height: 12),
-                _buildItemCommon('Quản lý đơn hàng', icon: Icons.description,
-                    onTap: _viewOrderManagement),
-//                _buildItemCommon('Ưu đãi của bạn', icon: Icons.card_giftcard,
-//                    onTap: () {
-//                  Navigator.pushNamed(context, '/coupon');
-//                }),
-                _buildItemCommon('Sản phẩm đã xem', icon: Icons.remove_red_eye,
-                    onTap: () {
-                  Navigator.pushNamed(context, '/seen');
-                }),
-                _buildItemCommon('Sản phẩm yêu thích', icon: Icons.favorite,
-                    onTap: () {
-                  Navigator.pushNamed(context, '/favorite');
-                }),
-                _buildItemCommon('Thông báo', icon: Icons.notifications,
-                    onTap: () {
-                  Provider.of<NavigationProvider>(context, listen: false)
-                      .switchTo(PageName.notification.index);
-                }),
-                _buildItemCommon('ANN Blog', icon: AppIcons.blogger, onTap: () {
-                  Navigator.pushNamed(context, '/blog');
-                }),
-                SizedBox(height: 12),
-                _buildItemCommon(
-                    'Đánh giá ANN trên ' +
-                        (Platform.isIOS ? 'App Store' : 'Google Play'),
-                    icon: Icons.star_border,
-                    onTap: _showInformBeforeRate),
-                _buildItemCommon('Chia sẽ ứng dụng này', icon: Icons.share,
-                    onTap: () {
-                  Share.text(Core.dynamicLinkStore, Core.dynamicLinkStore,
-                      'text/plain');
-                }),
-                SizedBox(height: 12),
-                _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {
-                  Navigator.pushNamed(context, '/shop-contact');
-                }),
-                _buildItemCommon('Chính sách bán hàng',
-                    icon: Icons.question_answer, onTap: () {
-                  Navigator.pushNamed(context, '/shop-policy');
-                }),
-                _buildItemCommon('Cài đặt copy sản phẩm', icon: Icons.settings,
-                    onTap: () {
-                  Navigator.pushNamed(context, '/setting');
-                }),
-                Container(
-                  height: 45,
-                  margin: EdgeInsets.symmetric(
-                      horizontal: defaultPadding, vertical: defaultPadding),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                          color: Theme.of(context).primaryColor, width: 1)),
-                  child: InkWell(
-                    onTap: () {
-                      AccountController.instance.logout();
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/login', (Route<dynamic> route) => false);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'ĐĂNG XUẤT',
-                        style: Theme.of(context).textTheme.button.merge(
-                            TextStyle(color: Theme.of(context).primaryColor)),
-                      ),
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: AccountController.instance.isLogin
+                ? _buildAccount()
+                : _buildNoLogin(),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              const Divider(
+                height: 10,
+                thickness: 10,
+              ),
+              _buildItemCommon('Quản lý đơn hàng',
+                  icon: Icons.description, onTap: _viewOrderManagement),
+              _buildItemCommon('Sản phẩm đã xem', icon: Icons.remove_red_eye,
+                  onTap: () {
+                Navigator.pushNamed(context, '/seen');
+              }),
+              _buildItemCommon('Sản phẩm yêu thích', icon: Icons.favorite,
+                  onTap: () {
+                Navigator.pushNamed(context, '/favorite');
+              }),
+              _buildItemCommon('Thông báo', icon: Icons.notifications,
+                  onTap: () {
+                Provider.of<NavigationProvider>(context, listen: false)
+                    .switchTo(PageName.notification.index);
+              }),
+              _buildItemCommon('ANN Blog', icon: AppIcons.blogger, onTap: () {
+                Navigator.pushNamed(context, '/blog');
+              }),
+              const Divider(
+                height: 10,
+                thickness: 10,
+              ),
+              _buildItemCommon('Mã khuyến mãi', icon: Icons.card_giftcard,
+                  onTap: () {
+                Navigator.pushNamed(context, '/coupon');
+              }),
+              _buildItemCommon(
+                'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
+                icon: Icons.star_border,
+                onTap: _showInformBeforeRate,
+              ),
+              _buildItemCommon('Chia sẽ ứng dụng này', icon: Icons.share,
+                  onTap: () {
+                Share.text(
+                    Core.dynamicLinkStore, Core.dynamicLinkStore, 'text/plain');
+              }),
+              const Divider(
+                height: 10,
+                thickness: 10,
+              ),
+              _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {
+                Navigator.pushNamed(context, '/shop-contact');
+              }),
+              _buildItemCommon('Chính sách bán hàng',
+                  icon: Icons.question_answer, onTap: () {
+                Navigator.pushNamed(context, '/shop-policy');
+              }),
+              _buildItemCommon('Cài đặt copy sản phẩm', icon: Icons.settings,
+                  onTap: () {
+                Navigator.pushNamed(context, '/setting');
+              }),
+              Container(
+                height: 45,
+                margin: EdgeInsets.symmetric(
+                    horizontal: defaultPadding, vertical: defaultPadding),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                        color: Theme.of(context).primaryColor, width: 1)),
+                child: InkWell(
+                  onTap: () {
+                    AccountController.instance.logout();
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/login', (route) => false);
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'ĐĂNG XUẤT',
+                      style: Theme.of(context).textTheme.button.merge(
+                          TextStyle(color: Theme.of(context).primaryColor)),
                     ),
                   ),
                 ),
+              ),
 //                Container(
 //                  height: 30,
 //                  alignment: Alignment.centerRight,
 //                  padding: EdgeInsets.symmetric(horizontal: defaultPadding),
 //                  child: Text('Version: ${Core.appVersion}'),
 //                )
-              ]),
-            ),
-          ],
-        ),
+            ]),
+          ),
+        ],
       ),
     );
   }
@@ -130,7 +137,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget _buildItemCommon(String title,
       {IconData icon, GestureTapCallback onTap}) {
     return Container(
-      margin: EdgeInsets.only(bottom: 1),
+      margin: const EdgeInsets.only(bottom: 1),
       color: Colors.white,
       child: ListTile(
         onTap: onTap,
@@ -141,8 +148,8 @@ class _AccountPageState extends State<AccountPage> {
               )
             : null,
         title: Text(title),
-        trailing:
-            Icon(Icons.keyboard_arrow_right, color: AppStyles.dividerColor),
+        trailing: Icon(Icons.keyboard_arrow_right,
+            color: Theme.of(context).dividerColor),
       ),
     );
   }
@@ -155,7 +162,7 @@ class _AccountPageState extends State<AccountPage> {
       child: Container(
         height: 80,
         color: Colors.white,
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -167,7 +174,7 @@ class _AccountPageState extends State<AccountPage> {
             Expanded(
               flex: 1,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,10 +188,7 @@ class _AccountPageState extends State<AccountPage> {
                       AccountController.instance.account.fullName ??
                           'Cập nhật thông tin ngay!',
                       maxLines: 1,
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600),
+                      style: Theme.of(context).textTheme.display2,
                     )
                   ],
                 ),
@@ -208,7 +212,7 @@ class _AccountPageState extends State<AccountPage> {
       child: Container(
         height: 80,
         color: Colors.white,
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -220,7 +224,7 @@ class _AccountPageState extends State<AccountPage> {
             Expanded(
               flex: 1,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,13 +253,13 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  _viewOrderManagement() {
+  void _viewOrderManagement() {
     if (AccountController.instance.isLogin) {
       Navigator.pushNamed(context, '/order-management');
     } else {
-      return AskLogin.show(context,
+      AskLogin.show(context,
           message:
-          'Vui lòng đăng nhập hoặc đăng ký để xem đơn hàng của bạn tại XuongAnn');
+              'Vui lòng đăng nhập hoặc đăng ký để xem đơn hàng của bạn tại XuongAnn');
     }
   }
 

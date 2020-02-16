@@ -13,7 +13,9 @@ class BottomViewMore extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
           border:
-              Border(top: BorderSide(color: AppStyles.dividerColor, width: 1))),
+              Border(top: BorderSide(color: Theme
+                  .of(context)
+                  .dividerColor, width: 1))),
       child: MaterialButton(
         onPressed: onPressed,
         child: Row(

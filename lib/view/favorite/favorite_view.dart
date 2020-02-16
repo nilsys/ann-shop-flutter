@@ -70,7 +70,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                                   ProductFavoriteItem(data[index]),
                                   Container(
                                     height: 1,
-                                    color: AppStyles.dividerColor,
+                                    color: Theme.of(context).dividerColor,
                                   )
                                 ],
                               );

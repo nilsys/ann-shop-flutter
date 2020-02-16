@@ -40,7 +40,7 @@ class SeenBlock extends StatelessWidget {
 //            color: Colors.white,
             border: new Border(
               top: BorderSide(
-                color: AppStyles.dividerColor,
+                color: Theme.of(context).dividerColor,
                 width: 10,
                 style: BorderStyle.solid,
               ),

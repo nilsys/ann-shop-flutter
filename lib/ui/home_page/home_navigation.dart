@@ -15,7 +15,7 @@ class HomeNavigation extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       decoration: BoxDecoration(
           border:
-              Border(top: BorderSide(width: 10, color: AppStyles.dividerColor))),
+              Border(top: BorderSide(width: 10, color: Theme.of(context).dividerColor))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.end,

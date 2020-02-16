@@ -74,7 +74,7 @@ class ItemBuilder {
   static Widget itemBuilderList(BuildContext context, Cover item, int index) {
     return Column(children: [
       BlogItem(item),
-      Container(height: 6, color: AppStyles.dividerColor),
+      Container(height: 6, color: Theme.of(context).dividerColor),
     ]);
   }
 }

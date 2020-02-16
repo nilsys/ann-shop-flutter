@@ -50,7 +50,7 @@ class _ShopPolicyState extends State<ShopPolicy> {
         ),
         title: Text(item.name),
         trailing:
-            Icon(Icons.keyboard_arrow_right, color: AppStyles.dividerColor),
+            Icon(Icons.keyboard_arrow_right, color: Theme.of(context).dividerColor),
       ),
     );
   }

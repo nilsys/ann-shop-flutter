@@ -27,9 +27,9 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
     }
     return Container(
       decoration: BoxDecoration(
-        color: AppStyles.backgroundGray,
+        color: Theme.of(context).backgroundColor,
         border: Border(
-          bottom: BorderSide(color: AppStyles.dividerColor, width: 1),
+          bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1),
         ),
       ),
       child: Stack(

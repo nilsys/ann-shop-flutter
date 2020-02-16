@@ -112,7 +112,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
             ),
             Container(
               height: 10,
-              color: AppStyles.dividerColor,
+              color: Theme.of(context).dividerColor,
             ),
           ],
         ),
@@ -127,7 +127,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
           ProductBanner(
             _covers.data,
             border: Border(
-                bottom: BorderSide(color: AppStyles.dividerColor, width: 10)),
+                bottom: BorderSide(color: Theme.of(context).dividerColor, width: 10)),
           ),
         );
       }

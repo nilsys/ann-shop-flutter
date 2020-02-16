@@ -18,7 +18,7 @@ class ConfigProductUI extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
-          bottom: BorderSide(width: 2, color: AppStyles.dividerColor),
+          bottom: BorderSide(width: 2, color: Theme.of(context).dividerColor),
         ),
       ),
       child: Row(
@@ -75,7 +75,7 @@ class ConfigProductUI extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border(
-            left: BorderSide(width: 2, color: AppStyles.dividerColor),
+            left: BorderSide(width: 2, color: Theme.of(context).dividerColor),
           ),
         ),
         child: Row(

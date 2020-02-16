@@ -33,7 +33,7 @@ class EmptyListUI extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     title,
-                    style: AppStyles.body3,
+                    style: Theme.of(context).textTheme.display1,
                     textAlign: TextAlign.center,
                   ),
                 ),

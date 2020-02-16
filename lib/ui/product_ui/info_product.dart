@@ -35,7 +35,7 @@ class _InfoProductState extends State<InfoProduct> {
 
     /// 0 Title
     List<Widget> children = [
-      Container(height: 10, color: AppStyles.dividerColor),
+      Container(height: 10, color: Theme.of(context).dividerColor),
       _buildTitle('Thông tin chi tiết'),
       Row(
         children: <Widget>[

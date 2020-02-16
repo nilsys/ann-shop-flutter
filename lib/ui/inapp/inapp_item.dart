@@ -3,7 +3,6 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:flutter/material.dart';
@@ -127,7 +126,7 @@ class InAppItem extends StatelessWidget {
               ),
               Container(
                 height: 1,
-                color: AppStyles.dividerColor,
+                color: Theme.of(context).dividerColor,
               ),
             ],
           ),

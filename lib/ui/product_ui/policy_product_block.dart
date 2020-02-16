@@ -11,7 +11,7 @@ class PolicyProductBlock extends StatelessWidget {
       delegate: SliverChildListDelegate([
         Container(
           height: 10,
-          color: AppStyles.dividerColor,
+          color: Theme.of(context).dividerColor,
         ),
         Container(
           padding: EdgeInsets.all(defaultPadding),

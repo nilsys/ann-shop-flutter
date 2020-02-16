@@ -34,7 +34,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailView extends StatefulWidget {
-  ProductDetailView({@required this.slug});
+  const ProductDetailView({@required this.slug});
 
   final String slug;
 
@@ -52,13 +52,12 @@ class _ProductDetailViewState extends State<ProductDetailView>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     isFull = false;
-    controllerScroll = new ScrollController();
+    controllerScroll = ScrollController();
     controllerScroll.addListener(() {
       if (controllerScroll.hasClients && isFull) {
-        var offset = controllerScroll.offset;
+        final offset = controllerScroll.offset;
         if ((offset >= pointCheck && oldOffset < pointCheck) ||
             (oldOffset >= pointCheck && offset < pointCheck)) {
           setState(() {
@@ -85,8 +84,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
 
   @override
   Widget build(BuildContext context) {
-    ProductProvider provider = Provider.of<ProductProvider>(context);
-    ResponseProvider<ProductDetail> data = provider.getBySlug(widget.slug);
+    final provider = Provider.of<ProductProvider>(context);
+    final data = provider.getBySlug(widget.slug);
     detail = data.data;
 
     if (data.isCompleted) {
@@ -175,14 +174,12 @@ class _ProductDetailViewState extends State<ProductDetailView>
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   Text(
-                    detail.sku + ' - ' + detail.name,
+                    ' ${detail.sku} - ${detail.name}',
                     style: Theme.of(context).textTheme.title,
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   Text(
-                    'Giá sỉ: ' + Utility.formatPrice(detail.regularPrice),
+                    'Giá sỉ: ${Utility.formatPrice(detail.regularPrice)}',
                     style: Theme.of(context)
                         .textTheme
                         .title
@@ -190,11 +187,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Text(
-                    'Giá lẻ: ' + Utility.formatPrice(detail.retailPrice),
+                    'Giá lẻ: ${Utility.formatPrice(detail.retailPrice)}',
                     style: Theme.of(context).textTheme.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -208,7 +203,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   Provider.of<CoverProvider>(context).headerProduct.data,
                   border: Border(
                       top: BorderSide(
-                          color: AppStyles.dividerColor, width: 10))),
+                          color: Theme.of(context).dividerColor, width: 10))),
             ),
             InfoProduct(detail),
             _buildTitle('Thông tin sản phẩm'),
@@ -225,7 +220,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
               child: ProductBanner(
                 Provider.of<CoverProvider>(context).footerProduct.data,
                 border: Border(
-                    top: BorderSide(color: AppStyles.dividerColor, width: 10)),
+                    top: BorderSide(
+                        color: Theme.of(context).dividerColor, width: 10)),
               ),
             ),
           ],
@@ -239,9 +235,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
           elevation: 0,
           iconTheme: IconThemeData(color: AppStyles.dartIcon),
         ),
-        body: Container(
-          child: Indicator(),
-        ),
+        body: Indicator(),
       );
     } else {
       return Scaffold(
@@ -251,23 +245,21 @@ class _ProductDetailViewState extends State<ProductDetailView>
           elevation: 0,
           iconTheme: IconThemeData(color: AppStyles.dartIcon),
         ),
-        body: Container(
-          child: SomethingWentWrong(
-            onReload: () {
-              provider.loadProduct(widget.slug);
-            },
-          ),
+        body: SomethingWentWrong(
+          onReload: () {
+            provider.loadProduct(widget.slug);
+          },
         ),
       );
     }
   }
 
-  _buildTitle(title) {
+  Widget _buildTitle(title) {
     return SliverList(
       delegate: SliverChildListDelegate([
         Container(
           height: 10,
-          color: AppStyles.dividerColor,
+          color: Theme.of(context).dividerColor,
         ),
         Container(
           padding: EdgeInsets.all(defaultPadding),
@@ -281,9 +273,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  _buildContent() {
+  Widget _buildContent() {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       sliver: SliverList(
         delegate: SliverChildListDelegate([
           HtmlContent(detail.getContent()),
@@ -292,9 +284,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  _buildListImageOrLoadMore() {
+  Widget _buildListImageOrLoadMore() {
     if (detail != null) {
-      List images = [];
+      final images = [];
       if (Utility.isNullOrEmpty(detail.contentImages) == false) {
         images.addAll(detail.contentImages);
       }
@@ -328,7 +320,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   Widget _buildRelate() {
-    List<ProductRelated> related = Provider.of<ProductProvider>(context)
+    final related = Provider.of<ProductProvider>(context)
         .getRelatedBySlug(widget.slug)
         .data;
     return ProductRelatedList(
@@ -337,7 +329,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  _buildFloatButton() {
+  Widget _buildFloatButton() {
     if (controllerScroll.hasClients == false ||
         controllerScroll.offset < pointCheck ||
         isFull == false) {
@@ -348,28 +340,28 @@ class _ProductDetailViewState extends State<ProductDetailView>
         children: <Widget>[
           FloatingActionButton(
             heroTag: 'floating_arrow_upward',
-            child: Icon(Icons.arrow_upward, color: Colors.white),
             onPressed: () {
               controllerScroll.animateTo(0,
-                  duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeIn);
             },
+            child: const Icon(Icons.arrow_upward, color: Colors.white),
           ),
-          SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           FloatingActionButton(
             heroTag: 'floating_unfold_less',
-            child: Icon(
-              Icons.unfold_less,
-              color: Colors.white,
-            ),
             onPressed: () {
               setState(() {
                 isFull = false;
               });
               controllerScroll.animateTo(0,
-                  duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeIn);
             },
+            child: const Icon(
+              Icons.unfold_less,
+              color: Colors.white,
+            ),
           ),
         ],
       );
@@ -377,13 +369,13 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   Widget _buildViewMore(var image) {
-    String feature = '';
-    String origin = '';
+    var feature = '';
+    var origin = '';
     if (image is String) {
       feature = image;
       origin = image;
     } else {
-      ProductCarousel carousel = image;
+      final ProductCarousel carousel = image;
       feature = carousel.feature;
       origin = carousel.origin;
     }
@@ -412,14 +404,16 @@ class _ProductDetailViewState extends State<ProductDetailView>
               ),
             ),
             alignment: Alignment.bottomCenter,
-            padding: EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
                   'Xem thêm',
-                  style: AppStyles.body3
+                  style: Theme.of(context)
+                      .textTheme
+                      .display1
                       .merge(TextStyle(color: Theme.of(context).primaryColor)),
                   textAlign: TextAlign.center,
                 ),
@@ -445,14 +439,14 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   Widget _buildImage(item, index) {
-    var tag = 'list_content_image$index';
-    String feature = '';
-    String origin = '';
+    final tag = 'list_content_image$index';
+    var feature = '';
+    var origin = '';
     if (item is String) {
       feature = item;
       origin = item;
     } else {
-      ProductCarousel carousel = item;
+      final ProductCarousel carousel = item;
       feature = carousel.feature;
       origin = carousel.origin;
     }
@@ -462,7 +456,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             arguments: {'url': origin, 'tag': tag});
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: 15),
+        margin: const EdgeInsets.only(bottom: 15),
         child: Stack(
           children: <Widget>[
             Container(
@@ -494,7 +488,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
       return null;
     }
 
-    bool favorite = Provider.of<FavoriteProvider>(context)
+    final favorite = Provider.of<FavoriteProvider>(context)
         .containsInFavorite(detail.productID);
     return BottomAppBar(
       color: Colors.white,
@@ -502,65 +496,61 @@ class _ProductDetailViewState extends State<ProductDetailView>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  favorite
-                      ? _buildIconTextButton(
-                          'Xoá',
-                          Icons.favorite,
-                          onPressed: () {
-                            Provider.of<FavoriteProvider>(context,
-                                    listen: false)
-                                .removeProduct(detail.productID);
-                          },
-                        )
-                      : _buildIconTextButton(
-                          'Thêm',
-                          Icons.favorite_border,
-                          onPressed: () {
-                            Provider.of<FavoriteProvider>(context,
-                                    listen: false)
-                                .addNewProduct(context, detail.toProduct(),
-                                    count: 1);
-                          },
-                        ),
-                  _buildIconTextButton(
-                    'Tải hình',
-                    Icons.cloud_download,
-                    onPressed: () {
-                      if (detail != null) {
-                        _onAksBeforeDownload();
-                      } else {
-                        AppSnackBar.showFlushbar(
-                            context, 'Đang tải dữ liệu. Thử lại sau');
-                      }
-                    },
-                  ),
-                  _buildIconTextButton(
-                    'Chia sẻ',
-                    Icons.share,
-                    onPressed: () {
-                      if (detail != null) {
-                        ProductRepository.instance.onShare(context, detail);
-                      } else {
-                        AppSnackBar.showFlushbar(
-                            context, 'Đang tải dữ liệu. Thử lại sau');
-                      }
-                    },
-                  ),
-                  _buildIconTextButton(
-                    'Copy',
-                    Icons.content_copy,
-                    onPressed: () {
-                      ProductRepository.instance
-                          .onCheckAndCopy(context, detail.productID);
-                    },
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                favorite
+                    ? _buildIconTextButton(
+                        'Xoá',
+                        Icons.favorite,
+                        onPressed: () {
+                          Provider.of<FavoriteProvider>(context, listen: false)
+                              .removeProduct(detail.productID);
+                        },
+                      )
+                    : _buildIconTextButton(
+                        'Thêm',
+                        Icons.favorite_border,
+                        onPressed: () {
+                          Provider.of<FavoriteProvider>(context, listen: false)
+                              .addNewProduct(context, detail.toProduct(),
+                                  count: 1);
+                        },
+                      ),
+                _buildIconTextButton(
+                  'Tải hình',
+                  Icons.cloud_download,
+                  onPressed: () {
+                    if (detail != null) {
+                      _onAksBeforeDownload();
+                    } else {
+                      AppSnackBar.showFlushbar(
+                          context, 'Đang tải dữ liệu. Thử lại sau');
+                    }
+                  },
+                ),
+                _buildIconTextButton(
+                  'Chia sẻ',
+                  Icons.share,
+                  onPressed: () {
+                    if (detail != null) {
+                      ProductRepository.instance.onShare(context, detail);
+                    } else {
+                      AppSnackBar.showFlushbar(
+                          context, 'Đang tải dữ liệu. Thử lại sau');
+                    }
+                  },
+                ),
+                _buildIconTextButton(
+                  'Copy',
+                  Icons.content_copy,
+                  onPressed: () {
+                    ProductRepository.instance
+                        .onCheckAndCopy(context, detail.productID);
+                  },
+                ),
+              ],
             ),
             DownLoadBackground(),
           ],
@@ -574,8 +564,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
     return Expanded(
       flex: 1,
       child: FlatButton(
+        onPressed: onPressed,
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             children: <Widget>[
               Icon(
@@ -591,12 +582,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
             ],
           ),
         ),
-        onPressed: onPressed,
       ),
     );
   }
 
-  _onAksBeforeDownload() {
+  void _onAksBeforeDownload() {
     AppPopup.showCustomDialog(
       context,
       content: [
@@ -612,17 +602,17 @@ class _ProductDetailViewState extends State<ProductDetailView>
       ],
       actions: [
         FlatButton(
-          child: Text('Lưu'),
           onPressed: () {
             Navigator.pop(context);
             ProductRepository.instance.onDownLoad(context, detail.productID);
           },
+          child: const Text('Lưu'),
         ),
         FlatButton(
-          child: Text('Không'),
           onPressed: () {
             Navigator.pop(context);
           },
+          child: const Text('Không'),
         ),
       ],
     );
@@ -634,6 +624,10 @@ class _ProductDetailViewState extends State<ProductDetailView>
       return Container();
     }
     return ButtonGradient(
+      onTap: () {
+        Navigator.pushNamed(context, '/product-image-by-size-and-image',
+            arguments: {'index': controllerPage.page.round(), 'data': detail});
+      },
       child: RichText(
         text: TextSpan(
           style: TextStyle(color: Colors.grey),
@@ -644,16 +638,12 @@ class _ProductDetailViewState extends State<ProductDetailView>
           ],
         ),
       ),
-      onTap: () {
-        Navigator.pushNamed(context, '/product-image-by-size-and-image',
-            arguments: {'index': controllerPage.page.round(), 'data': detail});
-      },
     );
   }
 
   Widget _buildByCatalog() {
     if (detail != null && Utility.isNullOrEmpty(detail.categorySlug) == false) {
-      var category = Category(
+      final category = Category(
           name: detail.categoryName,
           filter: ProductFilter(categorySlug: detail.categorySlug));
       return SliverToBoxAdapter(
@@ -662,7 +652,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
         customName: 'Sản phẩm cùng danh mục',
       ));
     } else {
-      return SliverToBoxAdapter();
+      return const SliverToBoxAdapter();
     }
   }
 }

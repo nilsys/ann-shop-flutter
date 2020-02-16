@@ -19,7 +19,7 @@ class ProductTitle extends StatelessWidget {
         color: Colors.white,
         border: Border(
           bottom: BorderSide(
-            color: AppStyles.dividerColor,
+            color: Theme.of(context).dividerColor,
           ),
         ),
       ),

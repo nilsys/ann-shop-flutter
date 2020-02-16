@@ -104,7 +104,7 @@ class _ShopContactState extends State<ShopContact> {
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
       decoration: BoxDecoration(
         border:
-            Border(top: BorderSide(width: 1, color: AppStyles.dividerColor)),
+            Border(top: BorderSide(width: 1, color: Theme.of(context).dividerColor)),
       ),
       child: ListTile(
         leading: Icon(icon, color: Theme.of(context).primaryColor),
