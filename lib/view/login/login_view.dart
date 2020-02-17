@@ -50,7 +50,8 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kho hàng Sỉ ANN'),
+        centerTitle: true,
+        title: const Text('Kho Hàng Sỉ ANN'),
       ),
       bottomNavigationBar: BottomBarPolicy(),
       body: Form(

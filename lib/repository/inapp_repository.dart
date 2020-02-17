@@ -33,7 +33,7 @@ class InAppRepository {
         return 'Tin tức';
         break;
       default:
-        return 'Thông báo khác';
+        return 'Thông báo';
         break;
     }
   }

@@ -74,7 +74,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nhập OTP'),
+        title: Text('Nhập mã OTP'),
       ),
       body: Form(
         key: _formKey,
@@ -93,7 +93,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                            text: 'Vui lòng nhập OTP đã gửi đến số điện thoại ',
+                            text: 'Vui lòng nhập mã OTP đã gửi đến số điện thoại ',
                             style: Theme.of(context).textTheme.body1),
                         TextSpan(
                             text: AccountRegisterState.instance.phone,
@@ -101,7 +101,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                                 TextStyle(
                                     decoration: TextDecoration.underline))),
                         TextSpan(
-                            text: '  của Quý khách',
+                            text: '  của quý khách',
                             style: Theme.of(context).textTheme.body1),
                       ],
                     ),
@@ -119,7 +119,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                     : Padding(
                         padding: EdgeInsets.symmetric(vertical: 15),
                         child: Text(
-                          'OTP (00:$countDown)',
+                          'Gửi lại OTP (00:$countDown)',
                           style: Theme.of(context).textTheme.body2,
                         )),
               ),
