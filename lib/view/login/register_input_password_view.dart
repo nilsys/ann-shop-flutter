@@ -116,7 +116,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
                 SizedBox(height: 15),
                 RaisedButton(
                   child: Text(
-                    'Tạo mật khẩu',
+                    'Tiếp tục',
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: _validateInput,

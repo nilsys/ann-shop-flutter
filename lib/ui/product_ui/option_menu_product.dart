@@ -41,7 +41,7 @@ class OptionMenuProduct extends StatelessWidget {
         ),
         PopupMenuItem<MenuOptions>(
           value: MenuOptions.share,
-          child: _buildMenuItem(Icons.share, 'Chia sẻ'),
+          child: _buildMenuItem(Icons.share, 'Đăng bài'),
         ),
         PopupMenuItem<MenuOptions>(
           value: MenuOptions.download,
