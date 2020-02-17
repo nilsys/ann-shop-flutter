@@ -26,7 +26,7 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).dividerColor,
+     backgroundColor: Colors.grey[100],
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Cá nhân'),
@@ -81,7 +81,7 @@ class _AccountPageState extends State<AccountPage> {
                   launch(Core.urlStoreReview);
                 },
               ),
-              _buildItemCommon('Chia sẽ ứng dụng này', icon: Icons.share,
+              _buildItemCommon('Chia sẻ ứng dụng này', icon: Icons.share,
                   onTap: () {
                 Share.text(
                     Core.dynamicLinkStore, Core.dynamicLinkStore, 'text/plain');
@@ -195,7 +195,10 @@ class _AccountPageState extends State<AccountPage> {
                       AccountController.instance.account.fullName ??
                           'Cập nhật thông tin ngay!',
                       maxLines: 1,
-                      style: Theme.of(context).textTheme.display2,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor),
                     )
                   ],
                 ),

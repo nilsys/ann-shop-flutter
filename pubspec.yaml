@@ -52,6 +52,7 @@ dependencies:
   image_picker: ^0.6.3+1
   flutter_icons: ^1.0.0+1
   avatar_glow: ^1.1.0
+  sprintf: ^4.0.2
 
 dev_dependencies:
   flutter_test:

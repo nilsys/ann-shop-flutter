@@ -40,43 +40,49 @@ class _HomeViewState extends State<HomeView>
           builder: (context, navigationProvider, _) {
         return Scaffold(
           body: children.elementAt(navigationProvider.index),
-          bottomNavigationBar: BottomNavigationBar(
-            showUnselectedLabels: bigScreen,
-            selectedFontSize: 14,
-            unselectedFontSize: 14,
-            type: bigScreen
-                ? BottomNavigationBarType.fixed
-                : BottomNavigationBarType.shifting,
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: _buildIcon(AppIcons.home_outline, size: 20),
-                activeIcon: _buildIcon(AppIcons.home, size: 20),
-                title: Text('Trang chủ'),
-              ),
-              BottomNavigationBarItem(
-                icon: _buildIcon(AppIcons.th_large_outline, size: 18),
-                activeIcon: _buildIcon(AppIcons.th_large_1, size: 20),
-                title: Text('Danh mục'),
-              ),
-              BottomNavigationBarItem(
-                icon: _buildIcon(AppIcons.search, size: 20),
-                title: Text('Tìm kiếm'),
-              ),
-              BottomNavigationBarItem(
-                icon: _buildIcon(Icons.notifications_none),
-                activeIcon: _buildIcon(Icons.notifications),
-                title: Text('Thông báo'),
-              ),
-              BottomNavigationBarItem(
-                icon: _buildIcon(Icons.perm_identity),
-                activeIcon: _buildIcon(Icons.person),
-                title: Text('Cá nhân'),
-              ),
-            ],
-            currentIndex: navigation.index,
-            selectedItemColor: Theme.of(context).primaryColor,
-            unselectedItemColor: AppStyles.dartIcon,
-            onTap: _onItemTapped,
+          bottomNavigationBar: Container(
+            color: const Color(0xFF000000),
+            child: BottomNavigationBar(
+              showUnselectedLabels: bigScreen,
+              backgroundColor: Colors.white,
+              selectedLabelStyle:
+                  TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+              unselectedLabelStyle:
+                  TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+              type: bigScreen
+                  ? BottomNavigationBarType.fixed
+                  : BottomNavigationBarType.shifting,
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: _buildIcon(AppIcons.home_outline, size: 20),
+                  activeIcon: _buildIcon(AppIcons.home, size: 20),
+                  title: Text('Trang chủ'),
+                ),
+                BottomNavigationBarItem(
+                  icon: _buildIcon(AppIcons.th_large_outline, size: 18),
+                  activeIcon: _buildIcon(AppIcons.th_large_1, size: 20),
+                  title: Text('Danh mục'),
+                ),
+                BottomNavigationBarItem(
+                  icon: _buildIcon(AppIcons.search, size: 20),
+                  title: Text('Tìm kiếm'),
+                ),
+                BottomNavigationBarItem(
+                  icon: _buildIcon(Icons.notifications_none),
+                  activeIcon: _buildIcon(Icons.notifications),
+                  title: Text('Thông báo'),
+                ),
+                BottomNavigationBarItem(
+                  icon: _buildIcon(Icons.perm_identity),
+                  activeIcon: _buildIcon(Icons.person),
+                  title: Text('Cá nhân'),
+                ),
+              ],
+              currentIndex: navigation.index,
+              selectedItemColor: Theme.of(context).primaryColor,
+              unselectedItemColor: AppStyles.dartIcon,
+              onTap: _onItemTapped,
+            ),
           ),
         );
       }),

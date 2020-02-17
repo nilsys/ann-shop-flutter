@@ -511,7 +511,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                         },
                       )
                     : _buildIconTextButton(
-                        'Thêm',
+                        'Thích',
                         Icons.favorite_border,
                         onPressed: () {
                           Provider.of<FavoriteProvider>(context, listen: false)
@@ -532,7 +532,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   },
                 ),
                 _buildIconTextButton(
-                  'Chia sẻ',
+                  'Đăng bài',
                   Icons.share,
                   onPressed: () {
                     if (detail != null) {
@@ -567,19 +567,21 @@ class _ProductDetailViewState extends State<ProductDetailView>
       child: FlatButton(
         onPressed: onPressed,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             children: <Widget>[
+              SizedBox(height: 11.0),
               Icon(
                 icon,
                 color: AppStyles.dartIcon,
                 size: 20,
               ),
+              SizedBox(height: 5.0),
               Text(
                 text,
                 maxLines: 1,
-                style: Theme.of(context).textTheme.caption,
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
               ),
+              SizedBox(height: 6.0),
             ],
           ),
         ),

@@ -80,6 +80,9 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
               TextFormField(
                 obscureText: !showPassword,
                 style: TextStyle(fontWeight: FontWeight.w600),
+                onFieldSubmitted: (value) {
+                  this._validateInput();
+                },
                 decoration: InputDecoration(
                     helperText: ' ',
                     hintText: 'Nhập mật khẩu',
@@ -109,7 +112,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
               ),
               SizedBox(height: 15),
               RaisedButton(
-                color: Colors.grey[200],
+                color: Colors.white,
                 child: Text(
                   'Quên mật khẩu?',
                 ),

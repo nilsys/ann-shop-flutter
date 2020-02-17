@@ -43,48 +43,8 @@ class _PromotionViewState extends State<PromotionView> {
               ),
             ),
           ],
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 10),
-            child: RaisedButton(
-              onPressed: _showInformBeforeRate,
-              child: const Text(
-                'Review ANN để nhận ưu đãi',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        ),
+        )
       ),
     );
-  }
-
-  void _showInformBeforeRate() {
-    AppPopup.showBottomSheet(context, title: 'Đánh giá ứng dụng', content: [
-      const SizedBox(height: 20),
-      Text(
-        'Nhận ưu đãi khi đánh giá ANN app trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
-        style: Theme.of(context).textTheme.body2,
-        textAlign: TextAlign.center,
-      ),
-      const SizedBox(height: 10),
-      Text(
-        'Vui lòng gửi hình chụp màn hình đánh giá của bạn cho chúng tôi, để bạn có thể nhận được ưu đãi này',
-        style: Theme.of(context).textTheme.body1,
-        textAlign: TextAlign.center,
-      ),
-      const SizedBox(height: 10),
-      CenterButtonPopup(
-        normal: ButtonData('Đánh giá ngay', onPressed: () {
-          launch(Core.urlStoreReview);
-        }),
-        highlight: ButtonData('Đăng hình đánh giá', onPressed: () {
-          Navigator.pushNamed(context, '/upload_photo');
-        }),
-      ),
-      const SizedBox(height: 10),
-    ]);
   }
 }

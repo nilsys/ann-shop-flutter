@@ -106,7 +106,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               ),
               SizedBox(height: 15),
               RaisedButton(
-                color: Colors.grey[200],
+                color: Colors.white,
                 child: Text('Quên ngày sinh'),
                 onPressed: () {
                   onSentOTP();
