@@ -8,35 +8,33 @@ bool _isShowing = false;
 
 ProgressDialog _progressDialog;
 
-showLoading(context, {message = 'Loading...'}) {
-  if (_progressDialog == null) {
-    _progressDialog = ProgressDialog(context, message: message)..show();
-  }
+void showLoading(BuildContext context, {String message = 'Loading...'}) {
+  _progressDialog ??= ProgressDialog(context, message: message)..show();
 }
 
-hideLoading(context) {
+void hideLoading(BuildContext context) {
   if (_progressDialog != null) {
     _progressDialog.hide(contextHide: context);
     _progressDialog = null;
   }
 }
 
-updateLoading(String message) {
+void updateLoading(String message) {
   if (_progressDialog != null) {
     _progressDialog.update(message);
   }
 }
 
-
 class ProgressDialog {
-  _MyDialog _dialog;
-
-  BuildContext _buildContext, _context;
 
   ProgressDialog(BuildContext buildContext, {String message = 'Loading...'}) {
     _dialogMessage = message;
     _buildContext = buildContext;
   }
+
+  _MyDialog _dialog;
+
+  BuildContext _buildContext, _context;
 
   void setMessage(String mess) {
     _dialogMessage = mess;
@@ -55,19 +53,17 @@ class ProgressDialog {
     if (_isShowing) {
       _isShowing = false;
       Navigator.of(contextHide ?? _context).pop();
-//      debugPrint('ProgressDialog dismissed');
     }
   }
 
   void show() {
     if (!_isShowing) {
-      _dialog = new _MyDialog();
+      _dialog =  _MyDialog();
       _isShowing = true;
-//      debugPrint('ProgressDialog shown');
       showDialog<dynamic>(
         context: _buildContext,
         barrierDismissible: false,
-        builder: (BuildContext context) {
+        builder: (context) {
           _context = context;
           return Material(
               type: MaterialType.transparency, child: Center(child: _dialog));
@@ -79,9 +75,9 @@ class ProgressDialog {
 
 // ignore: must_be_immutable
 class _MyDialog extends StatefulWidget {
-  var _dialog = new _MyDialogState();
+  final _dialog =  _MyDialogState();
 
-  update() {
+  void update() {
     _dialog.changeState();
   }
 
@@ -93,7 +89,7 @@ class _MyDialog extends StatefulWidget {
 }
 
 class _MyDialogState extends State<_MyDialog> {
-  changeState() {
+  void changeState() {
     setState(() {});
   }
 
@@ -101,7 +97,6 @@ class _MyDialogState extends State<_MyDialog> {
   void dispose() {
     super.dispose();
     _isShowing = false;
-//    debugPrint('ProgressDialog dismissed by back button');
   }
 
   @override
@@ -111,7 +106,7 @@ class _MyDialogState extends State<_MyDialog> {
       width: 140,
       decoration: BoxDecoration(
         color: colorBG,
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(15),
         ),
       ),
@@ -123,14 +118,14 @@ class _MyDialogState extends State<_MyDialog> {
           Container(
             width: double.infinity,
             height: 70,
-            padding: EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 20),
             alignment: Alignment.center,
             child: Indicator(),
           ),
 
           /// Bottom
           Container(
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 20),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
             width: double.infinity,
             child: Text(
               _dialogMessage,
