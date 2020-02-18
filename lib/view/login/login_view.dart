@@ -68,18 +68,20 @@ class _LoginViewState extends State<LoginView> {
                 child: AnnLogo(),
               ),
               TextFormField(
-                maxLength: 10,
-                style: TextStyle(fontWeight: FontWeight.w600),
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.phone_iphone),
-                  hintText: 'Nhập số điện thoại',
-                ),
-                keyboardType: TextInputType.number,
-                validator: Validator.phoneNumberValidator,
-                onSaved: (value) {
-                  phone = value;
-                },
-              ),
+                  maxLength: 10,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.phone_iphone),
+                    hintText: 'Nhập số điện thoại',
+                  ),
+                  keyboardType: TextInputType.number,
+                  validator: Validator.phoneNumberValidator,
+                  onSaved: (value) {
+                    phone = value;
+                  },
+                  onFieldSubmitted: (value) {
+                    _validateInput();
+                  }),
               const SizedBox(height: 15),
               RaisedButton(
                 onPressed: _validateInput,

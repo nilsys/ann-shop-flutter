@@ -12,9 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginPasswordView extends StatefulWidget {
-  LoginPasswordView(this.phone);
+  const LoginPasswordView(this.phone);
 
-  final phone;
+  final String phone;
 
   @override
   _LoginPasswordViewState createState() => _LoginPasswordViewState();
@@ -30,9 +30,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.offset < -50) {
-        if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
-          FocusScope.of(context).requestFocus(FocusNode());
-        }
+        FocusScope.of(context).requestFocus(FocusNode());
       }
     });
     showPassword = false;
@@ -52,7 +50,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Đăng nhập'),
+        title: const Text('Đăng nhập'),
       ),
       bottomNavigationBar: BottomBarPolicy(),
       body: Form(
@@ -65,7 +63,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
             children: <Widget>[
               Container(
                 height: 100,
-                margin: EdgeInsets.only(top: 50, bottom: 40),
+                margin:const EdgeInsets.only(top: 50, bottom: 40),
                 child: AnnLogo(),
               ),
               TextFormField(
@@ -76,12 +74,12 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
                   prefixIcon: Icon(Icons.phone_iphone),
                 ),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               TextFormField(
                 obscureText: !showPassword,
                 style: TextStyle(fontWeight: FontWeight.w600),
                 onFieldSubmitted: (value) {
-                  this._validateInput();
+                  _validateInput();
                 },
                 decoration: InputDecoration(
                     helperText: ' ',
@@ -98,11 +96,11 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
                       },
                     )),
                 validator: Validator.passwordValidator,
-                onSaved: (String value) {
+                onSaved: (value) {
                   password = value;
                 },
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               RaisedButton(
                 child: Text(
                   'Đăng nhập',
@@ -110,18 +108,18 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
                 ),
                 onPressed: _validateInput,
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               RaisedButton(
                 color: Colors.white,
-                child: Text(
-                  'Quên mật khẩu?',
+                child: const Text(
+                  'Quên mật khẩu?'
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/forgot_password',
                       arguments: widget.phone);
                 },
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -143,13 +141,13 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
   }
 
   Future onLogin() async {
-    bool _checkInternet = await checkInternet();
+    final bool _checkInternet = await checkInternet();
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
         showLoading(context, message: 'Đăng nhập...');
-        AppResponse response =
+        final AppResponse response =
             await AccountRepository.instance.login(widget.phone, password);
         hideLoading(context);
         if (response.status) {
@@ -163,7 +161,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
         }
       } catch (e) {
-        print(e);
+        debugPrint('login password: $e');
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
