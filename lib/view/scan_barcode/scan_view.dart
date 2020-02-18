@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 
 class ScanView extends StatefulWidget {
   @override
-  _ScanViewState createState() => new _ScanViewState();
+  _ScanViewState createState() => _ScanViewState();
 }
 
 class _ScanViewState extends State<ScanView>
@@ -23,22 +23,23 @@ class _ScanViewState extends State<ScanView>
   List<CameraDescription> cameras;
   QRReaderController controllerQR;
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   AnimationController animationController;
   Animation<double> animation;
 
   final _barcodeTextController = TextEditingController();
-  var bottomSheetController;
 
   bool flashOn = false;
   bool bottomSheetIsOpen = true;
   double squareSize = 250;
 
-  Future<Null> loadCamera() async {
+  Future loadCamera() async {
     try {
       cameras = await availableCameras();
-    } on QRReaderException catch (e) {}
+    } on QRReaderException catch (e) {
+      debugPrint('Init camera fail: $e');
+    }
     initCameraView();
   }
 
@@ -53,19 +54,19 @@ class _ScanViewState extends State<ScanView>
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       bottomSheetIsOpen = false;
       loadCamera();
     });
 
     animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 2));
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
     animation = Tween<double>(begin: 0.1, end: 0.9).animate(animationController)
       ..addListener(() {
         setState(() {});
       });
 
-    animationController.addStatusListener((AnimationStatus status) {
+    animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         animationController.reverse();
       } else if (status == AnimationStatus.dismissed) {
@@ -102,9 +103,9 @@ class _ScanViewState extends State<ScanView>
     initCameraView();
   }
 
-  initCameraView() {
+  void initCameraView() {
     if (bottomSheetIsOpen == false) {
-      controllerQR = new QRReaderController(cameras[0], ResolutionPreset.high, [
+      controllerQR = QRReaderController(cameras[0], ResolutionPreset.high, [
         CodeFormat.code128,
         CodeFormat.code39,
         CodeFormat.codabar,
@@ -112,8 +113,8 @@ class _ScanViewState extends State<ScanView>
         CodeFormat.ean13,
         CodeFormat.upce,
         CodeFormat.ean8
-      ], (dynamic value) {
-        print('Show camera.Then $value');
+      ], (value) {
+        debugPrint('Show camera.Then $value');
         flashOn = false;
         controllerQR.stopScanning();
         if (!bottomSheetIsOpen) {
@@ -168,7 +169,7 @@ class _ScanViewState extends State<ScanView>
                             ),
                           ),
                           builder: (BuildContext context, Widget _widget) {
-                            return new Transform.translate(
+                            return Transform.translate(
                               offset: Offset(0, animation.value * squareSize),
                               child: _widget,
                             );
@@ -358,32 +359,30 @@ class _ScanViewState extends State<ScanView>
     _barcodeTextController.text = "";
     _valueInput = '';
     return _scaffoldKey.currentState.showBottomSheet(
-      (BuildContext context) {
+      (context) {
         return Container(
           padding: EdgeInsets.all(defaultPadding),
           decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15), topRight: Radius.circular(15))),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SizedBox(width: 24),
-                    Text(
-                      'Nhập mã sản phẩm',
-                      style: Theme.of(context).textTheme.title,
-                    ),
-                    CloseButton(),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const  SizedBox(width: 24),
+                  Text(
+                    'Nhập mã sản phẩm',
+                    style: Theme.of(context).textTheme.title,
+                  ),
+                  const  CloseButton(),
+                ],
               ),
               Container(
-                padding: EdgeInsets.only(top: 10),
+                padding:const  EdgeInsets.only(top: 10),
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -393,7 +392,7 @@ class _ScanViewState extends State<ScanView>
                         decoration: InputDecoration(
                           hintText: 'Nhập mã sản phẩm',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(10),
                                   bottomLeft: Radius.circular(10)),
                               borderSide: BorderSide(
@@ -411,7 +410,7 @@ class _ScanViewState extends State<ScanView>
                       width: 45,
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.only(
+                        borderRadius:const  BorderRadius.only(
                             topRight: Radius.circular(10),
                             bottomRight: Radius.circular(10)),
                       ),
@@ -445,9 +444,9 @@ class _ScanViewState extends State<ScanView>
         color: Colors.black,
       );
     } else {
-      return new AspectRatio(
+      return AspectRatio(
         aspectRatio: controllerQR.value.aspectRatio,
-        child: new QRReaderPreview(controllerQR),
+        child: QRReaderPreview(controllerQR),
       );
     }
   }
