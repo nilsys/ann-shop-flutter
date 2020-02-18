@@ -67,6 +67,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               TextFormField(
                 style: TextStyle(fontWeight: FontWeight.w600),
                 initialValue: widget.phone,
+                enabled: false,
                 readOnly: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.phone_iphone),
@@ -82,6 +83,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     style: TextStyle(fontWeight: FontWeight.w600),
                     controller: _controllerBirthDate,
                     readOnly: true,
+                    autofocus: true,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.date_range),
                       helperText: ' ',
@@ -122,7 +124,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   final _formatDatePicker = 'd  M  yyyy';
 
   _showDateTimePicker() {
-    DateTime temp = DateTime.now();
+    DateTime now = DateTime.now();
+    DateTime temp = new DateTime(now.year - 18, 1, 1);
     if (Utility.isNullOrEmpty(birthDay) == false) {
       temp = DateTime.parse(birthDay);
     }
@@ -142,6 +145,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       },
       onConfirm: (dateTime, List<int> index) {
         updateDate(dateTime);
+        this._validateInput();
       },
     );
   }

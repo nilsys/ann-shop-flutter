@@ -69,6 +69,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
               TextFormField(
                 initialValue: widget.phone,
                 style: TextStyle(fontWeight: FontWeight.w600),
+                enabled: false,
                 readOnly: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.phone_iphone),
@@ -76,9 +77,10 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
               ),
               const SizedBox(height: 15),
               TextFormField(
+                autofocus: true,
                 obscureText: !showPassword,
                 style: TextStyle(fontWeight: FontWeight.w600),
-                onFieldSubmitted: (value) {
+                onFieldSubmitted: (String value) {
                   _validateInput();
                 },
                 decoration: InputDecoration(

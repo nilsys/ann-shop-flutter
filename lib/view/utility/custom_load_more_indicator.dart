@@ -126,7 +126,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
         break;
       case IndicatorStatus.noMoreLoad:
         widget = Text(noMoreLoadText);
-        widget = _setBackGround(false, widget, 25.0);
+        widget = _setBackGround(false, widget, 60.0);
         break;
       case IndicatorStatus.empty:
         widget = EmptyListUI(

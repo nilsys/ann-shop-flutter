@@ -15,6 +15,8 @@ class ChangePasswordView extends StatefulWidget {
 
 class _ChangePasswordViewState extends State<ChangePasswordView> {
   final _formKey = GlobalKey<FormState>();
+  FocusNode _passwordFocus;
+  FocusNode _confirmPasswordFocus;
   bool _autoValidate = false;
 
   @override
@@ -29,10 +31,21 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       }
     });
     showPassword = false;
+
+    _passwordFocus = FocusNode();
+    _confirmPasswordFocus = FocusNode();
+  }
+
+  void _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
   }
 
   @override
   void dispose() {
+    _passwordFocus.dispose();
+    _confirmPasswordFocus.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -68,10 +81,17 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
               ),
               Stack(children: [
                 TextFormField(
+                  autofocus: true,
+                  focusNode: _passwordFocus,
                   obscureText: !showPassword,
+                  onFieldSubmitted: (String value) {
+                    this._fieldFocusChange(
+                        context, _passwordFocus, _confirmPasswordFocus);
+                  },
                   decoration: InputDecoration(
                     hintText: 'Nhập mật khẩu',
                   ),
+                  textInputAction: TextInputAction.next,
                   validator: Validator.passwordValidator,
                   onSaved: (String value) {
                     password = value;
@@ -104,10 +124,16 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
               ),
               Stack(children: [
                 TextFormField(
+                  focusNode: _confirmPasswordFocus,
                   obscureText: !showPassword,
+                  onFieldSubmitted: (String value) {
+                    _confirmPasswordFocus.unfocus();
+                    this._validateInput();
+                  },
                   decoration: InputDecoration(
                     hintText: 'Nhập lại mật khẩu',
                   ),
+                  textInputAction: TextInputAction.done,
                   validator: Validator.passwordValidator,
                   onSaved: (String value) {
                     confirmPassword = value;

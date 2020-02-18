@@ -125,6 +125,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
               ),
               TextFormField(
                 controller: controllerOTP,
+                autofocus: true,
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
                     letterSpacing: 15,
@@ -132,6 +133,9 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                     color: Colors.black87),
                 textAlign: TextAlign.center,
                 showCursor: false,
+                onFieldSubmitted: (String value) {
+                  this._validateInput();
+                },
                 decoration: InputDecoration(
                   hintText: '______',
                   border: InputBorder.none,
@@ -144,6 +148,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                 ),
                 inputFormatters: [OTPInputFormatter()],
                 keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.next,
                 onChanged: (value) {
                   setState(() {});
                 },

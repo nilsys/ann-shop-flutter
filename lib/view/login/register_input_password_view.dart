@@ -18,6 +18,8 @@ class RegisterInputPasswordView extends StatefulWidget {
 
 class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
   final _formKey = GlobalKey<FormState>();
+  FocusNode _passwordFocus;
+  FocusNode _confirmPasswordFocus;
   bool _autoValidate = false;
 
   @override
@@ -32,10 +34,15 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
       }
     });
     showPassword = false;
+
+    _passwordFocus = FocusNode();
+    _confirmPasswordFocus = FocusNode();
   }
 
   @override
   void dispose() {
+    _passwordFocus.dispose();
+    _confirmPasswordFocus.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -44,6 +51,12 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
   String confirmPassword;
   String password;
   bool showPassword;
+
+  void _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +79,13 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
               children: <Widget>[
                 SizedBox(height: 50),
                 TextFormField(
+                  focusNode: _passwordFocus,
                   obscureText: !showPassword,
                   style: TextStyle(fontWeight: FontWeight.w600),
+                  onFieldSubmitted: (String value) {
+                    this._fieldFocusChange(
+                        context, _passwordFocus, _confirmPasswordFocus);
+                  },
                   decoration: InputDecoration(
                       hintText: 'Nhập mật khẩu',
                       prefixIcon: Icon(Icons.lock_outline),
@@ -83,6 +101,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
                           });
                         },
                       )),
+                  textInputAction: TextInputAction.next,
                   validator: Validator.passwordValidator,
                   onSaved: (String value) {
                     password = value;
@@ -90,8 +109,13 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
                 ),
                 SizedBox(height: 15),
                 TextFormField(
+                  focusNode: _confirmPasswordFocus,
                   obscureText: !showPassword,
                   style: TextStyle(fontWeight: FontWeight.w600),
+                  onFieldSubmitted: (String value) {
+                    _confirmPasswordFocus.unfocus();
+                    this._validateInput();
+                  },
                   decoration: InputDecoration(
                       helperText: ' ',
                       hintText: 'Nhập lại mật khẩu',
@@ -108,6 +132,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
                           });
                         },
                       )),
+                  textInputAction: TextInputAction.done,
                   validator: Validator.passwordValidator,
                   onSaved: (String value) {
                     confirmPassword = value;
