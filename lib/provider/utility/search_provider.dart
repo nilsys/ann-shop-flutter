@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/main.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
@@ -10,39 +9,40 @@ import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:ann_shop_flutter/repository/list_product_repository.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 
 class SearchProvider with ChangeNotifier {
+
+  SearchProvider() {
+    controller = TextEditingController();
+    loadHistory();
+    checkLoadHotKey();
+  }
+
   final _keyHistory = '_historyKey';
   TextEditingController controller;
   List<String> _history = [];
 
   List<String> get history => _history;
-  static ResponseProvider<List<Category>> _hotKeys = ResponseProvider();
+  static final ResponseProvider<List<Category>> _hotKeys = ResponseProvider();
   ResponseProvider<List<Category>> get hotKeys => _hotKeys;
 
-  SearchProvider() {
-    controller = new TextEditingController();
-    loadHistory();
-    checkLoadHotKey();
-  }
 
   String get text => controller.text;
 
-  checkLoadHotKey(){
+  void checkLoadHotKey(){
     if(_hotKeys.isLoading == false && _hotKeys.isCompleted == false){
       loadHotKey();
     }
   }
-  loadHotKey() async{
+  Future loadHotKey() async{
     try {
       _hotKeys.loading = 'try load hotkeys';
       notifyListeners();
-      List<Category> data =
+      final List<Category> data =
           await CategoryRepository.instance.loadCategories('search/hotkey');
       if (data != null) {
         _hotKeys.completed = data;
@@ -50,12 +50,12 @@ class SearchProvider with ChangeNotifier {
         _hotKeys.completed = [];
       }
     } catch (e) {
-      _hotKeys.error = 'exception: ' + e.toString();
+      _hotKeys.error = 'exception: $e';
     }
     notifyListeners();
   }
 
-  loadHistory() async {
+  Future loadHistory() async {
     String response = await StorageManager.getObjectByKey(_keyHistory);
     if (response != null) {
       var json = jsonDecode(response);
@@ -64,9 +64,9 @@ class SearchProvider with ChangeNotifier {
     }
   }
 
-  final checkFirst = false;
+  final bool checkFirst = false;
 
-  onSearch(context, value) async {
+  Future onSearch(context, value) async {
     value = value.trim();
     if (value.isNotEmpty) {
       if(AccountController.instance.canSearchProduct == false){
@@ -79,12 +79,10 @@ class SearchProvider with ChangeNotifier {
         ListProduct.showBySearch(context,
             Category(name: value, filter: ProductFilter(productSearch: value)));
       } else {
-        ProgressDialog loading =
-            ProgressDialog(MyApp.context, message: 'Tìm kiếm sản phẩm...')
-              ..show();
-        var data = await ListProductRepository.instance
+        showLoading(context,message: 'Tìm kiếm sản phẩm...');
+        final data = await ListProductRepository.instance
             .loadBySearch(text, filter: AppFilter());
-        loading.hide(contextHide: MyApp.context);
+        hideLoading(context);
         if (Utility.isNullOrEmpty(data)) {
           AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm.');
         } else {
@@ -102,8 +100,8 @@ class SearchProvider with ChangeNotifier {
     }
   }
 
-  setText({String text = ''}) {
-    controller = new TextEditingController(text: text);
+  void setText({String text = ''}) {
+    controller = TextEditingController(text: text);
     if (text.isNotEmpty) {
       if (_history.contains(text) == false) {
         _history.insert(0, text);
@@ -125,7 +123,7 @@ class SearchProvider with ChangeNotifier {
         _history.insert(0, text);
       }
       StorageManager.setObject(_keyHistory, jsonEncode(history));
-      print('add History: $text');
+      debugPrint('add History: $text');
     }
   }
 
@@ -135,7 +133,7 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  removeHistoryAll() {
+  void removeHistoryAll() {
     _history = [];
     StorageManager.clearObjectByKey(_keyHistory);
     notifyListeners();

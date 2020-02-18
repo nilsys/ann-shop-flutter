@@ -308,7 +308,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
           final Uint8List bytes = file.readAsBytesSync();
           mapByte['image_$i.png'] = bytes;
           debugPrint(file.path);
-//          updateLoading('Download ${i + 1}/${images.length} images');
+          updateLoading('Đang tải ${i + 1}/${images.length} hình');
         } catch (e) {
           debugPrint(e);
         }
