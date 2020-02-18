@@ -71,6 +71,7 @@ class _MyAppState extends State<MyApp> {
         initialRoute: '/',
         onGenerateRoute: Router.generateRoute,
         navigatorObservers: [observer],
+        locale: Locale('vi'),
       ),
     );
   }

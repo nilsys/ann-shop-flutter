@@ -24,7 +24,7 @@ class AppOneSignal {
 
   Future<void> _initOneSignal(BuildContext context) async {
     await OneSignal.shared.init(_privateKey, iOSSettings: {
-      OSiOSSettings.autoPrompt: true,
+      OSiOSSettings.autoPrompt: false,
       OSiOSSettings.inAppLaunchUrl: true
     });
     await OneSignal.shared

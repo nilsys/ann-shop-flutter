@@ -37,6 +37,10 @@ hs_err_pid*
 *.ipr
 *.iws
 .idea/
+ann-shop-flutter.iml
+android/app/src/debug/debug.iml
+android/app/src/main/main.iml
+android/app/src/profile/profile.iml
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line

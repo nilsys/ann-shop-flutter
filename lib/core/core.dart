@@ -19,7 +19,7 @@ class Core {
   static const annLogoWhite = 'https://ann.com.vn/logo/ann-logo-400x150.png';
   static const domain = 'http://xuongann.com/';
 
-  static const dynamicLinkStore = 'https://annapp.page.link/store';
+  static const dynamicLinkStore = 'https://app.ann.com.vn/download';
 
   static get urlStore {
     if (Platform.isIOS) {

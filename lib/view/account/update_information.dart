@@ -29,6 +29,12 @@ class _UpdateInformationState extends State<UpdateInformation> {
   TextEditingController _controllerBirthDate;
   TextEditingController _controllerCity;
 
+  FocusNode _nameFocus;
+  FocusNode _birthDateFocus;
+  FocusNode _addressFocus;
+  FocusNode _cityFocus;
+  FocusNode _sexFocus;
+
   @override
   void initState() {
     super.initState();
@@ -42,10 +48,28 @@ class _UpdateInformationState extends State<UpdateInformation> {
     _controllerBirthDate =
         TextEditingController(text: Utility.fixFormatDate(account.birthDay));
     _controllerCity = TextEditingController(text: account.city);
+
+
+    _nameFocus = FocusNode();
+    _birthDateFocus = FocusNode();
+    _addressFocus = FocusNode();
+    _cityFocus = FocusNode();
+    _sexFocus = FocusNode();
+  }
+
+  void _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
   }
 
   @override
   void dispose() {
+    _nameFocus.dispose();
+    _birthDateFocus.dispose();
+    _addressFocus.dispose();
+    _cityFocus.dispose();
+    _sexFocus.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -88,12 +112,19 @@ class _UpdateInformationState extends State<UpdateInformation> {
               children: <Widget>[
                 const SizedBox(height: 50),
                 TextFormField(
+                  autofocus: true,
+                  focusNode: _nameFocus,
                   initialValue: account.fullName,
                   style: TextStyle(fontWeight: FontWeight.w600),
+                  onFieldSubmitted: (String value) {
+                    _fieldFocusChange(context, _nameFocus, _birthDateFocus);
+                    _showDateTimePicker();
+                  },
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.perm_identity),
                     hintText: 'Nhập họ và tên',
                   ),
+                  textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (Utility.isNullOrEmpty(value)) {
                       return 'Chưa nhập họ và tên';
@@ -120,6 +151,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   child: IgnorePointer(
                     child: TextFormField(
                       controller: _controllerBirthDate,
+                      focusNode: _birthDateFocus,
                       readOnly: true,
                       style: TextStyle(fontWeight: FontWeight.w600),
                       decoration: InputDecoration(
@@ -138,12 +170,18 @@ class _UpdateInformationState extends State<UpdateInformation> {
                 ),
                 const SizedBox(height: 15),
                 TextFormField(
+                  focusNode: _addressFocus,
                   initialValue: account.address,
                   style: TextStyle(fontWeight: FontWeight.w600),
+                  onFieldSubmitted: (String value) {
+                    _fieldFocusChange(context, _addressFocus, _cityFocus);
+                    _showCityPicker();
+                  },
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.map),
                     hintText: 'Nhập địa chỉ',
                   ),
+                  textInputAction: TextInputAction.next,
                   validator: (value) {
                     return null;
                   },
@@ -157,6 +195,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   child: IgnorePointer(
                     child: TextFormField(
                       controller: _controllerCity,
+                      focusNode: _cityFocus,
                       style: TextStyle(fontWeight: FontWeight.w600),
                       readOnly: true,
                       decoration: InputDecoration(
@@ -185,6 +224,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         style: Theme.of(context).textTheme.display1,
                       ),
                       Checkbox(
+                        focusNode: _sexFocus,
                         value: account.gender == 'M',
                         onChanged: (value) {
                           setState(
@@ -248,7 +288,8 @@ class _UpdateInformationState extends State<UpdateInformation> {
   final _formatDatePicker = 'd  M  yyyy';
 
   void _showDateTimePicker() {
-    var temp = DateTime.now();
+    DateTime now = DateTime.now();
+    DateTime temp = new DateTime(now.year - 18, 1, 1);
     if (Utility.isNullOrEmpty(account.birthDay) == false) {
       temp = DateTime.parse(account.birthDay);
     }
@@ -268,6 +309,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
       },
       onConfirm: (dateTime, index) {
         updateDate(dateTime);
+        _fieldFocusChange(context, _birthDateFocus, _addressFocus);
       },
     );
   }
@@ -285,6 +327,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
     ChooseCityBottomSheet.showBottomSheet(context, account.city, (value) {
       account.city = value;
       _controllerCity.text = account.city;
+      _fieldFocusChange(context, _cityFocus, _sexFocus);
     });
   }
 
@@ -306,14 +349,16 @@ class _UpdateInformationState extends State<UpdateInformation> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading(context, message: 'Cập nhật...');
+        showLoading(context,
+            message: widget.isRegister ? 'Đăng ký...' : 'Cập nhật...');
         final response =
             await AccountRepository.instance.updateInformation(account);
         hideLoading(context);
         if (response.status) {
           AccountController.instance.updateAccountInfo(account);
           Navigator.pop(context);
-          AppSnackBar.showFlushbar(context, 'Cập nhật thành công');
+          AppSnackBar.showFlushbar(context,
+              widget.isRegister ? 'Đăng ký thành công' : 'Cập nhật thành công');
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
