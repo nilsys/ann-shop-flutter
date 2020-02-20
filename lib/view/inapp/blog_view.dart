@@ -27,7 +27,7 @@ class _BlogViewState extends State<BlogView> {
   Widget build(BuildContext context) {
     BlogProvider provider = Provider.of(context);
     final currentTitle = provider.currentCategory == null
-        ? 'Ann Blog'
+        ? 'Bài viết'
         : provider.currentCategory.name;
     String currentSlug = provider.currentCategory == null
         ? null
