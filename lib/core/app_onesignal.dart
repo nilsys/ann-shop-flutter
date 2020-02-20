@@ -29,7 +29,6 @@ class AppOneSignal {
     });
     await OneSignal.shared
         .promptUserForPushNotificationPermission(fallbackToSettings: true);
-    await OneSignal.shared.promptLocationPermission();
 
     await OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);

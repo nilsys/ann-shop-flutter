@@ -63,7 +63,7 @@ class _AccountPageState extends State<AccountPage> {
                 Provider.of<NavigationProvider>(context, listen: false)
                     .switchTo(PageName.notification.index);
               }),
-              _buildItemCommon('ANN Blog', icon: AppIcons.blogger, onTap: () {
+              _buildItemCommon('Bài viết', icon: AppIcons.blogger, onTap: () {
                 Navigator.pushNamed(context, '/blog');
               }),
               const Divider(

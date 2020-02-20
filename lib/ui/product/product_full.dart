@@ -76,7 +76,7 @@ class _ProductFullState extends State<ProductFull> {
                             fit: StackFit.expand,
                             children: <Widget>[
                               AppImage(
-                                Core.domain + widget.product.avatar,
+                                Core.domain + widget.product.images[0],
                                 fit: BoxFit.contain,
                               ),
                               Container(

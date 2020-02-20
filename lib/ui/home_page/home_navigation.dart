@@ -4,7 +4,6 @@ import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,11 +28,11 @@ class HomeNavigation extends StatelessWidget {
             color: Color(0xff5aac44),
           ),
           RoundedButton(
-            title: 'Đơn hàng',
+            title: 'Bài viết',
             onItemTapped: () {
-              Navigator.pushNamed(context, '/order-management');
+              Navigator.pushNamed(context, '/blog');
             },
-            icon: Icons.description,
+            icon: AppIcons.blogger,
             color: Colors.blueAccent,
           ),
           RoundedButton(
