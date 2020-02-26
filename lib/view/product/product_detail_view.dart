@@ -2,13 +2,11 @@ import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
-import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
@@ -371,14 +369,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
 
   Widget _buildViewMore(var image) {
     var feature = '';
-    var origin = '';
     if (image is String) {
       feature = image;
-      origin = image;
     } else {
       final ProductCarousel carousel = image;
       feature = carousel.feature;
-      origin = carousel.origin;
     }
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -524,7 +519,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   Icons.cloud_download,
                   onPressed: () {
                     if (detail != null) {
-                      _onAksBeforeDownload();
+                      ProductRepository.instance.onDownLoad(context, detail.productID);
                     } else {
                       AppSnackBar.showFlushbar(
                           context, 'Đang tải dữ liệu. Thử lại sau');

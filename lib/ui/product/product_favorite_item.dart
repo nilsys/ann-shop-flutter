@@ -74,10 +74,10 @@ class ProductFavoriteItem extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: Wrap(
+                          child: Row(
                             children: <Widget>[
                               Text(
-                                'Giá sỉ: ' +
+                                'Sỉ: ' +
                                     Utility.formatPrice(
                                         data.product.regularPrice),
                                 style: Theme.of(context)
@@ -87,9 +87,13 @@ class ProductFavoriteItem extends StatelessWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
+                              SizedBox(
+                                width: 20,
+                              ),
                               Text(
-                                '  Giá lẻ: ' +
-                                    Utility.formatPrice(data.product.retailPrice),
+                                'Lẻ: ' +
+                                    Utility.formatPrice(
+                                        data.product.retailPrice),
                                 style: Theme.of(context).textTheme.body2,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -109,7 +113,10 @@ class ProductFavoriteItem extends StatelessWidget {
               top: -10,
               right: -10,
               child: IconButton(
-                icon: Icon(Icons.close, color: AppStyles.dartIcon,),
+                icon: Icon(
+                  Icons.close,
+                  color: AppStyles.dartIcon,
+                ),
                 onPressed: () {
                   Provider.of<FavoriteProvider>(context, listen: false)
                       .removeProduct(data.product.productID);
@@ -119,37 +126,6 @@ class ProductFavoriteItem extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  _buildAmong(context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        IconButton(
-          icon: Icon(Icons.remove_circle_outline),
-          onPressed: () {
-            Provider.of<FavoriteProvider>(context, listen: false)
-                .changeCount(data, data.count - 1);
-          },
-        ),
-        Container(
-          alignment: Alignment.center,
-          child: Text(
-            data.count.toString(),
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subhead,
-          ),
-        ),
-        IconButton(
-          icon: Icon(Icons.add_circle_outline),
-          onPressed: () {
-            Provider.of<FavoriteProvider>(context, listen: false)
-                .changeCount(data, data.count + 1);
-          },
-        ),
-      ],
     );
   }
 }

@@ -24,11 +24,6 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
       .copyWith(statusBarIconBrightness: Brightness.light));
 
-//  ErrorWidget.builder = (FlutterErrorDetails details) => Container(
-//    alignment: Alignment.center,
-//    child: Icon(Icons.error),
-//  );
-
   runApp(MyApp());
 }
 
@@ -42,7 +37,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

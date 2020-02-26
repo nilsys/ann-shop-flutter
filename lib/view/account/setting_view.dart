@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/app_input_formatter.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
@@ -14,11 +15,23 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView> {
+  Account _account;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    this._account = Account.fromJson(AccountController.instance.account.toJson());
     CopySetting copy = CopyController.instance.copySetting;
+
+    if (copy.showed == false && this._account != null) {
+      if (this._account.phone?.isEmpty == false) {
+        copy.phoneNumber = this._account.phone;
+      }
+      if (this._account.address?.isEmpty == false) {
+        copy.address = this._account.address;
+      }
+    }
     controllerBonus =
         TextEditingController(text: Utility.formatPrice(copy.bonusPrice));
     controllerPhone = TextEditingController(text: copy.phoneNumber.toString());
@@ -59,7 +72,7 @@ class _SettingViewState extends State<SettingView> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Cài đặt'),
+          title: Text('Cài đặt copy sản phẩm'),
           leading: IconButton(
             icon: Icon(Icons.close),
             onPressed: () {
@@ -77,8 +90,10 @@ class _SettingViewState extends State<SettingView> {
                       SliverList(
                         delegate: SliverChildListDelegate(
                           [
-                            _buildTitleCommon('Cài đặt copy sản phẩm'),
-                            _buildItemCommon('Mã sản phẩm',
+                            SizedBox(
+                              height: 15,
+                            ),
+                            _buildItemCommon('Hiện mã sản phẩm',
                                 trailing: CupertinoSwitch(
                                   value: valueCode,
                                   activeColor: Theme.of(context).primaryColor,
@@ -88,7 +103,7 @@ class _SettingViewState extends State<SettingView> {
                                     });
                                   },
                                 )),
-                            _buildItemCommon('Tên sản phẩm',
+                            _buildItemCommon('Hiện tên sản phẩm',
                                 trailing: CupertinoSwitch(
                                   value: valueName,
                                   activeColor: Theme.of(context).primaryColor,
@@ -104,7 +119,7 @@ class _SettingViewState extends State<SettingView> {
                                 controller: controllerBonus,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  labelText: 'Giá lẽ cộng thêm (vnđ)',
+                                  labelText: 'Giá lẽ cộng thêm',
                                 ),
                                 inputFormatters: [
                                   WhitelistingTextInputFormatter.digitsOnly,
@@ -118,7 +133,7 @@ class _SettingViewState extends State<SettingView> {
                               child: TextField(
                                 controller: controllerPhone,
                                 keyboardType: TextInputType.number,
-                                maxLength: 11,
+                                maxLength: 10,
                                 decoration: InputDecoration(
                                   labelText: 'Điện thoại của khách',
                                 ),
@@ -134,22 +149,25 @@ class _SettingViewState extends State<SettingView> {
                                     labelText: 'Địa chỉ của khách'),
                               ),
                             ),
+                            Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 15),
+                                child: Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                      text: 'Hướng dẫn:',
+                                      style: new TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold)),
+                                  TextSpan(
+                                      text:
+                                          ' sau khi copy nội dung, quý khách hãy dán vào nơi đăng bài Facebook/Zalo để đăng bán online.',
+                                      style: new TextStyle(fontSize: 16))
+                                ])))
                           ],
                         ),
                       )
                     ]),
               ),
-      ),
-    );
-  }
-
-  Widget _buildTitleCommon(String title) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 1),
-      padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.title,
       ),
     );
   }

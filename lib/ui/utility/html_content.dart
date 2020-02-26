@@ -1,20 +1,21 @@
+import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:html/dom.dart' as dom;
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class HtmlContent extends StatelessWidget {
+  final String strHTML;
 
-  HtmlContent(this.text,{this.textAlign = TextAlign.left});
-  final text;
-  final TextAlign textAlign;
+  HtmlContent(this.strHTML);
+
   @override
   Widget build(BuildContext context) {
-    return Html(
-      customTextAlign: (dom.Node node) {
-        return textAlign;
-      },
-      useRichText: true,
-      data: """<div><p>${text}</p> </div>""",
+    return HtmlWidget(
+      this.strHTML,
+      webView: true,
+      textStyle: new TextStyle(fontSize: 17),
+      onTapUrl: (url) => {
+        AppAction.instance.linkToWebView(context, url, 'Test')
+      }
     );
   }
 }

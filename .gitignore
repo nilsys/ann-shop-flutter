@@ -55,6 +55,8 @@ android/app/src/profile/profile.iml
 .pub-cache/
 .pub/
 /build/
+.flutter-plugins-dependencies
+pubspec.lock
 
 # Android related
 **/android/**/gradle-wrapper.jar

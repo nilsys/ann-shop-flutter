@@ -58,7 +58,7 @@ class FavoriteProvider with ChangeNotifier {
     }
     saveShoppingList();
     notifyListeners();
-    AppSnackBar.showHighlightTopMessage(context, 'Sản phẩm đã được lưu vào danh sách của bạn');
+    AppSnackBar.showHighlightTopMessage(context, 'Đã lưu vào danh sách yêu thích');
     print('Add $count productID ${item.productID}');
   }
 

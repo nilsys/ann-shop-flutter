@@ -11,11 +11,9 @@ import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/repository/permission_repository.dart';
-import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -35,7 +33,7 @@ class ProductRepository {
     ];
 
     productBadge = [
-      ProductBadge(id: 1, title: 'Hàng có sẳn'),
+      ProductBadge(id: 1, title: 'Hàng có sẵn'),
       ProductBadge(id: 3, title: 'Hàng order'),
       ProductBadge(id: 4, title: 'Hàng sale'),
     ];
@@ -49,7 +47,7 @@ class ProductRepository {
   String getBadgeName(badge) {
     switch (badge) {
       case 1:
-        return 'Có sẳn';
+        return 'Có sẵn';
         break;
       case 3:
         return 'Order';
@@ -211,7 +209,7 @@ class ProductRepository {
     }
     if (CopyController.instance.copySetting.showed) {
       await onCopy(context, productID);
-      AppSnackBar.showFlushbar(context, 'Đã copy',
+      AppSnackBar.showFlushbar(context, 'Đã copy, hãy dán vào nơi đăng sản phẩm',
           duration: const Duration(seconds: 1));
     } else {
       await Navigator.pushNamed(context, '/setting');

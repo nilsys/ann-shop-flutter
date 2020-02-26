@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/repository/utility_repository.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -65,16 +63,12 @@ class _ShopContactState extends State<ShopContact> {
                   }));
                 }
                 if (Utility.isNullOrEmpty(urlFB) == false) {
-                  children.add(_buildSubLink('Facebook',
-                      leading: Icon(
-                        AppIcons.facebook,
-                        color: Colors.blue,
-                      ), onTap: () {
+                  children.add(_buildSubLink('Xem Facebook', onTap: () {
                     launch(urlFB);
                   }));
                 }
                 if (Utility.isNullOrEmpty(phones) == false) {
-                  children.add(_buildTitle('Zalo/ Điện thoại', Icons.phone));
+                  children.add(_buildTitle('Zalo/Điện thoại', Icons.phone));
                   children.addAll(
                     phones
                         .map((item) => _buildSubLink(item, onTap: () {
@@ -127,7 +121,6 @@ class _ShopContactState extends State<ShopContact> {
         contentPadding: EdgeInsets.only(left: leading == null ? 15 : 0),
         dense: true,
         leading: leading,
-        trailing: Icon(Icons.navigate_next),
         title: Text(
           item,
           style: styleBody,
@@ -145,7 +138,6 @@ class _ShopContactState extends State<ShopContact> {
         contentPadding: EdgeInsets.only(left: leading == null ? 15 : 0),
         dense: true,
         leading: leading,
-        trailing: Icon(Icons.navigate_next),
         title: Text(
           item,
           style: styleLink,
