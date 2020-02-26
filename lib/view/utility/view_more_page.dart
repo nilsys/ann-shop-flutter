@@ -44,14 +44,14 @@ class _ViewMorePageState extends State<ViewMorePage> {
     if (data.isLoading) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Xuong Ann'),
+          title: Text('Đang tải...'),
         ),
         body: Container(child: Indicator()),
       );
     } else if (data.isError) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Xuong Ann'),
+          title: Text('Đang tải...'),
         ),
         body: Container(child: SomethingWentWrong(
           onReload: () {
@@ -65,7 +65,6 @@ class _ViewMorePageState extends State<ViewMorePage> {
     } else {
       String title = data.data['title'] ?? 'Thông báo';
       String content = data.data['content'];
-      String date = data.data['createdDate'];
       return Scaffold(
         appBar: AppBar(
           title: Text(title),
@@ -79,24 +78,6 @@ class _ViewMorePageState extends State<ViewMorePage> {
               : ListView(
                   children: <Widget>[
                     SizedBox(height: 15,),
-                    Utility.isNullOrEmpty(date)
-                        ? Container()
-                        : Container(
-                            height: 30,
-                            alignment: Alignment.centerLeft,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.date_range,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                SizedBox(width: 10),
-                                Text('Ngày đăng: ' +
-                                    Utility.fixFormatDate(date)),
-                              ],
-                            ),
-                          ),
                     HtmlContent(content),
                   ],
                 ),

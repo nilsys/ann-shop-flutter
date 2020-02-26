@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/app_dynamic_links.dart';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/app_onesignal.dart';
+import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/view/inapp/inapp_view.dart';
@@ -106,6 +107,10 @@ class _HomeViewState extends State<HomeView>
 
   @override
   void initState() {
+    try {
+      Core.instance.versionCheck(context);
+    } catch (e) {}
+
     // TODO: implement initState
     super.initState();
     AppDynamicLinks.instance.checkAndInit();

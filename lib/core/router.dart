@@ -2,6 +2,7 @@ import 'package:ann_shop_flutter/core/custom_fade_roue.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
+import 'package:ann_shop_flutter/model/web_view/web_view_query_parameter_model.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/repository/permission_repository.dart';
@@ -55,8 +56,10 @@ class Router {
       case '/home':
         return CustomFadeRoute(builder: (_) => HomeView(), settings: settings);
       case '/web-view':
+        final queryParameters = WebViewQueryParameterModel.fromJson(data);
         return MaterialPageRoute(
-            builder: (_) => WebViewRouter(data), settings: settings);
+            builder: (_) => WebViewRouter(queryParameters: queryParameters),
+            settings: settings);
       case '/view_more':
         return MaterialPageRoute(
             builder: (_) => ViewMorePage(data), settings: settings);

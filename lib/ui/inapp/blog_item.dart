@@ -35,26 +35,6 @@ class BlogItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(top: 8),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.date_range,
-                        size: 16,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        Utility.fixFormatDate(item.createdDate),
-                        style: Theme.of(context).textTheme.body2,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
                 Utility.isNullOrEmpty(item.image)
                     ? Container()
                     : Container(

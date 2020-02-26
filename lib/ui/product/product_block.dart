@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -61,7 +60,7 @@ class ProductBlock extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: 8),
             child: Text(
-              'Giá sỉ: ' + Utility.formatPrice(product.regularPrice),
+              'Sỉ: ' + Utility.formatPrice(product.regularPrice),
               style: Theme.of(context)
                   .textTheme
                   .body2
@@ -73,7 +72,7 @@ class ProductBlock extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: 8),
             child: Text(
-              'Giá lẻ: ' + Utility.formatPrice(product.retailPrice),
+              'Lẻ: ' + Utility.formatPrice(product.retailPrice),
               style: Theme.of(context).textTheme.body2,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
