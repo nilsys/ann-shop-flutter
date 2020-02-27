@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -11,6 +12,7 @@ import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class UpdateInformation extends StatefulWidget {
   const UpdateInformation({this.isRegister = false});
@@ -47,7 +49,14 @@ class _UpdateInformationState extends State<UpdateInformation> {
     account = Account.fromJson(AccountController.instance.account.toJson());
     _controllerBirthDate =
         TextEditingController(text: Utility.fixFormatDate(account.birthDay));
-    _controllerCity = TextEditingController(text: account.city);
+
+    if (widget.isRegister) {
+      final String _cityDefault = AccountRepository.instance.cityOfVietnam.elementAt(0);
+      _controllerCity = TextEditingController(text: _cityDefault);
+    }
+    else {
+      _controllerCity = TextEditingController(text: account.city);
+    }
 
 
     _nameFocus = FocusNode();
@@ -122,12 +131,13 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   },
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.perm_identity),
-                    hintText: 'Nhập họ và tên',
+                    hintText: 'Nhập tên',
                   ),
                   textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.words,
                   validator: (value) {
                     if (Utility.isNullOrEmpty(value)) {
-                      return 'Chưa nhập họ và tên';
+                      return 'Chưa nhập tên';
                     }
                     return null;
                   },
@@ -179,7 +189,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   },
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.map),
-                    hintText: 'Nhập địa chỉ',
+                    hintText: 'Nhập địa chỉ (không bắt buộc)',
                   ),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
@@ -200,11 +210,11 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       readOnly: true,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.location_city),
-                        hintText: 'Chọn thành phố',
+                        hintText: 'Chọn tỉnh thành',
                       ),
                       validator: (value) {
                         if (Utility.isNullOrEmpty(value)) {
-                          return 'Chưa nhập thành phố';
+                          return 'Chưa chọn tỉnh thành';
                         }
                         return null;
                       },
@@ -289,7 +299,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
 
   void _showDateTimePicker() {
     DateTime now = DateTime.now();
-    DateTime temp = new DateTime(now.year - 18, 1, 1);
+    DateTime temp = new DateTime(now.year - 25, 1, 1);
     if (Utility.isNullOrEmpty(account.birthDay) == false) {
       temp = DateTime.parse(account.birthDay);
     }
@@ -345,6 +355,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
 
   Future onFinish() async {
     final _checkInternet = await checkInternet();
+
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
@@ -356,7 +367,15 @@ class _UpdateInformationState extends State<UpdateInformation> {
         hideLoading(context);
         if (response.status) {
           AccountController.instance.updateAccountInfo(account);
-          Navigator.pop(context);
+          if (widget.isRegister) {
+            Provider.of<NavigationProvider>(context, listen: false).index =
+                PageName.home.index;
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/home', (Route<dynamic> route) => false);
+          }
+          else {
+            Navigator.pop(context);
+          }
           AppSnackBar.showFlushbar(context,
               widget.isRegister ? 'Đăng ký thành công' : 'Cập nhật thành công');
         } else {
