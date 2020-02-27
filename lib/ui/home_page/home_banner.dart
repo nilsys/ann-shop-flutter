@@ -20,7 +20,7 @@ class _HomeBannerState extends State<HomeBanner>
   void initState() {
     // TODO: implement initState
     super.initState();
-    time = Timer.periodic(Duration(seconds: 5), _autoChangePage);
+    time = Timer.periodic(Duration(seconds: 8), _autoChangePage);
   }
 
   void _autoChangePage(timer) {

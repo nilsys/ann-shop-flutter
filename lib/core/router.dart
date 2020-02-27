@@ -57,11 +57,11 @@ class Router {
         return CustomFadeRoute(builder: (_) => HomeView(), settings: settings);
       case '/web-view':
         final queryParameters = WebViewQueryParameterModel.fromJson(data);
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => WebViewRouter(queryParameters: queryParameters),
             settings: settings);
       case '/view_more':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => ViewMorePage(data), settings: settings);
       case '/file-view':
         Map map = data as Map;
@@ -144,7 +144,7 @@ class Router {
         return MaterialPageRoute(
             builder: (_) => InAppView(), settings: settings);
       case '/blog':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => BlogView(), settings: settings);
       case '/promotion':
         return MaterialPageRoute(

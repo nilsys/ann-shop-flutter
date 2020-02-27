@@ -125,7 +125,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
   _showDateTimePicker() {
     DateTime now = DateTime.now();
-    DateTime temp = new DateTime(now.year - 18, 1, 1);
+    DateTime temp = new DateTime(now.year - 25, 1, 1);
     if (Utility.isNullOrEmpty(birthDay) == false) {
       temp = DateTime.parse(birthDay);
     }

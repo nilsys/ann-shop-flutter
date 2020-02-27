@@ -12,7 +12,7 @@ class HtmlContent extends StatelessWidget {
     return HtmlWidget(
       this.strHTML,
       webView: true,
-      textStyle: new TextStyle(fontSize: 17),
+      textStyle: new TextStyle(fontSize: 16),
       onTapUrl: (url) => {
         AppAction.instance.linkToWebView(context, url, 'Test')
       }

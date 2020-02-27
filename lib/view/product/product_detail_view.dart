@@ -173,7 +173,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   Text(
-                    ' ${detail.sku} - ${detail.name}',
+                    '${detail.sku} - ${detail.name}',
                     style: Theme.of(context).textTheme.title,
                   ),
                   const SizedBox(height: 10),

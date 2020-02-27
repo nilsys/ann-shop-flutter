@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ann_shop_flutter/core/app_dynamic_links.dart';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/app_onesignal.dart';
@@ -27,6 +29,7 @@ class _HomeViewState extends State<HomeView>
     InAppView(),
     AccountPage(),
   ];
+  Timer _timer;
 
   @override
   Widget build(BuildContext context) {
@@ -107,15 +110,18 @@ class _HomeViewState extends State<HomeView>
 
   @override
   void initState() {
-    try {
-      Core.instance.versionCheck(context);
-    } catch (e) {}
-
     // TODO: implement initState
     super.initState();
     AppDynamicLinks.instance.checkAndInit();
-    AppOneSignal.instance.checkAndInit();
+
     WidgetsBinding.instance.addObserver(this);
+
+    _timer = new Timer(const Duration(seconds: 5), () {
+      try {
+        Core.instance.versionCheck(context);
+      } catch (e) {}
+      AppOneSignal.instance.checkAndInit();
+    });
   }
 
   @override
@@ -123,6 +129,7 @@ class _HomeViewState extends State<HomeView>
     // TODO: implement dispose
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+    _timer.cancel();
   }
 
   @override
