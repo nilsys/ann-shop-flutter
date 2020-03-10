@@ -1,16 +1,20 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:ann_shop_flutter/ui/dialog/alert_dialog_new_version.dart';
+import 'package:ann_shop_flutter/shared/components/alert_dialog/alert_dialog_new_version.dart';
+import 'package:ann_shop_flutter/shared/models/common/app_version_model.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:package_info/package_info.dart';
+import 'package:quiver/strings.dart';
 
 final double defaultPadding = 15;
 const int itemPerPage = 20;
 
 class Core {
   static final Core _instance = Core._internal();
+  static const appName = 'ANN';
   static const annLogoWithLink =
       'https://ann.com.vn/wp-content/uploads/ANN-logo-4.png';
   static const annLogoOrange = 'https://ann.com.vn/logo/ann-logo-2-400x150.png';
@@ -52,11 +56,26 @@ class Core {
       // Using default duration to force fetching from remote server.
       await remoteConfig.fetch(expiration: const Duration(seconds: 0));
       await remoteConfig.activateFetched();
-      remoteConfig.getString('force_update_current_version');
-      double newVersion = double.parse(remoteConfig
-          .getString('force_update_current_version')
-          .trim()
-          .replaceAll(".", ""));
+
+      final strAppVersion = remoteConfig.getString('app_version');
+
+      if (isEmpty(strAppVersion)) return;
+
+      final appVersion = AppVersionModel.formJson(jsonDecode(strAppVersion));
+
+      double newVersion = currentVersion;
+
+      // Android
+      if (Platform.isAndroid) {
+        newVersion =
+            double.parse(appVersion.android.trim().replaceAll('.', ''));
+      }
+
+      // IOS
+      if (Platform.isIOS) {
+        newVersion = double.parse(appVersion.ios.trim().replaceAll('.', ''));
+      }
+
       if (newVersion > currentVersion) {
         AlertDialogNewVersion.instance.show(context);
       }

@@ -1,12 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/shared/services/permission_services.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -14,15 +13,20 @@ import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_extend/share_extend.dart';
 
 class ProductImageShareView extends StatefulWidget {
-  const ProductImageShareView(this.data);
-
+  // region Parameters
   final Map data;
+
+  // endregion
+
+  const ProductImageShareView(this.data);
 
   @override
   _ProductImageShareViewState createState() => _ProductImageShareViewState(
@@ -30,20 +34,29 @@ class ProductImageShareView extends StatefulWidget {
 }
 
 class _ProductImageShareViewState extends State<ProductImageShareView> {
-  _ProductImageShareViewState(this.images, this.message, this.title);
-
-  final int limit = 30;
+  // region Parameters
   final List<String> images;
   final String message;
   final String title;
-  int maxImage = 30;
+
+  // Max Image for posting the Facebook
+  final int limit = 30;
+
+  int maxImage;
   List<String> imagesSelected;
+
+  // endregion
+
+  _ProductImageShareViewState(this.images, this.message, this.title);
 
   @override
   void initState() {
     super.initState();
-    imagesSelected = [];
+
+    // region init Parameters
     maxImage = min(limit, images.length);
+    imagesSelected = [];
+
     for (int i = 0; i < images.length && i < maxImage; i++) {
       imagesSelected.add(images[i]);
     }
@@ -51,137 +64,133 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
 
   @override
   Widget build(BuildContext context) {
-    bool isEmpty = Utility.isNullOrEmpty(imagesSelected);
     return WillPopScope(
       onWillPop: () async {
         return Future.value(false);
       },
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon:
-                Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
-            onPressed: () {
-              if (MediaQuery.of(context).viewInsets.bottom > 100) {
-                Navigator.pop(context);
-                showDialog(context: context, child: FixViewInsetsBottom());
-              } else {
-                Navigator.pop(context);
-              }
-            },
-          ),
-          title: Text(
-            'Đã chọn ${imagesSelected.length}/$maxImage hình',
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                'Bỏ chọn',
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {
-                setState(() {
-                  imagesSelected = [];
-                });
-              },
-            )
-          ],
-        ),
-        bottomNavigationBar: BottomAppBar(
-            color: Colors.white,
-            child: Container(
-              height: 50,
-              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                      child: FlatButton(
-                        child: Row(
-                          children: <Widget>[
-                            const Text('Đăng Facebook '),
-                            Icon(
-                              AppIcons.facebook_official,
-                              color: Colors.blue,
-                            ),
-                          ],
-                        ),
-                        onPressed: _onShareFacebook,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 1,
-                    height: 40,
-                    color: Theme.of(context).dividerColor,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: FlatButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Text('Đăng Zalo '),
-                          Container(
-                            width: 20,
-                            height: 20,
-                            child:
-                                Image.asset('assets/images/ui/zalo-logo.png'),
-                          )
-                        ],
-                      ),
-                      onPressed: _onShareZalo,
-                    ),
-                  ),
-                ],
-              ),
-            )),
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverPadding(
-                padding: const EdgeInsets.all(10),
-                sliver: SliverGrid(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 3 / 4,
-                    crossAxisSpacing: 5,
-                  ),
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return _buildImageSelect(images[index]);
-                    },
-                    childCount: images.length,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        appBar: _buildAppBar(context),
+        body: _buildBody(context),
+        bottomNavigationBar: _buildBottomAppBar(context),
       ),
     );
   }
 
-  Widget _buildImageSelect(String url) {
-    final isSelect = imagesSelected.contains(url);
-    final imageWidget = InkWell(
-      onTap: () {
-        setState(() {
-          if (isSelect) {
-            imagesSelected.remove(url);
+  // region build the page
+  // Create AppBar
+  AppBar _buildAppBar(BuildContext context) {
+    return new AppBar(
+      leading: IconButton(
+        icon: Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
+        onPressed: () {
+          if (MediaQuery.of(context).viewInsets.bottom > 100) {
+            Navigator.pop(context);
+            showDialog(context: context, child: FixViewInsetsBottom());
           } else {
-            if (imagesSelected.length >= maxImage) {
-              AppSnackBar.showFlushbar(
-                  context, 'Chỉ được chọn tối đa $maxImage hình');
-            } else {
-              imagesSelected.add(url);
-            }
+            Navigator.pop(context);
           }
-        });
-      },
+        },
+      ),
+      title: Text(
+        'Đã chọn ${imagesSelected.length}/$maxImage hình',
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text(
+            'Bỏ chọn',
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () => setState(() => imagesSelected = []),
+        )
+      ],
+    );
+  }
+
+  // Create Body
+  Widget _buildBody(BuildContext context) {
+    return new SafeArea(
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverPadding(
+            padding: const EdgeInsets.all(10),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 3 / 4,
+                crossAxisSpacing: 5,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => _buildImage(context, images[index]),
+                childCount: images.length,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Create Bottom App Bar
+  BottomAppBar _buildBottomAppBar(BuildContext context) {
+    return new BottomAppBar(
+        color: Colors.white,
+        child: Container(
+          height: 50,
+          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: FlatButton(
+                    child: Row(
+                      children: <Widget>[
+                        const Text('Đăng Facebook '),
+                        Icon(
+                          AppIcons.facebook_official,
+                          color: Colors.blue,
+                        ),
+                      ],
+                    ),
+                    onPressed: () => _onClickShareFacebook(context),
+                  ),
+                ),
+              ),
+              Container(
+                width: 1,
+                height: 40,
+                color: Theme.of(context).dividerColor,
+              ),
+              Expanded(
+                flex: 1,
+                child: FlatButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text('Đăng Zalo '),
+                      Container(
+                        width: 20,
+                        height: 20,
+                        child: Image.asset('assets/images/ui/zalo-logo.png'),
+                      )
+                    ],
+                  ),
+                  onPressed: () => _onClickShareZalo(context),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+
+  Widget _buildImage(BuildContext context, String url) {
+    final bool isSelected = imagesSelected.contains(url);
+    final double opacity = isSelected ? 1.0 : 0.7;
+
+    final imageWidget = InkWell(
+      onTap: () => setState(() => _onClickImage(isSelected, url)),
       child: Opacity(
-        opacity: isSelect ? 1 : 0.7,
+        opacity: opacity,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(5),
           child: AppImage(
@@ -191,59 +200,82 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
       ),
     );
 
+    final imageSelectedWidget = Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        imageWidget,
+        Positioned(
+            right: 5,
+            top: 5,
+            child: Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                border: Border.all(
+                  color: Colors.white,
+                  width: 1,
+                  style: BorderStyle.solid,
+                ),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.check, size: 18, color: Colors.white),
+            ))
+      ],
+    );
+
     return Container(
       margin: const EdgeInsets.only(top: 5),
       decoration: BoxDecoration(
         color: Colors.white,
       ),
-      child: isSelect
-          ? Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                imageWidget,
-                Positioned(
-                    right: 5,
-                    top: 5,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 1,
-                          style: BorderStyle.solid,
-                        ),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(Icons.check, size: 18, color: Colors.white),
-                    ))
-              ],
-            )
-          : imageWidget,
+      child: isSelected ? imageSelectedWidget : imageWidget,
     );
   }
 
-  void _onShareFacebook() {
-    if (AccountController.instance.isLogin == false) {
-      AskLogin.show(context);
-      return;
-    }
-    if (Platform.isAndroid) {
-      _onShare(message: message, fixZalo: true);
+  // Handle to select the image
+  void _onClickImage(bool isSelected, String url) {
+    if (isSelected) {
+      imagesSelected.remove(url);
     } else {
-      _onShare(message: message);
+      if (imagesSelected.length >= maxImage) {
+        AppSnackBar.showFlushbar(
+            context, 'Chỉ được chọn tối đa $maxImage hình');
+      } else {
+        imagesSelected.add(url);
+      }
     }
   }
 
-  final maxForZalo = Platform.isAndroid ? 1 : 9;
-
-  void _onShareZalo() {
+  /// Facebook chỉ hổ trợ share image and hashtag
+  /// 2. Trao quyền kiểm soát cho mọi người
+  /// https://developers.facebook.com/policy/#control
+  void _onClickShareFacebook(BuildContext context) {
     if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
-    if (imagesSelected.length > maxForZalo) {
+
+    _onShare(context, message: message);
+  }
+
+  /// Zalo
+  /// Android: share nội dung image và content quảng cáo
+  /// 1) Nội dụng lưu trong ClipBoard
+  /// 2) Hình ảnh sẽ download về "Bộ sư tập"
+  ///
+  /// IOS:
+  /// 1) Hổ trợ share nội dung 1 image và content quảng cáo
+  /// 2) Hổ trợ share tối đa 9 image
+  void _onClickShareZalo(BuildContext context) {
+    if (AccountController.instance.isLogin == false) {
+      AskLogin.show(context);
+      return;
+    }
+
+    final maxForZalo = 9;
+
+    if (Platform.isIOS && imagesSelected.length > maxForZalo) {
       AppPopup.showCustomDialog(
         context,
         content: [
@@ -276,57 +308,70 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
         ],
       );
     } else {
-      if (Platform.isAndroid) {
-        _onShare(message: message, fixZalo: true);
-      } else {
-        if (imagesSelected.length == 1) {
-          _onShare(message: message);
-        } else {
-          _onShare(fixZalo: true);
-        }
-      }
+      _onShare(context, message: message, fixZalo: true);
     }
   }
 
-  Future _onShare({message, fixZalo = false}) async {
-    try {
-      final images = imagesSelected;
-      if (Utility.isNullOrEmpty(images)) {
-        AppSnackBar.showFlushbar(context, 'Bạn chưa chọn hình nào',
-            duration: const Duration(seconds: 1));
-        return;
-      }
-      showLoading(context, message: 'Đang tải...');
-      final List<String> files = [];
-      final Map<String, List<int>> mapByte = {};
-      for (int i = 0; i < images.length; i++) {
-        try {
-          final file = await DefaultCacheManager()
-              .getSingleFile(Core.domain + images[i])
-              .timeout(const Duration(seconds: 5));
-          files.add(file.path);
-          final Uint8List bytes = file.readAsBytesSync();
-          mapByte['image_$i.png'] = bytes;
-          debugPrint(file.path);
-          updateLoading('Đang tải ${i + 1}/${images.length} hình');
-        } catch (e) {
-          debugPrint(e);
-        }
-      }
-      hideLoading(context);
-      if (Utility.isNullOrEmpty(files) == false) {
-        if (fixZalo) {
-          await ShareExtend.shareMultiple(files, "image");
-        } else {
-          await Share.files(title, mapByte, '*/*', text: message);
-        }
-      } else {
-        throw ArgumentError('Data empty');
-      }
-    } catch (e) {
-      debugPrint(e);
+  Future _onShare(BuildContext context, {message, fixZalo = false}) async {
+    if (imagesSelected == null || imagesSelected.length == 0) {
+      AppSnackBar.showFlushbar(context, 'Bạn chưa chọn hình nào',
+          duration: const Duration(seconds: 1));
+      return;
+    }
+
+    final permission = PermissionService.instance;
+    final permissionGroup =
+        Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
+    final checkPermission =
+        await permission.checkAndRequestPermission(context, permissionGroup);
+
+    if (!checkPermission) return;
+
+    final List<String> files = [];
+    final Map<String, List<int>> mapByte = {};
+
+    showLoading(context, message: 'Đang tải...');
+    for (int i = 0; i < imagesSelected.length; i++) {
+      await Future.delayed(const Duration(seconds: 1));
+      await DefaultCacheManager()
+          .getSingleFile(Core.domain + imagesSelected[i])
+          .then((File file) {
+        files.add(file.path);
+        mapByte['image_$i.png'] = file.readAsBytesSync();
+        if (Platform.isAndroid && fixZalo)
+          ImageGallerySaver.saveImage(mapByte['image_$i.png'])
+              .catchError((e) => print(e));
+        updateLoading('Đã tải ${i + 1}/${imagesSelected.length} hình');
+      }).catchError((e) => print(e));
+    }
+
+    hideLoading(context);
+
+    if (files.length == 0) {
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
           duration: const Duration(seconds: 1));
+      return;
+    }
+
+    if (Platform.isAndroid) {
+      if (fixZalo)
+        Share.text(title, message, 'text/plain');
+      else
+        Share.files(title, mapByte, 'image/png', text: message);
+    } else if (Platform.isIOS) {
+      if (fixZalo) {
+        if (files.length == 1) {
+          final imageName = mapByte.keys.first;
+          final imageByte = mapByte[imageName];
+
+          Share.file(title, imageName, imageByte, "image/png", text: message);
+        } else {
+          ShareExtend.shareMultiple(files, "image");
+        }
+      } else {
+        Share.files(title, mapByte, 'image/png', text: message);
+      }
+    } else {
       return;
     }
   }
