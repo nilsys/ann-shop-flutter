@@ -5,26 +5,26 @@ import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/web_view/web_view_query_parameter_model.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
-import 'package:ann_shop_flutter/repository/permission_repository.dart';
-import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
+import 'package:ann_shop_flutter/shared/services/permission_services.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/view/account/update_information.dart';
-import 'package:ann_shop_flutter/view/coupon/promotion_view.dart';
-import 'package:ann_shop_flutter/view/coupon/upload_photo.dart';
-import 'package:ann_shop_flutter/view/login/change_password_view.dart';
-import 'package:ann_shop_flutter/view/login/forgot_password_view.dart';
-import 'package:ann_shop_flutter/view/login/login_password_view.dart';
-import 'package:ann_shop_flutter/view/login/login_view.dart';
-import 'package:ann_shop_flutter/view/inapp/blog_view.dart';
-import 'package:ann_shop_flutter/view/inapp/inapp_view.dart';
 import 'package:ann_shop_flutter/view/account/order_management_view.dart';
 import 'package:ann_shop_flutter/view/account/setting_view.dart';
 import 'package:ann_shop_flutter/view/account/shop_contact.dart';
 import 'package:ann_shop_flutter/view/account/shop_policy.dart';
+import 'package:ann_shop_flutter/view/account/update_information.dart';
+import 'package:ann_shop_flutter/view/coupon/promotion_view.dart';
+import 'package:ann_shop_flutter/view/coupon/upload_photo.dart';
 import 'package:ann_shop_flutter/view/favorite/favorite_view.dart';
+import 'package:ann_shop_flutter/view/home_view/home_view.dart';
 import 'package:ann_shop_flutter/view/home_view/search_page.dart';
+import 'package:ann_shop_flutter/view/inapp/blog_view.dart';
+import 'package:ann_shop_flutter/view/inapp/inapp_view.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product_by_category.dart';
 import 'package:ann_shop_flutter/view/list_product/seen_view.dart';
+import 'package:ann_shop_flutter/view/login/change_password_view.dart';
+import 'package:ann_shop_flutter/view/login/forgot_password_view.dart';
+import 'package:ann_shop_flutter/view/login/login_password_view.dart';
+import 'package:ann_shop_flutter/view/login/login_view.dart';
 import 'package:ann_shop_flutter/view/login/register_input_otp_view.dart';
 import 'package:ann_shop_flutter/view/login/register_input_password_view.dart';
 import 'package:ann_shop_flutter/view/login/register_success_view.dart';
@@ -36,7 +36,6 @@ import 'package:ann_shop_flutter/view/product/product_image_fancy_view.dart';
 import 'package:ann_shop_flutter/view/product/product_image_share_view.dart';
 import 'package:ann_shop_flutter/view/scan_barcode/scan_view.dart';
 import 'package:ann_shop_flutter/view/utility/empty_view.dart';
-import 'package:ann_shop_flutter/view/home_view/home_view.dart';
 import 'package:ann_shop_flutter/view/utility/file_view.dart';
 import 'package:ann_shop_flutter/view/utility/init_view.dart';
 import 'package:ann_shop_flutter/view/utility/view_more_page.dart';
@@ -144,8 +143,7 @@ class Router {
         return MaterialPageRoute(
             builder: (_) => InAppView(), settings: settings);
       case '/blog':
-        return CustomFadeRoute(
-            builder: (_) => BlogView(), settings: settings);
+        return CustomFadeRoute(builder: (_) => BlogView(), settings: settings);
       case '/promotion':
         return MaterialPageRoute(
             builder: (_) => PromotionView(), settings: settings);
@@ -192,30 +190,13 @@ class Router {
     }
   }
 
-  static scanBarCode(BuildContext context) async {
-    bool result = await PermissionRepository.instance
-        .checkAndRequestPermission(PermissionGroup.camera);
-    if (result) {
-      Navigator.pushNamed(context, "/scan");
-    } else {
-      AppPopup.showCustomDialog(context,
-          title:
-              'Cần quyền truy cập máy ảnh của bạn để sử dụng tín năng này. Bạn có muốn mở thiết lập cài đặt?',
-          actions: [
-            FlatButton(
-              child: Text('Không'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text('Mở cài đặt'),
-              onPressed: () {
-                Navigator.pop(context);
-                PermissionHandler().openAppSettings();
-              },
-            )
-          ]);
-    }
+  static scanBarCode(BuildContext context) {
+    final permission = PermissionService.instance;
+
+    permission
+        .checkAndRequestPermission(context, PermissionGroup.camera)
+        .then((bool result) {
+      if (result) Navigator.pushNamed(context, "/scan");
+    });
   }
 }

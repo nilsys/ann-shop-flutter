@@ -1,7 +1,8 @@
 import 'dart:io';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/repository/coupon_repository.dart';
-import 'package:ann_shop_flutter/repository/permission_repository.dart';
+import 'package:ann_shop_flutter/shared/services/permission_services.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:avatar_glow/avatar_glow.dart';
@@ -125,12 +126,13 @@ class _UploadPhotoState extends State<UploadPhoto> {
   }
 
   Future _getImage() async {
-    final bool permission = await PermissionRepository.instance
-        .checkAndRequestPermission(PermissionGroup.storage);
-    if (permission == false) {
-      await PermissionRepository.instance.showPopupOpenSetting(context);
-      return;
-    }
+    final permissionGroup =
+        Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
+    final bool permission = await PermissionService.instance
+        .checkAndRequestPermission(context, permissionGroup);
+
+    if (permission == false) return;
+
     final image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       latestCaptureFile = image;

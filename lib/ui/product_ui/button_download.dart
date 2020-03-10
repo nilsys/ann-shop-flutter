@@ -1,14 +1,13 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
-import 'package:ann_shop_flutter/repository/permission_repository.dart';
-import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
+import 'package:ann_shop_flutter/shared/services/permission_services.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -72,12 +71,11 @@ class _ButtonDownloadState extends State<ButtonDownload> {
       return;
     }
     try {
-      final bool permission = await PermissionRepository.instance
-          .checkAndRequestPermission(PermissionGroup.storage);
-      if (permission == false) {
-        await PermissionRepository.instance.showPopupOpenSetting(context);
-        return;
-      }
+      final permissionGroup =
+          Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
+      final bool permission = await PermissionService.instance
+          .checkAndRequestPermission(context, permissionGroup);
+      if (permission == false) return;
 
       setState(() {
         loading = loadState.loading;

@@ -10,7 +10,7 @@ import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
-import 'package:ann_shop_flutter/repository/permission_repository.dart';
+import 'package:ann_shop_flutter/shared/services/permission_services.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -209,7 +209,8 @@ class ProductRepository {
     }
     if (CopyController.instance.copySetting.showed) {
       await onCopy(context, productID);
-      AppSnackBar.showFlushbar(context, 'Đã copy, hãy dán vào nơi đăng sản phẩm',
+      AppSnackBar.showFlushbar(
+          context, 'Đã copy, hãy dán vào nơi đăng sản phẩm',
           duration: const Duration(seconds: 1));
     } else {
       await Navigator.pushNamed(context, '/setting');
@@ -219,7 +220,7 @@ class ProductRepository {
   Future<String> onCopy(BuildContext context, int productID) async {
     final result = await ProductRepository.instance
         .loadProductAdvertisementContent(productID);
-    await Clipboard.setData(ClipboardData(text: result));
+    await Clipboard.setData(new ClipboardData(text: result));
     return result;
   }
 
@@ -260,8 +261,11 @@ class ProductRepository {
         AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
             duration: const Duration(seconds: 1));
       } else {
-        final permission = await PermissionRepository.instance
-            .checkAndRequestPermission(PermissionGroup.storage);
+        final permissionGroup = Platform.isAndroid
+            ? PermissionGroup.storage
+            : PermissionGroup.photos;
+        final permission = await PermissionService.instance
+            .checkAndRequestPermission(context, permissionGroup);
         if (permission) {
           final result =
               await Provider.of<DownloadImageProvider>(context, listen: false)
@@ -270,8 +274,6 @@ class ProductRepository {
             AppSnackBar.showFlushbar(
                 context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
           }
-        } else {
-          await PermissionRepository.instance.showPopupOpenSetting(context);
         }
       }
     } catch (e) {
