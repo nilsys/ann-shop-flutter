@@ -89,13 +89,13 @@ class Router {
       case '/scan':
         return CustomFadeRoute(builder: (_) => ScanView(), settings: settings);
       case '/favorite':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => FavoriteView(), settings: settings);
       case '/seen':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => SeenView(), settings: settings);
       case '/setting':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => SettingView(), settings: settings);
       case '/filter-product':
         return MaterialPageRoute(
@@ -104,10 +104,10 @@ class Router {
         return CustomFadeRoute(
             builder: (_) => ListProductByCategory(data), settings: settings);
       case '/shop-contact':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => ShopContact(), settings: settings);
       case '/shop-policy':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => ShopPolicy(), settings: settings);
       case '/login':
         return MaterialPageRoute(
@@ -137,7 +137,7 @@ class Router {
                 ),
             settings: settings);
       case '/order-management':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => OrderManagementView(), settings: settings);
       case '/inapp':
         return MaterialPageRoute(
@@ -145,7 +145,7 @@ class Router {
       case '/blog':
         return CustomFadeRoute(builder: (_) => BlogView(), settings: settings);
       case '/promotion':
-        return MaterialPageRoute(
+        return CustomFadeRoute(
             builder: (_) => PromotionView(), settings: settings);
       case '/upload_photo':
         return MaterialPageRoute(

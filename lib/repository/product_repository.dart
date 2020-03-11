@@ -34,8 +34,10 @@ class ProductRepository {
 
     productBadge = [
       ProductBadge(id: 1, title: 'Hàng có sẵn'),
+      ProductBadge(id: 2, title: 'Hết hàng'),
       ProductBadge(id: 3, title: 'Hàng order'),
       ProductBadge(id: 4, title: 'Hàng sale'),
+      ProductBadge(id: 5, title: 'Đang nhập kho'),
     ];
   }
 
@@ -49,14 +51,20 @@ class ProductRepository {
       case 1:
         return 'Có sẵn';
         break;
+      case 2:
+        return 'Hết hàng';
+        break;
       case 3:
         return 'Order';
         break;
       case 4:
         return 'Sale';
         break;
+      case 5:
+        return 'Đang nhập kho';
+        break;
       default:
-        return 'Hết hàng';
+        return '';
         break;
     }
   }
@@ -66,14 +74,20 @@ class ProductRepository {
       case 1:
         return Colors.orange;
         break;
+      case 2:
+        return Colors.grey[700];
+        break;
       case 3:
         return Colors.purple;
         break;
       case 4:
         return Colors.grey;
         break;
+      case 5:
+        return const Color(0xfffdc80f);
+        break;
       default:
-        return Colors.grey[700];
+        return null;
         break;
     }
   }
