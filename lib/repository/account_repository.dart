@@ -20,9 +20,7 @@ class AccountRepository {
     try {
       final url = '${Core.domain}api/flutter/user/check?phone=$phone';
       final response = await http.get(url);
-      log(url);
-      log(response.statusCode);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         Map parsed = jsonDecode(response.body);
         var result = parsed['exists'];
@@ -31,7 +29,7 @@ class AccountRepository {
         return AppResponse(false);
       }
     } catch (e) {
-      print('Server Exception!!! : $e');
+      print(e);
     }
     return AppResponse(false);
   }
@@ -42,17 +40,14 @@ class AccountRepository {
       Map data = {"phone": formatPhone, "otp": otp};
       final url = '${Core.domain}api/sms/otp';
       final response = await http.post(url, body: data);
-      log(url);
-      log(data);
-      log(response.statusCode);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         return AppResponse(true);
       } else {
         return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {
-      print('Server Exception!!!: $e');
+      print(e);
     }
     return AppResponse(false);
   }
@@ -62,17 +57,14 @@ class AccountRepository {
       Map data = {"phone": phone, "otp": otp};
       final url = '${Core.domain}api/flutter/user/confirm-otp';
       final response = await http.post(url, body: data);
-      log(url);
-      log(data);
-      log(response.statusCode);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         return AppResponse(true);
       } else {
         return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {
-      print('Server Exception!!!: $e');
+      print(e);
     }
     return AppResponse(false);
   }
@@ -89,10 +81,6 @@ class AccountRepository {
           )
           .timeout(Duration(seconds: 10));
 
-      log(url);
-      log(data);
-      log(response.statusCode);
-      log(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed);
@@ -100,7 +88,7 @@ class AccountRepository {
         return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {
-      print('Server Exception!!!: $e');
+      print(e);
     }
     return AppResponse(false);
   }
@@ -115,9 +103,7 @@ class AccountRepository {
             body: data,
           )
           .timeout(Duration(seconds: 10));
-      log(url);
-      log(data.toString());
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed);
@@ -125,7 +111,7 @@ class AccountRepository {
         return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {
-      print('Server Exception!!!: $e');
+      print(e);
     }
     return AppResponse(false);
   }
@@ -138,10 +124,7 @@ class AccountRepository {
         body: jsonEncode(account.toJson()),
         headers: AccountController.instance.header,
       );
-      log(url);
-      log(account.toJson());
-      log(response.statusCode);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed);
@@ -149,7 +132,7 @@ class AccountRepository {
         return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {
-      print('Server Exception!!!: $e');
+      print(e);
     }
     return AppResponse(false);
   }
@@ -167,10 +150,6 @@ class AccountRepository {
       final response =
           await http.patch(url, body: data).timeout(Duration(seconds: 10));
 
-      log(url);
-      log(data);
-      log(response.statusCode);
-      log(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed['password']);
@@ -178,7 +157,7 @@ class AccountRepository {
         return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {
-      print('Server Exception!!!: $e');
+      print(e);
     }
     return AppResponse(false);
   }
@@ -195,16 +174,13 @@ class AccountRepository {
           )
           .timeout(Duration(seconds: 10));
 
-      log(url);
-      log(response.statusCode);
-      log(response.body);
       if (response.statusCode == HttpStatus.ok) {
         return AppResponse(true);
       } else {
         return AppResponse(false, message: getMessage(response.body));
       }
     } catch (e) {
-      print('Server Exception!!!: $e');
+      print(e);
     }
     return AppResponse(false);
   }
@@ -217,13 +193,9 @@ class AccountRepository {
       }
       if (parsed.containsKey('ModelState')) {}
     } catch (e) {
-      print('Server Exception!!!: $e');
+      print(e);
     }
     return null;
-  }
-
-  log(object) {
-    print('account_repository: ' + object.toString());
   }
 
   final cityOfVietnam = [

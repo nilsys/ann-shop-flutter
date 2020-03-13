@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AskLogin extends StatelessWidget {
-
-  static show(context, {message = 'Vui lòng đăng nhập hoặc đăng ký để sử dụng chức năng này'}){
+  static show(context,
+      {message = 'Vui lòng đăng nhập hoặc đăng ký để sử dụng chức năng này'}) {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -13,6 +13,7 @@ class AskLogin extends StatelessWidget {
   }
 
   AskLogin(this.message);
+
   final message;
 
   @override
@@ -111,6 +112,6 @@ class AskLogin extends StatelessWidget {
 
   _onLogIn(context) {
     Navigator.pushNamedAndRemoveUntil(
-        context, '/login', (Route<dynamic> route) => false );
+        context, 'user/login', (Route<dynamic> route) => false);
   }
 }

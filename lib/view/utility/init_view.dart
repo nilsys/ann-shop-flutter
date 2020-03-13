@@ -22,7 +22,10 @@ class _InitViewState extends State<InitView> {
             child: Container(
               height: 70,
               width: 200,
-              child: Image.asset('assets/images/ui/ann.png', fit: BoxFit.fitWidth,),
+              child: Image.asset(
+                'assets/images/ui/ann.png',
+                fit: BoxFit.fitWidth,
+              ),
             ),
           ),
           Positioned(
@@ -46,18 +49,18 @@ class _InitViewState extends State<InitView> {
     CopyController.instance.loadCopySetting();
   }
 
-  checkAccountInfo()async{
+  checkAccountInfo() async {
     await AccountController.instance.loadFormLocale();
-    if(AccountController.instance.isLogin == false){
-      Navigator.pushReplacementNamed(context, '/login');
-    }else{
-      CoverProvider provider = Provider.of(context, listen:  false);
+    if (AccountController.instance.isLogin == false) {
+      Navigator.pushReplacementNamed(context, 'user/login');
+    } else {
+      CoverProvider provider = Provider.of(context, listen: false);
       await provider.loadPostHome();
-      if(provider.postsHome.isCompleted){
+      if (provider.postsHome.isCompleted) {
         AccountController.instance.saveToLocale();
-        Navigator.pushReplacementNamed(context, '/home');
-      }else{
-        Navigator.pushReplacementNamed(context, '/login');
+        Navigator.pushReplacementNamed(context, 'home');
+      } else {
+        Navigator.pushReplacementNamed(context, 'user/login');
       }
     }
   }

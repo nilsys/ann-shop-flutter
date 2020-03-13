@@ -37,9 +37,8 @@ class Utility {
       DateTime dateTime = DateTime.parse(oldDay);
       return DateFormat('dd/MM/yyyy').format(dateTime);
     } catch (e) {
-      print('parse $oldDay fail: ' + e.toString());
+      print(e);
       return '';
     }
   }
-
 }

@@ -14,7 +14,7 @@ class FavoriteButton extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/favorite');
+        Navigator.pushNamed(context, 'user/favorite');
       },
       child: Container(
         width: 40,

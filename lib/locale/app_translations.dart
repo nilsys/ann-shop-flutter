@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -45,7 +46,7 @@ class AppTranslations {
         }
       }
     } catch (e) {
-      print("Decode locale remote fail: $pathRemote");
+      print(e);
     }
 
     // return

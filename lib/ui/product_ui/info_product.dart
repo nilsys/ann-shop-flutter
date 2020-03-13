@@ -4,7 +4,6 @@ import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 
@@ -121,7 +120,7 @@ class _InfoProductState extends State<InfoProduct> {
             flex: 3,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/product-image-by-size-and-image',
+                Navigator.pushNamed(context, 'product/detail/select-size-color',
                     arguments: {'index': 0, 'data': detail});
               },
               child: Wrap(
@@ -150,7 +149,7 @@ class _InfoProductState extends State<InfoProduct> {
             flex: 3,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/product-image-by-size-and-image',
+                Navigator.pushNamed(context, 'product/detail/select-size-color',
                     arguments: {'index': 0, 'data': detail});
               },
               child: Wrap(

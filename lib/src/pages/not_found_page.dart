@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class EmptyView extends StatelessWidget {
-  EmptyView({this.title = 'Empty view'});
+class NotFoundPage extends StatelessWidget {
+  NotFoundPage({this.title = 'Empty view'});
 
   final String title;
 
@@ -30,7 +30,10 @@ class EmptyView extends StatelessWidget {
             RaisedButton(
               child: Text(
                 'TRỞ VỀ TRANG CHỦ',
-                style: Theme.of(context).textTheme.button.merge(TextStyle(color: Colors.white)),
+                style: Theme.of(context)
+                    .textTheme
+                    .button
+                    .merge(TextStyle(color: Colors.white)),
               ),
               onPressed: () {
                 Navigator.pop(context);

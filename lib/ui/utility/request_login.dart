@@ -2,7 +2,10 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:flutter/material.dart';
 
 class RequestLogin extends StatelessWidget {
-  RequestLogin({this.message='Vui lòng đăng nhập hoặc đăng ký để sử dụng chức năng này'});
+  RequestLogin(
+      {this.message =
+          'Vui lòng đăng nhập hoặc đăng ký để sử dụng chức năng này'});
+
   final message;
 
   @override
@@ -56,10 +59,10 @@ class RequestLogin extends StatelessWidget {
                     child: Text(
                       'Đăng ký ngay.',
                       style: Theme.of(context).textTheme.button.merge(
-                        TextStyle(
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
+                            TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
                     ),
                   )
                 ],
@@ -73,6 +76,6 @@ class RequestLogin extends StatelessWidget {
 
   _onLogIn(context) {
     Navigator.pushNamedAndRemoveUntil(
-        context, '/login', (Route<dynamic> route) => false );
+        context, 'user/login', (Route<dynamic> route) => false);
   }
 }

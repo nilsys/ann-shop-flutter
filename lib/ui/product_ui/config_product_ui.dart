@@ -1,7 +1,6 @@
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -137,6 +136,6 @@ class ConfigProductUI extends StatelessWidget {
   }
 
   showFilterPage(BuildContext context) {
-    Navigator.pushNamed(context, '/filter-product', arguments: filter);
+    Navigator.pushNamed(context, 'product/filter', arguments: filter);
   }
 }

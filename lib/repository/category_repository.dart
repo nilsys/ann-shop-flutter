@@ -21,10 +21,10 @@ class CategoryRepository {
   Future<List<Category>> loadCategories(String slug) async {
     try {
       final url = '${Core.domain}api/flutter/$slug';
-      final response = await http.get(url,
-          headers: AccountController.instance.header).timeout(Duration(seconds: 5));
-      log(url);
-      log(response.body);
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 5));
+
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
         List<Category> _data = new List();
@@ -34,7 +34,7 @@ class CategoryRepository {
         return _data;
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }
@@ -49,7 +49,7 @@ class CategoryRepository {
       });
       return _data;
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }
@@ -58,10 +58,10 @@ class CategoryRepository {
   Future<List<CategoryHome>> loadDataHome() async {
     try {
       final url = '${Core.domain}api/flutter/home/blocks';
-      final response = await http.get(url,
-          headers: AccountController.instance.header).timeout(Duration(seconds: 5));
-      log(url);
-      log(response.body);
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 5));
+
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
         List<CategoryHome> _data = new List();
@@ -71,7 +71,7 @@ class CategoryRepository {
         return _data;
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }
@@ -88,12 +88,8 @@ class CategoryRepository {
       });
       return _data;
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
-  }
-
-  log(object) {
-    print('category_repository: ' + object.toString());
   }
 }

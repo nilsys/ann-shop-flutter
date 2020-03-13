@@ -4,7 +4,6 @@ import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/request_login.dart';
@@ -103,7 +102,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                     .switchTo(PageName.category.index);
                 Navigator.popUntil(
                   context,
-                  ModalRoute.withName('/home'),
+                  ModalRoute.withName('home'),
                 );
               },
             )

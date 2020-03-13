@@ -24,8 +24,7 @@ class BlogRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
-      log(url);
-      log(response.body);
+
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(body);
@@ -40,7 +39,7 @@ class BlogRepository {
         }
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }
@@ -60,8 +59,7 @@ class BlogRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
-      log(url);
-      log(response.body);
+
       final body = response.body;
 
       if (response.statusCode == HttpStatus.ok) {
@@ -77,12 +75,8 @@ class BlogRepository {
         }
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
-  }
-
-  log(object) {
-    print('blog_repository: ' + object.toString());
   }
 }

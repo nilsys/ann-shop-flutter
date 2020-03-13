@@ -38,7 +38,7 @@ class _ScanViewState extends State<ScanView>
     try {
       cameras = await availableCameras();
     } on QRReaderException catch (e) {
-      debugPrint('Init camera fail: $e');
+      print(e);
     }
     initCameraView();
   }
@@ -114,7 +114,6 @@ class _ScanViewState extends State<ScanView>
         CodeFormat.upce,
         CodeFormat.ean8
       ], (value) {
-        debugPrint('Show camera.Then $value');
         flashOn = false;
         controllerQR.stopScanning();
         if (!bottomSheetIsOpen) {
@@ -373,16 +372,16 @@ class _ScanViewState extends State<ScanView>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  const  SizedBox(width: 24),
+                  const SizedBox(width: 24),
                   Text(
                     'Nhập mã sản phẩm',
                     style: Theme.of(context).textTheme.title,
                   ),
-                  const  CloseButton(),
+                  const CloseButton(),
                 ],
               ),
               Container(
-                padding:const  EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -410,7 +409,7 @@ class _ScanViewState extends State<ScanView>
                       width: 45,
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
-                        borderRadius:const  BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(10),
                             bottomRight: Radius.circular(10)),
                       ),

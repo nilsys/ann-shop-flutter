@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +53,7 @@ class _ProductFullState extends State<ProductFull> {
       ),
       child: InkWell(
         onTap: () {
-          Router.showProductDetail(context, product: widget.product);
+          Routes.showProductDetail(context, product: widget.product);
         },
         child: Column(
           children: <Widget>[
@@ -241,8 +241,7 @@ class _ProductFullState extends State<ProductFull> {
               color: iconColor,
             ),
             onPressed: () {
-              ProductRepository.instance
-                  .onShare(context, widget.product);
+              ProductRepository.instance.onShare(context, widget.product);
             },
           ),
           IconButton(

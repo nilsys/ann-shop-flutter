@@ -1,18 +1,19 @@
-import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppAction {
-
   factory AppAction() => instance;
+
   AppAction._internal() {
     alreadySpam = false;
   }
+
   static final AppAction instance = AppAction._internal();
 
   bool alreadySpam;
@@ -27,7 +28,6 @@ class AppAction {
 
   void onHandleAction(
       BuildContext context, String action, String value, String message) {
-    final _action = action.trim().toLowerCase();
     final _value = value.trim();
     switch (action) {
       case ActionType.linkToCategory:
@@ -52,30 +52,25 @@ class AppAction {
         linkToViewMore(context, _value);
         break;
       default:
-        debugPrint("Action don't exist: $_action");
         break;
     }
   }
 
   void linkToProductDetail(BuildContext context, String value) {
-    debugPrint('link to product detail: $value');
-    Router.showProductDetail(context, slug: value);
+    Routes.showProductDetail(context, slug: value);
   }
 
   void linkToCategory(BuildContext context, String value, String message) {
-    debugPrint('link to product by category: $value');
     ListProduct.showByCategory(context,
         Category(name: message, filter: ProductFilter(categorySlug: value)));
   }
 
   void linkToTag(BuildContext context, String value, String message) {
-    debugPrint('link to tag: $value');
     ListProduct.showByCategory(context,
         Category(name: message, filter: ProductFilter(tagSlug: value)));
   }
 
   void linkToSearch(BuildContext context, String value, String message) {
-    debugPrint('link to search: $value');
     ListProduct.showBySearch(
       context,
       Category(
@@ -86,18 +81,15 @@ class AppAction {
   }
 
   void linkToWebPage(BuildContext context, String value) {
-    debugPrint('link to web page: $value');
     launch(value);
   }
 
   void linkToWebView(BuildContext context, String value, String message) {
-    debugPrint('link to web page: $value');
-    Navigator.pushNamed(context, '/web-view',
+    Navigator.pushNamed(context, 'page/browser',
         arguments: {'url': value, 'title': message});
   }
 
   void linkToScreen(BuildContext context, String value, String message) {
-    debugPrint('link to scrren: $value');
     var index = -1;
     switch (value) {
       case 'home':
@@ -122,13 +114,12 @@ class AppAction {
     }
     if (index >= 0) {
       Provider.of<NavigationProvider>(context, listen: false).switchTo(index);
-      Navigator.popUntil(context, ModalRoute.withName('/home'));
+      Navigator.popUntil(context, ModalRoute.withName('home'));
     }
   }
 
   void linkToViewMore(BuildContext context, String value) {
-    debugPrint('link to view more: $value');
-    Navigator.pushNamed(context, '/view_more', arguments: value);
+    Navigator.pushNamed(context, 'page/html', arguments: value);
   }
 }
 

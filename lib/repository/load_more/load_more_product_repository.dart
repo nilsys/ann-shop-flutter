@@ -53,8 +53,6 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
 
   @override
   Future<bool> refresh([bool notifyStateChanged = false]) async {
-    // TODO: implement refresh
-    print('refresh Loadmore');
     _hasMore = true;
     pageIndex = 1;
     initData = null;
@@ -80,10 +78,10 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
       _hasMore = list.length >= itemPerPage;
       pageIndex++;
       isSuccess = true;
-    } catch (exception) {
+    } catch (e) {
       isSuccess = false;
       _hasMore = false;
-      print('load more exception: ' + exception.toString());
+      print(e);
     }
     return isSuccess;
   }

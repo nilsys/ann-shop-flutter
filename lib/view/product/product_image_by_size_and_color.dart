@@ -27,7 +27,6 @@ class _ProductImageBySizeAndColorState
   bool isLoading;
 
   loadingAPI() async {
-    print('($currentColor, $currentSize)');
     if (currentSize > 0 || currentColor > 0) {
       setState(() {
         isLoading = true;
@@ -38,7 +37,6 @@ class _ProductImageBySizeAndColorState
         isLoading = false;
         if (Utility.isNullOrEmpty(image) == false) {
           int index = indexOf(image);
-          print('indexOf: $index');
           if (index >= 0) {
             animationToPage(index);
           }

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
@@ -45,8 +46,6 @@ class LoadMoreInAppRepository extends LoadingMoreBase<InApp> {
 
   @override
   Future<bool> refresh([bool notifyStateChanged = false]) async {
-    // TODO: implement refresh
-    print('refresh Loadmore');
     _hasMore = true;
     pageIndex = 1;
     var result = await super.refresh(true);
@@ -71,10 +70,10 @@ class LoadMoreInAppRepository extends LoadingMoreBase<InApp> {
       _hasMore = list.length >= itemPerPage;
       pageIndex++;
       isSuccess = true;
-    } catch (exception) {
+    } catch (e) {
       isSuccess = false;
       _hasMore = false;
-      print('load more exception: ' + exception.toString());
+      print(e);
     }
     return isSuccess;
   }

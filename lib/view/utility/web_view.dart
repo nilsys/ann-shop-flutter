@@ -33,7 +33,7 @@ class _WebViewRouterState extends State<WebViewRouter> {
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () {
-              Navigator.pushNamed(context, '/web-view',
+              Navigator.pushNamed(context, 'page/browser',
                   arguments: widget.queryParameters.toJson());
             },
           ),

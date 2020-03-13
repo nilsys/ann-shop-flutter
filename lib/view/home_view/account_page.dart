@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
@@ -26,7 +27,7 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Cá nhân'),
@@ -52,11 +53,11 @@ class _AccountPageState extends State<AccountPage> {
                   icon: Icons.description, onTap: _viewOrderManagement),
               _buildItemCommon('Sản phẩm đã xem', icon: Icons.remove_red_eye,
                   onTap: () {
-                Navigator.pushNamed(context, '/seen');
+                Navigator.pushNamed(context, 'user/seen');
               }),
               _buildItemCommon('Sản phẩm yêu thích', icon: Icons.favorite,
                   onTap: () {
-                Navigator.pushNamed(context, '/favorite');
+                Navigator.pushNamed(context, 'user/favorite');
               }),
               _buildItemCommon('Thông báo', icon: Icons.notifications,
                   onTap: () {
@@ -64,7 +65,7 @@ class _AccountPageState extends State<AccountPage> {
                     .switchTo(PageName.notification.index);
               }),
               _buildItemCommon('Bài viết', icon: AppIcons.blogger, onTap: () {
-                Navigator.pushNamed(context, '/blog');
+                Navigator.pushNamed(context, 'blog');
               }),
               const Divider(
                 height: 10,
@@ -72,7 +73,7 @@ class _AccountPageState extends State<AccountPage> {
               ),
               _buildItemCommon('Mã khuyến mãi',
                   icon: MaterialCommunityIcons.ticket_percent, onTap: () {
-                Navigator.pushNamed(context, '/promotion');
+                Navigator.pushNamed(context, 'user/promotion');
               }),
               _buildItemCommon(
                 'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
@@ -91,15 +92,15 @@ class _AccountPageState extends State<AccountPage> {
                 thickness: 10,
               ),
               _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {
-                Navigator.pushNamed(context, '/shop-contact');
+                Navigator.pushNamed(context, 'shop/contact');
               }),
               _buildItemCommon('Chính sách bán hàng',
                   icon: Icons.question_answer, onTap: () {
-                Navigator.pushNamed(context, '/shop-policy');
+                Navigator.pushNamed(context, 'shop/policy');
               }),
               _buildItemCommon('Cài đặt copy sản phẩm', icon: Icons.settings,
                   onTap: () {
-                Navigator.pushNamed(context, '/setting');
+                Navigator.pushNamed(context, 'user');
               }),
               Container(
                 height: 45,
@@ -113,7 +114,7 @@ class _AccountPageState extends State<AccountPage> {
                   onTap: () {
                     AccountController.instance.logout();
                     Navigator.pushNamedAndRemoveUntil(
-                        context, '/login', (route) => false);
+                        context, 'user/login', (route) => false);
                     Provider.of<CouponProvider>(context, listen: false)
                         .myCoupons
                         .error = 'logout';
@@ -164,7 +165,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget _buildAccount() {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/update-information', arguments: false);
+        Navigator.pushNamed(context, 'user/information');
       },
       child: Container(
         height: 80,
@@ -217,7 +218,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget _buildNoLogin() {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/login');
+        Navigator.pushNamed(context, 'user/login');
       },
       child: Container(
         height: 80,
@@ -265,7 +266,7 @@ class _AccountPageState extends State<AccountPage> {
 
   void _viewOrderManagement() {
     if (AccountController.instance.isLogin) {
-      Navigator.pushNamed(context, '/order-management');
+      Navigator.pushNamed(context, 'user/order');
     } else {
       AskLogin.show(context,
           message:

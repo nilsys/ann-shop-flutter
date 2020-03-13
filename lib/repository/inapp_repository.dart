@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
@@ -37,7 +38,6 @@ class InAppRepository {
         break;
     }
   }
-
 
   IconData getIconInApp(String category) {
     switch (category) {
@@ -90,15 +90,15 @@ class InAppRepository {
         url +=
             'api/flutter/notifications?kind=$kind&pageNumber=$page&pageSize=$pageSize';
       }
-      final response = await http.get(url,
-          headers: AccountController.instance.header).timeout(Duration(seconds: 5));
-      log(url);
-      log(response.body);
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 5));
+
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
-        if(Utility.isNullOrEmpty(message)){
+        if (Utility.isNullOrEmpty(message)) {
           return [];
-        }else {
+        } else {
           List<InApp> _data = new List();
           message.forEach((v) {
             _data.add(new InApp.fromJson(v));
@@ -107,7 +107,7 @@ class InAppRepository {
         }
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }
@@ -115,21 +115,17 @@ class InAppRepository {
   Future<Map> loadContentViewMore(String slug) async {
     try {
       final url = '${Core.domain}api/flutter/$slug';
-      final response = await http.get(url,
-          headers: AccountController.instance.header).timeout(Duration(seconds: 10));
-      log(url);
-      log(response.body);
+      final response = await http
+          .get(url, headers: AccountController.instance.header)
+          .timeout(Duration(seconds: 10));
       final body = response.body;
+
       if (response.statusCode == HttpStatus.ok) {
         return jsonDecode(body);
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
-  }
-
-  log(object) {
-    print('inapp_repository: ' + object.toString());
   }
 }

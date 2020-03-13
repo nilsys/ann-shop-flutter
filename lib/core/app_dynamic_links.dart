@@ -12,36 +12,28 @@ class AppDynamicLinks {
 
   static final AppDynamicLinks instance = AppDynamicLinks._internal();
 
-  void checkAndInit() {
-    debugPrint('AppDynamicLinks Check and Init');
-  }
+  void checkAndInit() {}
 
   Future<void> _initDynamicLinks(BuildContext context) async {
-    final data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
+    final data = await FirebaseDynamicLinks.instance.getInitialLink();
     final deepLink = data?.link;
 
     if (deepLink != null) {
       processDynamicLinks(context, deepLink, true);
     }
 
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (dynamicLink) async {
+    FirebaseDynamicLinks.instance.onLink(onSuccess: (dynamicLink) async {
       final deepLink = dynamicLink?.link;
 
       if (deepLink != null) {
         processDynamicLinks(context, deepLink, false);
       }
     }, onError: (e) async {
-      debugPrint('onLinkError: ${e.message}');
+      print(e);
     });
   }
 
   void processDynamicLinks(BuildContext context, Uri deepLink, bool init) {
-    debugPrint('onHandleDeepLink ${deepLink.toString()}');
-    debugPrint('queryParameters ${deepLink.queryParameters}');
-
-    // todo
     if (deepLink.queryParameters != null) {
       final type = deepLink.queryParameters['action'] ?? '';
       final value = deepLink.queryParameters['actionValue'] ?? '';

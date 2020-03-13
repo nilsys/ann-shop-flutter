@@ -1,7 +1,8 @@
 import 'dart:io';
+
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/ui/utility/search_input.dart';
 import 'package:ann_shop_flutter/view/search/search_intro.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,7 @@ class SearchPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon:
-              Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
+          icon: Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
           onPressed: () {
             if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
               FocusScope.of(context).requestFocus(FocusNode());
@@ -33,7 +33,7 @@ class SearchPage extends StatelessWidget {
           IconButton(
             icon: Icon(AppIcons.qrcode),
             onPressed: () {
-              Router.scanBarCode(context);
+              Routes.scanBarCode(context);
             },
             padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
           )

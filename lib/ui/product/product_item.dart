@@ -1,6 +1,6 @@
-import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class ProductItem extends StatelessWidget {
       padding: EdgeInsets.only(left: 15),
       child: InkWell(
         onTap: () {
-          Router.showProductDetail(context, product:product);
+          Routes.showProductDetail(context, product: product);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

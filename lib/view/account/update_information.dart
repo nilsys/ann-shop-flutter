@@ -51,13 +51,12 @@ class _UpdateInformationState extends State<UpdateInformation> {
         TextEditingController(text: Utility.fixFormatDate(account.birthDay));
 
     if (widget.isRegister) {
-      final String _cityDefault = AccountRepository.instance.cityOfVietnam.elementAt(0);
+      final String _cityDefault =
+          AccountRepository.instance.cityOfVietnam.elementAt(0);
       _controllerCity = TextEditingController(text: _cityDefault);
-    }
-    else {
+    } else {
       _controllerCity = TextEditingController(text: account.city);
     }
-
 
     _nameFocus = FocusNode();
     _birthDateFocus = FocusNode();
@@ -371,9 +370,8 @@ class _UpdateInformationState extends State<UpdateInformation> {
             Provider.of<NavigationProvider>(context, listen: false).index =
                 PageName.home.index;
             Navigator.pushNamedAndRemoveUntil(
-                context, '/home', (Route<dynamic> route) => false);
-          }
-          else {
+                context, 'home', (Route<dynamic> route) => false);
+          } else {
             Navigator.pop(context);
           }
           AppSnackBar.showFlushbar(context,
@@ -383,7 +381,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
         }
       } catch (e) {
-        debugPrint('Update information: $e');
+        print(e);
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }

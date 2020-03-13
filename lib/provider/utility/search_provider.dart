@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:ann_shop_flutter/core/router.dart';
+
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
@@ -9,13 +9,13 @@ import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:ann_shop_flutter/repository/list_product_repository.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 
 class SearchProvider with ChangeNotifier {
-
   SearchProvider() {
     controller = TextEditingController();
     loadHistory();
@@ -28,17 +28,18 @@ class SearchProvider with ChangeNotifier {
 
   List<String> get history => _history;
   static final ResponseProvider<List<Category>> _hotKeys = ResponseProvider();
-  ResponseProvider<List<Category>> get hotKeys => _hotKeys;
 
+  ResponseProvider<List<Category>> get hotKeys => _hotKeys;
 
   String get text => controller.text;
 
-  void checkLoadHotKey(){
-    if(_hotKeys.isLoading == false && _hotKeys.isCompleted == false){
+  void checkLoadHotKey() {
+    if (_hotKeys.isLoading == false && _hotKeys.isCompleted == false) {
       loadHotKey();
     }
   }
-  Future loadHotKey() async{
+
+  Future loadHotKey() async {
     try {
       _hotKeys.loading = 'try load hotkeys';
       notifyListeners();
@@ -69,8 +70,9 @@ class SearchProvider with ChangeNotifier {
   Future onSearch(context, value) async {
     value = value.trim();
     if (value.isNotEmpty) {
-      if(AccountController.instance.canSearchProduct == false){
-        AppSnackBar.showFlushbar(context, 'Bạn cần đăng nhập để tiếp tục tìm kiếm sản phẩm');
+      if (AccountController.instance.canSearchProduct == false) {
+        AppSnackBar.showFlushbar(
+            context, 'Bạn cần đăng nhập để tiếp tục tìm kiếm sản phẩm');
         return;
       }
 
@@ -79,7 +81,7 @@ class SearchProvider with ChangeNotifier {
         ListProduct.showBySearch(context,
             Category(name: value, filter: ProductFilter(productSearch: value)));
       } else {
-        showLoading(context,message: 'Tìm kiếm sản phẩm...');
+        showLoading(context, message: 'Tìm kiếm sản phẩm...');
         final data = await ListProductRepository.instance
             .loadBySearch(text, filter: AppFilter());
         hideLoading(context);
@@ -87,7 +89,7 @@ class SearchProvider with ChangeNotifier {
           AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm.');
         } else {
           if (data.length == 1) {
-            Router.showProductDetail(context, product: data[0]);
+            Routes.showProductDetail(context, product: data[0]);
           } else {
             ListProduct.showBySearch(
                 context,
@@ -114,7 +116,7 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addHistory(String text ) {
+  void addHistory(String text) {
     if (text.isNotEmpty) {
       if (_history.contains(text) == false) {
         _history.insert(0, text);
@@ -123,7 +125,6 @@ class SearchProvider with ChangeNotifier {
         _history.insert(0, text);
       }
       StorageManager.setObject(_keyHistory, jsonEncode(history));
-      debugPrint('add History: $text');
     }
   }
 

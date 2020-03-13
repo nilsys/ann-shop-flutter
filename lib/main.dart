@@ -1,5 +1,4 @@
 import 'package:ann_shop_flutter/core/app_analytics.dart';
-import 'package:ann_shop_flutter/core/router.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
@@ -14,6 +13,7 @@ import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/spam_cover_provider.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/theme/app_theme.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +28,8 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-
   static final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+
   static BuildContext get context => navKey.currentState.overlay.context;
 
   @override
@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
         title: 'ANN App',
         theme: primaryTheme,
         initialRoute: '/',
-        onGenerateRoute: Router.generateRoute,
+        onGenerateRoute: Routes.generateRoute,
         navigatorObservers: [observer],
         locale: Locale('vi'),
       ),
@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
 
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(
       analytics: AppAnalytics.instance.firebase,
-      nameExtractor: Router.getNameExtractor);
+      nameExtractor: Routes.getNameExtractor);
 
   @override
   void initState() {

@@ -21,26 +21,26 @@ class AccountController {
   bool get isLogin => account != null && token != null;
 
   bool get canViewProduct {
-    if(isLogin){
+    if (isLogin) {
       return true;
     }
-    if(noLoginInfo.canViewProduct){
+    if (noLoginInfo.canViewProduct) {
       noLoginInfo.viewProduct++;
-      print('noLoginInfo.viewProduct: ${noLoginInfo.viewProduct}');
-      StorageManager.setObject(_keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
+      StorageManager.setObject(
+          _keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
       return true;
     }
     return false;
   }
 
   bool get canSearchProduct {
-    if(isLogin){
+    if (isLogin) {
       return true;
     }
-    if(noLoginInfo.canSearchProduct){
+    if (noLoginInfo.canSearchProduct) {
       noLoginInfo.searchProduct++;
-      print('noLoginInfo.searchProduct: ${noLoginInfo.searchProduct}');
-      StorageManager.setObject(_keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
+      StorageManager.setObject(
+          _keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
       return true;
     }
     return false;
@@ -69,8 +69,7 @@ class AccountController {
 
   loginLater() async {
     var response = await StorageManager.getObjectByKey(_keyNoLoginInfo);
-    print('Login later');
-    print(response);
+
     try {
       noLoginInfo = NoLoginInfo.fromJson(jsonDecode(response));
     } catch (e) {}
@@ -95,13 +94,8 @@ class AccountController {
       if (response != null) {
         token = AccountToken.fromJson(jsonDecode(response));
       }
-      if (isLogin) {
-        print('Load account form locale');
-        print(account.toJson());
-        print(token.toJson());
-      }
     } catch (e) {
-      print('account_controller: ' + e.toString());
+      print(e);
     }
   }
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ann_shop_flutter/shared/components/alert_dialog/alert_dialog_new_version.dart';
-import 'package:ann_shop_flutter/shared/models/common/app_version_model.dart';
+import 'package:ann_shop_flutter/src/models/common/app_version_model.dart';
+import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_dialog_new_version.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +15,7 @@ const int itemPerPage = 20;
 class Core {
   static final Core _instance = Core._internal();
   static const appName = 'ANN';
+  static const appFullName = 'Kho Hàng Sỉ ANN';
   static const annLogoWithLink =
       'https://ann.com.vn/wp-content/uploads/ANN-logo-4.png';
   static const annLogoOrange = 'https://ann.com.vn/logo/ann-logo-2-400x150.png';

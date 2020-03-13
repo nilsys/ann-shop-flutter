@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/repository/blog_repository.dart';
@@ -44,8 +45,6 @@ class LoadMoreBlogRepository extends LoadingMoreBase<Cover> {
 
   @override
   Future<bool> refresh([bool notifyStateChanged = false]) async {
-    // TODO: implement refresh
-    print('refresh Loadmore');
     _hasMore = true;
     pageIndex = 1;
     var result = await super.refresh(true);
@@ -70,10 +69,10 @@ class LoadMoreBlogRepository extends LoadingMoreBase<Cover> {
       _hasMore = list.length >= itemPerPage;
       pageIndex++;
       isSuccess = true;
-    } catch (exception) {
+    } catch (e) {
       isSuccess = false;
       _hasMore = false;
-      print('load more exception: ' + exception.toString());
+      print(e);
     }
     return isSuccess;
   }

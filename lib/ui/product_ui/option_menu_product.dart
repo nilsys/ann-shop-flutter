@@ -77,21 +77,22 @@ class OptionMenuProduct extends StatelessWidget {
   _onClickItem(context, value) {
     switch (value) {
       case MenuOptions.home:
-        Provider.of<NavigationProvider>(context, listen: false).switchTo(PageName.home.index);
-        Navigator.popUntil(context, ModalRoute.withName('/home'));
+        Provider.of<NavigationProvider>(context, listen: false)
+            .switchTo(PageName.home.index);
+        Navigator.popUntil(context, ModalRoute.withName('home'));
         break;
       case MenuOptions.category:
         Provider.of<NavigationProvider>(context, listen: false)
             .switchTo(PageName.category.index);
-        Navigator.popUntil(context, ModalRoute.withName('/home'));
+        Navigator.popUntil(context, ModalRoute.withName('home'));
         break;
       case MenuOptions.account:
         Provider.of<NavigationProvider>(context, listen: false)
             .switchTo(PageName.account.index);
-        Navigator.popUntil(context, ModalRoute.withName('/home'));
+        Navigator.popUntil(context, ModalRoute.withName('home'));
         break;
       case MenuOptions.favorite:
-        Navigator.pushNamed(context, '/favorite');
+        Navigator.pushNamed(context, 'user/favorite');
         break;
       case MenuOptions.share:
         if (onShare != null) onShare();

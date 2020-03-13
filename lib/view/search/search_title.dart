@@ -10,7 +10,7 @@ class SearchTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/search');
+        Navigator.pushNamed(context, 'search');
       },
       child: Container(
         height: 35,
