@@ -11,6 +11,7 @@ import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/src/services/permission_services.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -72,7 +73,7 @@ class ProductRepository {
   Color getBadgeColor(badge) {
     switch (badge) {
       case 1:
-        return Colors.orange;
+        return ANNColor.orange;
         break;
       case 2:
         return Colors.grey[700];

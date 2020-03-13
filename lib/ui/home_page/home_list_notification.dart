@@ -1,16 +1,11 @@
 import 'dart:math';
 
-import 'package:ann_shop_flutter/core/app_action.dart';
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
-import 'package:ann_shop_flutter/ui/utility/app_image.dart';
-import 'package:ann_shop_flutter/ui/utility/block_shadow.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
+import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,13 +28,13 @@ class _HomeListNotificationState extends State<HomeListNotification> {
       List<Widget> children = [
         Container(
           height: 10,
-          color: Theme.of(context).dividerColor,
+          color: ANNColor.dividerColor,
         ),
       ];
 
       for (int i = 0; i < length; i++) {
         children.add(BlogItem(data[i]));
-        children.add(Container(height: 1,color: Theme.of(context).dividerColor,));
+        children.add(Container(height: 1,color: ANNColor.dividerColor,));
       }
       children.add(BottomViewMore(
         onPressed: () {

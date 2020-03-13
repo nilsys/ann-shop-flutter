@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class HomeCategory extends StatelessWidget {
       return Container();
     } else {
       return Container(
+        color: ANNColor.blockColor,
         child: Column(
           children: <Widget>[
             TitleViewMore(

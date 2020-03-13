@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,14 +40,14 @@ class FavoriteButton extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.all(Radius.circular(7)),
-                        border: Border.all(color: Colors.white, width: 1),
+                        border: Border.all(color: ANNColor.white, width: 1),
                       ),
                       child: Text(
                         provider.products.length < 10
                             ? provider.products.length.toString()
                             : '9+',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white, fontSize: 10),
+                        style: TextStyle(color: ANNColor.white, fontSize: 10),
                       ),
                     ),
                   )

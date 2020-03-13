@@ -6,6 +6,7 @@ import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/src/services/permission_services.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -98,7 +99,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
         FlatButton(
           child: Text(
             'Bỏ chọn',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: ANNColor.white),
           ),
           onPressed: () => setState(() => imagesSelected = []),
         )
@@ -133,7 +134,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
   // Create Bottom App Bar
   BottomAppBar _buildBottomAppBar(BuildContext context) {
     return new BottomAppBar(
-        color: Colors.white,
+        color: ANNColor.white,
         child: Container(
           height: 50,
           padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -159,7 +160,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
               Container(
                 width: 1,
                 height: 40,
-                color: Theme.of(context).dividerColor,
+                color: ANNColor.dividerColor,
               ),
               Expanded(
                 flex: 1,
@@ -213,13 +214,13 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
                 border: Border.all(
-                  color: Colors.white,
+                  color: ANNColor.white,
                   width: 1,
                   style: BorderStyle.solid,
                 ),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.check, size: 18, color: Colors.white),
+              child: Icon(Icons.check, size: 18, color: ANNColor.white),
             ))
       ],
     );
@@ -227,7 +228,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
     return Container(
       margin: const EdgeInsets.only(top: 5),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ANNColor.white,
       ),
       child: isSelected ? imageSelectedWidget : imageWidget,
     );

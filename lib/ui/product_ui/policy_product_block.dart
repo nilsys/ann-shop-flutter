@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 
 class PolicyProductBlock extends StatelessWidget {
@@ -11,7 +11,7 @@ class PolicyProductBlock extends StatelessWidget {
       delegate: SliverChildListDelegate([
         Container(
           height: 10,
-          color: Theme.of(context).dividerColor,
+          color: ANNColor.dividerColor,
         ),
         Container(
           padding: EdgeInsets.all(defaultPadding),

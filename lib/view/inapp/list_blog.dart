@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/repository/load_more/load_more_blog_repository.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +74,7 @@ class ItemBuilder {
   static Widget itemBuilderList(BuildContext context, Cover item, int index) {
     return Column(children: [
       BlogItem(item),
-      Container(height: 6, color: Theme.of(context).dividerColor),
+      Container(height: 6, color: ANNColor.dividerColor),
     ]);
   }
 }

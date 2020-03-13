@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/repository/utility_repository.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +99,7 @@ class _ShopContactState extends State<ShopContact> {
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
       decoration: BoxDecoration(
         border:
-            Border(top: BorderSide(width: 1, color: Theme.of(context).dividerColor)),
+            Border(top: BorderSide(width: 1, color: ANNColor.dividerColor)),
       ),
       child: ListTile(
         leading: Icon(icon, color: Theme.of(context).primaryColor),
@@ -154,7 +155,7 @@ class _ShopContactState extends State<ShopContact> {
         builder: (BuildContext bc) {
           return Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: ANNColor.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15), topRight: Radius.circular(15)),
             ),
@@ -183,7 +184,7 @@ class _ShopContactState extends State<ShopContact> {
                                     BorderRadius.all(Radius.circular(15))),
                             child: Icon(
                               Icons.phone,
-                              color: Colors.white,
+                              color: ANNColor.white,
                               size: 30,
                             )),
                         SizedBox(

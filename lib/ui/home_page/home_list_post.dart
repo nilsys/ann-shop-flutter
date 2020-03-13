@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
 import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,13 +27,13 @@ class _HomeListPostState extends State<HomeListPost> {
       List<Widget> children = [
         Container(
           height: 10,
-          color: Theme.of(context).dividerColor,
+          color: ANNColor.dividerColor,
         ),
       ];
 
       for (int i = 0; i < length; i++) {
         children.add(BlogItem(data[i]));
-        children.add(Container(height: 1,color: Theme.of(context).dividerColor,));
+        children.add(Container(height: 1,color: ANNColor.dividerColor,));
       }
       children.add(BottomViewMore(
         onPressed: () {

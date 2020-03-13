@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ class _InAppCategoryUIState extends State<InAppCategoryUI> {
 
     bool isChoose = name == provider.currentCategory ||
         (name == 'all' && Utility.isNullOrEmpty(provider.currentCategory));
-    Color chooseColor = Colors.white;
+    Color chooseColor = ANNColor.white;
     Color unChooseColor = Colors.grey[50];
     return Container(
       height: 50,

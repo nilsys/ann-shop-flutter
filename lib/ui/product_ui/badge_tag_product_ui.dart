@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 
 class BadgeTagProductUI extends StatelessWidget {
@@ -16,7 +17,7 @@ class BadgeTagProductUI extends StatelessWidget {
       ),
       child: Text(
         ProductRepository.instance.getBadgeName(badge),
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: ANNColor.white),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -70,7 +71,7 @@ class _ProgressDialog {
                           width: 30,
                           height: 30,
                           child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
+                            backgroundColor: ANNColor.white,
                             strokeWidth: 2,
                             valueColor: AlwaysStoppedAnimation(
                                 Theme.of(context).primaryColor),
@@ -87,7 +88,7 @@ class _ProgressDialog {
                             _dialogMessage,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: ANNColor.white,
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),

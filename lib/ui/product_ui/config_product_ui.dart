@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,9 +16,9 @@ class ConfigProductUI extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 15),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ANNColor.white,
         border: Border(
-          bottom: BorderSide(width: 2, color: Theme.of(context).dividerColor),
+          bottom: BorderSide(width: 2, color: ANNColor.dividerColor),
         ),
       ),
       child: Row(
@@ -53,12 +54,12 @@ class ConfigProductUI extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: highlight ? Theme.of(context).primaryColor : Colors.white,
+          color: highlight ? Theme.of(context).primaryColor : ANNColor.white,
         ),
         alignment: Alignment.center,
         child: Icon(
           icon,
-          color: highlight ? Colors.white : Colors.grey,
+          color: highlight ? ANNColor.white : Colors.grey,
         ),
       ),
     );
@@ -72,9 +73,9 @@ class ConfigProductUI extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(left: 5),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ANNColor.white,
           border: Border(
-            left: BorderSide(width: 2, color: Theme.of(context).dividerColor),
+            left: BorderSide(width: 2, color: ANNColor.dividerColor),
           ),
         ),
         child: Row(

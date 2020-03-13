@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/request_login.dart';
@@ -44,11 +45,11 @@ class _FavoriteViewState extends State<FavoriteView> {
               ? null
               : [
                   IconButton(
-                    icon: Icon(Icons.delete, color: Colors.white),
+                    icon: Icon(Icons.delete, color: ANNColor.white),
                     onPressed: _onRemoveAll,
                   ),
                   IconButton(
-                    icon: Icon(Icons.share, color: Colors.white),
+                    icon: Icon(Icons.share, color: ANNColor.white),
                     onPressed: _onShare,
                   ),
                 ],
@@ -69,7 +70,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                                   ProductFavoriteItem(data[index]),
                                   Container(
                                     height: 1,
-                                    color: Theme.of(context).dividerColor,
+                                    color: ANNColor.dividerColor,
                                   )
                                 ],
                               );
@@ -95,7 +96,7 @@ class _FavoriteViewState extends State<FavoriteView> {
             RaisedButton(
               child: Text(
                 'Thêm sản phẩm',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: ANNColor.white),
               ),
               onPressed: () {
                 Provider.of<NavigationProvider>(context, listen: false)
@@ -133,7 +134,7 @@ class _FavoriteViewState extends State<FavoriteView> {
       builder: (BuildContext bc) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: ANNColor.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15), topRight: Radius.circular(15)),
           ),
@@ -163,7 +164,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                     style: Theme.of(context)
                         .textTheme
                         .button
-                        .merge(TextStyle(color: Colors.white)),
+                        .merge(TextStyle(color: ANNColor.white)),
                   ),
                   onPressed: () {
                     Navigator.pop(context);

@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class HomeProductSlide extends StatelessWidget {
     if (Utility.isNullOrEmpty(data)) {
       return SliverFillRemaining(
         child: Container(
-          color: Colors.white,
+          color: ANNColor.white,
           child: Center(
             child: Indicator(),
           ),

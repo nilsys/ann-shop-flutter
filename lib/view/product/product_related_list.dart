@@ -2,7 +2,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/repository/load_more/load_more_product_relate_repository.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator_horizontal.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +49,7 @@ class _ProductRelatedListState extends State<ProductRelatedList> {
         decoration: BoxDecoration(
           border: new Border(
             top: BorderSide(
-              color: Theme.of(context).dividerColor,
+              color: ANNColor.dividerColor,
               width: 10,
               style: BorderStyle.solid,
             ),

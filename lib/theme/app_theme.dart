@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 
 final TextStyle _title = TextStyle(
@@ -17,15 +18,15 @@ final ThemeData primaryTheme = ThemeData(
     brightness: Brightness.light,
 //        color: Colors.white,
     actionsIconTheme: IconThemeData(
-      color: Colors.white,
+      color: ANNColor.white,
     ),
     iconTheme: IconThemeData(
-      color: Colors.white,
+      color: ANNColor.white,
     ),
     textTheme: TextTheme(
       title: _title.merge(
         TextStyle(
-          color: Colors.white,
+          color: ANNColor.white,
         ),
       ),
     ),

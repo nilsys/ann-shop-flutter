@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
@@ -39,7 +40,7 @@ class SeenBlock extends StatelessWidget {
 //            color: Colors.white,
             border: new Border(
               top: BorderSide(
-                color: Theme.of(context).dividerColor,
+                color: ANNColor.dividerColor,
                 width: 10,
                 style: BorderStyle.solid,
               ),

@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,7 @@ class _InfoProductState extends State<InfoProduct> {
 
     /// 0 Title
     List<Widget> children = [
-      Container(height: 10, color: Theme.of(context).dividerColor),
+      Container(height: 10, color: ANNColor.dividerColor),
       _buildTitle('Thông tin chi tiết'),
       Row(
         children: <Widget>[

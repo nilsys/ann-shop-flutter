@@ -7,6 +7,7 @@ import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/button/border_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ann-logo.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
@@ -89,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
                 onPressed: _validateInput,
                 child: Text(
                   'Tiếp tục',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: ANNColor.white),
                 ),
               ),
               SizedBox(height: Platform.isIOS ? 30 : 1),

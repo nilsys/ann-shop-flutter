@@ -5,6 +5,7 @@ import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/app_onesignal.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/view/home_view/account_page.dart';
 import 'package:ann_shop_flutter/view/home_view/category_page.dart';
@@ -97,7 +98,7 @@ class _HomeViewState extends State<HomeView>
       color: const Color(0xFF000000),
       child: BottomNavigationBar(
         showUnselectedLabels: bigScreen,
-        backgroundColor: Colors.white,
+        backgroundColor: ANNColor.white,
         selectedLabelStyle: textStyle,
         unselectedLabelStyle: textStyle,
         type: btNavBarType,

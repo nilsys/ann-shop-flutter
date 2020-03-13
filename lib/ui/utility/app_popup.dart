@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 
 class AppPopup {
@@ -45,10 +46,10 @@ class AppPopup {
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ANNColor.white,
           border: Border(
               bottom: BorderSide(
-            color: Theme.of(context).dividerColor,
+            color: ANNColor.dividerColor,
             width: 1,
             style: BorderStyle.solid,
           )),
@@ -165,7 +166,7 @@ class CenterButtonPopup extends StatelessWidget {
           },
           child: Text(
             highlight.text,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: ANNColor.white),
           ),
         ),
       );

@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 
 class BorderButton extends StatelessWidget {
@@ -11,10 +12,10 @@ class BorderButton extends StatelessWidget {
     return Container(
       height: 45,
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: ANNColor.white,
           border: new Border.all(
             color: onPressed == null
-                ? Colors.grey
+                ? ANNColor.grey
                 : Theme.of(context).primaryColor,
             width: 1.5,
             style: BorderStyle.solid,

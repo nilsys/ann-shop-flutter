@@ -5,6 +5,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/src/services/permission_services.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
@@ -47,12 +48,12 @@ class _ButtonDownloadState extends State<ButtonDownload> {
                   ? Icon(
                       Icons.done,
                       size: 20,
-                      color: Colors.white,
+                      color: ANNColor.white,
                     )
                   : Icon(
                       Icons.file_download,
                       size: 20,
-                      color: Colors.white,
+                      color: ANNColor.white,
                     ),
           onPressed: (Utility.isNullOrEmpty(widget.imageName) == false &&
                   loading == loadState.none)

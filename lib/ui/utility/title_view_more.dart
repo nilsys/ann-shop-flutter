@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 
 class TitleViewMore extends StatelessWidget {
@@ -48,6 +49,7 @@ class TitleViewMore extends StatelessWidget {
       return Container(
         height: 60,
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+        color: ANNColor.titleBlockColor,
         alignment: Alignment.centerLeft,
         child: Text(
           title,

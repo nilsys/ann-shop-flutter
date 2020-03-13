@@ -6,6 +6,7 @@ import 'package:ann_shop_flutter/provider/product/category_product_provider.dart
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/src/models/common/contanct_type.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
@@ -121,7 +122,7 @@ class _HomePageState extends State<HomePage>
   SliverAppBar _buildAppBar() {
     return new SliverAppBar(
       pinned: true,
-      backgroundColor: Colors.orange,
+      backgroundColor: ANNColor.appBarColor,
       title: Padding(
           padding: EdgeInsets.only(left: defaultPadding),
           child: Row(
@@ -140,7 +141,7 @@ class _HomePageState extends State<HomePage>
       titleSpacing: 0,
       actions: <Widget>[
         FavoriteButton(
-          color: Colors.white,
+          color: ANNColor.favoriteColor,
         ),
       ],
     );
@@ -152,7 +153,7 @@ class _HomePageState extends State<HomePage>
       delegate: SliverChildListDelegate([
         Container(
           height: 10,
-          color: Theme.of(context).dividerColor,
+          color: ANNColor.dividerColor,
         ),
         TitleViewMore(title: 'Kênh tư vấn & đặt hàng'),
         _buildCardContact(
@@ -208,7 +209,7 @@ class _HomePageState extends State<HomePage>
     if (type == ContactType.facebookMessenger) {
       icon = FaIcon(
         FontAwesomeIcons.facebookMessenger,
-        color: Colors.white,
+        color: ANNColor.white,
       );
       url = 'http://m.me/$contact';
     } else if (type == ContactType.zalo) {
@@ -221,7 +222,7 @@ class _HomePageState extends State<HomePage>
 
     title = new Text(text,
         style: TextStyle(
-            color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
+            color: ANNColor.white, fontSize: 17, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center);
 
     if (icon == null) {
@@ -256,19 +257,22 @@ class _HomePageState extends State<HomePage>
         delegate: SliverChildListDelegate([
       Container(
         height: 10,
-        color: Theme.of(context).dividerColor,
+        color: ANNColor.dividerColor,
       ),
       TitleViewMore(title: 'Địa chỉ'),
       Container(
         child: Center(
           child: Card(
-            color: null,
+            color: ANNColor.cardColor,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            borderOnForeground: false,
+            margin: EdgeInsets.all(0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const ListTile(
                   leading: FaIcon(FontAwesomeIcons.mapMarkedAlt,
-                      color: Colors.orange),
+                      color: ANNColor.orange),
                   title: const Text(
                       '68 Đường C12, Phường 13, Quận Tân Bình, TP.HCM'),
                   subtitle: const Text('8h30 - 20h30 (Chủ Nhật 8h30 - 18h30)'),

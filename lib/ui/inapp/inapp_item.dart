@@ -3,6 +3,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class InAppItem extends StatelessWidget {
         }
       },
       child: Container(
-        color: isNew ? Colors.lightBlue[50] : Colors.white,
+        color: isNew ? Colors.lightBlue[50] : ANNColor.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -57,7 +58,7 @@ class InAppItem extends StatelessWidget {
                             InAppRepository.instance.getColorInApp(item.kind)),
                     child: Icon(
                       InAppRepository.instance.getIconInApp(item.kind),
-                      color: Colors.white,
+                      color: ANNColor.white,
                     ),
                   ),
                   Expanded(
@@ -122,7 +123,7 @@ class InAppItem extends StatelessWidget {
             ),
             Container(
               height: 1,
-              color: Theme.of(context).dividerColor,
+              color: ANNColor.dividerColor,
             ),
           ],
         ),

@@ -9,6 +9,7 @@ import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/button_gradient.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
@@ -99,7 +100,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               floating: true,
               pinned: false,
               iconTheme: IconThemeData(color: AppStyles.dartIcon),
-              backgroundColor: Colors.white,
+              backgroundColor: ANNColor.white,
               actions: <Widget>[
                 IconButton(
                   icon: Icon(AppIcons.search,
@@ -201,8 +202,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
               child: ProductBanner(
                   Provider.of<CoverProvider>(context).headerProduct.data,
                   border: Border(
-                      top: BorderSide(
-                          color: Theme.of(context).dividerColor, width: 10))),
+                      top:
+                          BorderSide(color: ANNColor.dividerColor, width: 10))),
             ),
             InfoProduct(detail),
             _buildTitle('Thông tin sản phẩm'),
@@ -219,8 +220,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               child: ProductBanner(
                 Provider.of<CoverProvider>(context).footerProduct.data,
                 border: Border(
-                    top: BorderSide(
-                        color: Theme.of(context).dividerColor, width: 10)),
+                    top: BorderSide(color: ANNColor.dividerColor, width: 10)),
               ),
             ),
           ],
@@ -228,9 +228,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
       );
     } else if (data.isLoading) {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: ANNColor.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: ANNColor.white,
           elevation: 0,
           iconTheme: IconThemeData(color: AppStyles.dartIcon),
         ),
@@ -238,9 +238,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
       );
     } else {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: ANNColor.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: ANNColor.white,
           elevation: 0,
           iconTheme: IconThemeData(color: AppStyles.dartIcon),
         ),
@@ -258,7 +258,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
       delegate: SliverChildListDelegate([
         Container(
           height: 10,
-          color: Theme.of(context).dividerColor,
+          color: ANNColor.dividerColor,
         ),
         Container(
           padding: EdgeInsets.all(defaultPadding),
@@ -344,7 +344,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeIn);
             },
-            child: const Icon(Icons.arrow_upward, color: Colors.white),
+            child: const Icon(Icons.arrow_upward, color: ANNColor.white),
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
@@ -359,7 +359,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             },
             child: const Icon(
               Icons.unfold_less,
-              color: Colors.white,
+              color: ANNColor.white,
             ),
           ),
         ],
@@ -393,7 +393,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [
-                  Colors.white,
+                  ANNColor.white,
                   Colors.white.withAlpha(180),
                   Colors.white.withAlpha(0),
                 ],
@@ -487,7 +487,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     final favorite = Provider.of<FavoriteProvider>(context)
         .containsInFavorite(detail.productID);
     return BottomAppBar(
-      color: Colors.white,
+      color: ANNColor.white,
       child: Container(
         child: Column(
           mainAxisSize: MainAxisSize.min,
