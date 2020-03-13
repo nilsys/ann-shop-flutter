@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 
 class SearchTitle extends StatelessWidget {
@@ -16,7 +17,7 @@ class SearchTitle extends StatelessWidget {
         height: 35,
         padding: EdgeInsets.symmetric(horizontal: 15),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ANNColor.searchColor,
           borderRadius: BorderRadius.all(
             Radius.circular(5),
           ),
@@ -26,7 +27,7 @@ class SearchTitle extends StatelessWidget {
             Icon(
               AppIcons.search,
               size: 20,
-              color: Colors.grey,
+              color: ANNColor.iconSearchColor,
             ),
             SizedBox(
               width: 15,

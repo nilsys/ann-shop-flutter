@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
@@ -26,14 +27,14 @@ class _CategoryPageState extends State<CategoryPage> {
             slivers: <Widget>[
               SliverAppBar(
                 pinned: true,
-                backgroundColor: Colors.orange,
+                backgroundColor: ANNColor.orange,
                 title: Padding(
                     padding: EdgeInsets.only(left: defaultPadding),
                     child: SearchTitle('Bạn tìm gì hôm nay?')),
                 titleSpacing: 0,
                 actions: <Widget>[
                   FavoriteButton(
-                    color: Colors.white,
+                    color: ANNColor.white,
                   ),
                 ],
               ),

@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,7 @@ class AppSnackBar {
         child: Text(
           message,
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: ANNColor.white),
         ),
       ),
       duration: duration,
@@ -46,14 +47,14 @@ class AppSnackBar {
       animationDuration: const Duration(milliseconds: 500),
       messageText: Container(
         decoration: BoxDecoration(
-            color: Colors.orangeAccent,
+            color: ANNColor.orange,
             border:
-                Border(bottom: BorderSide(color: Colors.white, width: 1.5))),
+                Border(bottom: BorderSide(color: ANNColor.white, width: 1.5))),
         padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
         alignment: AlignmentDirectional.center,
         child: Text(
           message,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: ANNColor.white),
         ),
       ),
       backgroundColor: Colors.transparent,

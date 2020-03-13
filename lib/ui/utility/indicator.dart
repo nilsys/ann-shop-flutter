@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class Indicator extends StatelessWidget {
           width: radius * 2,
           height: radius * 2,
           child: CircularProgressIndicator(
-            backgroundColor: Colors.white,
+            backgroundColor: ANNColor.white,
             strokeWidth: 2,
             valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
           ),

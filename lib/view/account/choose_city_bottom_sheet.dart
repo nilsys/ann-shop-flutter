@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/repository/account_repository.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class ChooseCityBottomSheet extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 50),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ANNColor.white,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15), topRight: Radius.circular(15)),
       ),

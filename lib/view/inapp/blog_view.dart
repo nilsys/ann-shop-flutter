@@ -2,6 +2,7 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
 import 'package:ann_shop_flutter/provider/utility/blog_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/request_login.dart';
 import 'package:ann_shop_flutter/view/inapp/list_blog.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
@@ -58,7 +59,7 @@ class _BlogViewState extends State<BlogView> {
         floating: true,
         delegate: CommonSliverPersistentHeaderDelegate(
             Container(
-              color: Colors.white,
+              color: ANNColor.white,
               padding: EdgeInsets.only(top: 20, bottom: 5),
               width: double.infinity,
               child: ListView.separated(

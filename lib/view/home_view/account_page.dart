@@ -5,6 +5,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
@@ -32,7 +33,7 @@ class _AccountPageState extends State<AccountPage> {
         centerTitle: true,
         title: const Text('Cá nhân'),
         actions: <Widget>[
-          FavoriteButton(color: Colors.white),
+          FavoriteButton(color: ANNColor.white),
         ],
       ),
       body: CustomScrollView(
@@ -107,7 +108,7 @@ class _AccountPageState extends State<AccountPage> {
                 margin: EdgeInsets.symmetric(
                     horizontal: defaultPadding, vertical: defaultPadding),
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: ANNColor.white,
                     border: Border.all(
                         color: Theme.of(context).primaryColor, width: 1)),
                 child: InkWell(
@@ -146,7 +147,7 @@ class _AccountPageState extends State<AccountPage> {
       {IconData icon, GestureTapCallback onTap}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 1),
-      color: Colors.white,
+      color: ANNColor.white,
       child: ListTile(
         onTap: onTap,
         leading: icon != null
@@ -157,7 +158,7 @@ class _AccountPageState extends State<AccountPage> {
             : null,
         title: Text(title),
         trailing: Icon(Icons.keyboard_arrow_right,
-            color: Theme.of(context).dividerColor),
+            color: ANNColor.dividerColor),
       ),
     );
   }
@@ -169,7 +170,7 @@ class _AccountPageState extends State<AccountPage> {
       },
       child: Container(
         height: 80,
-        color: Colors.white,
+        color: ANNColor.white,
         padding: const EdgeInsets.all(15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -222,7 +223,7 @@ class _AccountPageState extends State<AccountPage> {
       },
       child: Container(
         height: 80,
-        color: Colors.white,
+        color: ANNColor.white,
         padding: const EdgeInsets.all(15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

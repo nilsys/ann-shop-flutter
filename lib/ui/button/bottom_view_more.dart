@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 
 class BottomViewMore extends StatelessWidget {
@@ -11,11 +11,9 @@ class BottomViewMore extends StatelessWidget {
     return Container(
       height: 45,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ANNColor.viewMoreColor,
           border:
-              Border(top: BorderSide(color: Theme
-                  .of(context)
-                  .dividerColor, width: 1))),
+              Border(top: BorderSide(color: ANNColor.dividerColor, width: 1))),
       child: MaterialButton(
         onPressed: onPressed,
         child: Row(

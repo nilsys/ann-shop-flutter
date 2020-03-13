@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/ann-logo.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/bottom_bar_policy.dart';
@@ -106,13 +107,13 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
               RaisedButton(
                 child: Text(
                   'Đăng nhập',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: ANNColor.white),
                 ),
                 onPressed: _validateInput,
               ),
               const SizedBox(height: 15),
               RaisedButton(
-                color: Colors.white,
+                color: ANNColor.white,
                 child: const Text('Quên mật khẩu?'),
                 onPressed: () {
                   Navigator.pushNamed(context, 'user/forgot_password',

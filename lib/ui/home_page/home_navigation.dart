@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,7 @@ class HomeNavigation extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       decoration: BoxDecoration(
           border:
-              Border(top: BorderSide(width: 10, color: Theme.of(context).dividerColor))),
+              Border(top: BorderSide(width: 10, color: ANNColor.dividerColor))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -51,7 +52,7 @@ class HomeNavigation extends StatelessWidget {
               Navigator.pushNamed(context, 'shop/policy');
             },
             icon: Icons.question_answer,
-            color: Colors.orange,
+            color: ANNColor.orange,
           ),
         ],
       ),
@@ -66,7 +67,7 @@ class RoundedButton extends StatelessWidget {
   final GestureTapCallback onItemTapped;
 
   RoundedButton(
-      {this.color = Colors.white,
+      {this.color = ANNColor.white,
       @required this.icon,
       @required this.title,
       @required this.onItemTapped});
@@ -91,7 +92,7 @@ class RoundedButton extends StatelessWidget {
                   ]),
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   border: new Border.all(
-                    color: Colors.white,
+                    color: ANNColor.white,
                     width: 1,
                     style: BorderStyle.solid,
                   ),
@@ -107,7 +108,7 @@ class RoundedButton extends StatelessWidget {
                 child: Icon(
                   icon,
                   size: 30,
-                  color: Colors.white,
+                  color: ANNColor.white,
                 ),
               ),
             ),

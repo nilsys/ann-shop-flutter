@@ -6,6 +6,7 @@ import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
@@ -282,7 +283,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   onPressed: _validateInput,
                   child: Text(
                     widget.isRegister ? 'Hoàn tất đăng ký' : 'Cập nhật',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: ANNColor.white),
                   ),
                 ),
                 const SizedBox(height: 30),

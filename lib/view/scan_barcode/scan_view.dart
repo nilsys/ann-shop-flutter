@@ -6,6 +6,7 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:fast_qr_reader_view/fast_qr_reader_view.dart';
@@ -154,7 +155,7 @@ class _ScanViewState extends State<ScanView>
                   height: squareSize,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.white)),
+                      border: Border.all(color: ANNColor.white)),
                   child: Stack(
                     children: <Widget>[
                       Container(
@@ -184,7 +185,7 @@ class _ScanViewState extends State<ScanView>
                   icon: Icon(
                     flashOn ? Icons.flash_off : Icons.flash_on,
                     size: 30,
-                    color: Colors.white,
+                    color: ANNColor.white,
                   ),
                 ),
                 InkWell(
@@ -199,7 +200,7 @@ class _ScanViewState extends State<ScanView>
                           child: Container(
                             height: 45,
                             decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: ANNColor.white,
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     bottomLeft: Radius.circular(10))),
@@ -223,7 +224,7 @@ class _ScanViewState extends State<ScanView>
                           child: Icon(
                             Icons.keyboard_backspace,
                             textDirection: TextDirection.rtl,
-                            color: Colors.white,
+                            color: ANNColor.white,
                           ),
                         ),
                       ],
@@ -265,7 +266,7 @@ class _ScanViewState extends State<ScanView>
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 'Quét mã vạch sản phẩm',
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                style: TextStyle(color: ANNColor.white, fontSize: 18),
                 maxLines: 1,
               ),
             ),
@@ -327,7 +328,7 @@ class _ScanViewState extends State<ScanView>
         text,
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.subtitle.merge(
-              TextStyle(color: Colors.white),
+              TextStyle(color: ANNColor.white),
             ),
       ),
     );
@@ -362,7 +363,7 @@ class _ScanViewState extends State<ScanView>
         return Container(
           padding: EdgeInsets.all(defaultPadding),
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: ANNColor.white,
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15), topRight: Radius.circular(15))),
           child: Column(
@@ -421,7 +422,7 @@ class _ScanViewState extends State<ScanView>
                         icon: Icon(
                           Icons.keyboard_backspace,
                           textDirection: TextDirection.rtl,
-                          color: Colors.white,
+                          color: ANNColor.white,
                         ),
                       ),
                     ),

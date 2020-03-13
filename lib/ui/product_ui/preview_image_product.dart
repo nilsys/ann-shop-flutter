@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
@@ -146,7 +147,7 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
     return Container(
       width: 55,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ANNColor.white,
         border: isSelect
             ? new Border.all(
                 color: Theme.of(context).primaryColor,

@@ -7,10 +7,10 @@ import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
-import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
@@ -46,41 +46,44 @@ class _ProductSlideState extends State<ProductSlide> {
     CategoryProductProvider provider = Provider.of(context);
     var products = provider.getByCategory(currentCategory);
 
-    return Column(
-      children: <Widget>[
-        Container(
-          height: 10,
-          color: Theme.of(context).dividerColor,
-        ),
-        TitleViewMore(title: widget.customName ?? widget.group.name),
-        Column(
-          children: <Widget>[
-            _buildBanner(),
-            _buildCategoryButtonList(),
-            Consumer<CategoryProductProvider>(
-              builder: (_, provider, child) {
-                if (products.isLoading) {
-                  return buildLoading(context);
-                } else if (products.isError) {
-                  return buildError(context);
-                } else {
-                  if (Utility.isNullOrEmpty(products.data)) {
-                    return buildEmpty(context);
+    return Container(
+      color: ANNColor.blockColor,
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 10,
+            color: ANNColor.dividerColor,
+          ),
+          TitleViewMore(title: widget.customName ?? widget.group.name),
+          Column(
+            children: <Widget>[
+              _buildBanner(),
+              _buildCategoryButtonList(),
+              Consumer<CategoryProductProvider>(
+                builder: (_, provider, child) {
+                  if (products.isLoading) {
+                    return buildLoading(context);
+                  } else if (products.isError) {
+                    return buildError(context);
                   } else {
-                    return buildProductList(context, products.data);
+                    if (Utility.isNullOrEmpty(products.data)) {
+                      return buildEmpty(context);
+                    } else {
+                      return buildProductList(context, products.data);
+                    }
                   }
-                }
-              },
-            ),
-            BottomViewMore(
-              onPressed: () {
-                ListProduct.showByCategory(context, currentCategory,
-                    initData: products.data);
-              },
-            ),
-          ],
-        )
-      ],
+                },
+              ),
+              BottomViewMore(
+                onPressed: () {
+                  ListProduct.showByCategory(context, currentCategory,
+                      initData: products.data);
+                },
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -231,7 +234,7 @@ class _ProductSlideState extends State<ProductSlide> {
       label: Text(
         _name,
         textAlign: TextAlign.center,
-        style: TextStyle(color: isSelect ? Colors.white : Colors.black87),
+        style: TextStyle(color: isSelect ? ANNColor.white : Colors.black87),
       ),
       selected: isSelect,
       onSelected: (selected) {
@@ -274,7 +277,7 @@ class _ProductSlideState extends State<ProductSlide> {
                 ),
                 child: Icon(
                   Icons.navigate_next,
-                  color: Colors.white,
+                  color: ANNColor.white,
                 ),
               ),
               Text(

@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +129,7 @@ class _HomeBannerState extends State<HomeBanner>
             margin: EdgeInsets.only(left: 5),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: _currentPage == index ? Colors.white : Colors.grey,
+              color: _currentPage == index ? ANNColor.white : ANNColor.grey,
             ),
           );
         }).toList(),

@@ -5,6 +5,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -62,10 +63,10 @@ class InAppRepository {
   Color getColorInApp(String category) {
     switch (category) {
       case 'all':
-        return Colors.white;
+        return ANNColor.white;
         break;
       case 'promotion':
-        return Colors.orange;
+        return ANNColor.orange;
         break;
       case 'notification':
         return Colors.blue;

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:flutter/material.dart';
 
@@ -117,7 +118,7 @@ class _ProductBannerState extends State<ProductBanner>
             margin: EdgeInsets.only(left: 5),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: _currentPage == index ? Colors.white : Colors.grey,
+              color: _currentPage == index ? ANNColor.white : Colors.grey,
             ),
           );
         }).toList(),

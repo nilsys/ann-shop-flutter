@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 
 class BlockShadow extends StatefulWidget {
@@ -25,7 +26,7 @@ class _BlockShadowState extends State<BlockShadow> {
       padding: this.padding ?? EdgeInsets.all(15),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
+          color: ANNColor.white,
           boxShadow: [
             new BoxShadow(
                 color: Colors.black12,

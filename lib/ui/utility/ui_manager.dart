@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/locale/app_translations.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class UIManager {
   static get decorationBorder => BoxDecoration(
-        color: Colors.white,
+        color: ANNColor.white,
           border: new Border.all(
             color: Color(0xFFEDEDED),
             width: 1,
@@ -41,7 +42,7 @@ class UIManager {
         width: 32,
         height: 32,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ANNColor.white,
           shape: BoxShape.circle,
           boxShadow: <BoxShadow>[
             BoxShadow(

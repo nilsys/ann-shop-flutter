@@ -3,6 +3,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -166,7 +167,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
               RaisedButton(
                 child: Text(
                   'Xác nhận',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: ANNColor.white),
                 ),
                 onPressed: checkLength6() ? _validateInput : null,
               ),

@@ -2,7 +2,7 @@ import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/repository/utility_repository.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
+import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +38,7 @@ class _ShopPolicyState extends State<ShopPolicy> {
   Widget _buildItem(Cover item) {
     return Container(
       margin: EdgeInsets.only(bottom: 1),
-      color: Colors.white,
+      color: ANNColor.white,
       child: ListTile(
         onTap: () {
           AppAction.instance.onHandleAction(
@@ -50,7 +50,7 @@ class _ShopPolicyState extends State<ShopPolicy> {
         ),
         title: Text(item.name),
         trailing:
-            Icon(Icons.keyboard_arrow_right, color: Theme.of(context).dividerColor),
+            Icon(Icons.keyboard_arrow_right, color: ANNColor.dividerColor),
       ),
     );
   }
