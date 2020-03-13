@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
-import 'package:ann_shop_flutter/shared/services/permission_services.dart';
+import 'package:ann_shop_flutter/src/services/permission_services.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
@@ -83,7 +83,6 @@ class _ButtonDownloadState extends State<ButtonDownload> {
       final file = await DefaultCacheManager()
           .getSingleFile(Core.domain + widget.imageName)
           .timeout(const Duration(seconds: 10));
-      debugPrint(file.path);
       final Uint8List bytes = file.readAsBytesSync();
       await ImageGallerySaver.saveImage(bytes)
           .timeout(const Duration(seconds: 5));
@@ -99,7 +98,7 @@ class _ButtonDownloadState extends State<ButtonDownload> {
         }
       });
     } catch (e) {
-      debugPrint(e);
+      print(e);
       AppSnackBar.showHighlightTopMessage(context, 'Lưu hình ảnh thất bại.');
       setState(() {
         loading = loadState.none;

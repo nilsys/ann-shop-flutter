@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
@@ -9,16 +10,13 @@ import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:flutter/material.dart';
 
-
 class FavoriteProvider with ChangeNotifier {
-
   FavoriteProvider() {
     loadShoppingList();
   }
 
   final String _keyLocaleFavorite = '_keyLocaleFavorite';
   List<ProductFavorite> products;
-
 
   Future loadShoppingList() async {
     try {
@@ -43,8 +41,7 @@ class FavoriteProvider with ChangeNotifier {
   }
 
   addNewProduct(context, Product item, {int count = 1}) {
-
-    if(AccountController.instance.isLogin == false){
+    if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
@@ -58,8 +55,8 @@ class FavoriteProvider with ChangeNotifier {
     }
     saveShoppingList();
     notifyListeners();
-    AppSnackBar.showHighlightTopMessage(context, 'Đã lưu vào danh sách yêu thích');
-    print('Add $count productID ${item.productID}');
+    AppSnackBar.showHighlightTopMessage(
+        context, 'Đã lưu vào danh sách yêu thích');
   }
 
   changeCount(ProductFavorite favorite, int _count) {
@@ -82,7 +79,6 @@ class FavoriteProvider with ChangeNotifier {
     products.removeWhere((p) => p.product.productID == productID);
     saveShoppingList();
     notifyListeners();
-    print('Remove productID $productID');
   }
 
   bool containsInFavorite(int productID) {

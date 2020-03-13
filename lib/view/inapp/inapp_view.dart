@@ -8,12 +8,12 @@ import 'package:ann_shop_flutter/view/inapp/list_inapp.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class InAppView extends StatefulWidget {
+class NotificationPage extends StatefulWidget {
   @override
-  _InAppViewState createState() => _InAppViewState();
+  _NotificationPageState createState() => _NotificationPageState();
 }
 
-class _InAppViewState extends State<InAppView> {
+class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,6 @@ class _InAppViewState extends State<InAppView> {
   Widget _buildPageData() {
     if (AccountController.instance.isLogin == false) {
       return RequestLogin();
-
     }
     if (Provider.of<NavigationProvider>(context).index !=
         PageName.notification.index) {

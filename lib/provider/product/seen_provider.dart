@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,6 @@ class SeenProvider with ChangeNotifier {
     }
     saveListProduct();
     notifyListeners();
-    print('Add seen productID ${item.productID}');
   }
 
   removeAllProductProvider() {
@@ -58,6 +58,5 @@ class SeenProvider with ChangeNotifier {
     products.removeWhere((p) => p.productID == productID);
     saveListProduct();
     notifyListeners();
-    print('Remove seen productID $productID');
   }
 }

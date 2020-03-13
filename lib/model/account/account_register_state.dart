@@ -32,13 +32,12 @@ class AccountRegisterState {
     isRegister = _isRegister;
   }
 
-  String randomNewOtp(){
+  String randomNewOtp() {
     Random rand = Random();
     otp = '';
     for (int i = 0; i < 6; i++) {
       otp += rand.nextInt(9).toString();
     }
-    print('otp: $otp');
     return otp;
   }
 

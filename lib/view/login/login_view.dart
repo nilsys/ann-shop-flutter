@@ -51,7 +51,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Kho Hàng Sỉ ANN'),
+        title: const Text(Core.appFullName),
       ),
       bottomNavigationBar: BottomBarPolicy(),
       body: Form(
@@ -98,7 +98,7 @@ class _LoginViewState extends State<LoginView> {
                   'Đăng ký sau',
                   onPressed: () {
                     AccountController.instance.loginLater();
-                    Navigator.pushReplacementNamed(context, '/home');
+                    Navigator.pushReplacementNamed(context, 'home');
                     Provider.of<NavigationProvider>(context, listen: false)
                         .index = PageName.home.index;
                   },
@@ -137,7 +137,7 @@ class _LoginViewState extends State<LoginView> {
         if (response.status) {
           if (response.data) {
             AccountRegisterState.instance.isRegister = false;
-            await Navigator.pushNamed(context, '/login-password',
+            await Navigator.pushNamed(context, 'user/login/password',
                 arguments: phone);
           } else {
             await AppPopup.showCustomDialog(context, content: [
@@ -179,7 +179,7 @@ class _LoginViewState extends State<LoginView> {
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
         }
       } catch (e) {
-        debugPrint(e);
+        print(e);
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
@@ -191,7 +191,7 @@ class _LoginViewState extends State<LoginView> {
       AccountRegisterState.instance.phone = phone;
       AccountRegisterState.instance.isRegister = true;
       if (AccountRegisterState.instance.checkTimeOTP() == false) {
-        await Navigator.pushNamed(context, '/register_input_otp');
+        await Navigator.pushNamed(context, 'user/otp');
         return;
       }
 
@@ -202,13 +202,13 @@ class _LoginViewState extends State<LoginView> {
       hideLoading(context);
       if (response.status) {
         AccountRegisterState.instance.timeOTP = DateTime.now();
-        await Navigator.pushNamed(context, '/register_input_otp');
+        await Navigator.pushNamed(context, 'user/otp');
       } else {
         AppSnackBar.showFlushbar(context,
             response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }
     } catch (e) {
-      debugPrint(e);
+      print(e);
       AppSnackBar.showFlushbar(context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
     }
   }

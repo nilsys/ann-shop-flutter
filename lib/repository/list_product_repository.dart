@@ -96,15 +96,14 @@ class ListProductRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
-      print(url);
-      print(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
       }
     } catch (e) {
-      log(e.toString());
+      print(e);
     }
     return null;
   }
@@ -120,19 +119,17 @@ class ListProductRepository {
       var url = Core.domain +
           'api/flutter/products?$categorySlugList&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      print(url);
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
-      print(url);
-      print(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
       }
     } catch (e) {
-      log(e.toString());
+      print(e);
     }
     return null;
   }
@@ -144,19 +141,17 @@ class ListProductRepository {
       var url = Core.domain +
           'api/flutter/products?categorySlug=$name&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      print(url);
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
-      print(url);
-      print(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
       }
     } catch (e) {
-      log('load by category, ' + e.toString());
+      print(e);
     }
     return null;
   }
@@ -165,22 +160,20 @@ class ListProductRepository {
   Future<List<Product>> loadBySearch(String text,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
-//      String search = text.replaceAll(' ', '%20');
       var url = Core.domain +
           'api/flutter/products?productSearch=$text&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
-      print(url);
-      print(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
       }
     } catch (e) {
-      log(e.toString());
+      print(e);
     }
     return null;
   }
@@ -194,15 +187,14 @@ class ListProductRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
-      print(url);
-      print(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
       }
     } catch (e) {
-      log(e.toString());
+      print(e);
     }
     return null;
   }
@@ -217,15 +209,14 @@ class ListProductRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 10));
-      log(url);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
       } else if (response.statusCode == HttpStatus.notFound) {
         return [];
       }
     } catch (e) {
-      log(e.toString());
+      print(e);
     }
     return null;
   }
@@ -242,18 +233,13 @@ class ListProductRepository {
     try {
       String body =
           await StorageManager.getObjectByKey(_prefixCategoryKey + _keyCache);
-      log('Cache: ' + body);
+
       if (Utility.isNullOrEmpty(body) == false) {
         return listProductByString(body);
       }
     } catch (e) {
-      log(e.toString());
+      print(e);
     }
     return null;
-  }
-
-  /// LOG
-  log(object) {
-    print('list_product_repository: ' + object.toString());
   }
 }

@@ -16,10 +16,6 @@ class UtilityRepository {
     /// init
   }
 
-  log(object) {
-    print('utility_repository: ' + object.toString());
-  }
-
   List<Cover> cachePolicy;
 
   Future<List<Cover>> loadPolicy() async {
@@ -31,8 +27,7 @@ class UtilityRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 5));
-      log(url);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
         List<Cover> _data = new List();
@@ -43,7 +38,7 @@ class UtilityRepository {
         return _data;
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }
@@ -59,15 +54,14 @@ class UtilityRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 5));
-      log(url);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
         cacheContact = message;
         return message;
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }

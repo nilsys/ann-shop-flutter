@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/core/router.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class HomeNavigation extends StatelessWidget {
           RoundedButton(
             title: 'Tra giá',
             onItemTapped: () {
-              Router.scanBarCode(context);
+              Routes.scanBarCode(context);
             },
             icon: AppIcons.qrcode,
             color: Color(0xff5aac44),
@@ -30,7 +30,7 @@ class HomeNavigation extends StatelessWidget {
           RoundedButton(
             title: 'Bài viết',
             onItemTapped: () {
-              Navigator.pushNamed(context, '/blog');
+              Navigator.pushNamed(context, 'blog');
             },
             icon: AppIcons.blogger,
             color: Colors.blueAccent,
@@ -48,7 +48,7 @@ class HomeNavigation extends StatelessWidget {
           RoundedButton(
             title: 'Chính sách',
             onItemTapped: () {
-              Navigator.pushNamed(context, '/shop-policy');
+              Navigator.pushNamed(context, 'shop/policy');
             },
             icon: Icons.question_answer,
             color: Colors.orange,

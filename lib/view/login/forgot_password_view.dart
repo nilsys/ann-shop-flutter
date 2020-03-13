@@ -181,8 +181,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         /// go to update password
         AccountRegisterState.instance.otp = response.data;
         AccountRegisterState.instance.phone = widget.phone;
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/register_input_password', ModalRoute.withName('/login'));
+        Navigator.pushNamedAndRemoveUntil(context, 'user/register/password',
+            ModalRoute.withName('user/login'));
       } else {
         AppSnackBar.showFlushbar(context, 'Ngày sinh không đúng.');
       }
@@ -196,7 +196,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     try {
       AccountRegisterState.instance.phone = widget.phone;
       if (AccountRegisterState.instance.checkTimeOTP() == false) {
-        Navigator.pushNamed(context, '/register_input_otp');
+        Navigator.pushNamed(context, 'user/otp');
         return;
       }
 
@@ -207,7 +207,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       hideLoading(context);
       if (response.status) {
         AccountRegisterState.instance.timeOTP = DateTime.now();
-        Navigator.pushNamed(context, '/register_input_otp');
+        Navigator.pushNamed(context, 'user/otp');
       } else {
         AppSnackBar.showFlushbar(context,
             response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');

@@ -1,4 +1,5 @@
 import 'dart:core';
+
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
@@ -49,13 +50,9 @@ class BlogProvider with ChangeNotifier {
         category.completed = data;
       }
     } catch (e) {
+      print(e);
       category.error = 'Error exception' + e.toString();
-      log(e);
     }
     notifyListeners();
-  }
-
-  log(object) {
-    print('blog_provider: ' + object.toString());
   }
 }

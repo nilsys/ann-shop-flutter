@@ -4,11 +4,7 @@ import 'package:ann_shop_flutter/repository/cover_repository.dart';
 import 'package:flutter/material.dart';
 
 class CoverProvider extends ChangeNotifier {
-  CoverProvider() {
-//    loadCoverHome();
-//    loadNotificationHome();
-//    loadPostHome();
-  }
+  CoverProvider();
 
   ResponseProvider<List<Cover>> coversHome = ResponseProvider();
   ResponseProvider<List<Cover>> postsHome = ResponseProvider();
@@ -46,7 +42,7 @@ class CoverProvider extends ChangeNotifier {
         coversHome.completed = data;
       }
     } catch (e) {
-      log(e);
+      print(e);
       coversHome.error = 'exception: ' + e.toString();
     }
     notifyListeners();
@@ -64,7 +60,7 @@ class CoverProvider extends ChangeNotifier {
         notificationHome.completed = [];
       }
     } catch (e) {
-      log(e);
+      print(e);
       notificationHome.error = 'exception: ' + e.toString();
     }
     notifyListeners();
@@ -81,7 +77,7 @@ class CoverProvider extends ChangeNotifier {
         postsHome.completed = [];
       }
     } catch (e) {
-      log(e);
+      print(e);
       postsHome.error = 'exception: ' + e.toString();
     }
     notifyListeners();
@@ -99,7 +95,7 @@ class CoverProvider extends ChangeNotifier {
         headerProduct.completed = [];
       }
     } catch (e) {
-      log(e);
+      print(e);
       headerProduct.error = 'exception: ' + e.toString();
     }
     notifyListeners();
@@ -117,13 +113,9 @@ class CoverProvider extends ChangeNotifier {
         footerProduct.completed = [];
       }
     } catch (e) {
-      log(e);
+      print(e);
       footerProduct.error = 'exception: ' + e.toString();
     }
     notifyListeners();
-  }
-
-  log(object) {
-    print('cover_provider: ' + object.toString());
   }
 }

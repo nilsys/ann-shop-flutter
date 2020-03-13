@@ -45,13 +45,11 @@ class DownloadImageProvider extends ChangeNotifier {
       var file = await DefaultCacheManager()
           .getSingleFile(Core.domain + images[_index])
           .timeout(Duration(seconds: 10));
-      print(file.path);
       Uint8List bytes = file.readAsBytesSync();
       await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));
-      print('Save ${_index + 1}/${images.length}');
     } catch (e) {
       countFail++;
-      print('Load fail: ' + e.toString());
+      print(e);
     }
     _saveImage(_index + 1);
   }

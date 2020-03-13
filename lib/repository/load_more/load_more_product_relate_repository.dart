@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
@@ -31,11 +32,10 @@ class LoadMoreProductRelateRepository extends LoadingMoreBase<ProductRelated> {
 
   set slug(String value) {
     if (value != _slug) {
-    _slug = value;
+      _slug = value;
       refresh(true);
     }
   }
-
 
   // TODO: implement hasMore
   bool _hasMore = true;
@@ -45,8 +45,6 @@ class LoadMoreProductRelateRepository extends LoadingMoreBase<ProductRelated> {
 
   @override
   Future<bool> refresh([bool notifyStateChanged = false]) async {
-    // TODO: implement refresh
-    print('refresh Loadmore');
     _hasMore = true;
     pageIndex = 1;
     var result = await super.refresh(true);
@@ -71,10 +69,10 @@ class LoadMoreProductRelateRepository extends LoadingMoreBase<ProductRelated> {
       _hasMore = list.length >= itemPerPage;
       pageIndex++;
       isSuccess = true;
-    } catch (exception) {
+    } catch (e) {
       isSuccess = false;
       _hasMore = false;
-      print('load more exception: ' + exception.toString());
+      print(e);
     }
     return isSuccess;
   }

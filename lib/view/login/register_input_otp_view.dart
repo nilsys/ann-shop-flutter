@@ -20,7 +20,6 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
   @override
   void initState() {
     super.initState();
-    print(AccountRegisterState.instance.otp);
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.offset < -50) {
@@ -93,7 +92,8 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                            text: 'Vui lòng nhập mã OTP đã gửi đến số điện thoại ',
+                            text:
+                                'Vui lòng nhập mã OTP đã gửi đến số điện thoại ',
                             style: Theme.of(context).textTheme.body1),
                         TextSpan(
                             text: AccountRegisterState.instance.phone,
@@ -205,8 +205,8 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                 AccountRegisterState.instance.otp);
         hideLoading(context);
         if (response.status) {
-          Navigator.pushNamedAndRemoveUntil(context, '/register_input_password',
-              ModalRoute.withName('/login'));
+          Navigator.pushNamedAndRemoveUntil(context, 'user/register/password',
+              ModalRoute.withName('user/login'));
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');

@@ -1,12 +1,11 @@
 import 'dart:async';
 
-import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
-import 'package:ann_shop_flutter/shared/models/common/contanct_type.dart';
+import 'package:ann_shop_flutter/src/models/common/contanct_type.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
@@ -155,10 +154,10 @@ class _HomePageState extends State<HomePage>
           height: 10,
           color: Theme.of(context).dividerColor,
         ),
-        TitleViewMore(title: 'Kênh đặt hàng'),
+        TitleViewMore(title: 'Kênh tư vấn & đặt hàng'),
         _buildCardContact(
             type: ContactType.facebookMessenger,
-            text: 'Facebook: Kho Hàng Sỉ ANN',
+            text: 'Facebook: ${Core.appFullName}',
             contact: 'bosiquanao.net',
             backgroundColor: const Color(0xff3b5998)),
         _buildCardContact(

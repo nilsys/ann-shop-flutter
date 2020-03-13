@@ -63,7 +63,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
             children: <Widget>[
               Container(
                 height: 100,
-                margin:const EdgeInsets.only(top: 50, bottom: 40),
+                margin: const EdgeInsets.only(top: 50, bottom: 40),
                 child: AnnLogo(),
               ),
               TextFormField(
@@ -113,11 +113,9 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
               const SizedBox(height: 15),
               RaisedButton(
                 color: Colors.white,
-                child: const Text(
-                  'Quên mật khẩu?'
-                ),
+                child: const Text('Quên mật khẩu?'),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/forgot_password',
+                  Navigator.pushNamed(context, 'user/forgot_password',
                       arguments: widget.phone);
                 },
               ),
@@ -155,7 +153,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
           Navigator.pushNamedAndRemoveUntil(
-              context, '/home', (Route<dynamic> route) => false);
+              context, 'home', (Route<dynamic> route) => false);
           Provider.of<NavigationProvider>(context, listen: false).index =
               PageName.home.index;
         } else {
@@ -163,7 +161,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
         }
       } catch (e) {
-        debugPrint('login password: $e');
+        print(e);
         AppSnackBar.showFlushbar(
             context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
       }

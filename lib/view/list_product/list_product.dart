@@ -1,5 +1,4 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
@@ -7,11 +6,10 @@ import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/repository/load_more/load_more_product_repository.dart';
-import 'package:ann_shop_flutter/ui/product_ui/config_product_ui.dart';
 import 'package:ann_shop_flutter/ui/product/product_block.dart';
 import 'package:ann_shop_flutter/ui/product/product_full.dart';
 import 'package:ann_shop_flutter/ui/product/product_title.dart';
-import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/product_ui/config_product_ui.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -31,9 +29,8 @@ class ListProduct extends StatefulWidget {
 
   static showByCategory(context, Category category,
       {List<Product> initData, showSearch = false}) async {
-    var data = {'category': category, 'initData': initData,'showSearch': true};
-    await Navigator.pushNamed(context, '/list-product-by-category',
-        arguments: data);
+    var data = {'category': category, 'initData': initData, 'showSearch': true};
+    await Navigator.pushNamed(context, 'product', arguments: data);
   }
 
   static showBySearch(context, Category category,
@@ -41,11 +38,9 @@ class ListProduct extends StatefulWidget {
     Provider.of<SearchProvider>(context, listen: false).setText();
     var data = {'category': category, 'initData': initData, 'showSearch': true};
     if (Navigator.canPop(context)) {
-      await Navigator.pushReplacementNamed(context, '/list-product-by-category',
-          arguments: data);
+      await Navigator.pushReplacementNamed(context, 'product', arguments: data);
     } else {
-      await Navigator.pushNamed(context, '/list-product-by-category',
-          arguments: data);
+      await Navigator.pushNamed(context, 'product', arguments: data);
     }
   }
 }

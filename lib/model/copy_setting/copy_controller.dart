@@ -1,11 +1,9 @@
-
 import 'dart:convert';
 
 import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
 
-class CopyController{
-
+class CopyController {
   static final CopyController instance = CopyController._internal();
 
   factory CopyController() => instance;
@@ -14,7 +12,7 @@ class CopyController{
     /// init
     copySetting = CopySetting();
   }
-  
+
   CopySetting copySetting;
   final _keyCopySetting = '_keyCopySetting';
 
@@ -33,7 +31,7 @@ class CopyController{
         copySetting = CopySetting.fromJson(json);
       }
     } catch (e) {
-      print('loadCopySetting Exception: ' + e.toString());
+      print(e);
       copySetting = CopySetting();
     }
     saveCopySetting();

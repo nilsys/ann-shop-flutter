@@ -11,7 +11,6 @@ class InAppProvider extends ChangeNotifier {
     }
   }
 
-
   String _currentCategory;
 
   String get currentCategory => _currentCategory;
@@ -20,6 +19,7 @@ class InAppProvider extends ChangeNotifier {
     _currentCategory = currentCategory;
     notifyListeners();
   }
+
   // cache for first page
   Map<String, ResponseProvider<List<InApp>>> mapInApp;
 
@@ -40,13 +40,9 @@ class InAppProvider extends ChangeNotifier {
         inApp.completed = [];
       }
     } catch (e) {
-      log(e);
+      print(e);
       inApp.error = 'exception: ' + e.toString();
     }
     notifyListeners();
-  }
-
-  log(object) {
-    print('inapp_provider: ' + object.toString());
   }
 }

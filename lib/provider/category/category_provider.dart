@@ -32,7 +32,7 @@ class CategoryProvider extends ChangeNotifier {
         categories.completed = data;
       }
     } catch (e) {
-      log(e);
+      print(e);
       categories.error = 'exception: ' + e.toString();
     }
     notifyListeners();
@@ -52,7 +52,7 @@ class CategoryProvider extends ChangeNotifier {
         categoryHome.completed = data;
       }
     } catch (e) {
-      log(e);
+      print(e);
       categoryHome.error = 'exception: ' + e.toString();
     }
     notifyListeners();
@@ -71,13 +71,9 @@ class CategoryProvider extends ChangeNotifier {
         dataHome.completed = data;
       }
     } catch (e) {
-      log(e);
+      print(e);
       dataHome.error = 'exception: ' + e.toString();
     }
     notifyListeners();
-  }
-
-  log(object) {
-    print('category_provider: ' + object.toString());
   }
 }

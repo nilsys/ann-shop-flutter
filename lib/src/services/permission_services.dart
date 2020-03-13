@@ -1,10 +1,11 @@
 import 'dart:io';
 
-import 'package:ann_shop_flutter/shared/components/alert_dialog/alert_dialog_permission.dart';
-import 'package:ann_shop_flutter/shared/services/ann_service.dart';
+import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_dialog_permission.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import 'ann_service.dart';
 
 class PermissionService extends ANNService {
   // region Singleton Pattern

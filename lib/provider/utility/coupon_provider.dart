@@ -24,7 +24,7 @@ class CouponProvider extends ChangeNotifier {
         return;
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     myCoupons.error = 'Load fail';
     notifyListeners();
@@ -41,13 +41,9 @@ class CouponProvider extends ChangeNotifier {
         return;
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     promotions.error = 'Load fail';
     notifyListeners();
-  }
-
-  void log(object) {
-    debugPrint('coupon_provider: $object');
   }
 }

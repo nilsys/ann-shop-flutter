@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/coupon.dart';
 import 'package:ann_shop_flutter/model/utility/promotion.dart';
 import 'package:async/async.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:path/path.dart';
@@ -45,11 +45,10 @@ class CouponRepository {
       final response = await http.post(url,
           headers: AccountController.instance.header,
           body: json.encode({'imageBase64': base64Image}));
-      log(response.statusCode);
-      log(response.reasonPhrase);
+
       return response.statusCode == HttpStatus.ok;
     } catch (e) {
-      log(e);
+      print(e);
     }
     return false;
   }
@@ -61,8 +60,7 @@ class CouponRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(const Duration(seconds: 10));
-      log(url);
-      log(response.body);
+
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(body);
@@ -77,7 +75,7 @@ class CouponRepository {
         }
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }
@@ -89,8 +87,7 @@ class CouponRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(const Duration(seconds: 10));
-      log(url);
-      log(response.body);
+
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(body);
@@ -105,7 +102,7 @@ class CouponRepository {
         }
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }
@@ -117,9 +114,7 @@ class CouponRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(const Duration(seconds: 10));
-      log(url);
-      log(response.statusCode);
-      log(response.body);
+
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
         return null;
@@ -128,12 +123,8 @@ class CouponRepository {
         return message['Message'] ?? 'Có lỗi xãi ra, vui lòng thử lại sau';
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return 'Có lỗi xãi ra, vui lòng thử lại sau';
-  }
-
-  void log(object) {
-    debugPrint('coupon_repository: $object');
   }
 }

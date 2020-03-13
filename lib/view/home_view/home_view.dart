@@ -32,7 +32,7 @@ class _HomeViewState extends State<HomeView>
     HomePage(),
     CategoryPage(),
     SearchPage(),
-    InAppView(),
+    NotificationPage(),
     AccountPage(),
   ];
 
@@ -152,6 +152,7 @@ class _HomeViewState extends State<HomeView>
   _onItemTapped(_index) {
     Provider.of<NavigationProvider>(context, listen: false).switchTo(_index);
   }
+
   // endregion
 
   @override
@@ -170,8 +171,6 @@ class _HomeViewState extends State<HomeView>
   }
 
   resumeCallBack() {
-    print('App resume call back');
-    print(MediaQuery.of(context).viewInsets.bottom);
     if (MediaQuery.of(context).viewInsets.bottom > 100) {
       showDialog(context: context, child: FixViewInsetsBottom());
     }

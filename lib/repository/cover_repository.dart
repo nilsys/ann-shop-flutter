@@ -24,8 +24,7 @@ class CoverRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(Duration(seconds: 5));
-      log(url);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
         if (Utility.isNullOrEmpty(message)) {
@@ -39,7 +38,7 @@ class CoverRepository {
         }
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }
@@ -55,12 +54,8 @@ class CoverRepository {
       });
       return _data;
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
-  }
-
-  log(object) {
-    print('cover_repository: ' + object.toString());
   }
 }

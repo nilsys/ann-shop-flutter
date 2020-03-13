@@ -10,7 +10,7 @@ import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
-import 'package:ann_shop_flutter/shared/services/permission_services.dart';
+import 'package:ann_shop_flutter/src/services/permission_services.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
@@ -99,14 +99,13 @@ class ProductRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(const Duration(seconds: 10));
-      log(url);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);
         return ProductDetail.fromJson(message);
       }
     } catch (e) {
-      log(e.toString());
+      print(e);
     }
     return null;
   }
@@ -120,7 +119,7 @@ class ProductRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(const Duration(seconds: 10));
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
         final List<ProductRelated> _data = [];
@@ -130,7 +129,7 @@ class ProductRepository {
         return _data;
       }
     } catch (e) {
-      log(e.toString());
+      print(e);
     }
     return null;
   }
@@ -143,14 +142,13 @@ class ProductRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(const Duration(seconds: 5));
-      log(url);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);
         return message;
       }
     } catch (e) {
-      log(e.toString());
+      print(e);
     }
     return null;
   }
@@ -162,14 +160,13 @@ class ProductRepository {
       final response = await http
           .get(url, headers: AccountController.instance.header)
           .timeout(const Duration(seconds: 5));
-      log(url);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);
         return message.cast<String>();
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     return null;
   }
@@ -191,15 +188,13 @@ class ProductRepository {
               headers: AccountController.instance.header,
               body: jsonEncode(data))
           .timeout(Duration(seconds: 5));
-      log(url);
-      log(data);
-      log(response.body);
+
       if (response.statusCode == HttpStatus.ok) {
         final result = utf8.decode(response.bodyBytes);
         return result;
       }
     } catch (e) {
-      log(e.toString());
+      print(e);
     }
     return '';
   }
@@ -208,12 +203,12 @@ class ProductRepository {
   Future getProductSort() async {
     try {
       final url = '${Core.domain}api/flutter/product-sort';
-      final response = await http
+      await http
           .get(url, headers: AccountController.instance.header)
           .timeout(const Duration(seconds: 5));
-      log(url);
-      log(response.body);
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future onCheckAndCopy(BuildContext context, int productID) async {
@@ -227,7 +222,7 @@ class ProductRepository {
           context, 'Đã copy, hãy dán vào nơi đăng sản phẩm',
           duration: const Duration(seconds: 1));
     } else {
-      await Navigator.pushNamed(context, '/setting');
+      await Navigator.pushNamed(context, 'user');
     }
   }
 
@@ -246,16 +241,17 @@ class ProductRepository {
           .loadProductAdvertisementImage(product.productID);
       hideLoading(context);
       if (Utility.isNullOrEmpty(images) == false) {
-        await Navigator.pushNamed(context, '/product-share-image', arguments: {
-          'images': images,
-          'title': product.name,
-          'message': message
-        });
+        await Navigator.pushNamed(context, 'product/detail/share-social',
+            arguments: {
+              'images': images,
+              'title': product.name,
+              'message': message
+            });
       } else {
         throw ArgumentError('API fail');
       }
     } catch (e) {
-      log(e);
+      print(e);
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
           duration: const Duration(seconds: 1));
       return;
@@ -291,14 +287,9 @@ class ProductRepository {
         }
       }
     } catch (e) {
-      log(e);
+      print(e);
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
           duration: const Duration(seconds: 1));
     }
-  }
-
-  /// LOG
-  void log(object) {
-    debugPrint('product_repository: $object');
   }
 }

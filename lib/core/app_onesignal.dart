@@ -1,26 +1,24 @@
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/main.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppOneSignal {
-
-  factory AppOneSignal() =>instance;
+  factory AppOneSignal() => instance;
 
   AppOneSignal._internal() {
     _initOneSignal(MyApp.context);
   }
+
   static final AppOneSignal instance = AppOneSignal._internal();
 
   String userId;
   String pushToken;
   final _privateKey = "4cfab7f0-6dc2-4004-a631-fc4ba7cbf046";
 
-  void checkAndInit() {
-    debugPrint('AppOneSignal Check and Init');
-  }
+  void checkAndInit() {}
 
   Future<void> _initOneSignal(BuildContext context) async {
     await OneSignal.shared.init(_privateKey, iOSSettings: {

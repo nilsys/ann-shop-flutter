@@ -1,10 +1,10 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/model/product/category.dart';
-import 'package:ann_shop_flutter/model/product/product.dart';
-import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/model/product/category.dart';
+import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
+import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
@@ -105,13 +105,13 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   icon: Icon(AppIcons.search,
                       size: 20, color: AppStyles.dartIcon),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/search');
+                    Navigator.pushNamed(context, 'search');
                   },
                 ),
                 IconButton(
                     icon: Icon(Icons.home, color: AppStyles.dartIcon),
                     onPressed: () {
-                      Navigator.popUntil(context, ModalRoute.withName('/home'));
+                      Navigator.popUntil(context, ModalRoute.withName('home'));
                     }),
                 FavoriteButton(
                   color: AppStyles.dartIcon,
@@ -149,7 +149,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   detail.carousel,
                   controller: controllerPage,
                   tapExpanded: () {
-                    Navigator.pushNamed(context, '/product-fancy-image',
+                    Navigator.pushNamed(context, 'product/detail/fancy-image',
                         arguments: {
                           'index': controllerPage.page.round(),
                           'data': data.data
@@ -448,7 +448,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/image-view',
+        Navigator.pushNamed(context, 'product/detail/image',
             arguments: {'url': origin, 'tag': tag});
       },
       child: Container(
@@ -519,7 +519,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   Icons.cloud_download,
                   onPressed: () {
                     if (detail != null) {
-                      ProductRepository.instance.onDownLoad(context, detail.productID);
+                      ProductRepository.instance
+                          .onDownLoad(context, detail.productID);
                     } else {
                       AppSnackBar.showFlushbar(
                           context, 'Đang tải dữ liệu. Thử lại sau');
@@ -625,7 +626,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
     return ButtonGradient(
       onTap: () {
-        Navigator.pushNamed(context, '/product-image-by-size-and-image',
+        Navigator.pushNamed(context, 'product/detail/select-size-color',
             arguments: {'index': controllerPage.page.round(), 'data': detail});
       },
       child: RichText(
