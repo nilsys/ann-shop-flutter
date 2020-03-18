@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'ann_service.dart';
+import '../ann_service.dart';
 
 class PermissionService extends ANNService {
   // region Singleton Pattern

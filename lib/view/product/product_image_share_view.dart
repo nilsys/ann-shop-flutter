@@ -5,17 +5,18 @@ import 'dart:math';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
-import 'package:ann_shop_flutter/src/services/permission_services.dart';
+import 'package:ann_shop_flutter/src/services/common/permission_services.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -330,10 +331,14 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
 
     final List<String> files = [];
     final Map<String, List<int>> mapByte = {};
+    final loadingDialog = new LoadingDialog(context, message: 'Đang tải...');
 
-    showLoading(context, message: 'Đang tải...');
+    loadingDialog.show();
+    // TODO: At share in the product, the clipboard is double copy
+    await Clipboard.setData(new ClipboardData(text: message));
+
     for (int i = 0; i < imagesSelected.length; i++) {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 500));
       await DefaultCacheManager()
           .getSingleFile(Core.domain + imagesSelected[i])
           .then((File file) {
@@ -342,11 +347,10 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
         if (Platform.isAndroid && fixZalo)
           ImageGallerySaver.saveImage(mapByte['image_$i.png'])
               .catchError((e) => print(e));
-        updateLoading('Đã tải ${i + 1}/${imagesSelected.length} hình');
+        loadingDialog.message = 'Đã tải ${i + 1}/${imagesSelected.length} hình';
       }).catchError((e) => print(e));
     }
-
-    hideLoading(context);
+    loadingDialog.close();
 
     if (files.length == 0) {
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',

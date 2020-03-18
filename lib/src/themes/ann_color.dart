@@ -18,10 +18,16 @@ class ANNColor {
 
   // endregion
 
+  // region Bottom
+  static const bottomNavigationBarColor = Color(0xff616161);
+
+  // endregion
+
   // region Name Color
   static const white = Color(0xffffffff);
   static const orange = Color(0xffff9800);
   static const grey = Color(0xff9e9e9e);
+  static const black = Colors.black87;
 // endregion
 }
 

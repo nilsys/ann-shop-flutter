@@ -17,8 +17,8 @@ class BlogView extends StatefulWidget {
 class _BlogViewState extends State<BlogView> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((callback) async {
       Provider.of<BlogProvider>(context, listen: false).checkReload();
     });
@@ -27,21 +27,29 @@ class _BlogViewState extends State<BlogView> {
   @override
   Widget build(BuildContext context) {
     BlogProvider provider = Provider.of(context);
-    final currentTitle = provider.currentCategory == null
-        ? 'Bài viết'
-        : provider.currentCategory.name;
-    String currentSlug = provider.currentCategory == null
-        ? null
-        : provider.currentCategory.filter.categorySlug;
+    String title;
+    String slug;
+
+    // Get title
+    if (provider.currentCategory == null)
+      title = 'Bài viết';
+    else
+      title = provider.currentCategory.name;
+
+    // Get slug
+    if (provider.currentCategory == null)
+      slug = null;
+    else
+      slug = provider.currentCategory.filter.categorySlug;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(currentTitle),
+        title: Text(title),
       ),
       body: AccountController.instance.isLogin == false
           ? RequestLogin()
           : ListBlog(
-              currentSlug,
+              slug,
               topObject: _buildCategoryButtonList(),
             ),
     );

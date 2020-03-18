@@ -8,12 +8,12 @@ import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/button/border_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ann-logo.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/bottom_bar_policy.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -131,10 +131,13 @@ class _LoginViewState extends State<LoginView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading(context, message: 'Kiểm tra số điện thoại...');
+        final loadingDialog = new LoadingDialog(context, message: 'Kiểm tra số điện thoại...');
+
+        loadingDialog.show();
         final AppResponse response =
             await AccountRepository.instance.checkPhoneNumber(phone);
-        hideLoading(context);
+        loadingDialog.close();
+
         if (response.status) {
           if (response.data) {
             AccountRegisterState.instance.isRegister = false;
@@ -196,11 +199,14 @@ class _LoginViewState extends State<LoginView> {
         return;
       }
 
-      showLoading(context, message: 'Gửi OTP...');
+      final loadingDialog = new LoadingDialog(context, message: 'Gửi OTP...');
+
+      loadingDialog.show();
       final AppResponse response = await AccountRepository.instance
           .registerStep2RequestOTP(
               phone, AccountRegisterState.instance.randomNewOtp());
-      hideLoading(context);
+      loadingDialog.close();
+
       if (response.status) {
         AccountRegisterState.instance.timeOTP = DateTime.now();
         await Navigator.pushNamed(context, 'user/otp');

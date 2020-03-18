@@ -7,8 +7,8 @@ import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
@@ -360,11 +360,14 @@ class _UpdateInformationState extends State<UpdateInformation> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading(context,
-            message: widget.isRegister ? 'Đăng ký...' : 'Cập nhật...');
+        final message = widget.isRegister ? 'Đăng ký...' : 'Cập nhật...';
+        final loadingDialog = new LoadingDialog(context, message: message);
+
+        loadingDialog.show();
         final response =
             await AccountRepository.instance.updateInformation(account);
-        hideLoading(context);
+        loadingDialog.close();
+
         if (response.status) {
           AccountController.instance.updateAccountInfo(account);
           if (widget.isRegister) {
