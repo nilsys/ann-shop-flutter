@@ -10,11 +10,11 @@ import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
-import 'package:ann_shop_flutter/src/services/permission_services.dart';
+import 'package:ann_shop_flutter/src/services/common/permission_services.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -237,10 +237,12 @@ class ProductRepository {
   Future onShare(BuildContext context, Product product) async {
     try {
       final message = await onCopy(context, product.productID);
-      showLoading(context, message: 'Download...');
+      final loadingDialog = new LoadingDialog(context, message: 'Đang tải...');
+
+      loadingDialog.show();
       final images = await ProductRepository.instance
           .loadProductAdvertisementImage(product.productID);
-      hideLoading(context);
+      loadingDialog.close();
       if (Utility.isNullOrEmpty(images) == false) {
         await Navigator.pushNamed(context, 'product/detail/share-social',
             arguments: {

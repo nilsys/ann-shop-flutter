@@ -4,9 +4,9 @@ import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/button/text_button.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 
 class RegisterInputOtpView extends StatefulWidget {
@@ -200,11 +200,14 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading(context, message: 'Xác nhận OTP...');
+        final loadingDialog = new LoadingDialog(context, message: 'Xác nhận OTP...');
+
+        loadingDialog.show();
         AppResponse response = await AccountRepository.instance
             .registerStep3ValidateOTP(AccountRegisterState.instance.phone,
                 AccountRegisterState.instance.otp);
-        hideLoading(context);
+        loadingDialog.close();
+
         if (response.status) {
           Navigator.pushNamedAndRemoveUntil(context, 'user/register/password',
               ModalRoute.withName('user/login'));
@@ -226,11 +229,14 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading(context);
+        final loadingDialog = new LoadingDialog(context);
+
+        loadingDialog.show();
         AppResponse response = await AccountRepository.instance
             .registerStep2RequestOTP(AccountRegisterState.instance.phone,
                 AccountRegisterState.instance.randomNewOtp());
-        hideLoading(context);
+        loadingDialog.close();
+
         if (response.status) {
           AccountRegisterState.instance.timeOTP = DateTime.now();
           registerStream();

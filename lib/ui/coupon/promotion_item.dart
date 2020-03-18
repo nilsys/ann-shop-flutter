@@ -2,9 +2,9 @@ import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/utility/promotion.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/repository/coupon_repository.dart';
+import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -65,10 +65,13 @@ class _PromotionItemState extends State<PromotionItem> {
   }
 
   Future _submit() async {
-    showLoading(context);
+    var loadingDialog = new LoadingDialog(context, message: 'Đang xử lý...');
+
+    loadingDialog.show();
     final _result =
         await CouponRepository.instance.receiveCoupon(widget.data.code);
-    hideLoading(context);
+    loadingDialog.close();
+
     if (Utility.isNullOrEmpty(_result)) {
       await AppPopup.showCustomDialog(context, content: [
         AvatarGlow(

@@ -6,8 +6,8 @@ import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -178,11 +178,14 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        showLoading(context);
+        final loadingDialog = new LoadingDialog(context);
+
+        loadingDialog.show();
         AppResponse response = await AccountRepository.instance
             .registerStep4CreatePassword(AccountRegisterState.instance.phone,
                 AccountRegisterState.instance.otp, password);
-        hideLoading(context);
+        loadingDialog.close();
+
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
           if (AccountRegisterState.instance.isRegister) {

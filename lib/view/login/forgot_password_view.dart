@@ -4,8 +4,8 @@ import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:intl/intl.dart';
@@ -174,10 +174,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
   Future _onForgotPassword() async {
     try {
-      showLoading(context);
+      final loadingDialog = new LoadingDialog(context);
+
+      loadingDialog.show();
       AppResponse response = await AccountRepository.instance
           .forgotPasswordByBirthDay(widget.phone, birthDay);
-      hideLoading(context);
+      loadingDialog.close();
+
       if (response.status) {
         /// go to update password
         AccountRegisterState.instance.otp = response.data;
@@ -201,11 +204,14 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         return;
       }
 
-      showLoading(context, message: 'Gửi OTP...');
+      final loadingDialog = new LoadingDialog(context, message: 'Gửi OTP...');
+
+      loadingDialog.show();
       AppResponse response = await AccountRepository.instance
           .registerStep2RequestOTP(
               widget.phone, AccountRegisterState.instance.randomNewOtp());
-      hideLoading(context);
+      loadingDialog.close();
+
       if (response.status) {
         AccountRegisterState.instance.timeOTP = DateTime.now();
         Navigator.pushNamed(context, 'user/otp');

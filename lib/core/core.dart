@@ -16,6 +16,7 @@ class Core {
   static final Core _instance = Core._internal();
   static const appName = 'ANN';
   static const appFullName = 'Kho Hàng Sỉ ANN';
+  static const appSchema = 'com.ann.app';
   static const annLogoWithLink =
       'https://ann.com.vn/wp-content/uploads/ANN-logo-4.png';
   static const annLogoOrange = 'https://ann.com.vn/logo/ann-logo-2-400x150.png';

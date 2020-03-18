@@ -5,20 +5,31 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
+import 'package:ann_shop_flutter/src/services/utils/ann_logging.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class InAppRepository {
+  // region Singleton Pattern
   static final InAppRepository instance = InAppRepository._internal();
 
-  factory InAppRepository() => instance;
+  // endregion
+
+  // region Parameters
+  ANNLogging logging;
+
+  List<String> categories;
+
+  // endregion
 
   InAppRepository._internal() {
-    /// init
+    logging = ANNLogging.instance;
+
+    categories = ['promotion', 'notification', 'news'];
   }
 
-  List<String> categories = ['promotion', 'notification', 'news'];
+  factory InAppRepository() => instance;
 
   String getNameInApp(String category) {
     switch (category) {
@@ -108,24 +119,7 @@ class InAppRepository {
         }
       }
     } catch (e) {
-      print(e);
-    }
-    return null;
-  }
-
-  Future<Map> loadContentViewMore(String slug) async {
-    try {
-      final url = '${Core.domain}api/flutter/$slug';
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 10));
-      final body = response.body;
-
-      if (response.statusCode == HttpStatus.ok) {
-        return jsonDecode(body);
-      }
-    } catch (e) {
-      print(e);
+      logging.logError('API - Notification', e);
     }
     return null;
   }
