@@ -2,7 +2,8 @@ import 'dart:math';
 
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
 import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
@@ -34,13 +35,13 @@ class _HomeListNotificationState extends State<HomeListNotification> {
 
       for (int i = 0; i < length; i++) {
         children.add(BlogItem(data[i]));
-        children.add(Container(height: 1,color: ANNColor.dividerColor,));
+        children.add(Container(
+          height: 1,
+          color: ANNColor.dividerColor,
+        ));
       }
       children.add(BottomViewMore(
-        onPressed: () {
-          Provider.of<NavigationProvider>(context, listen: false)
-              .switchTo(PageName.notification.index);
-        },
+        onPressed: () => Routes.navigateHome(context, ANNPage.notification),
       ));
       return SliverList(delegate: SliverChildListDelegate(children));
     } else {

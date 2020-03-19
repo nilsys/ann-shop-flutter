@@ -10,10 +10,10 @@ import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/spam_cover_provider.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
 import 'package:ann_shop_flutter/theme/app_theme.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => NavigationProvider()),
+        ChangeNotifierProvider(create: (_) => RootPageProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProductProvider()),
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => FavoriteProvider()),

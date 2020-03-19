@@ -1,22 +1,16 @@
-import 'dart:io';
-
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
-import 'package:ann_shop_flutter/ui/button/border_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ann-logo.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/bottom_bar_policy.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -93,18 +87,6 @@ class _LoginViewState extends State<LoginView> {
                   style: TextStyle(color: ANNColor.white),
                 ),
               ),
-              SizedBox(height: Platform.isIOS ? 30 : 1),
-              if (Platform.isIOS && false)
-                BorderButton(
-                  'Đăng ký sau',
-                  onPressed: () {
-                    AccountController.instance.loginLater();
-                    Navigator.pushReplacementNamed(context, 'home');
-                    Provider.of<NavigationProvider>(context, listen: false)
-                        .index = PageName.home.index;
-                  },
-                ),
-              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -131,7 +113,8 @@ class _LoginViewState extends State<LoginView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        final loadingDialog = new LoadingDialog(context, message: 'Kiểm tra số điện thoại...');
+        final loadingDialog =
+            new LoadingDialog(context, message: 'Kiểm tra số điện thoại...');
 
         loadingDialog.show();
         final AppResponse response =

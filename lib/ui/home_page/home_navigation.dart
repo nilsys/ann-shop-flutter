@@ -2,11 +2,9 @@ import 'dart:ui';
 
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
-import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeNavigation extends StatelessWidget {
   @override
@@ -38,11 +36,9 @@ class HomeNavigation extends StatelessWidget {
           ),
           RoundedButton(
             title: 'Khuyến mãi',
-            onItemTapped: () {
-              Provider.of<InAppProvider>(context,listen: false).currentCategory = 'promotion';
-              Provider.of<NavigationProvider>(context, listen: false)
-                  .switchTo(PageName.notification.index);
-            },
+            onItemTapped: () => Routes.navigateHome(
+                context, ANNPage.notification,
+                notificationType: 'promotion'),
             icon: Icons.local_atm,
             color: Colors.red,
           ),

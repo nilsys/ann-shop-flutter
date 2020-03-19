@@ -2,14 +2,14 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RegisterInputPasswordView extends StatefulWidget {
   @override
@@ -192,10 +192,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
             Navigator.pushNamedAndRemoveUntil(context,
                 'user/register/information', (Route<dynamic> route) => false);
           } else {
-            Provider.of<NavigationProvider>(context, listen: false).index =
-                PageName.home.index;
-            Navigator.pushNamedAndRemoveUntil(
-                context, 'home', (Route<dynamic> route) => false);
+            Routes.navigateForgetPassword(context, ANNPage.home);
           }
         } else {
           AppSnackBar.showFlushbar(context,

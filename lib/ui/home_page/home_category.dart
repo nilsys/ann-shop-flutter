@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
@@ -23,10 +24,7 @@ class HomeCategory extends StatelessWidget {
           children: <Widget>[
             TitleViewMore(
               title: 'Danh mục sản phẩm',
-              onPressed: () {
-                Provider.of<NavigationProvider>(context, listen: false)
-                    .switchTo(PageName.category.index);
-              },
+              onPressed: () => Routes.navigateHome(context, ANNPage.category),
             ),
             Container(
               height: 200,
