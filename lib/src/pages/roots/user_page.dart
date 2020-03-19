@@ -4,7 +4,8 @@ import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
@@ -14,12 +15,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AccountPage extends StatefulWidget {
+class UserPage extends StatefulWidget {
   @override
-  _AccountPageState createState() => _AccountPageState();
+  _UserPageState createState() => _UserPageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     super.initState();
@@ -52,57 +53,48 @@ class _AccountPageState extends State<AccountPage> {
               ),
               _buildItemCommon('Quản lý đơn hàng',
                   icon: Icons.description, onTap: _viewOrderManagement),
-              _buildItemCommon('Sản phẩm đã xem', icon: Icons.remove_red_eye,
-                  onTap: () {
-                Navigator.pushNamed(context, 'user/seen');
-              }),
-              _buildItemCommon('Sản phẩm yêu thích', icon: Icons.favorite,
-                  onTap: () {
-                Navigator.pushNamed(context, 'user/favorite');
-              }),
-              _buildItemCommon('Thông báo', icon: Icons.notifications,
-                  onTap: () {
-                Provider.of<NavigationProvider>(context, listen: false)
-                    .switchTo(PageName.notification.index);
-              }),
-              _buildItemCommon('Bài viết', icon: AppIcons.blogger, onTap: () {
-                Navigator.pushNamed(context, 'blog');
-              }),
+              _buildItemCommon('Sản phẩm đã xem',
+                  icon: Icons.remove_red_eye,
+                  onTap: () => Navigator.pushNamed(context, 'user/seen')),
+              _buildItemCommon('Sản phẩm yêu thích',
+                  icon: Icons.favorite,
+                  onTap: () => Navigator.pushNamed(context, 'user/favorite')),
+              _buildItemCommon('Thông báo',
+                  icon: Icons.notifications,
+                  onTap: () =>
+                      Routes.navigateUser(context, ANNPage.notification)),
+              _buildItemCommon('Bài viết',
+                  icon: AppIcons.blogger,
+                  onTap: () => Navigator.pushNamed(context, 'blog')),
               const Divider(
                 height: 10,
                 thickness: 10,
               ),
               _buildItemCommon('Mã khuyến mãi',
-                  icon: MaterialCommunityIcons.ticket_percent, onTap: () {
-                Navigator.pushNamed(context, 'user/promotion');
-              }),
+                  icon: MaterialCommunityIcons.ticket_percent,
+                  onTap: () => Navigator.pushNamed(context, 'user/promotion')),
               _buildItemCommon(
                 'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
                 icon: Icons.star_border,
-                onTap: () {
-                  launch(Core.urlStoreReview);
-                },
+                onTap: () => launch(Core.urlStoreReview),
               ),
-              _buildItemCommon('Chia sẻ ứng dụng này', icon: Icons.share,
-                  onTap: () {
-                Share.text(
-                    Core.dynamicLinkStore, Core.dynamicLinkStore, 'text/plain');
-              }),
+              _buildItemCommon('Chia sẻ ứng dụng này',
+                  icon: Icons.share,
+                  onTap: () => Share.text(Core.dynamicLinkStore,
+                      Core.dynamicLinkStore, 'text/plain')),
               const Divider(
                 height: 10,
                 thickness: 10,
               ),
-              _buildItemCommon('Liên hệ', icon: Icons.headset_mic, onTap: () {
-                Navigator.pushNamed(context, 'shop/contact');
-              }),
+              _buildItemCommon('Liên hệ',
+                  icon: Icons.headset_mic,
+                  onTap: () => Navigator.pushNamed(context, 'shop/contact')),
               _buildItemCommon('Chính sách bán hàng',
-                  icon: Icons.question_answer, onTap: () {
-                Navigator.pushNamed(context, 'shop/policy');
-              }),
-              _buildItemCommon('Cài đặt copy sản phẩm', icon: Icons.settings,
-                  onTap: () {
-                Navigator.pushNamed(context, 'user');
-              }),
+                  icon: Icons.question_answer,
+                  onTap: () => Navigator.pushNamed(context, 'shop/policy')),
+              _buildItemCommon('Cài đặt copy sản phẩm',
+                  icon: Icons.settings,
+                  onTap: () => Navigator.pushNamed(context, 'user')),
               Container(
                 height: 45,
                 margin: EdgeInsets.symmetric(
@@ -130,12 +122,6 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                 ),
               ),
-//                Container(
-//                  height: 30,
-//                  alignment: Alignment.centerRight,
-//                  padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-//                  child: Text('Version: ${Core.appVersion}'),
-//                )
             ]),
           ),
         ],
@@ -157,8 +143,8 @@ class _AccountPageState extends State<AccountPage> {
               )
             : null,
         title: Text(title),
-        trailing: Icon(Icons.keyboard_arrow_right,
-            color: ANNColor.dividerColor),
+        trailing:
+            Icon(Icons.keyboard_arrow_right, color: ANNColor.dividerColor),
       ),
     );
   }

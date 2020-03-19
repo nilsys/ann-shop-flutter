@@ -1,7 +1,8 @@
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
+import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -93,19 +94,19 @@ class AppAction {
     var index = -1;
     switch (value) {
       case 'home':
-        index = PageName.home.index;
+        index = RootPageNavigationBar.home;
         break;
       case 'category':
-        index = PageName.category.index;
+        index = RootPageNavigationBar.category;
         break;
       case 'search':
-        index = PageName.search.index;
+        index = RootPageNavigationBar.search;
         break;
       case 'inapp':
-        index = PageName.notification.index;
+        index = RootPageNavigationBar.notification;
         break;
-      case 'account':
-        index = PageName.account.index;
+      case 'user':
+        index = RootPageNavigationBar.user;
         break;
       default:
         Navigator.pushNamed(context, '/$value', arguments: message);
@@ -113,7 +114,7 @@ class AppAction {
         break;
     }
     if (index >= 0) {
-      Provider.of<NavigationProvider>(context, listen: false).switchTo(index);
+      Provider.of<RootPageProvider>(context, listen: false).navigate(index);
       Navigator.popUntil(context, ModalRoute.withName('home'));
     }
   }

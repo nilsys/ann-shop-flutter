@@ -3,7 +3,8 @@ import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
@@ -99,12 +100,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                 style: TextStyle(color: ANNColor.white),
               ),
               onPressed: () {
-                Provider.of<NavigationProvider>(context, listen: false)
-                    .switchTo(PageName.category.index);
-                Navigator.popUntil(
-                  context,
-                  ModalRoute.withName('home'),
-                );
+                Routes.navigateFavorite(context, ANNPage.home);
               },
             )
           ],

@@ -1,16 +1,16 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/ann-logo.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/bottom_bar_policy.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoginPasswordView extends StatefulWidget {
   const LoginPasswordView(this.phone);
@@ -147,7 +147,8 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        final loadingDialog = new LoadingDialog(context, message: 'Đăng nhập...');
+        final loadingDialog =
+            new LoadingDialog(context, message: 'Đăng nhập...');
 
         loadingDialog.show();
         final AppResponse response =
@@ -156,10 +157,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
 
         if (response.status) {
           AccountController.instance.finishLogin(response.data);
-          Navigator.pushNamedAndRemoveUntil(
-              context, 'home', (Route<dynamic> route) => false);
-          Provider.of<NavigationProvider>(context, listen: false).index =
-              PageName.home.index;
+          Routes.navigateLogin(context, ANNPage.home);
         } else {
           AppSnackBar.showFlushbar(context,
               response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');

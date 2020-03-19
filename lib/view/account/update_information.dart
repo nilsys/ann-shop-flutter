@@ -4,8 +4,9 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -13,7 +14,6 @@ import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class UpdateInformation extends StatefulWidget {
   const UpdateInformation({this.isRegister = false});
@@ -371,10 +371,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
         if (response.status) {
           AccountController.instance.updateAccountInfo(account);
           if (widget.isRegister) {
-            Provider.of<NavigationProvider>(context, listen: false).index =
-                PageName.home.index;
-            Navigator.pushNamedAndRemoveUntil(
-                context, 'home', (Route<dynamic> route) => false);
+            Routes.navigateRegister(context, ANNPage.home);
           } else {
             Navigator.pop(context);
           }

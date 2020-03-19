@@ -6,8 +6,15 @@ import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/web_view/web_view_query_parameter_model.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
+import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
 import 'package:ann_shop_flutter/src/pages/blogs/blog_view.dart';
 import 'package:ann_shop_flutter/src/pages/not_found_page.dart';
+import 'package:ann_shop_flutter/src/pages/notifications/notification_page.dart';
+import 'package:ann_shop_flutter/src/pages/roots/root_page.dart';
+import 'package:ann_shop_flutter/src/pages/roots/search_page.dart';
+import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
 import 'package:ann_shop_flutter/src/services/common/permission_services.dart';
 import 'package:ann_shop_flutter/src/widgets/view_page/view_more_page.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -18,9 +25,6 @@ import 'package:ann_shop_flutter/view/account/shop_policy.dart';
 import 'package:ann_shop_flutter/view/account/update_information.dart';
 import 'package:ann_shop_flutter/view/coupon/promotion_view.dart';
 import 'package:ann_shop_flutter/view/favorite/favorite_view.dart';
-import 'package:ann_shop_flutter/view/home_view/home_view.dart';
-import 'package:ann_shop_flutter/view/home_view/search_page.dart';
-import 'package:ann_shop_flutter/view/inapp/inapp_view.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product_by_category.dart';
 import 'package:ann_shop_flutter/view/list_product/seen_view.dart';
 import 'package:ann_shop_flutter/view/login/forgot_password_view.dart';
@@ -43,6 +47,7 @@ import 'package:provider/provider.dart';
 import 'package:quiver/strings.dart';
 
 class Routes {
+  // region generate route
   // main route
   static Route<dynamic> generateRoute(RouteSettings settings) {
     if (isEmpty(settings.name) || settings.name == '/')
@@ -52,7 +57,7 @@ class Routes {
 
     switch (route) {
       case 'home':
-        return CustomFadeRoute(builder: (_) => HomeView(), settings: settings);
+        return CustomFadeRoute(builder: (_) => RootPage(), settings: settings);
       case 'product':
         return _routeProduct(settings);
       case 'search':
@@ -262,6 +267,141 @@ class Routes {
     return MaterialPageRoute(
         builder: (_) => NotFoundPage(title: Core.appFullName));
   }
+
+  // endregion
+
+  // region navigate page
+  static RootPageProvider _getProvider(BuildContext context) {
+    return Provider.of<RootPageProvider>(context, listen: false);
+  }
+
+  static void navigateHome(BuildContext context, ANNPage newPage,
+      {String notificationType = ''}) {
+    final provider = _getProvider(context);
+
+    switch (newPage) {
+      case ANNPage.category:
+        provider.navigate(RootPageNavigationBar.category);
+        break;
+      case ANNPage.notification:
+        if (!isEmpty(notificationType)) {
+          final notificationProvider =
+              Provider.of<InAppProvider>(context, listen: false);
+
+          notificationProvider.currentCategory = notificationType;
+        }
+
+        provider.navigate(RootPageNavigationBar.notification);
+        break;
+      default:
+        break;
+    }
+  }
+
+  static void navigateProduct(BuildContext context, ANNPage newPage) {
+    final provider = _getProvider(context);
+
+    switch (newPage) {
+      case ANNPage.home:
+        provider.navigate(RootPageNavigationBar.home);
+        Navigator.popUntil(context, ModalRoute.withName('home'));
+        break;
+      case ANNPage.category:
+        provider.navigate(RootPageNavigationBar.category);
+        Navigator.popUntil(context, ModalRoute.withName('home'));
+        break;
+      case ANNPage.user:
+        provider.navigate(RootPageNavigationBar.user);
+        Navigator.popUntil(context, ModalRoute.withName('home'));
+        break;
+      case ANNPage.favorite:
+        Navigator.pushNamed(context, 'user/favorite');
+        break;
+      default:
+        break;
+    }
+  }
+
+  static void navigateSearch(BuildContext context, ANNPage newPage) {
+    final provider = _getProvider(context);
+
+    switch (newPage) {
+      case ANNPage.home:
+        provider.navigate(RootPageNavigationBar.home);
+        break;
+      default:
+        break;
+    }
+  }
+
+  static void navigateUser(BuildContext context, ANNPage newPage) {
+    final provider = _getProvider(context);
+
+    switch (newPage) {
+      case ANNPage.notification:
+        provider.navigate(RootPageNavigationBar.notification);
+        break;
+      default:
+        break;
+    }
+  }
+
+  static void navigateFavorite(BuildContext context, ANNPage newPage) {
+    final provider = _getProvider(context);
+
+    switch (newPage) {
+      case ANNPage.home:
+        provider.navigate(RootPageNavigationBar.category);
+        Navigator.popUntil(context, ModalRoute.withName('home'));
+        break;
+      default:
+        break;
+    }
+  }
+
+  static void navigateLogin(BuildContext context, ANNPage newPage) {
+    final provider = _getProvider(context);
+
+    switch (newPage) {
+      case ANNPage.home:
+        provider.navigate(RootPageNavigationBar.home);
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'home', (Route<dynamic> route) => false);
+        break;
+      default:
+        break;
+    }
+  }
+
+  static void navigateRegister(BuildContext context, ANNPage newPage) {
+    final provider = _getProvider(context);
+
+    switch (newPage) {
+      case ANNPage.home:
+        provider.navigate(RootPageNavigationBar.home);
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'home', (Route<dynamic> route) => false);
+        break;
+      default:
+        break;
+    }
+  }
+
+  static void navigateForgetPassword(BuildContext context, ANNPage newPage) {
+    final provider = _getProvider(context);
+
+    switch (newPage) {
+      case ANNPage.home:
+        provider.navigate(RootPageNavigationBar.home);
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'home', (Route<dynamic> route) => false);
+        break;
+      default:
+        break;
+    }
+  }
+
+  // endregion
 
   static String getNameExtractor(RouteSettings settings) {
     /// User for override route's name

@@ -1,12 +1,11 @@
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/ui/utility/search_input.dart';
 import 'package:ann_shop_flutter/view/search/search_intro.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {
   @override
@@ -21,8 +20,7 @@ class SearchPage extends StatelessWidget {
               if (Navigator.canPop(context)) {
                 Navigator.pop(context);
               } else {
-                Provider.of<NavigationProvider>(context, listen: false)
-                    .switchTo(PageName.home.index);
+                Routes.navigateSearch(context, ANNPage.home);
               }
             }
           },

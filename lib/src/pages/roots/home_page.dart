@@ -4,8 +4,8 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/src/models/common/contanct_type.dart';
+import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
@@ -43,22 +43,21 @@ class _HomePageState extends State<HomePage>
 
   // region Getter
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+  int get seletedPage =>
+      Provider.of<RootPageProvider>(context, listen: false).selectedPage;
 
   // endregion
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
     scrollController = ScrollController();
 
-    WidgetsBinding.instance.addPostFrameCallback((callback) async {
-      reTapBottom = Provider.of<NavigationProvider>(context, listen: false)
-          .reTap
-          .stream
-          .listen(onReTapBottom);
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      onReTapBottom(seletedPage);
       Provider.of<CoverProvider>(context, listen: false)
           .checkLoadCoverHomePage();
     });
@@ -66,11 +65,13 @@ class _HomePageState extends State<HomePage>
 
   @override
   dispose() {
-    super.dispose();
+    if (scrollController != null) scrollController.dispose();
 
     if (reTapBottom != null) {
       reTapBottom.cancel();
     }
+
+    super.dispose();
   }
 
   @override

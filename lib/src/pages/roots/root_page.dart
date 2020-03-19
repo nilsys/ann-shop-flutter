@@ -4,47 +4,36 @@ import 'package:ann_shop_flutter/core/app_dynamic_links.dart';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/app_onesignal.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/pages/notifications/notification_page.dart';
+import 'package:ann_shop_flutter/src/pages/roots/category_page.dart';
+import 'package:ann_shop_flutter/src/pages/roots/home_page.dart';
+import 'package:ann_shop_flutter/src/pages/roots/search_page.dart';
+import 'package:ann_shop_flutter/src/pages/roots/user_page.dart';
+import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/view/home_view/account_page.dart';
-import 'package:ann_shop_flutter/view/home_view/category_page.dart';
-import 'package:ann_shop_flutter/view/home_view/home_page.dart';
-import 'package:ann_shop_flutter/view/home_view/search_page.dart';
-import 'package:ann_shop_flutter/view/inapp/inapp_view.dart';
-import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeView extends StatefulWidget {
+class RootPage extends StatefulWidget {
   @override
-  _HomeViewState createState() => _HomeViewState();
+  _RootPageState createState() => _RootPageState();
 }
 
-class _HomeViewState extends State<HomeView>
+class _RootPageState extends State<RootPage>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   // region Parameters
   Timer _timer;
 
-  // endregion
-
-  // region Widgets
-  final children = <Widget>[
-    HomePage(),
-    CategoryPage(),
-    SearchPage(),
-    NotificationPage(),
-    AccountPage(),
-  ];
+  List<Widget> pageList;
 
   // endregion
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    AppDynamicLinks.instance.checkAndInit();
 
+    AppDynamicLinks.instance.checkAndInit();
     WidgetsBinding.instance.addObserver(this);
 
     _timer = new Timer(const Duration(seconds: 5), () {
@@ -53,41 +42,44 @@ class _HomeViewState extends State<HomeView>
       } catch (e) {}
       AppOneSignal.instance.checkAndInit();
     });
+
+    pageList = new List<Widget>();
+    pageList.add(HomePage());
+    pageList.add(CategoryPage());
+    pageList.add(SearchPage());
+    pageList.add(NotificationPage());
+    pageList.add(UserPage());
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
     _timer.cancel();
+
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        _onItemTapped(0);
-        return Future.value(false);
-      },
-      child: Consumer<NavigationProvider>(
-          builder: (context, navigationProvider, _) {
-        return Scaffold(
-            body: _buildBody(context, navigationProvider),
-            bottomNavigationBar: _buildBottomNavigationBar(context));
-      }),
-    );
+    return Consumer<RootPageProvider>(
+        builder: (context, navigation, _) => new Scaffold(
+            body: _buildBody(context, navigation.selectedPage),
+            bottomNavigationBar:
+                _buildBottomNavigationBar(context, navigation)));
   }
 
   // region build the page
   // Create body
-  Widget _buildBody(BuildContext context, NavigationProvider navigation) {
-    return children.elementAt(navigation.index);
+  Widget _buildBody(BuildContext context, int selectedPage) {
+    return IndexedStack(
+      index: selectedPage,
+      children: pageList,
+    );
   }
 
   // Create bottom navigation bar
-  Container _buildBottomNavigationBar(BuildContext context) {
-    final navigation = Provider.of<NavigationProvider>(context);
+  Container _buildBottomNavigationBar(
+      BuildContext context, RootPageProvider rootPageProvider) {
     final textStyle = TextStyle(fontSize: 11, fontWeight: FontWeight.bold);
     final bigScreen = MediaQuery.of(context).size.width >= 320;
     final btNavBarType = bigScreen
@@ -128,10 +120,10 @@ class _HomeViewState extends State<HomeView>
             title: Text('Cá nhân'),
           ),
         ],
-        currentIndex: navigation.index,
+        currentIndex: rootPageProvider.selectedPage,
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: AppStyles.dartIcon,
-        onTap: _onItemTapped,
+        onTap: (int index) => rootPageProvider.navigate(index),
       ),
     );
   }
@@ -147,33 +139,5 @@ class _HomeViewState extends State<HomeView>
         ));
   }
 
-  // endregion
-
-  // region handle the page
-  _onItemTapped(_index) {
-    Provider.of<NavigationProvider>(context, listen: false).switchTo(_index);
-  }
-
-  // endregion
-
-  @override
-  Future<Null> didChangeAppLifecycleState(AppLifecycleState _state) async {
-    switch (_state) {
-      case AppLifecycleState.paused:
-      case AppLifecycleState.detached:
-        break;
-      case AppLifecycleState.resumed:
-        resumeCallBack();
-        break;
-      case AppLifecycleState.inactive:
-      default:
-        break;
-    }
-  }
-
-  resumeCallBack() {
-    if (MediaQuery.of(context).viewInsets.bottom > 100) {
-      showDialog(context: context, child: FixViewInsetsBottom());
-    }
-  }
+// endregion
 }

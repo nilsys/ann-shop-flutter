@@ -1,6 +1,5 @@
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
 import 'package:ann_shop_flutter/ui/inapp/inapp_category_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/request_login.dart';
@@ -29,32 +28,28 @@ class _NotificationPageState extends State<NotificationPage> {
     if (AccountController.instance.isLogin == false) {
       return RequestLogin();
     }
-    if (Provider.of<NavigationProvider>(context).index !=
-        PageName.notification.index) {
-      return Container();
-    } else {
-      InAppProvider provider = Provider.of(context);
 
-      return Container(
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 50,
-              decoration: BoxDecoration(
-                border: Border(
-                    right: BorderSide(width: 1, color: Colors.grey[400])),
-              ),
-              child: InAppCategoryUI(),
+    InAppProvider provider = Provider.of(context);
+
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 50,
+            decoration: BoxDecoration(
+              border:
+                  Border(right: BorderSide(width: 1, color: Colors.grey[400])),
             ),
-            Expanded(
-              flex: 1,
-              child: ListInApp(
-                kind: provider.currentCategory,
-              ),
-            )
-          ],
-        ),
-      );
-    }
+            child: InAppCategoryUI(),
+          ),
+          Expanded(
+            flex: 1,
+            child: ListInApp(
+              kind: provider.currentCategory,
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

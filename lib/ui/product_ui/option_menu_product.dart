@@ -1,15 +1,18 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/provider/utility/navigation_provider.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class OptionMenuProduct extends StatelessWidget {
-  OptionMenuProduct({this.onShare, this.onDownload, this.onCopy});
-
+  // region Parameters
   final VoidCallback onShare;
   final VoidCallback onDownload;
   final VoidCallback onCopy;
+
+  // endregion
+
+  OptionMenuProduct({this.onShare, this.onDownload, this.onCopy});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class OptionMenuProduct extends StatelessWidget {
               size: 20),
         ),
         PopupMenuItem<MenuOptions>(
-          value: MenuOptions.account,
+          value: MenuOptions.user,
           child: _buildMenuItem(Icons.person, 'Cá nhân'),
         ),
         PopupMenuItem<MenuOptions>(
@@ -77,22 +80,16 @@ class OptionMenuProduct extends StatelessWidget {
   _onClickItem(context, value) {
     switch (value) {
       case MenuOptions.home:
-        Provider.of<NavigationProvider>(context, listen: false)
-            .switchTo(PageName.home.index);
-        Navigator.popUntil(context, ModalRoute.withName('home'));
+        Routes.navigateProduct(context, ANNPage.home);
         break;
       case MenuOptions.category:
-        Provider.of<NavigationProvider>(context, listen: false)
-            .switchTo(PageName.category.index);
-        Navigator.popUntil(context, ModalRoute.withName('home'));
+        Routes.navigateProduct(context, ANNPage.category);
         break;
-      case MenuOptions.account:
-        Provider.of<NavigationProvider>(context, listen: false)
-            .switchTo(PageName.account.index);
-        Navigator.popUntil(context, ModalRoute.withName('home'));
+      case MenuOptions.user:
+        Routes.navigateProduct(context, ANNPage.category);
         break;
       case MenuOptions.favorite:
-        Navigator.pushNamed(context, 'user/favorite');
+        Routes.navigateProduct(context, ANNPage.favorite);
         break;
       case MenuOptions.share:
         if (onShare != null) onShare();
@@ -110,7 +107,7 @@ class OptionMenuProduct extends StatelessWidget {
 enum MenuOptions {
   home,
   category,
-  account,
+  user,
   favorite,
   share,
   download,
