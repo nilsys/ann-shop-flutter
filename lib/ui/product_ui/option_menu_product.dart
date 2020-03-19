@@ -86,7 +86,7 @@ class OptionMenuProduct extends StatelessWidget {
         Routes.navigateProduct(context, ANNPage.category);
         break;
       case MenuOptions.user:
-        Routes.navigateProduct(context, ANNPage.category);
+        Routes.navigateProduct(context, ANNPage.user);
         break;
       case MenuOptions.favorite:
         Routes.navigateProduct(context, ANNPage.favorite);
