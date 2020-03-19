@@ -3,6 +3,7 @@ enum ANNPage {
   category,
   product,
   search,
+  scan,
   notification,
   user,
   favorite,

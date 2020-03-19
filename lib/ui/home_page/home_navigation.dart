@@ -21,7 +21,7 @@ class HomeNavigation extends StatelessWidget {
           RoundedButton(
             title: 'Tra giá',
             onItemTapped: () {
-              Routes.scanBarCode(context);
+              Routes.navigateHome(context, ANNPage.scan);
             },
             icon: AppIcons.qrcode,
             color: Color(0xff5aac44),

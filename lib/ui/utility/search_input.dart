@@ -23,6 +23,15 @@ class _SearchInputState extends State<SearchInput> {
 
   @override
   Widget build(BuildContext context) {
+    // Focus the keyboard when open the search page
+    final provider = Provider.of<SearchProvider>(context);
+
+    if (provider.openKeyboard) {
+      FocusScope.of(context).requestFocus(provider.focusNode);
+    } else {
+      provider.focusNode.unfocus();
+    }
+
     return Container(
       height: 35,
       padding: EdgeInsets.symmetric(horizontal: 15),
@@ -34,10 +43,9 @@ class _SearchInputState extends State<SearchInput> {
         ),
       ),
       child: TextField(
-          controller: Provider.of<SearchProvider>(context).controller,
+          controller: provider.controller,
+          focusNode: provider.focusNode,
           style: Theme.of(context).textTheme.body1,
-          autofocus: true,
-          showCursor: true,
           cursorColor: Colors.black87,
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
@@ -55,8 +63,11 @@ class _SearchInputState extends State<SearchInput> {
                   .merge(TextStyle(fontStyle: FontStyle.italic)),
               hintText: 'Tên sản phẩm, Mã sản phẩm...'),
           onSubmitted: (text) {
-            Provider.of<SearchProvider>(context, listen: false).onSearch(
-                context, Provider.of<SearchProvider>(context, listen: false).controller.text);
+            final searchProvider =
+                Provider.of<SearchProvider>(context, listen: false);
+            final strSearch = searchProvider.controller.text;
+
+            searchProvider.onSearch(context, strSearch);
           }),
     );
   }
