@@ -31,7 +31,7 @@ class SearchPage extends StatelessWidget {
           IconButton(
             icon: Icon(AppIcons.qrcode),
             onPressed: () {
-              Routes.scanBarCode(context);
+              Routes.navigateSearch(context, ANNPage.scan);
             },
             padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
           )

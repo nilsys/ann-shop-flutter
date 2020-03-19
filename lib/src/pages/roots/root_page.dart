@@ -4,6 +4,8 @@ import 'package:ann_shop_flutter/core/app_dynamic_links.dart';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/app_onesignal.dart';
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
+import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
 import 'package:ann_shop_flutter/src/pages/notifications/notification_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/category_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/home_page.dart';
@@ -123,7 +125,7 @@ class _RootPageState extends State<RootPage>
         currentIndex: rootPageProvider.selectedPage,
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: AppStyles.dartIcon,
-        onTap: (int index) => rootPageProvider.navigate(index),
+        onTap: (int index) => _navigate(context, rootPageProvider, index),
       ),
     );
   }
@@ -140,4 +142,17 @@ class _RootPageState extends State<RootPage>
   }
 
 // endregion
+
+  void _navigate(BuildContext context, RootPageProvider rootPageProvider,
+      int selectedPage) {
+    final searchProvider = Provider.of<SearchProvider>(context, listen: false);
+
+    if (selectedPage == RootPageNavigationBar.search) {
+      searchProvider.setOpenKeyBoard(true);
+    } else {
+      searchProvider.setOpenKeyBoard(false);
+    }
+
+    rootPageProvider.navigate(selectedPage);
+  }
 }

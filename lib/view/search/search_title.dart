@@ -1,4 +1,6 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
+import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +13,7 @@ class SearchTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, 'search');
+        Routes.navigateHome(context, ANNPage.search);
       },
       child: Container(
         height: 35,

@@ -16,22 +16,40 @@ import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 
 class SearchProvider with ChangeNotifier {
-  SearchProvider() {
-    controller = TextEditingController();
-    loadHistory();
-    checkLoadHotKey();
-  }
-
-  final _keyHistory = '_historyKey';
-  TextEditingController controller;
-  List<String> _history = [];
-
-  List<String> get history => _history;
+  // region Parameter
   static final ResponseProvider<List<Category>> _hotKeys = ResponseProvider();
+  final _keyHistory = '_historyKey';
 
+  bool openKeyboard;
+  List<String> _history;
+
+  // endregion
+
+  // region Widget
+  TextEditingController controller;
+  FocusNode focusNode;
+
+  // endregion
+
+  // region Getter
   ResponseProvider<List<Category>> get hotKeys => _hotKeys;
 
+  List<String> get history => _history;
+
   String get text => controller.text;
+
+  // endregion
+
+  SearchProvider() {
+    loadHistory();
+    checkLoadHotKey();
+
+    openKeyboard = false;
+    _history = [];
+
+    controller = TextEditingController();
+    focusNode = FocusNode();
+  }
 
   void checkLoadHotKey() {
     if (_hotKeys.isLoading == false && _hotKeys.isCompleted == false) {
@@ -68,6 +86,8 @@ class SearchProvider with ChangeNotifier {
   final bool checkFirst = false;
 
   Future onSearch(context, value) async {
+    setOpenKeyBoard(false);
+
     value = value.trim();
     if (value.isNotEmpty) {
       if (AccountController.instance.canSearchProduct == false) {
@@ -141,6 +161,11 @@ class SearchProvider with ChangeNotifier {
   void removeHistoryAll() {
     _history = [];
     StorageManager.clearObjectByKey(_keyHistory);
+    notifyListeners();
+  }
+
+  void setOpenKeyBoard(bool open) {
+    openKeyboard = open;
     notifyListeners();
   }
 }

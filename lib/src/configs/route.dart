@@ -7,6 +7,7 @@ import 'package:ann_shop_flutter/model/web_view/web_view_query_parameter_model.d
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
+import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
 import 'package:ann_shop_flutter/src/pages/blogs/blog_view.dart';
@@ -283,6 +284,13 @@ class Routes {
       case ANNPage.category:
         provider.navigate(RootPageNavigationBar.category);
         break;
+      case ANNPage.search:
+        final searchProvider =
+            Provider.of<SearchProvider>(context, listen: false);
+
+        searchProvider.setOpenKeyBoard(true);
+        provider.navigate(RootPageNavigationBar.search);
+        break;
       case ANNPage.notification:
         if (!isEmpty(notificationType)) {
           final notificationProvider =
@@ -292,6 +300,15 @@ class Routes {
         }
 
         provider.navigate(RootPageNavigationBar.notification);
+        break;
+      case ANNPage.scan:
+        final permission = PermissionService.instance;
+
+        permission
+            .checkAndRequestPermission(context, PermissionGroup.camera)
+            .then((bool result) {
+          if (result) Navigator.pushNamed(context, "search/scan");
+        });
         break;
       default:
         break;
@@ -324,10 +341,22 @@ class Routes {
 
   static void navigateSearch(BuildContext context, ANNPage newPage) {
     final provider = _getProvider(context);
+    final searchProvider = Provider.of<SearchProvider>(context, listen: false);
 
     switch (newPage) {
       case ANNPage.home:
+        searchProvider.setOpenKeyBoard(false);
         provider.navigate(RootPageNavigationBar.home);
+        break;
+      case ANNPage.scan:
+        final permission = PermissionService.instance;
+
+        searchProvider.setOpenKeyBoard(false);
+        permission
+            .checkAndRequestPermission(context, PermissionGroup.camera)
+            .then((bool result) {
+          if (result) Navigator.pushNamed(context, "search/scan");
+        });
         break;
       default:
         break;
@@ -435,15 +464,5 @@ class Routes {
       }
       await Navigator.pushNamed(context, 'product/detail', arguments: slug);
     }
-  }
-
-  static scanBarCode(BuildContext context) {
-    final permission = PermissionService.instance;
-
-    permission
-        .checkAndRequestPermission(context, PermissionGroup.camera)
-        .then((bool result) {
-      if (result) Navigator.pushNamed(context, "search/scan");
-    });
   }
 }

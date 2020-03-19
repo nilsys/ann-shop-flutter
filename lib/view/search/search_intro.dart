@@ -1,11 +1,9 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/spam_cover_provider.dart';
 import 'package:ann_shop_flutter/ui/product_ui/product_banner.dart';
-import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +30,7 @@ class _SearchIntroState extends State<SearchIntro> {
     SearchProvider provider = Provider.of(context);
     bool hasHotKey = Utility.isNullOrEmpty(provider.hotKeys.data) == false;
     bool hasHistory = Utility.isNullOrEmpty(provider.history) == false;
+
     return RefreshIndicator(
       onRefresh: () async {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -118,7 +117,7 @@ class _SearchIntroState extends State<SearchIntro> {
                   padding: EdgeInsets.symmetric(horizontal: defaultPadding),
                   child: Wrap(
                     children: provider.history
-                        .map((title) => _buildHistory(title))
+                        .map((title) => _buildHistory(context, title))
                         .toList(),
                   ),
                 )
@@ -139,13 +138,15 @@ class _SearchIntroState extends State<SearchIntro> {
     );
   }
 
-  Widget _buildHistory(String title) {
+  Widget _buildHistory(BuildContext context, String title) {
+    final searchProvider = Provider.of<SearchProvider>(context, listen: false);
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5.0),
       child: ActionChip(
           label: Text(title, textAlign: TextAlign.center),
           onPressed: () {
-            Provider.of<SearchProvider>(context).onSearch(context, title);
+            searchProvider.onSearch(context, title);
           }),
     );
   }
