@@ -6,6 +6,7 @@ import 'package:ann_shop_flutter/provider/product/category_product_provider.dart
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/src/models/common/contanct_type.dart';
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
+import 'package:ann_shop_flutter/src/services/common/user_service.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
@@ -306,13 +307,17 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<void> _refreshHomepage() async {
-    Provider.of<CoverProvider>(context, listen: false).loadNotificationHome();
-    Provider.of<CoverProvider>(context, listen: false).loadPostHome();
-    Provider.of<CoverProvider>(context, listen: false).loadCoverHome();
-    Provider.of<CategoryProvider>(context, listen: false).loadCDataHome();
+    final coverProvider = Provider.of<CoverProvider>(context, listen: false);
+    final categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: false);
+
+    await UserService.instance.refreshToken(context);
+    coverProvider.loadNotificationHome();
+    coverProvider.loadPostHome();
+    coverProvider.loadCoverHome();
+    categoryProvider.loadCDataHome();
     Provider.of<CategoryProductProvider>(context, listen: false).forceRefresh();
-    await Provider.of<CategoryProvider>(context, listen: false)
-        .loadCategoryHome();
+    await categoryProvider.loadCategoryHome();
   }
 // endregion
 }

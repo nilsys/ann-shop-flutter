@@ -187,7 +187,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
         loadingDialog.close();
 
         if (response.status) {
-          AccountController.instance.finishLogin(response.data);
+          AccountController.instance.finishLogin(response.data, password);
           if (AccountRegisterState.instance.isRegister) {
             Navigator.pushNamedAndRemoveUntil(context,
                 'user/register/information', (Route<dynamic> route) => false);

@@ -11,6 +11,7 @@ import 'package:ann_shop_flutter/ui/utility/ann-logo.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/bottom_bar_policy.dart';
 import 'package:flutter/material.dart';
+import 'package:quiver/strings.dart';
 
 class LoginPasswordView extends StatefulWidget {
   const LoginPasswordView(this.phone);
@@ -22,19 +23,40 @@ class LoginPasswordView extends StatefulWidget {
 }
 
 class _LoginPasswordViewState extends State<LoginPasswordView> {
+  // region Parameters
   final _formKey = GlobalKey<FormState>();
-  bool _autoValidate = false;
+
+  AccountController _accountController;
+  bool _autoValidate;
+
+  String password;
+  bool showPassword;
+
+  // endregion
+
+  // region Widget
+  ScrollController _scrollController;
+
+  // endregion
 
   @override
   void initState() {
     super.initState();
+    _accountController = AccountController.instance;
+    _autoValidate = false;
+
+    if (_accountController.account != null &&
+        !isEmpty(_accountController.account.password)) {
+      password = _accountController.account.password;
+    }
+    showPassword = false;
+
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.offset < -50) {
         FocusScope.of(context).requestFocus(FocusNode());
       }
     });
-    showPassword = false;
   }
 
   @override
@@ -42,10 +64,6 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
     _scrollController.dispose();
     super.dispose();
   }
-
-  ScrollController _scrollController;
-  String password;
-  bool showPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +96,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
               ),
               const SizedBox(height: 15),
               TextFormField(
+                initialValue: password,
                 autofocus: true,
                 obscureText: !showPassword,
                 style: TextStyle(fontWeight: FontWeight.w600),
@@ -156,7 +175,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
         loadingDialog.close();
 
         if (response.status) {
-          AccountController.instance.finishLogin(response.data);
+          AccountController.instance.finishLogin(response.data, password);
           Routes.navigateLogin(context, ANNPage.home);
         } else {
           AppSnackBar.showFlushbar(context,

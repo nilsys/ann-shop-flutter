@@ -18,7 +18,7 @@ class AccountController {
   AccountToken token;
   NoLoginInfo noLoginInfo;
 
-  bool get isLogin => account != null && token != null;
+  bool get isLogin => token != null;
 
   bool get canViewProduct {
     if (isLogin) {
@@ -51,63 +51,44 @@ class AccountController {
         "Authorization": "Bearer " + (token == null ? '' : token.accessToken)
       };
 
-  finishLogin(Map response) {
+  finishLogin(Map response, String password) {
     account = Account.fromJson(response['user']);
     token = AccountToken.fromJson(response['token']);
-    saveToLocale();
+
+    account.password = password;
+    StorageManager.clearObjectByKey(_keyAccount);
+    StorageManager.setObject(_keyAccount, json.encode(account.toJson()));
+    StorageManager.clearObjectByKey(_keyToken);
+    StorageManager.setObject(_keyToken, json.encode(token.toJson()));
   }
 
   void logout() {
-    account = null;
     token = null;
-    saveToLocale();
+    StorageManager.clearObjectByKey(_keyToken);
   }
 
   final _keyAccount = '_keyAccount';
   final _keyToken = '_keyToken';
   final _keyNoLoginInfo = '_keyNoLoginInfo';
 
-  loginLater() async {
-    var response = await StorageManager.getObjectByKey(_keyNoLoginInfo);
-
-    try {
-      noLoginInfo = NoLoginInfo.fromJson(jsonDecode(response));
-    } catch (e) {}
-    if (noLoginInfo == null) {
-      noLoginInfo = NoLoginInfo();
-    }
-    logout();
-  }
-
   updateAccountInfo(Account _account) {
     this.account = _account;
-    saveToLocale();
+    StorageManager.clearObjectByKey(_keyAccount);
+    StorageManager.setObject(_keyAccount, json.encode(account.toJson()));
   }
 
   loadFormLocale() async {
     try {
-      var response = await StorageManager.getObjectByKey(_keyAccount);
-      if (response != null) {
-        account = Account.fromJson(jsonDecode(response));
+      var userResponse = await StorageManager.getObjectByKey(_keyAccount);
+      if (userResponse != null) {
+        account = Account.fromJson(jsonDecode(userResponse));
       }
-      response = await StorageManager.getObjectByKey(_keyToken);
-      if (response != null) {
-        token = AccountToken.fromJson(jsonDecode(response));
-      }
+
+      // Fix bug: Token expires
+      token = null;
+      StorageManager.clearObjectByKey(_keyToken);
     } catch (e) {
       print(e);
-    }
-  }
-
-  saveToLocale() {
-    if (account == null) {
-      StorageManager.clearObjectByKey(_keyAccount);
-      StorageManager.clearObjectByKey(_keyToken);
-    } else {
-      StorageManager.setObject(_keyAccount, json.encode(account.toJson()));
-      StorageManager.setObject(_keyToken, json.encode(token.toJson()));
-      StorageManager.clearObjectByKey(_keyNoLoginInfo);
-      noLoginInfo = null;
     }
   }
 }

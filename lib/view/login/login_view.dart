@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/validator.dart';
+import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
@@ -11,6 +12,7 @@ import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/bottom_bar_policy.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:quiver/strings.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -18,12 +20,33 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  // region Parameters
   final _formKey = GlobalKey<FormState>();
-  bool _autoValidate = false;
+
+  AccountController _accountController;
+  bool _autoValidate;
+
+  String phone;
+
+  // endregion
+
+  // region Widget
+  ScrollController _scrollController;
+
+  // endregion
 
   @override
   void initState() {
     super.initState();
+
+    _accountController = AccountController.instance;
+    _autoValidate = false;
+
+    if (_accountController.account != null &&
+        !isEmpty(_accountController.account.phone)) {
+      phone = _accountController.account.phone;
+    }
+
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.offset < -50) {
@@ -35,11 +58,9 @@ class _LoginViewState extends State<LoginView> {
   @override
   void dispose() {
     _scrollController.dispose();
+
     super.dispose();
   }
-
-  ScrollController _scrollController;
-  String phone;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +84,7 @@ class _LoginViewState extends State<LoginView> {
                 child: AnnLogo(),
               ),
               TextFormField(
+                  initialValue: phone,
                   autofocus: true,
                   maxLength: 10,
                   style: TextStyle(fontWeight: FontWeight.w600),

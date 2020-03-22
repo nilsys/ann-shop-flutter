@@ -4,6 +4,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
 import 'package:ann_shop_flutter/src/models/views/view_navigation_bar.dart';
+import 'package:ann_shop_flutter/src/services/common/user_service.dart';
 import 'package:ann_shop_flutter/src/services/views/view_service.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
@@ -111,11 +112,13 @@ class _ViewMorePageState extends State<ViewMorePage> {
       appBar: AppBar(
         title: Text('Đang tải...'),
       ),
-      body: Container(
-          child: SomethingWentWrong(
-        onReload: () => setState(() {
-          _fetchData = _service.getViewBySlug(widget.slug);
-        }),
+      body: Container(child: SomethingWentWrong(
+        onReload: () async {
+          await UserService.instance.refreshToken(context);
+          setState(() {
+            _fetchData = _service.getViewBySlug(widget.slug);
+          });
+        },
       )),
     );
   }

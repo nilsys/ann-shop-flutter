@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
+import 'package:ann_shop_flutter/src/services/common/user_service.dart';
 import 'package:ann_shop_flutter/ui/coupon/coupon_item.dart';
 import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
@@ -77,6 +78,7 @@ class _MyCouponTapState extends State<MyCouponTap> {
   }
 
   Future _reload() async {
+    await UserService.instance.refreshToken(context);
     await Provider.of<CouponProvider>(context, listen: false).loadMyCoupon();
   }
 }

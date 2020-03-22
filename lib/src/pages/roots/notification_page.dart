@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
+import 'package:ann_shop_flutter/src/services/common/user_service.dart';
 import 'package:ann_shop_flutter/ui/inapp/inapp_category_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/request_login.dart';
 import 'package:ann_shop_flutter/view/inapp/list_inapp.dart';
@@ -15,12 +16,15 @@ class NotificationPage extends StatefulWidget {
 class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(InAppRepository.instance
-            .getNameInApp(Provider.of<InAppProvider>(context).currentCategory)),
+    return RefreshIndicator(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(InAppRepository.instance.getNameInApp(
+              Provider.of<InAppProvider>(context).currentCategory)),
+        ),
+        body: _buildPageData(),
       ),
-      body: _buildPageData(),
+      onRefresh: () => _onRefresh(context),
     );
   }
 
@@ -51,5 +55,9 @@ class _NotificationPageState extends State<NotificationPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _onRefresh(BuildContext context) async {
+    await UserService.instance.refreshToken(context);
   }
 }

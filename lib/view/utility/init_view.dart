@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
+import 'package:ann_shop_flutter/src/services/common/user_service.dart';
 import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,17 +52,14 @@ class _InitViewState extends State<InitView> {
 
   checkAccountInfo() async {
     await AccountController.instance.loadFormLocale();
-    if (AccountController.instance.isLogin == false) {
-      Navigator.pushReplacementNamed(context, 'user/login');
+    await UserService.instance.refreshToken(context);
+
+    CoverProvider provider = Provider.of(context, listen: false);
+    await provider.loadPostHome();
+    if (provider.postsHome.isCompleted) {
+      Navigator.pushReplacementNamed(context, 'home');
     } else {
-      CoverProvider provider = Provider.of(context, listen: false);
-      await provider.loadPostHome();
-      if (provider.postsHome.isCompleted) {
-        AccountController.instance.saveToLocale();
-        Navigator.pushReplacementNamed(context, 'home');
-      } else {
-        Navigator.pushReplacementNamed(context, 'user/login');
-      }
+      Navigator.pushReplacementNamed(context, 'user/login');
     }
   }
 }

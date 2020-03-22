@@ -7,6 +7,7 @@ import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
+import 'package:ann_shop_flutter/src/services/common/user_service.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
@@ -106,7 +107,8 @@ class _ProductSlideState extends State<ProductSlide> {
 
   Widget buildError(BuildContext context) {
     return buildBox(
-      child: SomethingWentWrong(onReload: () {
+      child: SomethingWentWrong(onReload: () async {
+        await UserService.instance.refreshToken(context);
         Provider.of<CategoryProductProvider>(context)
             .loadCategory(currentCategory, refresh: true);
       }),

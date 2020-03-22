@@ -1,7 +1,7 @@
-
 class Account {
   int id;
   String phone;
+  String password;
   String fullName;
   String birthDay;
   String gender;
@@ -10,16 +10,18 @@ class Account {
 
   Account(
       {this.id,
-        this.phone,
-        this.fullName,
-        this.birthDay,
-        this.gender,
-        this.address,
-        this.city});
+      this.phone,
+      this.password,
+      this.fullName,
+      this.birthDay,
+      this.gender,
+      this.address,
+      this.city});
 
   Account.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     phone = json['phone'];
+    password = json['password'] ?? '';
     fullName = json['fullName'];
     birthDay = json['birthDay'];
     gender = json['gender'];
@@ -31,6 +33,7 @@ class Account {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['phone'] = this.phone;
+    data['password'] = this.password;
     data['fullName'] = this.fullName;
     data['birthDay'] = this.birthDay;
     data['gender'] = this.gender;

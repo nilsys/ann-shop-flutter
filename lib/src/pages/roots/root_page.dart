@@ -6,7 +6,7 @@ import 'package:ann_shop_flutter/core/app_onesignal.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
-import 'package:ann_shop_flutter/src/pages/notifications/notification_page.dart';
+import 'package:ann_shop_flutter/src/pages/roots/notification_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/category_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/home_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/search_page.dart';

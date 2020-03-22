@@ -12,7 +12,7 @@ import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
 import 'package:ann_shop_flutter/src/pages/blogs/blog_view.dart';
 import 'package:ann_shop_flutter/src/pages/not_found_page.dart';
-import 'package:ann_shop_flutter/src/pages/notifications/notification_page.dart';
+import 'package:ann_shop_flutter/src/pages/roots/notification_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/root_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/search_page.dart';
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
