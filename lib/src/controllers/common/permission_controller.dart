@@ -1,15 +1,15 @@
 import 'dart:io';
 
+import 'package:ann_shop_flutter/src/controllers/ann_controller.dart';
 import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_dialog_permission.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../ann_service.dart';
 
-class PermissionService extends ANNService {
+class PermissionController extends ANNController {
   // region Singleton Pattern
-  static final _instance = PermissionService._internal();
+  static final _instance = PermissionController._internal();
 
   // endregion
 
@@ -19,15 +19,15 @@ class PermissionService extends ANNService {
   // endregion
 
   // region Getter
-  static PermissionService get instance => _instance;
+  static PermissionController get instance => _instance;
 
   // endregion
 
-  PermissionService._internal() {
+  PermissionController._internal() {
     _permission = new PermissionHandler();
   }
 
-  factory PermissionService() => instance;
+  factory PermissionController() => instance;
 
   Future<bool> checkAndRequestPermission(
       BuildContext context, PermissionGroup name) async {
@@ -59,6 +59,10 @@ class PermissionService extends ANNService {
         else
           return false;
       }
+    } else if (status == PermissionStatus.neverAskAgain) {
+      _showAlertDialog(context, name);
+
+      return false;
     } else {
       return false;
     }

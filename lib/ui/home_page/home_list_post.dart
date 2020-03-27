@@ -15,7 +15,7 @@ class HomeListPost extends StatefulWidget {
 }
 
 class _HomeListPostState extends State<HomeListPost> {
-  final int limit = 2;
+  final int limit = 4;
 
   @override
   Widget build(BuildContext context) {

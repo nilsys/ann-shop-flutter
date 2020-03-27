@@ -10,7 +10,7 @@ import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
-import 'package:ann_shop_flutter/src/services/common/permission_services.dart';
+import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -277,7 +277,7 @@ class ProductRepository {
         final permissionGroup = Platform.isAndroid
             ? PermissionGroup.storage
             : PermissionGroup.photos;
-        final permission = await PermissionService.instance
+        final permission = await PermissionController.instance
             .checkAndRequestPermission(context, permissionGroup);
         if (permission) {
           final result =

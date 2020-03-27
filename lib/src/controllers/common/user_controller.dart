@@ -4,13 +4,13 @@ import 'package:ann_shop_flutter/core/storage_manager.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
-import 'package:ann_shop_flutter/src/services/ann_service.dart';
+import 'package:ann_shop_flutter/src/controllers/ann_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:quiver/strings.dart';
 
-class UserService extends ANNService {
+class UserController extends ANNController {
   // region Singleton Pattern
-  static final _instance = UserService._internal();
+  static final _instance = UserController._internal();
 
   // endregion
 
@@ -20,15 +20,15 @@ class UserService extends ANNService {
   // endregion
 
   // region Getter
-  static UserService get instance => _instance;
+  static UserController get instance => _instance;
 
   // endregion
 
-  UserService._internal() {
+  UserController._internal() {
     _accController = AccountController.instance;
   }
 
-  factory UserService() => instance;
+  factory UserController() => instance;
 
   Future<dynamic> refreshToken(BuildContext context) async {
     final _keyAccount = '_keyAccount';

@@ -1,3 +1,4 @@
+import 'package:html_unescape/html_unescape.dart';
 import 'package:quiver/strings.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -15,7 +16,7 @@ class ViewModel {
 
     if (!isEmpty(this.content)) {
       this.images = _imageFilter(this.content);
-      this.postContent = content.replaceAll(new RegExp(r'<[^>]*>'), '');
+      this.postContent = _createPostContent(content);
     } else {
       this.postContent = '';
       this.images = [];
@@ -23,8 +24,8 @@ class ViewModel {
   }
 
   List<String> _imageFilter(String content) {
-    var source = sprintf(
-        '<img[^>]*(%s)|(%s)[^>]*>', ["src='([^\']*)'", 'src=\"([^\"]*)\"']);
+    var source = sprintf('(<img[^>]*%s[^>]*>)|(<img[^>]*%s[^>]*>)',
+        ["src='([^\']*)'", 'src=\"([^\"]*)\"']);
     var regImg = new RegExp(source);
     var matches = regImg.allMatches(content);
     var images = new List<String>();
@@ -36,5 +37,23 @@ class ViewModel {
     });
 
     return images;
+  }
+
+  String _createPostContent(String content) {
+    var unescape = HtmlUnescape();
+    var postContent = content;
+
+    // convert the br tag to newline
+    postContent = postContent.replaceAll(new RegExp(r'<br\s*/?>'), '\r\n');
+    // convert the p tag to newline
+    postContent = postContent.replaceAll('</p>', '\r\n\r\n');
+    // remove tag at the bottom
+    postContent = postContent.replaceAll(new RegExp(r'\r\n<[^>]*>'), '');
+    // remove all tag in html
+    postContent = postContent.replaceAll(new RegExp(r'<[^>]*>'), '');
+    // decode html
+    postContent = unescape.convert(postContent);
+
+    return postContent;
   }
 }

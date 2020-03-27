@@ -17,7 +17,7 @@ class HomeListNotification extends StatefulWidget {
 }
 
 class _HomeListNotificationState extends State<HomeListNotification> {
-  final int limit = 3;
+  final int limit = 4;
 
   @override
   Widget build(BuildContext context) {

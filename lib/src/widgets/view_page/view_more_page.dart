@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
+import 'package:ann_shop_flutter/src/controllers/views/view_controller.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
 import 'package:ann_shop_flutter/src/models/views/view_navigation_bar.dart';
-import 'package:ann_shop_flutter/src/services/common/user_service.dart';
-import 'package:ann_shop_flutter/src/services/views/view_service.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
@@ -29,7 +29,7 @@ class ViewMorePage extends StatefulWidget {
 
 class _ViewMorePageState extends State<ViewMorePage> {
   // region Parameters
-  ViewService _service;
+  ViewController _controller;
   Future<ViewModel> _fetchData;
 
   int _selectedIndex;
@@ -40,8 +40,8 @@ class _ViewMorePageState extends State<ViewMorePage> {
   void initState() {
     super.initState();
 
-    _service = ViewService.instance;
-    _fetchData = _service.getViewBySlug(widget.slug);
+    _controller = ViewController.instance;
+    _fetchData = _controller.getViewBySlug(widget.slug);
 
     _selectedIndex = 0;
   }
@@ -114,9 +114,9 @@ class _ViewMorePageState extends State<ViewMorePage> {
       ),
       body: Container(child: SomethingWentWrong(
         onReload: () async {
-          await UserService.instance.refreshToken(context);
+          await UserController.instance.refreshToken(context);
           setState(() {
-            _fetchData = _service.getViewBySlug(widget.slug);
+            _fetchData = _controller.getViewBySlug(widget.slug);
           });
         },
       )),
@@ -126,34 +126,32 @@ class _ViewMorePageState extends State<ViewMorePage> {
   Widget _buildBottomNavigationBar(BuildContext context, ViewModel data) {
     return new BottomNavigationBar(
       items: <BottomNavigationBarItem>[
-        _buildBottomNavigationBarItem(
-          Icon(Icons.cloud_download),
-          'Tải hình',
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.cloud_download),
+          title: Text(
+            'Tải hình',
+            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold),
+          ),
         ),
-        _buildBottomNavigationBarItem(
-          Icon(Icons.share),
-          'Đăng bài',
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.share),
+          title: Text(
+            'Đăng bài',
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ),
         ),
-        _buildBottomNavigationBarItem(
-          Icon(Icons.content_copy),
-          'Copy',
-        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.content_copy),
+          title: Text(
+            'Copy',
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ),
+        )
       ],
       currentIndex: _selectedIndex,
       selectedItemColor: ANNColor.bottomNavigationBarColor,
       unselectedItemColor: ANNColor.bottomNavigationBarColor,
       onTap: (int index) => _onItemTapped(context, index, data),
-    );
-  }
-
-  BottomNavigationBarItem _buildBottomNavigationBarItem(
-      Widget icon, String title) {
-    return new BottomNavigationBarItem(
-      icon: icon,
-      title: Text(
-        title,
-        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
-      ),
     );
   }
 
@@ -182,11 +180,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
   void _onClickDownload(BuildContext context, List<String> images) async {
     if (images == null || images.length == 0) return;
 
-    final loadingDialog = LoadingDialog(context, message: 'Đang tải...');
-
-    loadingDialog.show();
-    _service.downloadImage(context, images);
-    loadingDialog.close();
+    _controller.downloadImage(context, images);
   }
 
   void _onClickShare(BuildContext context, ViewModel data) async {
@@ -208,7 +202,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
     loadingDialog.show();
     await Future.delayed(const Duration(milliseconds: 500));
     await Clipboard.setData(new ClipboardData(text: content));
-    loadingDialog.message = 'Đã xong';
+    loadingDialog.message = 'Đã copy xong';
     await Future.delayed(const Duration(milliseconds: 500));
     loadingDialog.close();
   }

@@ -1,7 +1,7 @@
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/src/services/common/user_service.dart';
+import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
@@ -91,7 +91,7 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   Future<void> _refreshPage() async {
-    await UserService.instance.refreshToken(context);
+    await UserController.instance.refreshToken(context);
     await Provider.of<CategoryProvider>(context, listen: false)
         .loadCategories();
   }
