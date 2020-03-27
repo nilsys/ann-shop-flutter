@@ -52,5 +52,15 @@ class AlertDialogPermission extends ANNAlertDialog {
     else
       message =
           'Vui lòng cấp quyền sử dụng $strPermission để tín năng này hoạt động.';
+    
+    if (Platform.isIOS) {
+      if (permission == PermissionGroup.camera) {
+        message += '\n\nSau khi chọn [Mở cài đặt] -> Kích hoạt [Camera] -> Trở về ứng dụng ANN.';
+      } else if (permission == PermissionGroup.photos) {
+        message += '\n\nSau khi chọn [Mở cài đặt] -> Chọn [Ảnh] -> Chọn [Đọc và ghi] -> Trở về ứng dụng ANN.';
+      }
+    } else if (Platform.isAndroid) {
+      message += '\n\nSau khi chọn [Mở cài đặt] bên dưới -> Chọn [Quyền] -> Kích hoạt [Bộ nhớ] và [Máy ảnh] -> Trở về ứng dụng ANN.';
+    }
   }
 }

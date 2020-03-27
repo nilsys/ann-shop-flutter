@@ -4,9 +4,9 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
+import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/src/models/common/contanct_type.dart';
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
-import 'package:ann_shop_flutter/src/services/common/user_service.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
@@ -277,7 +277,7 @@ class _HomePageState extends State<HomePage>
                       color: ANNColor.orange),
                   title: const Text(
                       '68 Đường C12, Phường 13, Quận Tân Bình, TP.HCM'),
-                  subtitle: const Text('8h30 - 20h30 (Chủ Nhật 8h30 - 18h30)'),
+                  subtitle: const Text('8h30 - 19h30 (Chủ Nhật 8h30 - 17h00)'),
                 ),
                 ButtonBar(
                   children: <Widget>[
@@ -311,7 +311,7 @@ class _HomePageState extends State<HomePage>
     final categoryProvider =
         Provider.of<CategoryProvider>(context, listen: false);
 
-    await UserService.instance.refreshToken(context);
+    await UserController.instance.refreshToken(context);
     coverProvider.loadNotificationHome();
     coverProvider.loadPostHome();
     coverProvider.loadCoverHome();

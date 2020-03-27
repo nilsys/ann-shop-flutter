@@ -7,11 +7,13 @@ import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_dialog_permission.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -95,6 +97,9 @@ class _UserPageState extends State<UserPage> {
               _buildItemCommon('Cài đặt copy sản phẩm',
                   icon: Icons.settings,
                   onTap: () => Navigator.pushNamed(context, 'user')),
+              _buildItemCommon('Cấp quyền tải ảnh',
+                  icon: Icons.settings,
+                  onTap: () => _onClickPermission(context)),
               Container(
                 height: 45,
                 margin: EdgeInsets.symmetric(
@@ -259,5 +264,13 @@ class _UserPageState extends State<UserPage> {
           message:
               'Vui lòng đăng nhập hoặc đăng ký để xem đơn hàng của bạn tại XuongAnn');
     }
+  }
+
+  void _onClickPermission(BuildContext context) {
+    final permission = Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
+    final alertDialog = AlertDialogPermission.instance;
+
+    alertDialog.setMessage(permission);
+    alertDialog.show(context);
   }
 }

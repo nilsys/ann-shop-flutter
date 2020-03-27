@@ -9,7 +9,7 @@ import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
-import 'package:ann_shop_flutter/src/services/common/user_service.dart';
+import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/theme/app_styles.dart';
 import 'package:ann_shop_flutter/ui/button/button_gradient.dart';
@@ -247,7 +247,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
         ),
         body: SomethingWentWrong(
           onReload: () async {
-            await UserService.instance.refreshToken(context);
+            await UserController.instance.refreshToken(context);
             provider.loadProduct(widget.slug);
           },
         ),

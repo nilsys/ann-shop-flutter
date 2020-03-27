@@ -8,15 +8,16 @@ import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
+import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
-import 'package:ann_shop_flutter/src/pages/blogs/blog_view.dart';
+import 'package:ann_shop_flutter/src/pages/blogs/blog_page.dart';
 import 'package:ann_shop_flutter/src/pages/not_found_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/notification_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/root_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/search_page.dart';
+import 'package:ann_shop_flutter/src/pages/share/share_page.dart';
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
-import 'package:ann_shop_flutter/src/services/common/permission_services.dart';
 import 'package:ann_shop_flutter/src/widgets/view_page/view_more_page.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/view/account/order_management_view.dart';
@@ -38,7 +39,6 @@ import 'package:ann_shop_flutter/view/product/product_detail_view.dart';
 import 'package:ann_shop_flutter/view/product/product_filter_view.dart';
 import 'package:ann_shop_flutter/view/product/product_image_by_size_and_color.dart';
 import 'package:ann_shop_flutter/view/product/product_image_fancy_view.dart';
-import 'package:ann_shop_flutter/view/product/product_image_share_view.dart';
 import 'package:ann_shop_flutter/view/scan_barcode/scan_view.dart';
 import 'package:ann_shop_flutter/view/utility/init_view.dart';
 import 'package:ann_shop_flutter/view/utility/web_view.dart';
@@ -71,7 +71,7 @@ class Routes {
       case 'shop':
         return _routeShop(settings);
       case 'blog':
-        return CustomFadeRoute(builder: (_) => BlogView(), settings: settings);
+        return CustomFadeRoute(builder: (_) => BlogPage(), settings: settings);
       case 'page':
         return _routePage(settings);
       default:
@@ -121,7 +121,7 @@ class Routes {
             settings: settings);
       case 'share-social':
         return CustomFadeRoute(
-            builder: (_) => ProductImageShareView(data), settings: settings);
+            builder: (_) => SharePage(data), settings: settings);
       default:
         return _routeNotFound();
     }
@@ -302,7 +302,7 @@ class Routes {
         provider.navigate(RootPageNavigationBar.notification);
         break;
       case ANNPage.scan:
-        final permission = PermissionService.instance;
+        final permission = PermissionController.instance;
 
         permission
             .checkAndRequestPermission(context, PermissionGroup.camera)
@@ -349,7 +349,7 @@ class Routes {
         provider.navigate(RootPageNavigationBar.home);
         break;
       case ANNPage.scan:
-        final permission = PermissionService.instance;
+        final permission = PermissionController.instance;
 
         searchProvider.setOpenKeyBoard(false);
         permission

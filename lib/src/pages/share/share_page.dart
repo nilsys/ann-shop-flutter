@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
-import 'package:ann_shop_flutter/src/services/common/permission_services.dart';
+import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
 import 'package:ann_shop_flutter/ui/utility/app_image.dart';
@@ -22,20 +22,20 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_extend/share_extend.dart';
 
-class ProductImageShareView extends StatefulWidget {
+class SharePage extends StatefulWidget {
   // region Parameters
   final Map data;
 
   // endregion
 
-  const ProductImageShareView(this.data);
+  const SharePage(this.data);
 
   @override
-  _ProductImageShareViewState createState() => _ProductImageShareViewState(
-      data['images'], data['message'], data['title']);
+  _SharePageState createState() =>
+      _SharePageState(data['images'], data['message'], data['title']);
 }
 
-class _ProductImageShareViewState extends State<ProductImageShareView> {
+class _SharePageState extends State<SharePage> {
   // region Parameters
   final List<String> images;
   final String message;
@@ -49,7 +49,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
 
   // endregion
 
-  _ProductImageShareViewState(this.images, this.message, this.title);
+  _SharePageState(this.images, this.message, this.title);
 
   @override
   void initState() {
@@ -81,6 +81,17 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
   // region build the page
   // Create AppBar
   AppBar _buildAppBar(BuildContext context) {
+    if (images == null || images.length == 0) {
+      return AppBar(
+          leading: IconButton(
+            icon: Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: const Text('Đăng bài viết'));
+    }
+
     return new AppBar(
       leading: IconButton(
         icon: Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
@@ -110,6 +121,15 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
 
   // Create Body
   Widget _buildBody(BuildContext context) {
+    if (images == null || images.length == 0) {
+      var message = '';
+
+      message += 'Bài viết hoặc sản phẩm không có hình.\n';
+      message += 'Hãy chọn đăng Facebook/Zalo như bình thường.';
+
+      return Center(child: Text(message, textAlign: TextAlign.center));
+    }
+
     return new SafeArea(
       child: CustomScrollView(
         slivers: <Widget>[
@@ -258,7 +278,10 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
       return;
     }
 
-    _onShare(context, message: message);
+    if (images == null || images.length == 0)
+      _onShareMessageOnly(context, message: message);
+    else
+      _onShare(context, message: message);
   }
 
   /// Zalo
@@ -272,6 +295,11 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
   void _onClickShareZalo(BuildContext context) {
     if (AccountController.instance.isLogin == false) {
       AskLogin.show(context);
+      return;
+    }
+
+    if (images == null || images.length == 0) {
+      _onShareMessageOnly(context, message: message);
       return;
     }
 
@@ -314,6 +342,10 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
     }
   }
 
+  _onShareMessageOnly(BuildContext context, {String message}) async {
+    Share.text(title, message, 'text/plain');
+  }
+
   Future _onShare(BuildContext context, {message, fixZalo = false}) async {
     if (imagesSelected == null || imagesSelected.length == 0) {
       AppSnackBar.showFlushbar(context, 'Bạn chưa chọn hình nào',
@@ -321,7 +353,7 @@ class _ProductImageShareViewState extends State<ProductImageShareView> {
       return;
     }
 
-    final permission = PermissionService.instance;
+    final permission = PermissionController.instance;
     final permissionGroup =
         Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
     final checkPermission =

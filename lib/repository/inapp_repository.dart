@@ -5,7 +5,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
-import 'package:ann_shop_flutter/src/services/utils/ann_logging.dart';
+import 'package:ann_shop_flutter/src/controllers/utils/ann_logging.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

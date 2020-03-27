@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
-import 'package:ann_shop_flutter/src/services/common/permission_services.dart';
+import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
 import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
@@ -74,7 +74,7 @@ class _ButtonDownloadState extends State<ButtonDownload> {
     try {
       final permissionGroup =
           Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
-      final bool permission = await PermissionService.instance
+      final bool permission = await PermissionController.instance
           .checkAndRequestPermission(context, permissionGroup);
       if (permission == false) return;
 

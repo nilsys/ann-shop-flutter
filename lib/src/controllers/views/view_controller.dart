@@ -3,16 +3,16 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/src/controllers/ann_controller.dart';
+import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
+import 'package:ann_shop_flutter/src/controllers/utils/ann_logging.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
-import 'package:ann_shop_flutter/src/services/ann_service.dart';
-import 'package:ann_shop_flutter/src/services/utils/ann_download.dart';
-import 'package:ann_shop_flutter/src/services/utils/ann_logging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-class ViewService extends ANNService {
+class ViewController extends ANNController {
   // region Singleton Pattern
-  static final _instance = ViewService._internal();
+  static final _instance = ViewController._internal();
 
   // endregion
 
@@ -23,16 +23,16 @@ class ViewService extends ANNService {
   // endregion
 
   // region Getter
-  static ViewService get instance => _instance;
+  static ViewController get instance => _instance;
 
   // endregion
 
-  ViewService._internal() {
+  ViewController._internal() {
     _logging = ANNLogging.instance;
     _download = ANNDownload.instance;
   }
 
-  factory ViewService() => instance;
+  factory ViewController() => instance;
 
   Future<ViewModel> getViewBySlug(String slug) async {
     try {
