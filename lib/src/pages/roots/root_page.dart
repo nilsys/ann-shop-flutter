@@ -124,7 +124,7 @@ class _RootPageState extends State<RootPage>
         ],
         currentIndex: rootPageProvider.selectedPage,
         selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: AppStyles.dartIcon,
+        unselectedItemColor: ANNColor.black,
         onTap: (int index) => _navigate(context, rootPageProvider, index),
       ),
     );

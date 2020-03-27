@@ -130,7 +130,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
           icon: Icon(Icons.cloud_download),
           title: Text(
             'Tải hình',
-            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
           ),
         ),
         const BottomNavigationBarItem(
@@ -148,10 +148,13 @@ class _ViewMorePageState extends State<ViewMorePage> {
           ),
         )
       ],
-      currentIndex: _selectedIndex,
-      selectedItemColor: ANNColor.bottomNavigationBarColor,
-      unselectedItemColor: ANNColor.bottomNavigationBarColor,
       onTap: (int index) => _onItemTapped(context, index, data),
+      currentIndex: _selectedIndex,
+      elevation: 1.0,
+      selectedItemColor: ANNColor.black,
+      unselectedItemColor: ANNColor.black,
+      selectedFontSize: 12,
+      unselectedFontSize: 12
     );
   }
 
