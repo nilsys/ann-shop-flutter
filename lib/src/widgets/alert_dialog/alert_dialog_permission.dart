@@ -29,23 +29,23 @@ class AlertDialogPermission extends ANNAlertDialog {
 
   @override
   void onPressedAccept(BuildContext context) {
-    PermissionHandler().openAppSettings();
+    openAppSettings();
 
     super.onPressedAccept(context);
   }
 
-  void setMessage(PermissionGroup permission) {
+  void setMessage(Permission permission) {
     var strPermission = '';
 
-    if (permission == PermissionGroup.notification)
+    if (permission == Permission.notification)
       strPermission = 'Thông báo';
-    else if (permission == PermissionGroup.camera)
+    else if (permission == Permission.camera)
       strPermission = Platform.isIOS ? 'Camera' : 'Máy ảnh';
-    else if (permission == PermissionGroup.photos ||
-        permission == PermissionGroup.storage)
+    else if (permission == Permission.photos ||
+        permission == Permission.storage)
       strPermission = Platform.isIOS ? 'Ảnh' : 'Bộ nhớ';
     else
-      strPermission = '';
+      strPermission = permission.toString();
 
     if (isEmpty(strPermission))
       message = 'Vui lòng cấp quyền để sử dụng tín năng này.';
@@ -54,9 +54,9 @@ class AlertDialogPermission extends ANNAlertDialog {
           'Vui lòng cấp quyền sử dụng $strPermission để tín năng này hoạt động.';
     
     if (Platform.isIOS) {
-      if (permission == PermissionGroup.camera) {
+      if (permission == Permission.camera) {
         message += '\n\nSau khi chọn [Mở cài đặt] -> Kích hoạt [Camera] -> Trở về ứng dụng ANN.';
-      } else if (permission == PermissionGroup.photos) {
+      } else if (permission == Permission.photos) {
         message += '\n\nSau khi chọn [Mở cài đặt] -> Chọn [Ảnh] -> Chọn [Đọc và ghi] -> Trở về ứng dụng ANN.';
       }
     } else if (Platform.isAndroid) {

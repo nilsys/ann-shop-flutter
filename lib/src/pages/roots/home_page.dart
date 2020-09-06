@@ -20,7 +20,6 @@ import 'package:ann_shop_flutter/ui/utility/ann-icon.dart';
 import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/fa_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';

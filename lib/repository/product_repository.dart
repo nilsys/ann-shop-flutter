@@ -275,8 +275,8 @@ class ProductRepository {
             duration: const Duration(seconds: 1));
       } else {
         final permissionGroup = Platform.isAndroid
-            ? PermissionGroup.storage
-            : PermissionGroup.photos;
+            ? Permission.storage
+            : Permission.photos;
         final permission = await PermissionController.instance
             .checkAndRequestPermission(context, permissionGroup);
         if (permission) {

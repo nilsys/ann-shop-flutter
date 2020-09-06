@@ -355,7 +355,7 @@ class _SharePageState extends State<SharePage> {
 
     final permission = PermissionController.instance;
     final permissionGroup =
-        Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
+        Platform.isAndroid ? Permission.storage : Permission.photos;
     final checkPermission =
         await permission.checkAndRequestPermission(context, permissionGroup);
 

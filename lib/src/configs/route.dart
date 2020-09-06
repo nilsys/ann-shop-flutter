@@ -305,7 +305,7 @@ class Routes {
         final permission = PermissionController.instance;
 
         permission
-            .checkAndRequestPermission(context, PermissionGroup.camera)
+            .checkAndRequestPermission(context, Permission.camera)
             .then((bool result) {
           if (result) Navigator.pushNamed(context, "search/scan");
         });
@@ -353,7 +353,7 @@ class Routes {
 
         searchProvider.setOpenKeyBoard(false);
         permission
-            .checkAndRequestPermission(context, PermissionGroup.camera)
+            .checkAndRequestPermission(context, Permission.camera)
             .then((bool result) {
           if (result) Navigator.pushNamed(context, "search/scan");
         });

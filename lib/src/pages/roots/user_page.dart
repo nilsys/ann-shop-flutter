@@ -267,7 +267,7 @@ class _UserPageState extends State<UserPage> {
   }
 
   void _onClickPermission(BuildContext context) {
-    final permission = Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
+    final permission = Platform.isAndroid ? Permission.storage : Permission.photos;
     final alertDialog = AlertDialogPermission.instance;
 
     alertDialog.setMessage(permission);

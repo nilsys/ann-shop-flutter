@@ -73,7 +73,7 @@ class _ButtonDownloadState extends State<ButtonDownload> {
     }
     try {
       final permissionGroup =
-          Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
+          Platform.isAndroid ? Permission.storage : Permission.photos;
       final bool permission = await PermissionController.instance
           .checkAndRequestPermission(context, permissionGroup);
       if (permission == false) return;

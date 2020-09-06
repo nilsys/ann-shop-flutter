@@ -39,7 +39,7 @@ class ANNDownload {
   Future<void> downloadImages(BuildContext context, List<String> images) async {
     // check the storage permission
     final permissionGroup =
-        Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
+        Platform.isAndroid ? Permission.storage : Permission.photos;
     final checkPermission =
         await _permission.checkAndRequestPermission(context, permissionGroup);
 

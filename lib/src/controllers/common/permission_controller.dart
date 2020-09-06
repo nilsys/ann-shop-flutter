@@ -8,39 +8,26 @@ import 'package:permission_handler/permission_handler.dart';
 
 
 class PermissionController extends ANNController {
-  // region Singleton Pattern
+
   static final _instance = PermissionController._internal();
-
-  // endregion
-
-  // region Parameters
-  PermissionHandler _permission;
-
-  // endregion
-
-  // region Getter
   static PermissionController get instance => _instance;
 
   // endregion
 
-  PermissionController._internal() {
-    _permission = new PermissionHandler();
-  }
+  PermissionController._internal();
 
   factory PermissionController() => instance;
 
   Future<bool> checkAndRequestPermission(
-      BuildContext context, PermissionGroup name) async {
-    var status = await _permission.checkPermissionStatus(name);
+      BuildContext context, Permission name) async {
+    var status = await name.status;
 
     if (status == PermissionStatus.granted) {
       return true;
-    } else if (status == PermissionStatus.unknown) {
-      final result = await _permission.requestPermissions([name]);
+    } else if (status == PermissionStatus.undetermined) {
+      final result = await name.request();
 
-      status = result[name];
-
-      if (status == PermissionStatus.granted)
+      if (result == PermissionStatus.granted)
         return true;
       else
         return false;
@@ -50,16 +37,15 @@ class PermissionController extends ANNController {
 
         return false;
       } else {
-        final result = await _permission.requestPermissions([name]);
+        final result = await name.request();
 
-        status = result[name];
 
-        if (status == PermissionStatus.granted)
+        if (result == PermissionStatus.granted)
           return true;
         else
           return false;
       }
-    } else if (status == PermissionStatus.neverAskAgain) {
+    } else if (status == PermissionStatus.permanentlyDenied) {
       _showAlertDialog(context, name);
 
       return false;
@@ -68,7 +54,7 @@ class PermissionController extends ANNController {
     }
   }
 
-  void _showAlertDialog(BuildContext context, PermissionGroup permission) {
+  void _showAlertDialog(BuildContext context, Permission permission) {
     final alertDialog = AlertDialogPermission.instance;
 
     alertDialog.setMessage(permission);
