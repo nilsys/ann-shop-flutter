@@ -1,12 +1,8 @@
-import 'package:ann_shop_flutter/core/core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:ping9/ping9.dart';
 
 class RequestLogin extends StatelessWidget {
-  RequestLogin(
-      {this.message =
-          'Vui lòng đăng nhập hoặc đăng ký để sử dụng chức năng này'});
+  RequestLogin({this.message = K.needLoginToContinue});
 
   final message;
 
@@ -24,7 +20,7 @@ class RequestLogin extends StatelessWidget {
               padding: const EdgeInsets.only(top: 20, bottom: 10),
               child: Text(
                 message,
-                style: Theme.of(context).textTheme.body1,
+                style: Theme.of(context).textTheme.bodyText2,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -52,7 +48,7 @@ class RequestLogin extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'Bạn chưa có tài khoản ',
-                    style: Theme.of(context).textTheme.body1,
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                   InkWell(
                     onTap: () {
@@ -77,7 +73,6 @@ class RequestLogin extends StatelessWidget {
   }
 
   _onLogIn(context) {
-    Navigator.pushNamedAndRemoveUntil(
-        context, 'user/login', (Route<dynamic> route) => false);
+    Navigator.pushNamed(context, 'user/login');
   }
 }

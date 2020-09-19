@@ -1,5 +1,7 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:stack_trace/stack_trace.dart';
 
 final double defaultPadding = 15;
 const int itemPerPage = 20;
@@ -50,4 +52,12 @@ bool isNullOrEmpty(object) {
     return object.keys.isEmpty;
   }
   return false;
+}
+
+
+
+void printTrack(Object object, {int frames = 1}) {
+  final output = "${Trace.current().frames[frames].location} | $object";
+  final pattern = RegExp('.{1,1000}');
+  pattern.allMatches(output).forEach((match) => debugPrint(match.group(0)));
 }

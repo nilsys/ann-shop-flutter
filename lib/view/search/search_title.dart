@@ -39,7 +39,7 @@ class SearchTitle extends StatelessWidget {
               flex: 1,
               child: Text(
                 text ?? 'Bạn tìm gì hôm nay?',
-                style: Theme.of(context).textTheme.body1,
+                style: Theme.of(context).textTheme.bodyText2,
                 maxLines: 1,
               ),
             ),

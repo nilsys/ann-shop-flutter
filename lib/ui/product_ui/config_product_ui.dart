@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
+import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:ping9/ping9.dart';
@@ -110,7 +111,7 @@ class ConfigProductUI extends StatelessWidget {
           filter.sort = newValue;
           config.forceUpdate();
         },
-        items: ProductRepository.instance.productSorts
+        items: ProductUtility.instance.productSorts
             .map<DropdownMenuItem<int>>((sort) {
           return DropdownMenuItem<int>(
             value: sort.id,
@@ -125,7 +126,7 @@ class ConfigProductUI extends StatelessWidget {
           filter.sort = newValue;
           config.forceUpdate();
         },
-        itemBuilder: (BuildContext context) => ProductRepository
+        itemBuilder: (BuildContext context) => ProductUtility
             .instance.productSorts
             .map<PopupMenuItem<int>>((sort) {
           return PopupMenuItem<int>(

@@ -1,7 +1,7 @@
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-import 'package:ann_shop_flutter/repository/utility_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/utility_repository.dart';
 
 
 import 'package:flutter/material.dart';

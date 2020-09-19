@@ -40,7 +40,7 @@ class ProductBlock extends StatelessWidget {
           Container(
             child: Text(
               product.name,
-              style: Theme.of(context).textTheme.body1,
+              style: Theme.of(context).textTheme.bodyText2,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -60,11 +60,11 @@ class ProductBlock extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: 8),
             child: Text(
-              'Sỉ: ' + Utility.formatPrice(product.regularPrice),
+              "Sỉ: ${product.regularDisplay}",
               style: Theme.of(context)
                   .textTheme
-                  .body2
-                  .merge(TextStyle(color: Colors.red)),
+                  .bodyText1
+                  .merge(product.regularDisplayStyle),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -73,7 +73,7 @@ class ProductBlock extends StatelessWidget {
             padding: EdgeInsets.only(top: 8),
             child: Text(
               'Lẻ: ' + Utility.formatPrice(product.retailPrice),
-              style: Theme.of(context).textTheme.body2,
+              style: Theme.of(context).textTheme.bodyText1,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

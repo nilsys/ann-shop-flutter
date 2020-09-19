@@ -2,10 +2,9 @@ import 'package:ann_shop_flutter/core/core.dart';
 
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
-import 'package:ann_shop_flutter/repository/account_repository.dart';
-import 'package:ann_shop_flutter/repository/app_response.dart';
+import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/app_response.dart';
 import 'package:ping9/ping9.dart';
-
 
 import 'package:ann_shop_flutter/ui/utility/ann-logo.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
@@ -110,11 +109,24 @@ class _LoginViewState extends State<LoginView> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
+              const SizedBox(height: 15),
+              BorderButton(
+                onPressed: _skipLogin,
+                child: Text('Để sau'),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _skipLogin() {
+    if (Navigator.of(context).canPop()) {
+      Navigator.popUntil(context, ModalRoute.withName("home"));
+    } else {
+      Navigator.pushReplacementNamed(context, "home");
+    }
   }
 
   void _validateInput() {
@@ -166,14 +178,14 @@ class _LoginViewState extends State<LoginView> {
                   children: [
                     TextSpan(
                         text: 'Số điện thoại ',
-                        style: Theme.of(context).textTheme.body1),
+                        style: Theme.of(context).textTheme.bodyText2),
                     TextSpan(
                         text: phone,
                         style: Theme.of(context).textTheme.body2.merge(
                             TextStyle(decoration: TextDecoration.underline))),
                     TextSpan(
                         text: ' chưa được đăng ký. Bạn có muốn đăng ký?',
-                        style: Theme.of(context).textTheme.body1),
+                        style: Theme.of(context).textTheme.bodyText2),
                   ],
                 ),
                 textAlign: TextAlign.center,

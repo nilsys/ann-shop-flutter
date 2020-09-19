@@ -1,16 +1,17 @@
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
-import 'package:ann_shop_flutter/repository/cover_repository.dart';
+import 'package:ping9/ping9.dart';
+
+import 'package:ann_shop_flutter/provider/utility/cover_repository.dart';
 import 'package:flutter/material.dart';
 
 class CoverProvider extends ChangeNotifier {
   CoverProvider();
 
-  ResponseProvider<List<Cover>> coversHome = ResponseProvider();
-  ResponseProvider<List<Cover>> postsHome = ResponseProvider();
-  ResponseProvider<List<Cover>> notificationHome = ResponseProvider();
-  ResponseProvider<List<Cover>> headerProduct = ResponseProvider();
-  ResponseProvider<List<Cover>> footerProduct = ResponseProvider();
+  ApiResponse<List<Cover>> coversHome = ApiResponse();
+  ApiResponse<List<Cover>> postsHome = ApiResponse();
+  ApiResponse<List<Cover>> notificationHome = ApiResponse();
+  ApiResponse<List<Cover>> headerProduct = ApiResponse();
+  ApiResponse<List<Cover>> footerProduct = ApiResponse();
 
   checkLoadCoverHomePage() {
     if (coversHome.isError) {

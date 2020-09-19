@@ -7,7 +7,7 @@ import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 
-import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_dialog_permission.dart';
+import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_ask_permission.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
@@ -44,9 +44,7 @@ class _UserPageState extends State<UserPage> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverToBoxAdapter(
-            child: AC.instance.isLogin
-                ? _buildAccount()
-                : _buildNoLogin(),
+            child: AC.instance.isLogin ? _buildAccount() : _buildNoLogin(),
           ),
           SliverList(
             delegate: SliverChildListDelegate([
@@ -101,32 +99,16 @@ class _UserPageState extends State<UserPage> {
               _buildItemCommon('Cấp quyền tải ảnh',
                   icon: Icons.settings,
                   onTap: () => _onClickPermission(context)),
-              Container(
-                height: 45,
-                margin: EdgeInsets.symmetric(
-                    horizontal: defaultPadding, vertical: defaultPadding),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                        color: Theme.of(context).primaryColor, width: 1)),
-                child: InkWell(
-                  onTap: () {
-                    AC.instance.clearToken();
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, 'user/login', (route) => false);
-                    Provider.of<CouponProvider>(context, listen: false)
-                        .myCoupons
-                        .error = 'logout';
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ĐĂNG XUẤT',
-                      style: Theme.of(context).textTheme.button.merge(
-                          TextStyle(color: Theme.of(context).primaryColor)),
-                    ),
-                  ),
-                ),
+              BorderButton(
+                onPressed: () {
+                  AC.instance.clearToken();
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'user/login', (route) => false);
+                  Provider.of<CouponProvider>(context, listen: false)
+                      .myCoupons
+                      .error = 'logout';
+                },
+                child: Text('ĐĂNG XUẤT'),
               ),
             ]),
           ),
@@ -182,7 +164,7 @@ class _UserPageState extends State<UserPage> {
                   children: <Widget>[
                     Text(
                       'Chào mừng bạn đến với ANN',
-                      style: Theme.of(context).textTheme.body1,
+                      style: Theme.of(context).textTheme.bodyText2,
                       maxLines: 1,
                     ),
                     Text(
@@ -235,7 +217,7 @@ class _UserPageState extends State<UserPage> {
                   children: <Widget>[
                     Text(
                       'Chào mừng bạn đến với ANN',
-                      style: Theme.of(context).textTheme.body1,
+                      style: Theme.of(context).textTheme.bodyText2,
                       maxLines: 1,
                     ),
                     Text(
@@ -268,10 +250,10 @@ class _UserPageState extends State<UserPage> {
   }
 
   void _onClickPermission(BuildContext context) {
-    final permission = Platform.isAndroid ? Permission.storage : Permission.photos;
-    final alertDialog = AlertDialogPermission.instance;
-
-    alertDialog.setMessage(permission);
-    alertDialog.show(context);
+    final permission =
+        Platform.isAndroid ? Permission.storage : Permission.photos;
+    AlertAskPermission()
+      ..setMessage(permission)
+      ..show(context);
   }
 }

@@ -9,18 +9,21 @@ export 'ac_restrict.dart';
 // constant
 final _keyAccount = '_keyAccount';
 final _keyToken = '_keyToken';
+final _keyNoLoginInfo = '_keyNoLoginInfo';
 
 class AC {
   static final AC instance = AC._internal();
 
   factory AC() => instance;
 
-  AC._internal();
+  AC._internal() {
+    initRestrict();
+  }
 
   Account account;
   AccountToken token;
   NoLoginInfo noLoginInfo;
-  NoLoginConfig noLoginConfig = NoLoginConfig();
+  NoLoginConfig noLoginConfig;
 
   bool get isLogin => token != null;
 
@@ -32,7 +35,6 @@ class AC {
     token = AccountToken.fromJson(response['token']);
     StorageManager.instance.setObject(_keyToken, json.encode(token.toJson()));
     AppHttp.setTokenApi(token?.accessToken);
-
   }
 
   void clearToken() {
@@ -55,17 +57,39 @@ class AC {
         account = Account.fromJson(jsonDecode(userResponse));
       }
       var tokenResponse =
-      await StorageManager.instance.getObjectByKey(_keyToken);
+          await StorageManager.instance.getObjectByKey(_keyToken);
       if (tokenResponse != null) {
         token = AccountToken.fromJson(jsonDecode(tokenResponse));
       }
     } catch (e) {
       print(e);
     }
-    if(account == null || token?.accessToken == null){
+    if (account == null || token?.accessToken == null) {
       clearToken();
-    }else{
+    } else {
       AppHttp.setTokenApi(token?.accessToken);
     }
+  }
+
+  Future initRestrict() async {
+    noLoginConfig = NoLoginConfig();
+    final objectJson =
+        await StorageManager.instance.getObjectByKey(_keyNoLoginInfo);
+    try {
+      if (objectJson != null) {
+        noLoginInfo = NoLoginInfo.fromJson(jsonDecode(objectJson));
+      }
+    } catch (e) {
+      printTrack(e);
+    }
+    if (noLoginInfo == null) {
+      noLoginInfo = NoLoginInfo();
+    }
+    saveRestrict();
+  }
+
+  void saveRestrict() {
+    StorageManager.instance
+        .setObject(_keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
   }
 }

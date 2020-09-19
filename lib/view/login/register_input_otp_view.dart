@@ -1,8 +1,8 @@
 import 'package:ann_shop_flutter/core/app_input_formatter.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
-import 'package:ann_shop_flutter/repository/account_repository.dart';
-import 'package:ann_shop_flutter/repository/app_response.dart';
+import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/app_response.dart';
 
 
 import 'package:ping9/ping9.dart';
@@ -96,7 +96,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                         TextSpan(
                             text:
                                 'Vui lòng nhập mã OTP đã gửi đến số điện thoại ',
-                            style: Theme.of(context).textTheme.body1),
+                            style: Theme.of(context).textTheme.bodyText2),
                         TextSpan(
                             text: AccountRegisterState.instance.phone,
                             style: Theme.of(context).textTheme.body2.merge(
@@ -104,7 +104,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                                     decoration: TextDecoration.underline))),
                         TextSpan(
                             text: '  của quý khách',
-                            style: Theme.of(context).textTheme.body1),
+                            style: Theme.of(context).textTheme.bodyText2),
                       ],
                     ),
                     textAlign: TextAlign.center,

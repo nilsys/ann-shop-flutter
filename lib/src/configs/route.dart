@@ -18,6 +18,7 @@ import 'package:ann_shop_flutter/src/pages/share/share_page.dart';
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
 import 'package:ann_shop_flutter/src/widgets/view_page/view_more_page.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:ann_shop_flutter/view/account/order_management_view.dart';
 import 'package:ann_shop_flutter/view/account/setting_view.dart';
 import 'package:ann_shop_flutter/view/account/shop_contact.dart';
@@ -300,13 +301,17 @@ class Routes {
         provider.navigate(RootPageNavigationBar.notification);
         break;
       case ANNPage.scan:
-        final permission = PermissionController.instance;
+        if (AC.instance.isLogin) {
+          final permission = PermissionController.instance;
 
-        permission
-            .checkAndRequestPermission(context, Permission.camera)
-            .then((bool result) {
-          if (result) Navigator.pushNamed(context, "search/scan");
-        });
+          permission
+              .checkAndRequestPermission(context, Permission.camera)
+              .then((bool result) {
+            if (result) Navigator.pushNamed(context, "search/scan");
+          });
+        } else {
+          AskLogin.show(context);
+        }
         break;
       default:
         break;
@@ -443,8 +448,7 @@ class Routes {
   static showProductDetail(context,
       {String slug, Product product, ProductDetail detail}) async {
     if (AC.instance.canViewProduct == false) {
-      AppSnackBar.showFlushbar(
-          context, 'Bạn cần đăng nhập để tiếp tục xêm thêm thông tin sản phẩm');
+      AppSnackBar.askLogin(context, message: K.needLoginToViewProduct);
       return;
     }
 

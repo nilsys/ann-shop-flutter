@@ -1,7 +1,8 @@
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
-import 'package:ann_shop_flutter/repository/inapp_repository.dart';
+
+import 'package:ann_shop_flutter/provider/utility/inapp_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 
 class InAppProvider extends ChangeNotifier {
   InAppProvider() {
@@ -21,9 +22,9 @@ class InAppProvider extends ChangeNotifier {
   }
 
   // cache for first page
-  Map<String, ResponseProvider<List<InApp>>> mapInApp;
+  Map<String, ApiResponse<List<InApp>>> mapInApp;
 
-  ResponseProvider<List<InApp>> getByCategory(String name) {
+  ApiResponse<List<InApp>> getByCategory(String name) {
     return mapInApp[name];
   }
 

@@ -78,11 +78,11 @@ class ProductTitle extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            'Sỉ: ' + Utility.formatPrice(product.regularPrice),
+                            'Sỉ: ${product.regularDisplay}',
                             style: Theme.of(context)
                                 .textTheme
                                 .body2
-                                .merge(TextStyle(color: Colors.red)),
+                                .merge(product.regularDisplayStyle),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),

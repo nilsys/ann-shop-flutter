@@ -4,7 +4,7 @@ import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
+
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/spam_cover_provider.dart';
 
@@ -119,7 +119,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
       ));
     }
     if (isNullOrEmpty(category.getSlugBanner) == false) {
-      ResponseProvider<List<Cover>> _covers =
+      ApiResponse<List<Cover>> _covers =
           Provider.of<SpamCoverProvider>(context)
               .getBySlug(category.getSlugBanner);
       if (isNullOrEmpty(_covers.data) == false) {

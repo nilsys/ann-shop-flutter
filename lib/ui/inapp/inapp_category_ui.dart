@@ -1,6 +1,6 @@
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
-import 'package:ann_shop_flutter/repository/inapp_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/inapp_repository.dart';
 
 
 import 'package:flutter/material.dart';

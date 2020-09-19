@@ -6,25 +6,15 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:ping9/ping9.dart';
 import 'package:quiver/strings.dart';
 
-class AlertDialogPermission extends ANNAlertDialog {
-  // region Singleton Pattern
-  static final _instance = AlertDialogPermission._internal();
+class AlertAskPermission extends ANNAlertDialog {
 
-  // endregion
 
-  // region Getter
-  static AlertDialogPermission get instance => _instance;
-
-  // endregion
-
-  AlertDialogPermission._internal() {
+  AlertAskPermission() {
     title = 'Cấp quyền cho ${Core.appName}';
     message = 'Vui lòng cấp quyền để sử dụng tín năng này.';
     btnLabel = 'Mở cài đặt';
     btnLabelCancel = 'Bỏ qua';
   }
-
-  factory AlertDialogPermission() => _instance;
 
   @override
   void onPressedAccept(BuildContext context) {

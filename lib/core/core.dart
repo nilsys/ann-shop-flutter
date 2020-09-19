@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/src/models/common/app_version_model.dart';
-import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_dialog_new_version.dart';
+import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_new_version.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:package_info/package_info.dart';
+import 'package:ping9/ping9.dart';
 import 'package:quiver/strings.dart';
 
 class Core {
@@ -17,7 +18,7 @@ class Core {
       'https://ann.com.vn/wp-content/uploads/ANN-logo-4.png';
   static const annLogoOrange = 'https://ann.com.vn/logo/ann-logo-2-400x150.png';
   static const annLogoWhite = 'https://ann.com.vn/logo/ann-logo-400x150.png';
-  // static const domain = 'http://xuongann.com/';
+
   static const dynamicLinkStore = 'https://app.ann.com.vn/download';
 
   factory Core() => _instance;
@@ -75,8 +76,10 @@ class Core {
       }
 
       if (newVersion > currentVersion) {
-        AlertDialogNewVersion.instance.show(context);
+        AlertNewVersion().show(context);
       }
-    } catch (e) {}
+    } catch (e) {
+      printTrack(e);
+    }
   }
 }

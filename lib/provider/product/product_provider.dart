@@ -1,7 +1,8 @@
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ping9/ping9.dart';
+
+import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 import 'package:flutter/material.dart';
 
 class ProductProvider extends ChangeNotifier {
@@ -9,20 +10,20 @@ class ProductProvider extends ChangeNotifier {
     // instructor
   }
 
-  Map<String, ResponseProvider<ProductDetail>> products = new Map();
-  Map<String, ResponseProvider<List<ProductRelated>>> related = new Map();
+  Map<String, ApiResponse<ProductDetail>> products = new Map();
+  Map<String, ApiResponse<List<ProductRelated>>> related = new Map();
 
-  ResponseProvider<ProductDetail> getBySlug(String code) {
+  ApiResponse<ProductDetail> getBySlug(String code) {
     if (products[code] == null) {
-      products[code] = ResponseProvider<ProductDetail>();
+      products[code] = ApiResponse<ProductDetail>();
       loadProduct(code);
     }
     return products[code];
   }
 
-  ResponseProvider<List<ProductRelated>> getRelatedBySlug(String code) {
+  ApiResponse<List<ProductRelated>> getRelatedBySlug(String code) {
     if (related[code] == null) {
-      related[code] = ResponseProvider<List<ProductRelated>>();
+      related[code] = ApiResponse<List<ProductRelated>>();
       loadRelatedProduct(code);
     }
     return related[code];

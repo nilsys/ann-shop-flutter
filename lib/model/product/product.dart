@@ -1,6 +1,9 @@
+import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 
 class Product {
   int productID;
@@ -24,9 +27,23 @@ class Product {
     return avatar;
   }
 
-  final _save = '📌🌻🌸🌼👍👉🎋🐭🍀⭐🌟✨📚';
+  String get regularDisplay {
+    if (AC.instance.showPrice) {
+      return '${Utility.formatPrice(regularPrice)}';
+    } else {
+      return "Đăng Nhập";
+    }
+  }
 
-  getTextCopy({index, hasContent = true}) async{
+  TextStyle get regularDisplayStyle {
+    if (AC.instance.showPrice) {
+      return TextStyle(color: Colors.red);
+    } else {
+      return TextStyle(color: Colors.red, fontWeight: FontWeight.w300);
+    }
+  }
+
+  getTextCopy({index, hasContent = true}) async {
     String value = index != null ? '$index: ' : '';
     if (CopyController.instance.copySetting.productCode) {
       value += sku;
@@ -40,7 +57,8 @@ class Product {
       }
     }
     value += '💲 ' +
-        Utility.formatPrice(retailPrice + CopyController.instance.copySetting.bonusPrice) +
+        Utility.formatPrice(
+            retailPrice + CopyController.instance.copySetting.bonusPrice) +
         ' vnđ\n';
     if (isNullOrEmpty(materials) == false) {
       value += '🔖 $materials\n';
@@ -68,9 +86,10 @@ class Product {
       }
     }
     */
-    if(hasContent){
-      String result = await ProductRepository.instance.loadProductAdvertisementContent(productID);
-      if(isNullOrEmpty(result)){
+    if (hasContent) {
+      String result = await ProductRepository.instance
+          .loadProductAdvertisementContent(productID);
+      if (isNullOrEmpty(result)) {
         value += result;
       }
     }
@@ -87,7 +106,7 @@ class Product {
     badge = json['badge'];
     availability = json['availability'];
     avatar = json['avatar'];
-    images = json['images']==null?[]:json['images'].cast<String>();
+    images = json['images'] == null ? [] : json['images'].cast<String>();
     regularPrice = json['regularPrice'];
     oldPrice = json['oldPrice'];
     retailPrice = json['retailPrice'];

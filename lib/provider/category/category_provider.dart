@@ -1,22 +1,23 @@
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/category_home.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
-import 'package:ann_shop_flutter/repository/category_repository.dart';
+import 'package:ping9/ping9.dart';
+
+import 'package:ann_shop_flutter/provider/utility/category_repository.dart';
 import 'package:flutter/material.dart';
 
 class CategoryProvider extends ChangeNotifier {
   CategoryProvider() {
-    categories = ResponseProvider();
-    dataHome = ResponseProvider();
-    categoryHome = ResponseProvider();
+    categories = ApiResponse();
+    dataHome = ApiResponse();
+    categoryHome = ApiResponse();
     loadCategoryHome();
     loadCategories();
     loadCDataHome();
   }
 
-  ResponseProvider<List<Category>> categories;
-  ResponseProvider<List<CategoryHome>> dataHome;
-  ResponseProvider<List<Category>> categoryHome;
+  ApiResponse<List<Category>> categories;
+  ApiResponse<List<CategoryHome>> dataHome;
+  ApiResponse<List<Category>> categoryHome;
 
   loadCategories() async {
     try {

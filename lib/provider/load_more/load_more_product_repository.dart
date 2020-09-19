@@ -6,7 +6,7 @@ import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
-import 'package:ann_shop_flutter/repository/list_product_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/list_product_repository.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class LoadMoreProductRepository extends LoadingMoreBase<Product> {

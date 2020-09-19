@@ -2,12 +2,12 @@ import 'dart:core';
 
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
-import 'package:ann_shop_flutter/repository/blog_repository.dart';
+
+import 'package:ann_shop_flutter/provider/utility/blog_repository.dart';
 import 'package:flutter/material.dart';
 
 class BlogProvider with ChangeNotifier {
-  ResponseProvider<List<BlogCategory>> category;
+  ApiResponse<List<BlogCategory>> category;
   BlogCategory _currentCategory;
 
   BlogCategory get currentCategory => _currentCategory;
@@ -19,7 +19,7 @@ class BlogProvider with ChangeNotifier {
 
   BlogProvider() {
     // init
-    category = ResponseProvider();
+    category = ApiResponse();
     fetchBlog();
   }
 

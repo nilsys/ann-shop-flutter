@@ -5,9 +5,9 @@ import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
-import 'package:ann_shop_flutter/repository/category_repository.dart';
-import 'package:ann_shop_flutter/repository/list_product_repository.dart';
+
+import 'package:ann_shop_flutter/provider/utility/category_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/list_product_repository.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 
 class SearchProvider with ChangeNotifier {
   // region Parameter
-  static final ResponseProvider<List<Category>> _hotKeys = ResponseProvider();
+  static final ApiResponse<List<Category>> _hotKeys = ApiResponse();
   final _keyHistory = '_historyKey';
 
   bool openKeyboard;
@@ -31,7 +31,7 @@ class SearchProvider with ChangeNotifier {
   // endregion
 
   // region Getter
-  ResponseProvider<List<Category>> get hotKeys => _hotKeys;
+  ApiResponse<List<Category>> get hotKeys => _hotKeys;
 
   List<String> get history => _history;
 

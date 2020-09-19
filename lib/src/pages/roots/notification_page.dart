@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
-import 'package:ann_shop_flutter/repository/inapp_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/inapp_repository.dart';
 import 'package:ann_shop_flutter/ui/inapp/inapp_category_ui.dart';
 import 'package:ann_shop_flutter/ui/utility/request_login.dart';
 import 'package:ann_shop_flutter/view/inapp/list_inapp.dart';

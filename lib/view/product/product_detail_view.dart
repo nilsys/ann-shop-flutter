@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
+import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -7,7 +8,7 @@ import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
@@ -114,7 +115,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 ),
                 OptionMenuProduct(
                   onCopy: () {
-                    ProductRepository.instance
+                    ProductUtility.instance
                         .onCheckAndCopy(context, detail.productID);
                   },
                   onDownload: () {
@@ -127,7 +128,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   },
                   onShare: () {
                     if (data.isCompleted) {
-                      ProductRepository.instance.onShare(context, detail);
+                      ProductUtility.instance.onCheckAndShare(context, detail);
                     } else {
                       AppSnackBar.showFlushbar(
                           context, 'Đang tải dữ liệu. Thử lại sau');
@@ -174,11 +175,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Giá sỉ: ${Utility.formatPrice(detail.regularPrice)}',
+                    'Giá sỉ: ${detail.regularDisplay}',
                     style: Theme.of(context)
                         .textTheme
                         .title
-                        .merge(TextStyle(color: Colors.red)),
+                        .merge(detail.regularDisplayStyle),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -514,7 +515,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   Icons.cloud_download,
                   onPressed: () {
                     if (detail != null) {
-                      ProductRepository.instance
+                      ProductUtility.instance
                           .onDownLoad(context, detail.productID);
                     } else {
                       AppSnackBar.showFlushbar(
@@ -527,7 +528,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   Icons.share,
                   onPressed: () {
                     if (detail != null) {
-                      ProductRepository.instance.onShare(context, detail);
+                      ProductUtility.instance.onCheckAndShare(context, detail);
                     } else {
                       AppSnackBar.showFlushbar(
                           context, 'Đang tải dữ liệu. Thử lại sau');
@@ -538,7 +539,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   'Copy',
                   Icons.content_copy,
                   onPressed: () {
-                    ProductRepository.instance
+                    ProductUtility.instance
                         .onCheckAndCopy(context, detail.productID);
                   },
                 ),
@@ -606,7 +607,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
           highlight: ButtonData(
             'Lưu',
             onPressed: () {
-              ProductRepository.instance.onDownLoad(context, detail.productID);
+              ProductUtility.instance.onDownLoad(context, detail.productID);
             },
           ),
         )

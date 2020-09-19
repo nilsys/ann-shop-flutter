@@ -2,7 +2,7 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 import 'package:ann_shop_flutter/ui/product_ui/preview_image_product.dart';
 import 'package:flutter/material.dart';
 

@@ -1,18 +1,17 @@
 import 'package:ping9/ping9.dart';
-import 'dart:convert';
+
 import 'ac.dart';
 
-final _keyNoLoginInfo = '_keyNoLoginInfo';
-
 extension ACRestrict on AC {
+
   bool get canViewProduct {
     if (isLogin || noLoginConfig.maxViewProduct < 0) {
       return true;
     }
     if (noLoginInfo.viewProduct < noLoginConfig.maxViewProduct) {
       noLoginInfo.viewProduct++;
-      StorageManager.instance
-          .setObject(_keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
+      printTrack("noLoginInfo.viewProduct: ${noLoginInfo.viewProduct}");
+      saveRestrict();
       return true;
     }
     return false;
@@ -24,8 +23,8 @@ extension ACRestrict on AC {
     }
     if (noLoginInfo.searchProduct < noLoginConfig.maxSearchProduct) {
       noLoginInfo.searchProduct++;
-      StorageManager.instance
-          .setObject(_keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
+      printTrack("noLoginInfo.searchProduct: ${noLoginInfo.searchProduct}");
+      saveRestrict();
       return true;
     }
     return false;
@@ -37,10 +36,34 @@ extension ACRestrict on AC {
     }
     if (noLoginInfo.viewBloc < noLoginConfig.maxViewBloc) {
       noLoginInfo.viewBloc++;
-      StorageManager.instance
-          .setObject(_keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
+      printTrack("noLoginInfo.viewBloc: ${noLoginInfo.viewBloc}");
+      saveRestrict();
       return true;
     }
     return false;
   }
+
+  bool get requestLogin => isLogin || noLoginConfig.requestLogin;
+
+  bool get showPrice => isLogin || noLoginConfig.showPrice;
+
+  bool get showNotification => isLogin || noLoginConfig.showNotification;
+
+  bool get showAccount => isLogin || noLoginConfig.showAccount;
+
+  bool get showScan => isLogin || noLoginConfig.showScan;
+
+  bool get showFavorite => isLogin || noLoginConfig.showFavorite;
+
+  bool get canPostProduct => isLogin || noLoginConfig.canPostProduct;
+
+  bool get canCopyProduct => isLogin || noLoginConfig.canCopyProduct;
+
+  bool get canLikeProduct => isLogin || noLoginConfig.canLikeProduct;
+
+  bool get canDownloadProduct => isLogin || noLoginConfig.canDownloadProduct;
+
+  bool get canPostBloc => isLogin || noLoginConfig.canPostBloc;
+
+  bool get canCopyBloc => isLogin || noLoginConfig.canCopyBloc;
 }

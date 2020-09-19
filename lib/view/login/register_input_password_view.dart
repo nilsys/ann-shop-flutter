@@ -2,8 +2,8 @@ import 'package:ann_shop_flutter/core/core.dart';
 
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
-import 'package:ann_shop_flutter/repository/account_repository.dart';
-import 'package:ann_shop_flutter/repository/app_response.dart';
+import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/app_response.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ping9/ping9.dart';

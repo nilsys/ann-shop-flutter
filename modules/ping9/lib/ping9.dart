@@ -11,6 +11,8 @@ export 'package:flutter_icons/flutter_icons.dart';
 export 'package:ping9/src/core/storage_manager.dart';
 export 'package:ping9/src/core/utility.dart';
 export 'package:ping9/src/core/validator.dart';
+export 'package:ping9/src/core/config.dart';
+export 'package:ping9/src/core/constant.dart';
 
 // api
 export 'package:ping9/src/api/app_http.dart';
@@ -31,6 +33,7 @@ export 'package:ping9/src/ui/loading_dialog.dart';
 export 'package:ping9/src/ui/something_wentW_wrong.dart';
 export 'package:ping9/src/ui/text_button.dart';
 export 'package:ping9/src/ui/title_view_more.dart';
+export 'package:ping9/src/ui/border_button.dart';
 
 // view
 export 'package:ping9/src/view/not_found_page.dart';

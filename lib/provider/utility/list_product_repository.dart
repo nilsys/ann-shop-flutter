@@ -84,8 +84,7 @@ class ListProductRepository {
   Future<List<Product>> _loadAllByFilter(
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
-      var url =
-          'flutter/products?pageNumber=$page&pageSize=$pageSize';
+      var url = 'flutter/products?pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
       final response = await AppHttp.get(
         url,

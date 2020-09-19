@@ -1,7 +1,7 @@
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
-import 'package:ann_shop_flutter/repository/cover_repository.dart';
+
+import 'package:ann_shop_flutter/provider/utility/cover_repository.dart';
 import 'package:flutter/material.dart';
 
 class SpamCoverProvider extends ChangeNotifier {
@@ -9,11 +9,11 @@ class SpamCoverProvider extends ChangeNotifier {
     // instructor
   }
 
-  Map<String, ResponseProvider<List<Cover>>> covers = new Map();
+  Map<String, ApiResponse<List<Cover>>> covers = new Map();
 
-  ResponseProvider<List<Cover>> getBySlug(String code) {
+  ApiResponse<List<Cover>> getBySlug(String code) {
     if (covers[code] == null) {
-      covers[code] = ResponseProvider<List<Cover>>();
+      covers[code] = ApiResponse<List<Cover>>();
       loadCover(code);
     }
     return covers[code];
@@ -21,7 +21,7 @@ class SpamCoverProvider extends ChangeNotifier {
 
   checkLoad(String code) {
     if (covers[code] == null) {
-      covers[code] = ResponseProvider<List<Cover>>();
+      covers[code] = ApiResponse<List<Cover>>();
       loadCover(code);
     } else {
       if (covers[code].isLoading == false ||
@@ -33,7 +33,7 @@ class SpamCoverProvider extends ChangeNotifier {
 
   loadCover(String code) async {
     if (covers[code] == null) {
-      covers[code] = ResponseProvider<List<Cover>>();
+      covers[code] = ApiResponse<List<Cover>>();
     }
     if (isNullOrEmpty(code)) {
       covers[code].completed = [];

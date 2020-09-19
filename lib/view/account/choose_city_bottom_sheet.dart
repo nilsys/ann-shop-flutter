@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/repository/account_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
 
 import 'package:ping9/ping9.dart';
 import 'package:flutter/cupertino.dart';
@@ -105,7 +105,7 @@ class ChooseCityBottomSheet extends StatelessWidget {
                 title,
                 textAlign: TextAlign.left,
                 maxLines: 1,
-                style: Theme.of(context).textTheme.body1,
+                style: Theme.of(context).textTheme.bodyText2,
               ),
       ),
     );

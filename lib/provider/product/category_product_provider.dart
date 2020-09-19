@@ -1,25 +1,24 @@
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
-import 'package:ann_shop_flutter/repository/list_product_repository.dart';
+
+import 'package:ann_shop_flutter/provider/utility/list_product_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 
 class CategoryProductProvider extends ChangeNotifier {
-  CategoryProductProvider() {
-    // instructor
-  }
+  CategoryProductProvider();
 
-  Map<dynamic, ResponseProvider<List<Product>>> categories = new Map();
+  Map<dynamic, ApiResponse<List<Product>>> categories = new Map();
 
   forceRefresh() {
     categories = new Map();
     notifyListeners();
   }
 
-  ResponseProvider<List<Product>> getByCategory(Category category) {
+  ApiResponse<List<Product>> getByCategory(Category category) {
     String code = category.getKey;
     if (categories[code] == null) {
-      categories[code] = ResponseProvider<List<Product>>();
+      categories[code] = ApiResponse<List<Product>>();
       loadCategory(category);
     }
     return categories[code];

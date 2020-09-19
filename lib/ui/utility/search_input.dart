@@ -45,7 +45,7 @@ class _SearchInputState extends State<SearchInput> {
       child: TextField(
           controller: provider.controller,
           focusNode: provider.focusNode,
-          style: Theme.of(context).textTheme.body1,
+          style: Theme.of(context).textTheme.bodyText2,
           cursorColor: Colors.black87,
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(

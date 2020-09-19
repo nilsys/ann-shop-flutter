@@ -2,7 +2,7 @@ import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
-import 'package:ann_shop_flutter/repository/inapp_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/inapp_repository.dart';
 
 
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
@@ -111,10 +111,10 @@ class InAppItem extends StatelessWidget {
                 text: TextSpan(children: [
                   TextSpan(
                       text: '${item.message}...',
-                      style: Theme.of(context).textTheme.body1),
+                      style: Theme.of(context).textTheme.bodyText2),
                   TextSpan(
                     text: 'xem thêm >',
-                    style: Theme.of(context).textTheme.body1.merge(
+                    style: Theme.of(context).textTheme.bodyText2.merge(
                           TextStyle(color: Colors.blue),
                         ),
                   )

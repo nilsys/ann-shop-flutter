@@ -42,7 +42,7 @@ class FavoriteProvider with ChangeNotifier {
 
   addNewProduct(context, Product item, {int count = 1}) {
     if (AC.instance.isLogin == false) {
-      AskLogin.show(context);
+      AppSnackBar.askLogin(context);
       return;
     }
 

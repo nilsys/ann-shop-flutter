@@ -44,10 +44,10 @@ class MediaItem extends StatelessWidget {
                   text: TextSpan(children: [
                     TextSpan(
                         text: item.message + '...',
-                        style: Theme.of(context).textTheme.body1),
+                        style: Theme.of(context).textTheme.bodyText2),
                     TextSpan(
                       text: 'xem thêm >',
-                      style: Theme.of(context).textTheme.body1.merge(
+                      style: Theme.of(context).textTheme.bodyText2.merge(
                             TextStyle(color: Colors.blue),
                           ),
                     )

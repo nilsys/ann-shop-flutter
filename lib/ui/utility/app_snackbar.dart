@@ -5,22 +5,16 @@ import 'package:ping9/ping9.dart';
 class AppSnackBar {
   static const _duration = Duration(seconds: 2, microseconds: 0);
 
-  static Widget showFlushbar(context, message, {duration = _duration}) {
+  static Widget showFlushbar(BuildContext context, String message,
+      {Duration duration = _duration}) {
     return Flushbar(
-      padding: const EdgeInsets.all(0),
-//      forwardAnimationCurve: Curves.easeOutQuart,
-      animationDuration: const Duration(milliseconds: 500),
-      messageText: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(20),
-        alignment: AlignmentDirectional.center,
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
-        ),
+      messageText: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.white),
       ),
-      duration: duration,
+      duration: _duration,
+      animationDuration: Duration(milliseconds: 500),
     )..show(context);
   }
 
@@ -48,5 +42,45 @@ class AppSnackBar {
       flushbarStyle: FlushbarStyle.FLOATING,
       duration: Duration(seconds: 1, microseconds: 500),
     )..show(context);
+  }
+
+  static Widget showFlushbarWithButton(
+    BuildContext context,
+    String message,
+    String button, {
+    Duration duration = _duration,
+    VoidCallback onPressed,
+  }) {
+    return Flushbar(
+      messageText: Row(
+        children: [
+          Expanded(
+            child: Text(
+              message,
+              textAlign: TextAlign.left,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          FlatButton(
+            child: Text(
+              button,
+              style: TextStyle(color: AppStyles.orange),
+            ),
+            onPressed: onPressed,
+          )
+        ],
+      ),
+      duration: _duration,
+      animationDuration: Duration(milliseconds: 500),
+    )..show(context);
+  }
+
+  static Widget askLogin(BuildContext context,
+      {String message = K.needLoginToContinue}) {
+    return AppSnackBar.showFlushbarWithButton(context, message, "Đăng nhập",
+        onPressed: () {
+      Navigator.pop(context);
+      Navigator.pushNamed(context, "user/login");
+    });
   }
 }

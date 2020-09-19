@@ -6,7 +6,7 @@ import 'package:ping9/ping9.dart';
 class PolicyProductBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var normalStyle = Theme.of(context).textTheme.body1;
+    var normalStyle = Theme.of(context).textTheme.bodyText2;
     var boldStyle = Theme.of(context).textTheme.button;
     return SliverList(
       delegate: SliverChildListDelegate([

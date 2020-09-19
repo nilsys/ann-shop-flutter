@@ -12,9 +12,9 @@ class NoLoginInfo {
   }
 
   NoLoginInfo.fromJson(Map<String, dynamic> json) {
-    viewProduct = json['view_product'];
-    searchProduct = json['search_product'];
-    viewBloc = json['view_bloc'];
+    viewProduct = json['view_product'] ?? 0;
+    searchProduct = json['search_product'] ?? 0;
+    viewBloc = json['view_bloc'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +39,7 @@ class NoLoginConfig {
   bool canPostProduct;
   bool canCopyProduct;
   bool canLikeProduct;
+  bool canDownloadProduct;
   bool canPostBloc;
   bool canCopyBloc;
 
@@ -56,6 +57,7 @@ class NoLoginConfig {
       canPostProduct = false;
       canCopyBloc = false;
       canLikeProduct = false;
+      canDownloadProduct = false;
       canPostBloc = false;
       canCopyBloc = false;
     } else {

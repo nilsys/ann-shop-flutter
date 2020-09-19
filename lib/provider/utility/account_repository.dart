@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
-import 'package:ann_shop_flutter/repository/app_response.dart';
+import 'package:ann_shop_flutter/provider/utility/app_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:ping9/ping9.dart';
 

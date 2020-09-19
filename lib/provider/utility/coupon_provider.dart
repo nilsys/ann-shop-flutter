@@ -1,7 +1,8 @@
 import 'package:ann_shop_flutter/model/utility/coupon.dart';
 import 'package:ann_shop_flutter/model/utility/promotion.dart';
-import 'package:ann_shop_flutter/provider/response_provider.dart';
-import 'package:ann_shop_flutter/repository/coupon_repository.dart';
+import 'package:ping9/ping9.dart';
+
+import 'package:ann_shop_flutter/provider/utility/coupon_repository.dart';
 import 'package:flutter/material.dart';
 
 class CouponProvider extends ChangeNotifier {
@@ -10,8 +11,8 @@ class CouponProvider extends ChangeNotifier {
     loadMyCoupon();
   }
 
-  ResponseProvider<List<Coupon>> myCoupons = ResponseProvider();
-  ResponseProvider<List<Promotion>> promotions = ResponseProvider();
+  ApiResponse<List<Coupon>> myCoupons = ApiResponse();
+  ApiResponse<List<Promotion>> promotions = ApiResponse();
 
   Future loadMyCoupon() async {
     try {

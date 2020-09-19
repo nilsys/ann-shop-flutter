@@ -1,15 +1,14 @@
 import 'dart:io';
 
 import 'package:ann_shop_flutter/src/controllers/ann_controller.dart';
-import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_dialog_permission.dart';
+import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_ask_permission.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 class PermissionController extends ANNController {
-
   static final _instance = PermissionController._internal();
+
   static PermissionController get instance => _instance;
 
   // endregion
@@ -39,7 +38,6 @@ class PermissionController extends ANNController {
       } else {
         final result = await name.request();
 
-
         if (result == PermissionStatus.granted)
           return true;
         else
@@ -55,9 +53,8 @@ class PermissionController extends ANNController {
   }
 
   void _showAlertDialog(BuildContext context, Permission permission) {
-    final alertDialog = AlertDialogPermission.instance;
-
-    alertDialog.setMessage(permission);
-    alertDialog.show(context);
+    AlertAskPermission()
+      ..setMessage(permission)
+      ..show(context);
   }
 }

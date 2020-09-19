@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-import 'package:ann_shop_flutter/repository/blog_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/blog_repository.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:ping9/ping9.dart';
 

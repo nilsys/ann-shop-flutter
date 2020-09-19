@@ -60,7 +60,7 @@ class AskLogin extends StatelessWidget {
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Text(
               message,
-              style: Theme.of(context).textTheme.body1,
+              style: Theme.of(context).textTheme.bodyText2,
               textAlign: TextAlign.center,
             ),
           ),
@@ -88,7 +88,7 @@ class AskLogin extends StatelessWidget {
               children: <Widget>[
                 Text(
                   'Bạn chưa có tài khoản ',
-                  style: Theme.of(context).textTheme.body1,
+                  style: Theme.of(context).textTheme.bodyText2,
                 ),
                 InkWell(
                   onTap: () {
@@ -112,7 +112,7 @@ class AskLogin extends StatelessWidget {
   }
 
   _onLogIn(context) {
-    Navigator.pushNamedAndRemoveUntil(
-        context, 'user/login', (Route<dynamic> route) => false);
+    Navigator.pushReplacementNamed(context, 'user/login');
+
   }
 }

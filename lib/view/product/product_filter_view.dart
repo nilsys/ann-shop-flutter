@@ -1,12 +1,8 @@
 import 'dart:math';
-
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
-import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
+import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:ping9/ping9.dart';
 
 class ProductFilterView extends StatefulWidget {
@@ -60,14 +56,14 @@ class _ProductFilterViewState extends State<ProductFilterView> {
               text: TextSpan(children: [
                 TextSpan(
                   text: 'Giá sản phẩm: ',
-                  style: Theme.of(context).textTheme.subtitle,
+                  style: Theme.of(context).textTheme.subtitle2,
                 ),
                 TextSpan(
                   text: getTextMinMax((filter.priceMin / 1000).round(),
                       (filter.priceMax / 1000).round()),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle
+                      .subtitle2
                       .merge(TextStyle(color: Theme.of(context).primaryColor)),
                 )
               ]),
@@ -78,10 +74,10 @@ class _ProductFilterViewState extends State<ProductFilterView> {
             SizedBox(height: 10),
             Text(
               'Sản phẩm:',
-              style: Theme.of(context).textTheme.subtitle,
+              style: Theme.of(context).textTheme.subtitle2,
             ),
             Column(
-              children: ProductRepository.instance.productBadge
+              children: ProductUtility.instance.productBadge
                   .map((item) => _buildCheckBoxBadge(item))
                   .toList(),
             ),
@@ -112,7 +108,6 @@ class _ProductFilterViewState extends State<ProductFilterView> {
   }
 
   Widget _buildCheckBoxBadge(ProductBadge badge) {
-    ConfigProvider provider = Provider.of(context);
     bool isChoose = badge.id == filter.badge;
     return Container(
       height: 40,
@@ -195,7 +190,6 @@ class _ProductFilterViewState extends State<ProductFilterView> {
   }
 
   Widget _buildSliderRangePrice() {
-    ConfigProvider provider = Provider.of(context);
     double _min = (filter.priceMin / 1000).round().toDouble();
     double _max = (filter.priceMax / 1000).round().toDouble();
     if (_max <= 0 || _max > 201) {

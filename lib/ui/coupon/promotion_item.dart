@@ -1,7 +1,7 @@
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/promotion.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
-import 'package:ann_shop_flutter/repository/coupon_repository.dart';
+import 'package:ann_shop_flutter/provider/utility/coupon_repository.dart';
 
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -50,7 +50,7 @@ class _PromotionItemState extends State<PromotionItem> {
         text: TextSpan(children: [
           TextSpan(
               text: 'Nhận mã khuyến mãi ',
-              style: Theme.of(context).textTheme.body1),
+              style: Theme.of(context).textTheme.bodyText2),
           TextSpan(
               text: '\"${widget.data.name}\"',
               style: Theme.of(context).textTheme.body2),
@@ -89,14 +89,14 @@ class _PromotionItemState extends State<PromotionItem> {
           text: TextSpan(children: [
             TextSpan(
                 text: 'Chúc mừng bạn đã nhận được mã khuyến mãi ',
-                style: Theme.of(context).textTheme.body1),
+                style: Theme.of(context).textTheme.bodyText2),
             TextSpan(
                 text: widget.data.code,
                 style: Theme.of(context).textTheme.subtitle),
             TextSpan(
                 text:
                     ' \"${widget.data.name}\". Hạn sử dụng đến ngày ${Utility.fixFormatDate(widget.data.endDate)}',
-                style: Theme.of(context).textTheme.body1),
+                style: Theme.of(context).textTheme.bodyText2),
           ]),
         ),
         CenterButtonPopup(

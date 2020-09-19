@@ -1,10 +1,9 @@
 import 'dart:math';
 
-import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
-import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 
 import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
@@ -157,12 +156,11 @@ class _ProductFullState extends State<ProductFull> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                          'Giá sỉ: ' +
-                              Utility.formatPrice(widget.product.regularPrice),
+                          'Giá sỉ: ${widget.product.regularDisplay}',
                           style: Theme.of(context)
                               .textTheme
                               .body2
-                              .merge(TextStyle(color: Colors.red)),
+                              .merge(widget.product.regularDisplayStyle),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -229,7 +227,7 @@ class _ProductFullState extends State<ProductFull> {
             onPressed: isDownload
                 ? null
                 : () {
-                    ProductRepository.instance
+                    ProductUtility.instance
                         .onDownLoad(context, widget.product.productID);
                     setState(() {
                       isDownload = true;
@@ -242,7 +240,7 @@ class _ProductFullState extends State<ProductFull> {
               color: iconColor,
             ),
             onPressed: () {
-              ProductRepository.instance.onShare(context, widget.product);
+              ProductUtility.instance.onCheckAndShare(context, widget.product);
             },
           ),
           IconButton(
@@ -251,7 +249,7 @@ class _ProductFullState extends State<ProductFull> {
               color: iconColor,
             ),
             onPressed: () {
-              ProductRepository.instance
+              ProductUtility.instance
                   .onCheckAndCopy(context, widget.product.productID);
             },
           ),

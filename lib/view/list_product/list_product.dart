@@ -5,7 +5,7 @@ import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/config_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
-import 'package:ann_shop_flutter/repository/load_more/load_more_product_repository.dart';
+import 'package:ann_shop_flutter/provider/load_more/load_more_product_repository.dart';
 import 'package:ann_shop_flutter/ui/product/product_block.dart';
 import 'package:ann_shop_flutter/ui/product/product_full.dart';
 import 'package:ann_shop_flutter/ui/product/product_title.dart';
