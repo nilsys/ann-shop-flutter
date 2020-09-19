@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/app_action.dart';
-import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 
@@ -17,10 +18,7 @@ class MediaItem extends StatelessWidget {
         padding: EdgeInsets.all(defaultPadding),
         color: AppStyles.cardColor,
         child: InkWell(
-          onTap: () {
-            AppAction.instance.onHandleAction(
-                context, item.action, item.actionValue, item.name);
-          },
+          onTap: () => showBloc(context),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -63,6 +61,15 @@ class MediaItem extends StatelessWidget {
     );
   }
 
+  void showBloc(BuildContext context) {
+    if (AC.instance.canViewBlog) {
+      AppAction.instance
+          .onHandleAction(context, item.action, item.actionValue, item.name);
+    } else {
+      AppSnackBar.askLogin(context);
+    }
+  }
+
   final double heightImage = 300;
 
   Widget _buildImages(BuildContext context, List<String> images) {
@@ -70,7 +77,10 @@ class MediaItem extends StatelessWidget {
     Widget child;
     switch (images.length) {
       case 1:
-        child = _buildImage1(images);
+        return Container(
+          margin: EdgeInsets.only(top: 8),
+          child: AppImage(images[0]),
+        );
         break;
       case 2:
         child = _buildImage2(images);

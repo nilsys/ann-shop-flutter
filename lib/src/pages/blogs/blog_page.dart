@@ -62,42 +62,43 @@ class _BlogPageState extends State<BlogPage> {
       pinned: false,
       floating: true,
       delegate: CommonSliverPersistentHeaderDelegate(
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.only(top: 20, bottom: 5),
-            width: double.infinity,
-            child: ListView.separated(
-              itemBuilder: (context, index) {
-                index -= 1;
-                if (index < 0 || index == categories.length) {
-                  return SizedBox(
-                    width: 5,
-                  );
-                }
-                BlogCategory item = categories[index];
-                bool selected = item.filter.categorySlug ==
-                    provider.currentCategory.filter.categorySlug;
-                return ChoiceChip(
-                  label: Text(
-                    item.name,
-                    textAlign: TextAlign.center,
-                  ),
-                  selected: selected,
-                  onSelected: (value) {
-                    provider.currentCategory = item;
-                  },
-                );
-              },
-              separatorBuilder: (context, index) {
+        Container(
+          color: Colors.white,
+          padding: EdgeInsets.only(top: 20, bottom: 5),
+          width: double.infinity,
+          child: ListView.separated(
+            itemBuilder: (context, index) {
+              index -= 1;
+              if (index < 0 || index == categories.length) {
                 return SizedBox(
-                  width: 10,
+                  width: 5,
                 );
-              },
-              itemCount: categories.length + 2,
-              scrollDirection: Axis.horizontal,
-            ),
+              }
+              BlogCategory item = categories[index];
+              bool selected = item.filter.categorySlug ==
+                  provider.currentCategory.filter.categorySlug;
+              return ChoiceChip(
+                label: Text(
+                  item.name,
+                  textAlign: TextAlign.center,
+                ),
+                selected: selected,
+                onSelected: (value) {
+                  provider.currentCategory = item;
+                },
+              );
+            },
+            separatorBuilder: (context, index) {
+              return SizedBox(
+                width: 10,
+              );
+            },
+            itemCount: categories.length + 2,
+            scrollDirection: Axis.horizontal,
           ),
-          55),
+        ),
+        55,
+      ),
     );
   }
 }

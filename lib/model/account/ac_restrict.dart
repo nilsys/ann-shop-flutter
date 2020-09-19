@@ -66,4 +66,6 @@ extension ACRestrict on AC {
   bool get canPostBloc => isLogin || noLoginConfig.canPostBloc;
 
   bool get canCopyBloc => isLogin || noLoginConfig.canCopyBloc;
+
+  bool get canDownloadBloc => isLogin || noLoginConfig.canDownloadBloc;
 }

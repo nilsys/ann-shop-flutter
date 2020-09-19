@@ -46,12 +46,12 @@ class BlogRepository {
   Future<List<Cover>> loadBlog(String category,
       {page = 1, pageSize = 20}) async {
     try {
-      var url = AppHttp.domain;
+      var url;
 
       if (isNullOrEmpty(category)) {
-        url += 'flutter/posts?pageNumber=$page&pageSize=$pageSize';
+        url = 'flutter/posts?pageNumber=$page&pageSize=$pageSize';
       } else {
-        url +=
+        url =
             'flutter/posts?categorySlug=$category&pageNumber=$page&pageSize=$pageSize';
       }
       final response = await AppHttp.get(url).timeout(Duration(seconds: 10));

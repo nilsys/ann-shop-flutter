@@ -2,6 +2,7 @@ import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/load_more/load_more_blog_repository.dart';
 
 import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
+import 'package:ann_shop_flutter/ui/inapp/media_item.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -63,7 +64,12 @@ class _BuildAllViewState extends State<ListBlog> {
   }
 
   Widget _buildIndicator(BuildContext context, IndicatorStatus status) {
-    return CustomLoadMoreIndicator(listSourceRepository, status, noMoreLoadText: 'Đã hiện thị tất cả blog',emptyText: 'Không có blog nào',);
+    return CustomLoadMoreIndicator(
+      listSourceRepository,
+      status,
+      noMoreLoadText: 'Đã hiện thị tất cả blog',
+      emptyText: 'Không có blog nào',
+    );
   }
 
   Future<void> onRefresh() async {
@@ -74,7 +80,7 @@ class _BuildAllViewState extends State<ListBlog> {
 class ItemBuilder {
   static Widget itemBuilderList(BuildContext context, Cover item, int index) {
     return Column(children: [
-      BlogItem(item),
+      MediaItem(item),
       Container(height: 6, color: AppStyles.dividerColor),
     ]);
   }

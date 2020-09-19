@@ -1,8 +1,9 @@
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-
 
 import 'package:flutter/material.dart';
 
@@ -18,10 +19,7 @@ class BlogItem extends StatelessWidget {
         padding: EdgeInsets.all(defaultPadding),
         color: AppStyles.cardColor,
         child: InkWell(
-          onTap: () {
-            AppAction.instance.onHandleAction(
-                context, item.action, item.actionValue, item.name);
-          },
+          onTap: () => showBloc(context),
           child: IntrinsicWidth(
             child: Column(
               children: <Widget>[
@@ -71,5 +69,14 @@ class BlogItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showBloc(BuildContext context) {
+    if (AC.instance.canViewBlog) {
+      AppAction.instance
+          .onHandleAction(context, item.action, item.actionValue, item.name);
+    } else {
+      AppSnackBar.askLogin(context);
+    }
   }
 }

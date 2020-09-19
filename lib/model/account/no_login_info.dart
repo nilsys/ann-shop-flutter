@@ -42,6 +42,7 @@ class NoLoginConfig {
   bool canDownloadProduct;
   bool canPostBloc;
   bool canCopyBloc;
+  bool canDownloadBloc;
 
   NoLoginConfig() {
     if (Platform.isIOS) {
@@ -60,6 +61,7 @@ class NoLoginConfig {
       canDownloadProduct = false;
       canPostBloc = false;
       canCopyBloc = false;
+      canDownloadBloc = false;
     } else {
       requestLogin = true;
     }

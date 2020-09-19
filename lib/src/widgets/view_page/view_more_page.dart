@@ -1,19 +1,16 @@
 import 'dart:async';
+import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/src/controllers/views/view_controller.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
-import 'package:ann_shop_flutter/src/models/views/view_navigation_bar.dart';
-
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quiver/strings.dart';
 
 class ViewMorePage extends StatefulWidget {
-  // region Parameters
   final slug;
-
-  // endregion
 
   ViewMorePage(this.slug);
 
@@ -22,13 +19,10 @@ class ViewMorePage extends StatefulWidget {
 }
 
 class _ViewMorePageState extends State<ViewMorePage> {
-  // region Parameters
   ViewController _controller;
   Future<ViewModel> _fetchData;
 
   int _selectedIndex;
-
-  // endregion
 
   @override
   void initState() {
@@ -50,15 +44,11 @@ class _ViewMorePageState extends State<ViewMorePage> {
         } else if (snapshot.hasError) {
           return _buildError(context);
         }
-
-        // By default, show a loading spinner.
         return _buildLoading(context);
       },
     );
   }
 
-  // region build
-  // build the page when it is loading
   Widget _buildLoading(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -117,68 +107,50 @@ class _ViewMorePageState extends State<ViewMorePage> {
   }
 
   Widget _buildBottomNavigationBar(BuildContext context, ViewModel data) {
-    return new BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.cloud_download),
-            title: Text(
-              'Tải hình',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            ),
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.share),
-            title: Text(
-              'Đăng bài',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            ),
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.content_copy),
-            title: Text(
-              'Copy',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            ),
-          )
-        ],
-        onTap: (int index) => _onItemTapped(context, index, data),
-        currentIndex: _selectedIndex,
-        elevation: 1.0,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        selectedFontSize: 12,
-        unselectedFontSize: 12);
-  }
-
-  // endregion
-
-  void _onItemTapped(BuildContext context, int index, ViewModel data) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case ViewNavigationBar.download:
-        _onClickDownload(context, data.images);
-        break;
-      case ViewNavigationBar.share:
-        _onClickShare(context, data);
-        break;
-      case ViewNavigationBar.copy:
-        _onClickCopy(context, data.postContent);
-        break;
-      default:
-        break;
-    }
+    return BottomAppBar(
+      color: Colors.white,
+      child: Container(
+          height: 56,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ButtonIconText(
+                'Tải hình',
+                Icons.cloud_download,
+                onPressed: () => _onClickDownload(context, data.images),
+              ),
+              ButtonIconText(
+                'Đăng bài',
+                Icons.share,
+                onPressed: () => _onClickShare(context, data),
+              ),
+              ButtonIconText(
+                "Copy",
+                Icons.content_copy,
+                onPressed: () => _onClickCopy(context, data.postContent),
+              )
+            ],
+          )),
+    );
   }
 
   void _onClickDownload(BuildContext context, List<String> images) async {
+    if (AC.instance.canDownloadBloc == false) {
+      AppSnackBar.askLogin(context);
+      return;
+    }
+
     if (images == null || images.length == 0) return;
 
     _controller.downloadImage(context, images);
   }
 
   void _onClickShare(BuildContext context, ViewModel data) async {
+    if (AC.instance.canPostBloc == false) {
+      AppSnackBar.askLogin(context);
+      return;
+    }
+
     final loadingDialog = LoadingDialog(context, message: 'Đang xử lý...');
 
     loadingDialog.show();
@@ -190,6 +162,11 @@ class _ViewMorePageState extends State<ViewMorePage> {
   }
 
   void _onClickCopy(BuildContext context, String content) async {
+    if (AC.instance.canCopyBloc == false) {
+      AppSnackBar.askLogin(context);
+      return;
+    }
+
     if (isEmpty(content)) return;
 
     final loadingDialog = LoadingDialog(context, message: 'Đang copy...');

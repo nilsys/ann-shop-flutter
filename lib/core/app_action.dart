@@ -5,6 +5,7 @@ import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigatio
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,7 +31,9 @@ class AppAction {
   void onHandleAction(
       BuildContext context, String action, String value, String message) {
     final _value = value.trim();
-    switch (action) {
+    final _action = action.toLowerCase();
+    printTrack("Action: $action, Value: $value, Message: $message");
+    switch (_action) {
       case ActionType.linkToCategory:
         linkToCategory(context, _value, message);
         break;
@@ -50,7 +53,7 @@ class AppAction {
         linkToWebPage(context, _value);
         break;
       case ActionType.linkToViewMore:
-        linkToViewMore(context, _value);
+        linkToViewMore(context, _value, message);
         break;
       default:
         break;
@@ -119,7 +122,7 @@ class AppAction {
     }
   }
 
-  void linkToViewMore(BuildContext context, String value) {
+  void linkToViewMore(BuildContext context, String value, String message) {
     Navigator.pushNamed(context, 'page/html', arguments: value);
   }
 }

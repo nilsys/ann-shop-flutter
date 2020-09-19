@@ -1,3 +1,5 @@
+import 'package:ping9/ping9.dart';
+
 class Cover {
   String name;
   String message;
@@ -13,10 +15,13 @@ class Cover {
     name = json['name'];
     message = json['message'];
     image = json['image'];
-    images = json['images'] == null ? [] : json['images'].cast<String>();
     action = json['action'];
     actionValue = json['actionValue'];
     createdDate = json['createdDate'];
+    images = json['images'] == null ? [] : json['images'].cast<String>();
+    if (image != null && isNullOrEmpty(images)) {
+      images = [image];
+    }
   }
 
   Map<String, dynamic> toJson() {

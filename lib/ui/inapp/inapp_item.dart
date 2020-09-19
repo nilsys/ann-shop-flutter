@@ -1,5 +1,4 @@
 import 'package:ann_shop_flutter/core/app_action.dart';
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_repository.dart';

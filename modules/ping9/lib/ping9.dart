@@ -34,6 +34,7 @@ export 'package:ping9/src/ui/something_wentW_wrong.dart';
 export 'package:ping9/src/ui/text_button.dart';
 export 'package:ping9/src/ui/title_view_more.dart';
 export 'package:ping9/src/ui/border_button.dart';
+export 'package:ping9/src/ui/button_icon_text.dart';
 
 // view
 export 'package:ping9/src/view/not_found_page.dart';

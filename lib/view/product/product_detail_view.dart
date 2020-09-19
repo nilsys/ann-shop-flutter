@@ -493,7 +493,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 favorite
-                    ? _buildIconTextButton(
+                    ? ButtonIconText(
                         'Xoá',
                         Icons.favorite,
                         onPressed: () {
@@ -501,7 +501,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                               .removeProduct(detail.productID);
                         },
                       )
-                    : _buildIconTextButton(
+                    : ButtonIconText(
                         'Thích',
                         Icons.favorite_border,
                         onPressed: () {
@@ -510,7 +510,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                                   count: 1);
                         },
                       ),
-                _buildIconTextButton(
+                ButtonIconText(
                   'Tải hình',
                   Icons.cloud_download,
                   onPressed: () {
@@ -523,7 +523,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     }
                   },
                 ),
-                _buildIconTextButton(
+                ButtonIconText(
                   'Đăng bài',
                   Icons.share,
                   onPressed: () {
@@ -535,47 +535,16 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     }
                   },
                 ),
-                _buildIconTextButton(
+                ButtonIconText(
                   'Copy',
                   Icons.content_copy,
-                  onPressed: () {
-                    ProductUtility.instance
-                        .onCheckAndCopy(context, detail.productID);
-                  },
+                  onPressed: () => ProductUtility.instance
+                      .onCheckAndCopy(context, detail.productID),
                 ),
               ],
             ),
             DownLoadBackground(),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildIconTextButton(String text, IconData icon,
-      {VoidCallback onPressed}) {
-    return Expanded(
-      flex: 1,
-      child: FlatButton(
-        onPressed: onPressed,
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 11.0),
-              Icon(
-                icon,
-                color: AppStyles.dartIcon,
-                size: 20,
-              ),
-              SizedBox(height: 5.0),
-              Text(
-                text,
-                maxLines: 1,
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 6.0),
-            ],
-          ),
         ),
       ),
     );
