@@ -3,7 +3,7 @@ import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
-import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/route/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';

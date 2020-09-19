@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
-import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/route/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/ui/utility/search_input.dart';
 import 'package:ann_shop_flutter/view/search/search_intro.dart';

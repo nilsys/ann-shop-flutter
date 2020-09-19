@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
-import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/route/route.dart';
 import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';

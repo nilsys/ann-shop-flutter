@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/route/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 
 import 'package:flutter/material.dart';

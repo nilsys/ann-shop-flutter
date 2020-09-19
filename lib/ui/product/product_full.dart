@@ -4,7 +4,7 @@ import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
-import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/route/route.dart';
 
 import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
 

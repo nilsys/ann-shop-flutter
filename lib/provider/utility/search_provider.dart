@@ -8,7 +8,7 @@ import 'package:ann_shop_flutter/model/utility/app_filter.dart';
 
 import 'package:ann_shop_flutter/provider/utility/category_repository.dart';
 import 'package:ann_shop_flutter/provider/utility/list_product_repository.dart';
-import 'package:ann_shop_flutter/src/configs/route.dart';
+import 'package:ann_shop_flutter/src/route/route.dart';
 
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';

@@ -1,6 +1,6 @@
+import 'package:ann_shop_flutter/src/route/route.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
-import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
