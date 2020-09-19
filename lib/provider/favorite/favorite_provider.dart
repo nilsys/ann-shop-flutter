@@ -3,7 +3,7 @@ import 'dart:core';
 
 
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -21,7 +21,7 @@ class FavoriteProvider with ChangeNotifier {
   Future loadShoppingList() async {
     try {
       /// shopping
-      final response = await StorageManager.getObjectByKey(_keyLocaleFavorite);
+      final response = await StorageManager.instance.getObjectByKey(_keyLocaleFavorite);
       if (isNullOrEmpty(response)) {
         products = [];
       } else {
@@ -37,11 +37,11 @@ class FavoriteProvider with ChangeNotifier {
   saveShoppingList() {
     var myJsonString =
         json.encode(products.map((value) => value.toJson()).toList());
-    StorageManager.setObject(_keyLocaleFavorite, myJsonString);
+    StorageManager.instance.setObject(_keyLocaleFavorite, myJsonString);
   }
 
   addNewProduct(context, Product item, {int count = 1}) {
-    if (AccountController.instance.isLogin == false) {
+    if (AC.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }

@@ -32,8 +32,7 @@ class _ImageViewState extends State<ImageView> {
               child: GestureZoomBox(
                 child: Hero(
                   tag: tag,
-                  child: AppImage(
-                    Core.domain + url,
+                  child: AppImage(url,
                     fit: BoxFit.contain,
                   ),
                 ),

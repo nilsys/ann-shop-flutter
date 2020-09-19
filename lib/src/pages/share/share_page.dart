@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
-
-
-
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
@@ -85,7 +81,8 @@ class _SharePageState extends State<SharePage> {
     if (images == null || images.length == 0) {
       return AppBar(
           leading: IconButton(
-            icon: Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
+            icon:
+                Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -216,9 +213,7 @@ class _SharePageState extends State<SharePage> {
         opacity: opacity,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(5),
-          child: AppImage(
-            Core.domain + url,
-          ),
+          child: AppImage(AppImage.imageDomain + url),
         ),
       ),
     );
@@ -274,7 +269,7 @@ class _SharePageState extends State<SharePage> {
   /// 2. Trao quyền kiểm soát cho mọi người
   /// https://developers.facebook.com/policy/#control
   void _onClickShareFacebook(BuildContext context) {
-    if (AccountController.instance.isLogin == false) {
+    if (AC.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
@@ -294,7 +289,7 @@ class _SharePageState extends State<SharePage> {
   /// 1) Hổ trợ share nội dung 1 image và content quảng cáo
   /// 2) Hổ trợ share tối đa 9 image
   void _onClickShareZalo(BuildContext context) {
-    if (AccountController.instance.isLogin == false) {
+    if (AC.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
@@ -373,7 +368,7 @@ class _SharePageState extends State<SharePage> {
     for (int i = 0; i < imagesSelected.length; i++) {
       await Future.delayed(const Duration(milliseconds: 500));
       await DefaultCacheManager()
-          .getSingleFile(Core.domain + imagesSelected[i])
+          .getSingleFile(AppImage.imageDomain + imagesSelected[i])
           .then((File file) {
         files.add(file.path);
         mapByte['image_$i.png'] = file.readAsBytesSync();

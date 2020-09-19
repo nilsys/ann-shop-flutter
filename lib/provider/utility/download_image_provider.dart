@@ -43,7 +43,7 @@ class DownloadImageProvider extends ChangeNotifier {
     try {
       notifyListeners();
       var file = await DefaultCacheManager()
-          .getSingleFile(Core.domain + images[_index])
+          .getSingleFile(AppImage.imageDomain + images[_index])
           .timeout(Duration(seconds: 10));
       Uint8List bytes = file.readAsBytesSync();
       await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));

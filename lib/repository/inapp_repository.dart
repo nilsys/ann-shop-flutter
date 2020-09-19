@@ -1,14 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_logging.dart';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class InAppRepository {
   // region Singleton Pattern
@@ -95,16 +90,14 @@ class InAppRepository {
   Future<List<InApp>> loadInAppNotification(String kind,
       {page = 1, pageSize = 20}) async {
     try {
-      var url = Core.domain;
+      var url;
       if (isNullOrEmpty(kind) || kind == 'all') {
-        url += 'api/flutter/notifications?pageNumber=$page&pageSize=$pageSize';
+        url = 'flutter/notifications?pageNumber=$page&pageSize=$pageSize';
       } else {
-        url +=
-            'api/flutter/notifications?kind=$kind&pageNumber=$page&pageSize=$pageSize';
+        url =
+            'flutter/notifications?kind=$kind&pageNumber=$page&pageSize=$pageSize';
       }
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 5));
+      final response = await AppHttp.get(url).timeout(Duration(seconds: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);

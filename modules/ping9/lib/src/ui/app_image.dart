@@ -9,7 +9,7 @@ class AppImage extends StatelessWidget {
   final String url;
   final BoxFit fit;
   final bool showLoading;
-  final String imageDomain = "http://xuongann.com/";
+  static String imageDomain = "http://xuongann.com/";
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
@@ -90,7 +90,7 @@ class LoadMoreProductRepository extends LoadingMoreBase<Product> {
     if (_filter == null) {
       return [];
     } else {
-      if (pageIndex > 1 && AccountController.instance.isLogin == false) {
+      if (pageIndex > 1 && AC.instance.isLogin == false) {
         return null;
       }
       var list = await ListProductRepository.instance.loadByProductFilter(

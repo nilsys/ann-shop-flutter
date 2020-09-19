@@ -1,7 +1,5 @@
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
-import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/view/search/search_title.dart';
@@ -87,7 +85,6 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   Future<void> _refreshPage() async {
-    await UserController.instance.refreshToken(context);
     await Provider.of<CategoryProvider>(context, listen: false)
         .loadCategories();
   }

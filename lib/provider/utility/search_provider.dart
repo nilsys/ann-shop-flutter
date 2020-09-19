@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
@@ -75,7 +74,7 @@ class SearchProvider with ChangeNotifier {
   }
 
   Future loadHistory() async {
-    String response = await StorageManager.getObjectByKey(_keyHistory);
+    String response = await StorageManager.instance.getObjectByKey(_keyHistory);
     if (response != null) {
       var json = jsonDecode(response);
       _history = json.cast<String>();
@@ -90,7 +89,7 @@ class SearchProvider with ChangeNotifier {
 
     value = value.trim();
     if (value.isNotEmpty) {
-      if (AccountController.instance.canSearchProduct == false) {
+      if (AC.instance.canSearchProduct == false) {
         AppSnackBar.showFlushbar(
             context, 'Bạn cần đăng nhập để tiếp tục tìm kiếm sản phẩm');
         return;
@@ -135,7 +134,7 @@ class SearchProvider with ChangeNotifier {
         _history.remove(text);
         _history.insert(0, text);
       }
-      StorageManager.setObject(_keyHistory, jsonEncode(history));
+      StorageManager.instance.setObject(_keyHistory, jsonEncode(history));
     }
     notifyListeners();
   }
@@ -148,19 +147,19 @@ class SearchProvider with ChangeNotifier {
         _history.remove(text);
         _history.insert(0, text);
       }
-      StorageManager.setObject(_keyHistory, jsonEncode(history));
+      StorageManager.instance.setObject(_keyHistory, jsonEncode(history));
     }
   }
 
   void removeHistoryUnit(String title) {
     history.removeWhere((m) => m == title);
-    StorageManager.setObject(_keyHistory, jsonEncode(history));
+    StorageManager.instance.setObject(_keyHistory, jsonEncode(history));
     notifyListeners();
   }
 
   void removeHistoryAll() {
     _history = [];
-    StorageManager.clearObjectByKey(_keyHistory);
+    StorageManager.instance.clearObjectByKey(_keyHistory);
     notifyListeners();
   }
 

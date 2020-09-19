@@ -77,7 +77,7 @@ class _ProductFullState extends State<ProductFull> {
                             fit: StackFit.expand,
                             children: <Widget>[
                               AppImage(
-                                Core.domain + widget.product.images[0],
+                                AppImage.imageDomain + widget.product.images[0],
                                 fit: BoxFit.contain,
                               ),
                               Container(
@@ -110,7 +110,7 @@ class _ProductFullState extends State<ProductFull> {
                         );
                       } else {
                         return AppImage(
-                          Core.domain + widget.product.images[index],
+                          AppImage.imageDomain + widget.product.images[index],
                           fit: BoxFit.contain,
                         );
                       }

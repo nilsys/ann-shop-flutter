@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
@@ -188,7 +188,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
         loadingDialog.close();
 
         if (response.status) {
-          AccountController.instance.finishLogin(response.data, password);
+          AC.instance.finishLogin(response.data, password);
           if (AccountRegisterState.instance.isRegister) {
             Navigator.pushNamedAndRemoveUntil(context,
                 'user/register/information', (Route<dynamic> route) => false);

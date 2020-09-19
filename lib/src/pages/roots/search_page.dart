@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
-import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/ui/utility/search_input.dart';
 import 'package:ann_shop_flutter/view/search/search_intro.dart';
@@ -50,8 +49,6 @@ class SearchPage extends StatelessWidget {
 
   Future<void> _onRefresh(BuildContext context) async {
     final searchProvider = Provider.of<SearchProvider>(context, listen: false);
-
-    await UserController.instance.refreshToken(context);
     await searchProvider.loadHotKey();
     await searchProvider.loadHistory();
   }

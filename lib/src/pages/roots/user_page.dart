@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
@@ -44,7 +44,7 @@ class _UserPageState extends State<UserPage> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverToBoxAdapter(
-            child: AccountController.instance.isLogin
+            child: AC.instance.isLogin
                 ? _buildAccount()
                 : _buildNoLogin(),
           ),
@@ -111,7 +111,7 @@ class _UserPageState extends State<UserPage> {
                         color: Theme.of(context).primaryColor, width: 1)),
                 child: InkWell(
                   onTap: () {
-                    AccountController.instance.logout();
+                    AC.instance.clearToken();
                     Navigator.pushNamedAndRemoveUntil(
                         context, 'user/login', (route) => false);
                     Provider.of<CouponProvider>(context, listen: false)
@@ -186,7 +186,7 @@ class _UserPageState extends State<UserPage> {
                       maxLines: 1,
                     ),
                     Text(
-                      AccountController.instance.account.fullName ??
+                      AC.instance.account.fullName ??
                           'Cập nhật thông tin ngay!',
                       maxLines: 1,
                       style: TextStyle(
@@ -258,7 +258,7 @@ class _UserPageState extends State<UserPage> {
   }
 
   void _viewOrderManagement() {
-    if (AccountController.instance.isLogin) {
+    if (AC.instance.isLogin) {
       Navigator.pushNamed(context, 'user/order');
     } else {
       AskLogin.show(context,

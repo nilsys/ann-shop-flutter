@@ -1,5 +1,5 @@
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
@@ -55,7 +55,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                   ),
                 ],
         ),
-        body: AccountController.instance.isLogin == false
+        body: AC.instance.isLogin == false
             ? RequestLogin()
             : Container(
                 child: CustomScrollView(

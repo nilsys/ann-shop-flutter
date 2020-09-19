@@ -1,8 +1,6 @@
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
-import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
-
 import 'package:flutter/material.dart';
 import 'package:ping9/ping9.dart';
 import 'package:provider/provider.dart';
@@ -51,15 +49,26 @@ class _InitViewState extends State<InitView> {
     CopyController.instance.loadCopySetting();
   }
 
-  checkAccountInfo() async {
-    await AccountController.instance.loadFormLocale();
-    await UserController.instance.refreshToken(context);
+  Future checkAccountInfo() async {
+    await AC.instance.loadFormLocale();
+    if (AC.instance.isLogin == false) {
+      goToLogin();
+      return;
+    }
     CoverProvider provider = Provider.of(context, listen: false);
     await provider.loadPostHome();
     if (provider.postsHome.isCompleted) {
-      Navigator.pushReplacementNamed(context, 'home');
+      goToHome();
     } else {
-      Navigator.pushReplacementNamed(context, 'user/login');
+      goToLogin();
     }
+  }
+
+  void goToLogin() {
+    Navigator.pushReplacementNamed(context, 'user/login');
+  }
+
+  void goToHome() {
+    Navigator.pushReplacementNamed(context, 'home');
   }
 }

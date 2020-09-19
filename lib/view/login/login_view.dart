@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
@@ -24,7 +24,7 @@ class _LoginViewState extends State<LoginView> {
   // region Parameters
   final _formKey = GlobalKey<FormState>();
 
-  AccountController _accountController;
+  AC _accountController;
   bool _autoValidate;
 
   String phone;
@@ -40,7 +40,7 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     super.initState();
 
-    _accountController = AccountController.instance;
+    _accountController = AC.instance;
     _autoValidate = false;
 
     if (_accountController.account != null &&

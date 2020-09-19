@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/utility/coupon.dart';
 import 'package:ann_shop_flutter/model/utility/promotion.dart';
 import 'package:async/async.dart';
@@ -21,11 +21,16 @@ class CouponRepository {
   Future<bool> uploadRetailerDetail(
       {String base64Image, File picture, String compare}) async {
     try {
+      final myHeader = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${AppHttp.tokenApi}"
+      };
+
       final Map<String, String> mapData = {};
       final stream =
           http.ByteStream(DelegatingStream.typed(picture.openRead()));
       final length = await picture.length();
-      final url = '${Core.domain}api/flutter/upload/app-review-evidence';
+      final url = '${AppHttp.domain}flutter/upload/app-review-evidence';
       final uri = Uri.parse(url);
       // create multipart request
       final MultipartRequest request = http.MultipartRequest(
@@ -38,12 +43,11 @@ class CouponRepository {
           filename: basename(picture.path));
       // add file to multipart
       request.fields.addAll(mapData);
-      request.headers.addAll(AccountController.instance.header);
+      request.headers.addAll(myHeader);
       request.files.add(multipartFile);
       // send
 //      final response = await request.send();
-      final response = await http.post(url,
-          headers: AccountController.instance.header,
+      final response = await AppHttp.post(url,
           body: json.encode({'imageBase64': base64Image}));
 
       return response.statusCode == HttpStatus.ok;
@@ -56,10 +60,9 @@ class CouponRepository {
   /// http://xuongann.com/api/flutter/
   Future<List<Coupon>> loadMyCoupon() async {
     try {
-      final url = '${Core.domain}api/flutter/coupon/customer';
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(const Duration(seconds: 10));
+      final url = 'flutter/coupon/customer';
+      final response =
+          await AppHttp.get(url).timeout(const Duration(seconds: 10));
 
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
@@ -83,10 +86,9 @@ class CouponRepository {
   /// http://xuongann.com/api/flutter/coupon/promotions
   Future<List<Promotion>> loadListPromotion() async {
     try {
-      final url = '${Core.domain}api/flutter/coupon/promotions';
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(const Duration(seconds: 10));
+      final url = 'flutter/coupon/promotions';
+      final response =
+          await AppHttp.get(url).timeout(const Duration(seconds: 10));
 
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
@@ -110,10 +112,9 @@ class CouponRepository {
   /// http://xuongann.com/api/flutter/coupon/${code}
   Future<String> receiveCoupon(String code) async {
     try {
-      final url = '${Core.domain}api/flutter/coupon/$code';
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(const Duration(seconds: 10));
+      final url = 'flutter/coupon/$code';
+      final response =
+          await AppHttp.get(url).timeout(const Duration(seconds: 10));
 
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {

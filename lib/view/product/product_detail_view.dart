@@ -1,5 +1,4 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -9,7 +8,6 @@ import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
-import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
@@ -24,7 +22,6 @@ import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/download_background.dart';
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
-
 
 import 'package:ann_shop_flutter/view/product/product_related_list.dart';
 import 'package:avatar_glow/avatar_glow.dart';
@@ -200,8 +197,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
               child: ProductBanner(
                   Provider.of<CoverProvider>(context).headerProduct.data,
                   border: Border(
-                      top:
-                          BorderSide(color: AppStyles.dividerColor, width: 10))),
+                      top: BorderSide(
+                          color: AppStyles.dividerColor, width: 10))),
             ),
             InfoProduct(detail),
             _buildTitle('Thông tin sản phẩm'),
@@ -244,7 +241,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
         ),
         body: SomethingWentWrong(
           onReload: () async {
-            await UserController.instance.refreshToken(context);
             provider.loadProduct(widget.slug);
           },
         ),
@@ -619,8 +615,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   Widget _buildProductColorSize() {
-    if (isNullOrEmpty(detail.colors) &&
-        isNullOrEmpty(detail.sizes)) {
+    if (isNullOrEmpty(detail.colors) && isNullOrEmpty(detail.sizes)) {
       return Container();
     }
     return ButtonGradient(

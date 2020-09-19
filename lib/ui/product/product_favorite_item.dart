@@ -33,7 +33,7 @@ class ProductFavoriteItem extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(0),
                     child: AppImage(
-                      Core.domain + data.product.getCover,
+                      AppImage.imageDomain + data.product.getCover,
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -59,15 +59,13 @@ class ProductFavoriteItem extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Text(
                           'Mã: ' + data.product.sku,
                           textAlign: TextAlign.left,
                           style: Theme.of(context)
                               .textTheme
-                              .subhead
+                              .subtitle1
                               .merge(TextStyle(color: Colors.grey)),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

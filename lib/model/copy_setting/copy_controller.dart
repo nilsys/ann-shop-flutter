@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
 import 'package:ping9/ping9.dart';
 
@@ -24,7 +22,7 @@ class CopyController {
 
   loadCopySetting() async {
     try {
-      var response = await StorageManager.getObjectByKey(_keyCopySetting);
+      var response = await StorageManager.instance.getObjectByKey(_keyCopySetting);
       if (response == null) {
         copySetting = CopySetting();
       } else {
@@ -40,6 +38,6 @@ class CopyController {
 
   saveCopySetting() {
     var myJsonString = json.encode(copySetting.toJson());
-    StorageManager.setObject(_keyCopySetting, myJsonString);
+    StorageManager.instance.setObject(_keyCopySetting, myJsonString);
   }
 }

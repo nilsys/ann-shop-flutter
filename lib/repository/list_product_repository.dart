@@ -1,15 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:ann_shop_flutter/core/core.dart';
-
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
-import 'package:http/http.dart' as http;
 
 class ListProductRepository {
   static final ListProductRepository instance =
@@ -67,8 +62,7 @@ class ListProductRepository {
       if (isNullOrEmpty(productFilter.categorySlug) == false) {
         return _loadByCategory(productFilter.categorySlug,
             filter: filter, page: page, pageSize: pageSize);
-      } else if (isNullOrEmpty(productFilter.categorySlugList) ==
-          false) {
+      } else if (isNullOrEmpty(productFilter.categorySlugList) == false) {
         return _loadByListCategory(productFilter.categorySlugList,
             filter: filter, page: page, pageSize: pageSize);
       } else if (isNullOrEmpty(productFilter.productSearch) == false) {
@@ -90,12 +84,12 @@ class ListProductRepository {
   Future<List<Product>> _loadAllByFilter(
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
-      var url = Core.domain +
-          'api/flutter/products?pageNumber=$page&pageSize=$pageSize';
+      var url =
+          'flutter/products?pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(
+        url,
+      ).timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -116,12 +110,12 @@ class ListProductRepository {
       categorySlugList += '&categorySlugList[$i]=${names[i]}';
     }
     try {
-      var url = Core.domain +
-          'api/flutter/products?$categorySlugList&pageNumber=$page&pageSize=$pageSize';
+      var url =
+          'flutter/products?$categorySlugList&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(
+        url,
+      ).timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -138,12 +132,12 @@ class ListProductRepository {
   Future<List<Product>> _loadByCategory(String name,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
-      var url = Core.domain +
-          'api/flutter/products?categorySlug=$name&pageNumber=$page&pageSize=$pageSize';
+      var url =
+          'flutter/products?categorySlug=$name&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(
+        url,
+      ).timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -160,12 +154,12 @@ class ListProductRepository {
   Future<List<Product>> loadBySearch(String text,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
-      var url = Core.domain +
-          'api/flutter/products?productSearch=$text&pageNumber=$page&pageSize=$pageSize';
+      var url =
+          'flutter/products?productSearch=$text&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(
+        url,
+      ).timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -181,12 +175,10 @@ class ListProductRepository {
   Future<List<Product>> _loadByTag(String text,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
-      var url = Core.domain +
-          'api/flutter/products?tagSlug=$text&pageNumber=$page&pageSize=$pageSize';
+      var url =
+          'flutter/products?tagSlug=$text&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(url).timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -203,12 +195,10 @@ class ListProductRepository {
   Future<List<Product>> loadBySku(String sku,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
-      var url = Core.domain +
-          'api/flutter/products?productSKU=$sku&pageNumber=$page&pageSize=$pageSize';
+      var url =
+          'flutter/products?productSKU=$sku&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(url).timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -226,13 +216,14 @@ class ListProductRepository {
   cacheProduct(String _keyCache, List<Product> products) {
     var myJsonString =
         json.encode(products.map((value) => value.toJson()).toList());
-    StorageManager.setObject(_prefixCategoryKey + _keyCache, myJsonString);
+    StorageManager.instance
+        .setObject(_prefixCategoryKey + _keyCache, myJsonString);
   }
 
   Future<List<Product>> loadByCache(String _keyCache) async {
     try {
-      String body =
-          await StorageManager.getObjectByKey(_prefixCategoryKey + _keyCache);
+      String body = await StorageManager.instance
+          .getObjectByKey(_prefixCategoryKey + _keyCache);
 
       if (isNullOrEmpty(body) == false) {
         return listProductByString(body);

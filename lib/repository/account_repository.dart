@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:http/http.dart' as http;
+import 'package:ping9/ping9.dart';
 
 class AccountRepository {
   static final AccountRepository instance = AccountRepository._internal();
@@ -18,7 +18,7 @@ class AccountRepository {
 
   Future<AppResponse> checkPhoneNumber(String phone) async {
     try {
-      final url = '${Core.domain}api/flutter/user/check?phone=$phone';
+      final url = '${AppHttp.domain}flutter/user/check?phone=$phone';
       final response = await http.get(url);
 
       if (response.statusCode == HttpStatus.ok) {
@@ -38,7 +38,7 @@ class AccountRepository {
     try {
       String formatPhone = '84' + phone.substring(1);
       Map data = {"phone": formatPhone, "otp": otp};
-      final url = '${Core.domain}api/sms/otp';
+      final url = '${AppHttp.domain}sms/otp';
       final response = await http.post(url, body: data);
 
       if (response.statusCode == HttpStatus.ok) {
@@ -55,7 +55,7 @@ class AccountRepository {
   Future<AppResponse> registerStep3ValidateOTP(String phone, String otp) async {
     try {
       Map data = {"phone": phone, "otp": otp};
-      final url = '${Core.domain}api/flutter/user/confirm-otp';
+      final url = '${AppHttp.domain}flutter/user/confirm-otp';
       final response = await http.post(url, body: data);
 
       if (response.statusCode == HttpStatus.ok) {
@@ -73,11 +73,11 @@ class AccountRepository {
       String phone, String otp, String password) async {
     try {
       Map data = {"phone": phone, 'otp': otp, "passwordNew": password};
-      String url = '${Core.domain}api/flutter/user/create-password';
+      String url = '${AppHttp.domain}flutter/user/create-password';
       final response = await http
           .post(
             url,
-            body: data,
+            body: data
           )
           .timeout(Duration(seconds: 10));
 
@@ -96,11 +96,11 @@ class AccountRepository {
   Future<AppResponse> login(String phone, String password) async {
     try {
       Map data = {"phone": phone, "password": password};
-      String url = '${Core.domain}api/flutter/user/login';
+      String url = '${AppHttp.domain}flutter/user/login';
       final response = await http
           .post(
             url,
-            body: data,
+            body: data
           )
           .timeout(Duration(seconds: 10));
 
@@ -118,12 +118,9 @@ class AccountRepository {
 
   Future<AppResponse> updateInformation(Account account) async {
     try {
-      final url = '${Core.domain}api/flutter/user/update-info';
-      final response = await http.patch(
-        url,
-        body: jsonEncode(account.toJson()),
-        headers: AccountController.instance.header,
-      );
+      final url = 'flutter/user/update-info';
+      final response =
+          await AppHttp.patch(url, body: jsonEncode(account.toJson()));
 
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
@@ -146,7 +143,7 @@ class AccountRepository {
         "otp": newPass,
         "birthday": birthDay,
       };
-      String url = '${Core.domain}api/flutter/user/password-new-by-birthday';
+      String url = '${AppHttp.domain}flutter/user/password-new-by-birthday';
       final response =
           await http.patch(url, body: data).timeout(Duration(seconds: 10));
 
@@ -164,14 +161,8 @@ class AccountRepository {
 
   Future<AppResponse> changePassword(String newPassword) async {
     try {
-      String url = Core.domain +
-          'api/flutter/user/change-password?passwordNew=$newPassword';
-
-      final response = await http
-          .patch(
-            url,
-            headers: AccountController.instance.header,
-          )
+      final response = await AppHttp.patch(
+              "flutter/user/change-password?passwordNew=$newPassword")
           .timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {

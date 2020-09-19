@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -11,7 +11,6 @@ import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
-
 
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
@@ -96,10 +95,10 @@ class ProductRepository {
   /// http://xuongann.com/api/flutter/product/ao-thun-nam-ca-sau-adidas
   Future<ProductDetail> loadProductDetail(String slug) async {
     try {
-      final url = '${Core.domain}api/flutter/product/$slug';
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(const Duration(seconds: 10));
+      final url = 'flutter/product/$slug';
+      final response = await AppHttp.get(
+        url,
+      ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);
@@ -116,10 +115,10 @@ class ProductRepository {
       {int page = 1, int pageSize = itemPerPage}) async {
     try {
       final url =
-          '${Core.domain}api/flutter/product/$slug/related?pageNumber=$page&pageSize=$pageSize';
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(const Duration(seconds: 10));
+          'flutter/product/$slug/related?pageNumber=$page&pageSize=$pageSize';
+      final response = await AppHttp.get(
+        url,
+      ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
@@ -139,10 +138,10 @@ class ProductRepository {
   Future<String> loadProductImageSize(int id, int color, int size) async {
     try {
       final url =
-          '${Core.domain}api/flutter/product/$id/image?color=$color&size=$size';
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(const Duration(seconds: 5));
+          'flutter/product/$id/image?color=$color&size=$size';
+      final response = await AppHttp.get(
+        url,
+      ).timeout(const Duration(seconds: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);
@@ -157,10 +156,10 @@ class ProductRepository {
   /// http://xuongann.com/api/flutter/product/1/advertisement-image
   Future<List<String>> loadProductAdvertisementImage(int id) async {
     try {
-      final url = '${Core.domain}api/flutter/product/$id/advertisement-image';
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(const Duration(seconds: 5));
+      final url = 'flutter/product/$id/advertisement-image';
+      final response = await AppHttp.get(
+        url,
+      ).timeout(const Duration(seconds: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);
@@ -183,11 +182,8 @@ class ProductRepository {
         "showProductName": copySetting.productName,
         "increntPrice": copySetting.bonusPrice
       };
-      final url = '${Core.domain}api/flutter/product/$id/advertisement-content';
-      final response = await http
-          .post(url,
-              headers: AccountController.instance.header,
-              body: jsonEncode(data))
+      final url = 'flutter/product/$id/advertisement-content';
+      final response = await AppHttp.post(url, body: jsonEncode(data))
           .timeout(Duration(seconds: 5));
 
       if (response.statusCode == HttpStatus.ok) {
@@ -203,17 +199,17 @@ class ProductRepository {
   /// http://xuongann.com/api/flutter/product-sort
   Future getProductSort() async {
     try {
-      final url = '${Core.domain}api/flutter/product-sort';
-      await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(const Duration(seconds: 5));
+      final url = 'flutter/product-sort';
+      await AppHttp.get(
+        url,
+      ).timeout(const Duration(seconds: 5));
     } catch (e) {
       print(e);
     }
   }
 
   Future onCheckAndCopy(BuildContext context, int productID) async {
-    if (AccountController.instance.isLogin == false) {
+    if (AC.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
@@ -263,7 +259,7 @@ class ProductRepository {
 
   /// save to gallery
   Future onDownLoad(BuildContext context, int productID) async {
-    if (AccountController.instance.isLogin == false) {
+    if (AC.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
@@ -274,9 +270,8 @@ class ProductRepository {
         AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
             duration: const Duration(seconds: 1));
       } else {
-        final permissionGroup = Platform.isAndroid
-            ? Permission.storage
-            : Permission.photos;
+        final permissionGroup =
+            Platform.isAndroid ? Permission.storage : Permission.photos;
         final permission = await PermissionController.instance
             .checkAndRequestPermission(context, permissionGroup);
         if (permission) {

@@ -59,7 +59,7 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
                         alignment: Alignment.center,
                         child: GestureZoomBox(
                           child: AppImage(
-                            Core.domain +
+                            AppImage.imageDomain +
                                 (tapExpanded != null
                                     ? carousel[index].feature
                                     : carousel[index].origin),
@@ -169,7 +169,7 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: AppImage(
-              Core.domain + url,
+              AppImage.imageDomain + url,
               showLoading: false,
             ),
           ),

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
 
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -66,7 +66,7 @@ class _ButtonDownloadState extends State<ButtonDownload> {
   loadState loading = loadState.none;
 
   Future _download() async {
-    if (AccountController.instance.isLogin == false) {
+    if (AC.instance.isLogin == false) {
       AskLogin.show(context);
       return;
     }
@@ -81,7 +81,7 @@ class _ButtonDownloadState extends State<ButtonDownload> {
         loading = loadState.loading;
       });
       final file = await DefaultCacheManager()
-          .getSingleFile(Core.domain + widget.imageName)
+          .getSingleFile(AppImage.imageDomain + widget.imageName)
           .timeout(const Duration(seconds: 10));
       final Uint8List bytes = file.readAsBytesSync();
       await ImageGallerySaver.saveImage(bytes)

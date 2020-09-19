@@ -19,7 +19,7 @@ class SeenProvider with ChangeNotifier {
     try {
       /// shopping
       String response =
-          await StorageManager.getObjectByKey(_keyLocaleSeenProduct);
+          await StorageManager.instance.getObjectByKey(_keyLocaleSeenProduct);
       if (response == null || response.isEmpty) {
         products = new List();
       } else {
@@ -35,7 +35,7 @@ class SeenProvider with ChangeNotifier {
   saveListProduct() {
     var myJsonString =
         json.encode(products.map((value) => value.toJson()).toList());
-    StorageManager.setObject(_keyLocaleSeenProduct, myJsonString);
+    StorageManager.instance.setObject(_keyLocaleSeenProduct, myJsonString);
   }
 
   addNewProduct(Product item) {

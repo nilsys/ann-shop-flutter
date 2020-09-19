@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -20,10 +20,8 @@ class CoverRepository {
   /// http://xuongann.com/api/flutter/home/banners
   Future<List<Cover>> loadCover(String slug) async {
     try {
-      final url = '${Core.domain}api/flutter/$slug';
-      final response = await http
-          .get(url, headers: AccountController.instance.header)
-          .timeout(Duration(seconds: 5));
+      final url = 'flutter/$slug';
+      final response = await AppHttp.get(url).timeout(Duration(seconds: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);

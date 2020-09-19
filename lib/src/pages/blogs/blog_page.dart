@@ -1,5 +1,5 @@
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
 import 'package:ann_shop_flutter/provider/utility/blog_provider.dart';
 import 'package:ann_shop_flutter/ui/utility/request_login.dart';
@@ -45,7 +45,7 @@ class _BlogPageState extends State<BlogPage> {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: AccountController.instance.isLogin == false
+      body: AC.instance.isLogin == false
           ? RequestLogin()
           : ListBlog(
               slug,

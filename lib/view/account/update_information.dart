@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
@@ -47,7 +47,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
         FocusScope.of(context).requestFocus(FocusNode());
       }
     });
-    account = Account.fromJson(AccountController.instance.account.toJson());
+    account = Account.fromJson(AC.instance.account.toJson());
     _controllerBirthDate =
         TextEditingController(text: Utility.fixFormatDate(account.birthDay));
 
@@ -369,7 +369,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
         loadingDialog.close();
 
         if (response.status) {
-          AccountController.instance.updateAccountInfo(account);
+          AC.instance.updateAccountInfo(account);
           if (widget.isRegister) {
             Routes.navigateRegister(context, ANNPage.home);
           } else {

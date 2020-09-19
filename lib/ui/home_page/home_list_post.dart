@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ann_shop_flutter/ui/inapp/media_item.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
@@ -30,7 +31,7 @@ class _HomeListPostState extends State<HomeListPost> {
       ];
 
       for (int i = 0; i < length; i++) {
-        children.add(BlogItem(data[i]));
+        children.add(MediaItem(data[i]));
         children.add(Container(height: 1,color: AppStyles.dividerColor,));
       }
       children.add(BottomViewMore(

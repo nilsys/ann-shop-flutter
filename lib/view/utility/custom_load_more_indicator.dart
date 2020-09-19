@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 
 
@@ -78,7 +78,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
             children: <Widget>[
               Icon(Icons.error, size: 25),
               Text(
-                AccountController.instance.isLogin
+                AC.instance.isLogin
                     ? "Có lỗi xảy ra, chạm để thử lại..."
                     : "Bạn cần đăng nhập hoặc đăng ký để xem thêm sản phẩm!",
                 textAlign: TextAlign.center,
@@ -90,7 +90,7 @@ class CustomLoadMoreIndicator extends StatelessWidget {
 
         widget = GestureDetector(
           onTap: () {
-            if (AccountController.instance.isLogin) {
+            if (AC.instance.isLogin) {
               listSourceRepository.errorRefresh();
             } else {
               AskLogin.show(context,

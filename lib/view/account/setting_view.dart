@@ -1,7 +1,7 @@
 import 'package:ann_shop_flutter/core/app_input_formatter.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
 import 'package:ann_shop_flutter/ui/utility/request_login.dart';
@@ -21,7 +21,7 @@ class _SettingViewState extends State<SettingView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    this._account = Account.fromJson(AccountController.instance.account.toJson());
+    this._account = Account.fromJson(AC.instance.account.toJson());
     CopySetting copy = CopyController.instance.copySetting;
 
     if (copy.showed == false && this._account != null) {
@@ -81,7 +81,7 @@ class _SettingViewState extends State<SettingView> {
             },
           ),
         ),
-        body: AccountController.instance.isLogin == false
+        body: AC.instance.isLogin == false
             ? RequestLogin()
             : Container(
                 child: CustomScrollView(

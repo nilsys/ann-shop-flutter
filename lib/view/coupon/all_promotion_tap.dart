@@ -1,7 +1,5 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
-import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/ui/coupon/promotion_item.dart';
 
 
@@ -69,7 +67,6 @@ class _AllPromotionTapState extends State<AllPromotionTap> {
   }
 
   Future _reload() async {
-    await UserController.instance.refreshToken(context);
     await Provider.of<CouponProvider>(context, listen: false)
         .loadListPromotion();
   }

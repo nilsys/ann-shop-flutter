@@ -2,6 +2,7 @@ class Cover {
   String name;
   String message;
   String image;
+  List<String> images;
   String action;
   String actionValue;
   String createdDate;
@@ -12,6 +13,7 @@ class Cover {
     name = json['name'];
     message = json['message'];
     image = json['image'];
+    images = json['images'] == null ? [] : json['images'].cast<String>();
     action = json['action'];
     actionValue = json['actionValue'];
     createdDate = json['createdDate'];
@@ -22,6 +24,7 @@ class Cover {
     data['name'] = this.name;
     data['message'] = this.message;
     data['image'] = this.image;
+    data['images'] = this.images;
     data['action'] = this.action;
     data['actionValue'] = this.actionValue;
     data['createdDate'] = this.createdDate;

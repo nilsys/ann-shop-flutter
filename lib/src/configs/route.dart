@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/core/custom_fade_roue.dart';
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
@@ -442,7 +442,7 @@ class Routes {
 
   static showProductDetail(context,
       {String slug, Product product, ProductDetail detail}) async {
-    if (AccountController.instance.canViewProduct == false) {
+    if (AC.instance.canViewProduct == false) {
       AppSnackBar.showFlushbar(
           context, 'Bạn cần đăng nhập để tiếp tục xêm thêm thông tin sản phẩm');
       return;

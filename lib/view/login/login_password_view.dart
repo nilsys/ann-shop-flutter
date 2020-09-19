@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
 
-import 'package:ann_shop_flutter/model/account/account_controller.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
@@ -27,7 +27,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
   // region Parameters
   final _formKey = GlobalKey<FormState>();
 
-  AccountController _accountController;
+  AC _accountController;
   bool _autoValidate;
 
   String password;
@@ -43,7 +43,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
   @override
   void initState() {
     super.initState();
-    _accountController = AccountController.instance;
+    _accountController = AC.instance;
     _autoValidate = false;
 
     if (_accountController.account != null &&
@@ -176,7 +176,7 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
         loadingDialog.close();
 
         if (response.status) {
-          AccountController.instance.finishLogin(response.data, password);
+          AC.instance.finishLogin(response.data, password);
           Routes.navigateLogin(context, ANNPage.home);
         } else {
           AppSnackBar.showFlushbar(context,

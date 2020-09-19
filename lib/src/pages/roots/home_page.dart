@@ -4,7 +4,6 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
-import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/src/models/common/contanct_type.dart';
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
 
@@ -104,10 +103,10 @@ class _HomePageState extends State<HomePage>
                 ]),
               ),
               HomeListNotification(),
+              HomeListPost(),
               SeenBlock(),
               HomeProductSlide(),
               _buildContact(),
-              HomeListPost(),
               _buildAdress(),
               SliverToBoxAdapter(
                 child: Container(
@@ -310,8 +309,6 @@ class _HomePageState extends State<HomePage>
     final coverProvider = Provider.of<CoverProvider>(context, listen: false);
     final categoryProvider =
         Provider.of<CategoryProvider>(context, listen: false);
-
-    await UserController.instance.refreshToken(context);
     coverProvider.loadNotificationHome();
     coverProvider.loadPostHome();
     coverProvider.loadCoverHome();

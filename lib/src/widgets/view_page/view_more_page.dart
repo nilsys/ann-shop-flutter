@@ -1,12 +1,8 @@
 import 'dart:async';
-
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/src/controllers/views/view_controller.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
 import 'package:ann_shop_flutter/src/models/views/view_navigation_bar.dart';
-
 
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +108,6 @@ class _ViewMorePageState extends State<ViewMorePage> {
       ),
       body: Container(child: SomethingWentWrong(
         onReload: () async {
-          await UserController.instance.refreshToken(context);
           setState(() {
             _fetchData = _controller.getViewBySlug(widget.slug);
           });
@@ -123,37 +118,36 @@ class _ViewMorePageState extends State<ViewMorePage> {
 
   Widget _buildBottomNavigationBar(BuildContext context, ViewModel data) {
     return new BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.cloud_download),
-          title: Text(
-            'Tải hình',
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        items: <BottomNavigationBarItem>[
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.cloud_download),
+            title: Text(
+              'Tải hình',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.share),
-          title: Text(
-            'Đăng bài',
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.share),
+            title: Text(
+              'Đăng bài',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.content_copy),
-          title: Text(
-            'Copy',
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-          ),
-        )
-      ],
-      onTap: (int index) => _onItemTapped(context, index, data),
-      currentIndex: _selectedIndex,
-      elevation: 1.0,
-      selectedItemColor: Colors.black,
-      unselectedItemColor: Colors.black,
-      selectedFontSize: 12,
-      unselectedFontSize: 12
-    );
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.content_copy),
+            title: Text(
+              'Copy',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
+          )
+        ],
+        onTap: (int index) => _onItemTapped(context, index, data),
+        currentIndex: _selectedIndex,
+        elevation: 1.0,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
+        selectedFontSize: 12,
+        unselectedFontSize: 12);
   }
 
   // endregion
