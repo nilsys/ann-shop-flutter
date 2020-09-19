@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
+
+
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -136,7 +136,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
                   validator: (value) {
-                    if (Utility.isNullOrEmpty(value)) {
+                    if (isNullOrEmpty(value)) {
                       return 'Chưa nhập tên';
                     }
                     return null;
@@ -170,7 +170,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       ),
                       keyboardType: TextInputType.datetime,
                       validator: (value) {
-                        if (Utility.isNullOrEmpty(value)) {
+                        if (isNullOrEmpty(value)) {
                           return 'Chưa chọn ngày sinh';
                         }
                         return null;
@@ -213,7 +213,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         hintText: 'Chọn tỉnh thành',
                       ),
                       validator: (value) {
-                        if (Utility.isNullOrEmpty(value)) {
+                        if (isNullOrEmpty(value)) {
                           return 'Chưa chọn tỉnh thành';
                         }
                         return null;
@@ -265,7 +265,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     ],
                   ),
                 ),
-                if (_autoValidate && Utility.isNullOrEmpty(account.gender))
+                if (_autoValidate && isNullOrEmpty(account.gender))
                   Container(
                     padding: EdgeInsets.only(
                         bottom: contentPadding + 10, left: contentPadding),
@@ -283,7 +283,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   onPressed: _validateInput,
                   child: Text(
                     widget.isRegister ? 'Hoàn tất đăng ký' : 'Cập nhật',
-                    style: TextStyle(color: ANNColor.white),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -300,7 +300,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
   void _showDateTimePicker() {
     DateTime now = DateTime.now();
     DateTime temp = new DateTime(now.year - 25, 1, 1);
-    if (Utility.isNullOrEmpty(account.birthDay) == false) {
+    if (isNullOrEmpty(account.birthDay) == false) {
       temp = DateTime.parse(account.birthDay);
     }
     final maxDay = DateTime.utc(DateTime.now().year - 1, 12, 31);
@@ -343,7 +343,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
 
   void _validateInput() {
     final form = _formKey.currentState;
-    if (form.validate() && Utility.isNullOrEmpty(account.gender) == false) {
+    if (form.validate() && isNullOrEmpty(account.gender) == false) {
       form.save();
       onFinish();
     } else {

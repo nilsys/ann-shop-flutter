@@ -2,19 +2,13 @@ import 'dart:math';
 
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
 import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
 import 'package:ann_shop_flutter/ui/product/product_item.dart';
-import 'package:ann_shop_flutter/ui/utility/app_image.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
-import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
-import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,12 +42,12 @@ class _ProductSlideState extends State<ProductSlide> {
     var products = provider.getByCategory(currentCategory);
 
     return Container(
-      color: ANNColor.blockColor,
+      color: AppStyles.blockColor,
       child: Column(
         children: <Widget>[
           Container(
             height: 10,
-            color: ANNColor.dividerColor,
+            color: AppStyles.dividerColor,
           ),
           TitleViewMore(title: widget.customName ?? widget.group.name),
           Column(
@@ -67,7 +61,7 @@ class _ProductSlideState extends State<ProductSlide> {
                   } else if (products.isError) {
                     return buildError(context);
                   } else {
-                    if (Utility.isNullOrEmpty(products.data)) {
+                    if (isNullOrEmpty(products.data)) {
                       return buildEmpty(context);
                     } else {
                       return buildProductList(context, products.data);
@@ -194,7 +188,7 @@ class _ProductSlideState extends State<ProductSlide> {
 
   Widget _buildCategoryButtonList() {
     var children = widget.group.children;
-    if (Utility.isNullOrEmpty(children)) {
+    if (isNullOrEmpty(children)) {
       return Container();
     } else {
       return Container(
@@ -236,7 +230,7 @@ class _ProductSlideState extends State<ProductSlide> {
       label: Text(
         _name,
         textAlign: TextAlign.center,
-        style: TextStyle(color: isSelect ? ANNColor.white : Colors.black87),
+        style: TextStyle(color: isSelect ? Colors.white : Colors.black87),
       ),
       selected: isSelect,
       onSelected: (selected) {
@@ -279,7 +273,7 @@ class _ProductSlideState extends State<ProductSlide> {
                 ),
                 child: Icon(
                   Icons.navigate_next,
-                  color: ANNColor.white,
+                  color: Colors.white,
                 ),
               ),
               Text(

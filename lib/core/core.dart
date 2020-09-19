@@ -3,14 +3,10 @@ import 'dart:io';
 
 import 'package:ann_shop_flutter/src/models/common/app_version_model.dart';
 import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_dialog_new_version.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:package_info/package_info.dart';
 import 'package:quiver/strings.dart';
-
-final double defaultPadding = 15;
-const int itemPerPage = 20;
 
 class Core {
   static final Core _instance = Core._internal();
@@ -83,9 +79,4 @@ class Core {
       }
     } catch (e) {}
   }
-}
-
-checkInternet() async {
-  var connectivityResult = await (Connectivity().checkConnectivity());
-  return (connectivityResult != ConnectivityResult.none);
 }

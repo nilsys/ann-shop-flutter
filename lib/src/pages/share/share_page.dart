@@ -6,9 +6,9 @@ import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
-import 'package:ann_shop_flutter/ui/utility/app_image.dart';
+
+
+
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
@@ -20,6 +20,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ping9/ping9.dart';
 import 'package:share_extend/share_extend.dart';
 
 class SharePage extends StatefulWidget {
@@ -111,7 +112,7 @@ class _SharePageState extends State<SharePage> {
         FlatButton(
           child: Text(
             'Bỏ chọn',
-            style: TextStyle(color: ANNColor.white),
+            style: TextStyle(color: Colors.white),
           ),
           onPressed: () => setState(() => imagesSelected = []),
         )
@@ -155,7 +156,7 @@ class _SharePageState extends State<SharePage> {
   // Create Bottom App Bar
   BottomAppBar _buildBottomAppBar(BuildContext context) {
     return new BottomAppBar(
-        color: ANNColor.white,
+        color: Colors.white,
         child: Container(
           height: 50,
           padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -181,7 +182,7 @@ class _SharePageState extends State<SharePage> {
               Container(
                 width: 1,
                 height: 40,
-                color: ANNColor.dividerColor,
+                color: AppStyles.dividerColor,
               ),
               Expanded(
                 flex: 1,
@@ -235,13 +236,13 @@ class _SharePageState extends State<SharePage> {
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
                 border: Border.all(
-                  color: ANNColor.white,
+                  color: Colors.white,
                   width: 1,
                   style: BorderStyle.solid,
                 ),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.check, size: 18, color: ANNColor.white),
+              child: Icon(Icons.check, size: 18, color: Colors.white),
             ))
       ],
     );
@@ -249,7 +250,7 @@ class _SharePageState extends State<SharePage> {
     return Container(
       margin: const EdgeInsets.only(top: 5),
       decoration: BoxDecoration(
-        color: ANNColor.white,
+        color: Colors.white,
       ),
       child: isSelected ? imageSelectedWidget : imageWidget,
     );

@@ -1,8 +1,8 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:ping9/ping9.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'ann_alert_dialog.dart';
 
 class AlertDialogNewVersion extends ANNAlertDialog {
   // region Singleton Pattern

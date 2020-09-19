@@ -1,14 +1,14 @@
 import 'dart:math';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
-import 'package:ann_shop_flutter/ui/utility/app_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +50,7 @@ class _ProductFullState extends State<ProductFull> {
         borderRadius: BorderRadius.all(
           Radius.circular(5),
         ),
-        color: ANNColor.white,
+        color: Colors.white,
       ),
       child: InkWell(
         onTap: () {
@@ -88,7 +88,7 @@ class _ProductFullState extends State<ProductFull> {
                                   children: <Widget>[
                                     Icon(
                                       Icons.filter,
-                                      color: ANNColor.white,
+                                      color: Colors.white,
                                       size: 40,
                                     ),
                                     SizedBox(
@@ -100,7 +100,7 @@ class _ProductFullState extends State<ProductFull> {
                                           .textTheme
                                           .button
                                           .merge(
-                                              TextStyle(color: ANNColor.white)),
+                                              TextStyle(color: Colors.white)),
                                     ),
                                   ],
                                 ),
@@ -271,7 +271,7 @@ class _ProductFullState extends State<ProductFull> {
               width: index == currentPage ? 16 : 8,
               height: 8,
               decoration: BoxDecoration(
-                color: index == currentPage ? ANNColor.white : Colors.grey,
+                color: index == currentPage ? Colors.white : Colors.grey,
                 borderRadius: BorderRadius.all(Radius.circular(5)),
               ),
             ),

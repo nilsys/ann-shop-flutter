@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/spam_cover_provider.dart';
@@ -28,8 +28,8 @@ class _SearchIntroState extends State<SearchIntro> {
   @override
   Widget build(BuildContext context) {
     SearchProvider provider = Provider.of(context);
-    bool hasHotKey = Utility.isNullOrEmpty(provider.hotKeys.data) == false;
-    bool hasHistory = Utility.isNullOrEmpty(provider.history) == false;
+    bool hasHotKey = isNullOrEmpty(provider.hotKeys.data) == false;
+    bool hasHistory = isNullOrEmpty(provider.history) == false;
 
     return RefreshIndicator(
       onRefresh: () async {

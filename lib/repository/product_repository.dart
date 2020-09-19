@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
@@ -11,8 +11,8 @@ import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
+
+
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class ProductRepository {
   Color getBadgeColor(badge) {
     switch (badge) {
       case 1:
-        return ANNColor.orange;
+        return AppStyles.orange;
         break;
       case 2:
         return Colors.grey[700];
@@ -243,7 +243,7 @@ class ProductRepository {
       final images = await ProductRepository.instance
           .loadProductAdvertisementImage(product.productID);
       loadingDialog.close();
-      if (Utility.isNullOrEmpty(images) == false) {
+      if (isNullOrEmpty(images) == false) {
         await Navigator.pushNamed(context, 'product/detail/share-social',
             arguments: {
               'images': images,
@@ -270,7 +270,7 @@ class ProductRepository {
     try {
       final images = await ProductRepository.instance
           .loadProductAdvertisementImage(productID);
-      if (Utility.isNullOrEmpty(images)) {
+      if (isNullOrEmpty(images)) {
         AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
             duration: const Duration(seconds: 1));
       } else {

@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 
 class MySliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight = 130;
@@ -29,7 +30,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
       decoration: BoxDecoration(
         color: Theme.of(context).backgroundColor,
         border: Border(
-          bottom: BorderSide(color: ANNColor.dividerColor, width: 1),
+          bottom: BorderSide(color: AppStyles.dividerColor, width: 1),
         ),
       ),
       child: Stack(

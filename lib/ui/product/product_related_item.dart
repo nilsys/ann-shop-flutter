@@ -1,8 +1,9 @@
 import 'package:ann_shop_flutter/model/product/product_related.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
-import 'package:ann_shop_flutter/ui/utility/app_image.dart';
+
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 
 class ProductRelatedItem extends StatelessWidget {
   ProductRelatedItem(this.product);
@@ -13,9 +14,9 @@ class ProductRelatedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: ANNColor.white,
+        color: Colors.white,
         border: new Border.all(
-          color: ANNColor.grey,
+          color: AppStyles.grey,
           width: 1.5,
           style: BorderStyle.solid,
         ),

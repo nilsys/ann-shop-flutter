@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/view/coupon/all_promotion_tap.dart';
 import 'package:ann_shop_flutter/view/coupon/my_coupon_tap.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class _PromotionViewState extends State<PromotionView> {
         body: Column(
           children: <Widget>[
             Container(
-              color: ANNColor.white,
+              color: Colors.white,
               child: TabBar(
                 labelColor: Theme.of(context).primaryColor,
                 unselectedLabelColor: Colors.grey[600],

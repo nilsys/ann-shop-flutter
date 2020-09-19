@@ -12,8 +12,8 @@ import 'package:ann_shop_flutter/src/pages/roots/home_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/search_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/user_page.dart';
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -92,7 +92,7 @@ class _RootPageState extends State<RootPage>
       color: const Color(0xFF000000),
       child: BottomNavigationBar(
         showUnselectedLabels: bigScreen,
-        backgroundColor: ANNColor.white,
+        backgroundColor: Colors.white,
         selectedLabelStyle: textStyle,
         unselectedLabelStyle: textStyle,
         type: btNavBarType,
@@ -124,7 +124,7 @@ class _RootPageState extends State<RootPage>
         ],
         currentIndex: rootPageProvider.selectedPage,
         selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: ANNColor.black,
+        unselectedItemColor: Colors.black,
         onTap: (int index) => _navigate(context, rootPageProvider, index),
       ),
     );

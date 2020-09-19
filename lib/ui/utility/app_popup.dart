@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+import 'package:ping9/ping9.dart';
+
 import 'package:flutter/material.dart';
 
 class AppPopup {
@@ -41,15 +41,15 @@ class AppPopup {
   static Future<void> showBottomSheet(BuildContext context,
       {String title, List<Widget> content}) async {
     Widget titleWidget;
-    if (Utility.isNullOrEmpty(title) == false) {
+    if (isNullOrEmpty(title) == false) {
       titleWidget = Container(
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-          color: ANNColor.white,
+          color: Colors.white,
           border: Border(
               bottom: BorderSide(
-            color: ANNColor.dividerColor,
+            color: AppStyles.dividerColor,
             width: 1,
             style: BorderStyle.solid,
           )),
@@ -166,7 +166,7 @@ class CenterButtonPopup extends StatelessWidget {
           },
           child: Text(
             highlight.text,
-            style: TextStyle(color: ANNColor.white),
+            style: TextStyle(color: Colors.white),
           ),
         ),
       );

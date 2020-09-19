@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:core';
 
-import 'package:ann_shop_flutter/core/storage_manager.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
@@ -22,7 +22,7 @@ class FavoriteProvider with ChangeNotifier {
     try {
       /// shopping
       final response = await StorageManager.getObjectByKey(_keyLocaleFavorite);
-      if (Utility.isNullOrEmpty(response)) {
+      if (isNullOrEmpty(response)) {
         products = [];
       } else {
         final message = json.decode(response);
@@ -48,7 +48,7 @@ class FavoriteProvider with ChangeNotifier {
 
     List<ProductFavorite> array =
         products.where((p) => p.product.productID == item.productID).toList();
-    if (Utility.isNullOrEmpty(array)) {
+    if (isNullOrEmpty(array)) {
       products.add(ProductFavorite(product: item, count: count));
     } else {
       array[0].count = count;

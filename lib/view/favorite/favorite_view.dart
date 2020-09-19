@@ -1,13 +1,13 @@
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/ui/product/product_favorite_item.dart';
-import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
+
 import 'package:ann_shop_flutter/ui/utility/request_login.dart';
 import 'package:ann_shop_flutter/view/utility/fix_viewinsets_bottom.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
@@ -42,15 +42,15 @@ class _FavoriteViewState extends State<FavoriteView> {
             },
           ),
           title: Text('Danh sách yêu thích'),
-          actions: Utility.isNullOrEmpty(data)
+          actions: isNullOrEmpty(data)
               ? null
               : [
                   IconButton(
-                    icon: Icon(Icons.delete, color: ANNColor.white),
+                    icon: Icon(Icons.delete, color: Colors.white),
                     onPressed: _onRemoveAll,
                   ),
                   IconButton(
-                    icon: Icon(Icons.share, color: ANNColor.white),
+                    icon: Icon(Icons.share, color: Colors.white),
                     onPressed: _onShare,
                   ),
                 ],
@@ -61,7 +61,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                 child: CustomScrollView(
                   physics: BouncingScrollPhysics(),
                   slivers: <Widget>[
-                    Utility.isNullOrEmpty(data)
+                    isNullOrEmpty(data)
                         ? _buildEmpty(context)
                         : SliverList(
                             delegate:
@@ -71,7 +71,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                                   ProductFavoriteItem(data[index]),
                                   Container(
                                     height: 1,
-                                    color: ANNColor.dividerColor,
+                                    color: AppStyles.dividerColor,
                                   )
                                 ],
                               );
@@ -97,7 +97,7 @@ class _FavoriteViewState extends State<FavoriteView> {
             RaisedButton(
               child: Text(
                 'Thêm sản phẩm',
-                style: TextStyle(color: ANNColor.white),
+                style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
                 Routes.navigateFavorite(context, ANNPage.home);
@@ -130,7 +130,7 @@ class _FavoriteViewState extends State<FavoriteView> {
       builder: (BuildContext bc) {
         return Container(
           decoration: BoxDecoration(
-            color: ANNColor.white,
+            color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15), topRight: Radius.circular(15)),
           ),
@@ -160,7 +160,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                     style: Theme.of(context)
                         .textTheme
                         .button
-                        .merge(TextStyle(color: ANNColor.white)),
+                        .merge(TextStyle(color: Colors.white)),
                   ),
                   onPressed: () {
                     Navigator.pop(context);

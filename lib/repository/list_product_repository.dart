@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/storage_manager.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -40,7 +40,7 @@ class ListProductRepository {
 
   List<Product> listProductByString(String body) {
     try {
-      if (Utility.isNullOrEmpty(body)) {
+      if (isNullOrEmpty(body)) {
         return [];
       }
       var message = jsonDecode(body);
@@ -64,20 +64,20 @@ class ListProductRepository {
   Future<List<Product>> loadByProductFilter(ProductFilter productFilter,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) {
     if (productFilter != null) {
-      if (Utility.isNullOrEmpty(productFilter.categorySlug) == false) {
+      if (isNullOrEmpty(productFilter.categorySlug) == false) {
         return _loadByCategory(productFilter.categorySlug,
             filter: filter, page: page, pageSize: pageSize);
-      } else if (Utility.isNullOrEmpty(productFilter.categorySlugList) ==
+      } else if (isNullOrEmpty(productFilter.categorySlugList) ==
           false) {
         return _loadByListCategory(productFilter.categorySlugList,
             filter: filter, page: page, pageSize: pageSize);
-      } else if (Utility.isNullOrEmpty(productFilter.productSearch) == false) {
+      } else if (isNullOrEmpty(productFilter.productSearch) == false) {
         return loadBySearch(productFilter.productSearch,
             filter: filter, page: page, pageSize: pageSize);
-      } else if (Utility.isNullOrEmpty(productFilter.tagSlug) == false) {
+      } else if (isNullOrEmpty(productFilter.tagSlug) == false) {
         return _loadByTag(productFilter.tagSlug,
             filter: filter, page: page, pageSize: pageSize);
-      } else if (Utility.isNullOrEmpty(productFilter.productSKU) == false) {
+      } else if (isNullOrEmpty(productFilter.productSKU) == false) {
         return loadBySku(productFilter.productSKU,
             filter: filter, page: page, pageSize: pageSize);
       } else {
@@ -234,7 +234,7 @@ class ListProductRepository {
       String body =
           await StorageManager.getObjectByKey(_prefixCategoryKey + _keyCache);
 
-      if (Utility.isNullOrEmpty(body) == false) {
+      if (isNullOrEmpty(body) == false) {
         return listProductByString(body);
       }
     } catch (e) {

@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/repository/utility_repository.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
+
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,26 +49,26 @@ class _ShopContactState extends State<ShopContact> {
                 List<Widget> children = [
                   _buildTitle('Địa chỉ', Icons.location_on)
                 ];
-                if (Utility.isNullOrEmpty(address) == false) {
+                if (isNullOrEmpty(address) == false) {
                   children.add(_buildSubMenu(address));
                 }
-                if (Utility.isNullOrEmpty(urlMap) == false) {
+                if (isNullOrEmpty(urlMap) == false) {
                   children.add(_buildSubLink('Xem trên bản đồ', onTap: () {
                     launch(urlMap);
                   }));
                 }
                 children.add(_buildTitle('Website', Icons.web));
-                if (Utility.isNullOrEmpty(urlWebsite) == false) {
+                if (isNullOrEmpty(urlWebsite) == false) {
                   children.add(_buildSubLink(urlWebsite, onTap: () {
                     launch(urlWebsite);
                   }));
                 }
-                if (Utility.isNullOrEmpty(urlFB) == false) {
+                if (isNullOrEmpty(urlFB) == false) {
                   children.add(_buildSubLink('Xem Facebook', onTap: () {
                     launch(urlFB);
                   }));
                 }
-                if (Utility.isNullOrEmpty(phones) == false) {
+                if (isNullOrEmpty(phones) == false) {
                   children.add(_buildTitle('Zalo/Điện thoại', Icons.phone));
                   children.addAll(
                     phones
@@ -78,7 +78,7 @@ class _ShopContactState extends State<ShopContact> {
                         .toList(),
                   );
                 }
-                if (Utility.isNullOrEmpty(timeWork) == false) {
+                if (isNullOrEmpty(timeWork) == false) {
                   children.add(
                       _buildTitle('Thời gian làm việc', Icons.access_time));
                   children.add(_buildSubMenu(timeWork));
@@ -99,7 +99,7 @@ class _ShopContactState extends State<ShopContact> {
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
       decoration: BoxDecoration(
         border:
-            Border(top: BorderSide(width: 1, color: ANNColor.dividerColor)),
+            Border(top: BorderSide(width: 1, color: AppStyles.dividerColor)),
       ),
       child: ListTile(
         leading: Icon(icon, color: Theme.of(context).primaryColor),
@@ -155,7 +155,7 @@ class _ShopContactState extends State<ShopContact> {
         builder: (BuildContext bc) {
           return Container(
             decoration: BoxDecoration(
-              color: ANNColor.white,
+              color: Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15), topRight: Radius.circular(15)),
             ),
@@ -184,7 +184,7 @@ class _ShopContactState extends State<ShopContact> {
                                     BorderRadius.all(Radius.circular(15))),
                             child: Icon(
                               Icons.phone,
-                              color: ANNColor.white,
+                              color: Colors.white,
                               size: 30,
                             )),
                         SizedBox(

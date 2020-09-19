@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:ann_shop_flutter/core/storage_manager.dart';
+
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
+import 'package:ping9/ping9.dart';
 
 class CopyController {
   static final CopyController instance = CopyController._internal();

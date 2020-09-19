@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +27,7 @@ class CoverRepository {
 
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
-        if (Utility.isNullOrEmpty(message)) {
+        if (isNullOrEmpty(message)) {
           return [];
         } else {
           List<Cover> _data = new List();

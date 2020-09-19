@@ -3,8 +3,9 @@ import 'dart:ui';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 
 class HomeNavigation extends StatelessWidget {
   @override
@@ -13,7 +14,7 @@ class HomeNavigation extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       decoration: BoxDecoration(
           border:
-              Border(top: BorderSide(width: 10, color: ANNColor.dividerColor))),
+              Border(top: BorderSide(width: 10, color: AppStyles.dividerColor))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -48,7 +49,7 @@ class HomeNavigation extends StatelessWidget {
               Navigator.pushNamed(context, 'shop/policy');
             },
             icon: Icons.question_answer,
-            color: ANNColor.orange,
+            color: AppStyles.orange,
           ),
         ],
       ),
@@ -63,7 +64,7 @@ class RoundedButton extends StatelessWidget {
   final GestureTapCallback onItemTapped;
 
   RoundedButton(
-      {this.color = ANNColor.white,
+      {this.color = Colors.white,
       @required this.icon,
       @required this.title,
       @required this.onItemTapped});
@@ -88,7 +89,7 @@ class RoundedButton extends StatelessWidget {
                   ]),
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   border: new Border.all(
-                    color: ANNColor.white,
+                    color: Colors.white,
                     width: 1,
                     style: BorderStyle.solid,
                   ),
@@ -104,7 +105,7 @@ class RoundedButton extends StatelessWidget {
                 child: Icon(
                   icon,
                   size: 30,
-                  color: ANNColor.white,
+                  color: Colors.white,
                 ),
               ),
             ),

@@ -1,8 +1,8 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/repository/load_more/load_more_product_relate_repository.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator_horizontal.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class _ProductRelatedListState extends State<ProductRelatedList> {
   @override
   Widget build(BuildContext context) {
     List<ProductRelated> related = widget.initData;
-    if (Utility.isNullOrEmpty(related) == false) {
+    if (isNullOrEmpty(related) == false) {
       int row = related.length >= itemPerPage ? 3 : related.length >= 5 ? 2 : 1;
       double size = 135.0 * row;
       return SliverToBoxAdapter(
@@ -49,7 +49,7 @@ class _ProductRelatedListState extends State<ProductRelatedList> {
         decoration: BoxDecoration(
           border: new Border(
             top: BorderSide(
-              color: ANNColor.dividerColor,
+              color: AppStyles.dividerColor,
               width: 10,
               style: BorderStyle.solid,
             ),

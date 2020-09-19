@@ -2,8 +2,9 @@ import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
+
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 import 'package:provider/provider.dart';
 
 class InitView extends StatefulWidget {

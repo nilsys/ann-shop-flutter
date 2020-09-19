@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 
 class PolicyProductBlock extends StatelessWidget {
   @override
@@ -11,7 +12,7 @@ class PolicyProductBlock extends StatelessWidget {
       delegate: SliverChildListDelegate([
         Container(
           height: 10,
-          color: ANNColor.dividerColor,
+          color: AppStyles.dividerColor,
         ),
         Container(
           padding: EdgeInsets.all(defaultPadding),

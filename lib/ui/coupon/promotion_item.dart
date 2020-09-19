@@ -1,8 +1,8 @@
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/promotion.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/repository/coupon_repository.dart';
-import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
+
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:avatar_glow/avatar_glow.dart';
@@ -72,7 +72,7 @@ class _PromotionItemState extends State<PromotionItem> {
         await CouponRepository.instance.receiveCoupon(widget.data.code);
     loadingDialog.close();
 
-    if (Utility.isNullOrEmpty(_result)) {
+    if (isNullOrEmpty(_result)) {
       await AppPopup.showCustomDialog(context, content: [
         AvatarGlow(
           endRadius: 40,

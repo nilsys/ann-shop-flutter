@@ -1,13 +1,14 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/validator.dart';
+
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
+import 'package:ping9/ping9.dart';
+
+
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
 
@@ -143,7 +144,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
                 RaisedButton(
                   child: Text(
                     'Tiếp tục',
-                    style: TextStyle(color: ANNColor.white),
+                    style: TextStyle(color: Colors.white),
                   ),
                   onPressed: _validateInput,
                 ),

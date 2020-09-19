@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/coupon.dart';
 import 'package:ann_shop_flutter/model/utility/promotion.dart';
@@ -64,7 +64,7 @@ class CouponRepository {
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(body);
-        if (Utility.isNullOrEmpty(message) || message == 'null') {
+        if (isNullOrEmpty(message) || message == 'null') {
           return [];
         } else {
           List<Coupon> _data = [];
@@ -91,7 +91,7 @@ class CouponRepository {
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(body);
-        if (Utility.isNullOrEmpty(message)) {
+        if (isNullOrEmpty(message)) {
           return [];
         } else {
           List<Promotion> _data = [];

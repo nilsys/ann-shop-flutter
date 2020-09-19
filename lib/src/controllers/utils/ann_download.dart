@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
-import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ping9/ping9.dart';
 
 import 'ann_logging.dart';
 

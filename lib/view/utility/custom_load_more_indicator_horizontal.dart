@@ -1,7 +1,9 @@
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
+import 'package:ping9/ping9.dart';
+import 'package:quiver/strings.dart';
 
 class CustomLoadMoreIndicatorHorizontal extends StatelessWidget {
   final LoadingMoreBase listSourceRepository;
@@ -12,7 +14,6 @@ class CustomLoadMoreIndicatorHorizontal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isSliver = true;
-
     Widget widget;
     switch (status) {
       case IndicatorStatus.loadingMoreBusying:

@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 
@@ -25,11 +25,11 @@ class Category {
     if (filter == null) {
       return null;
     } else {
-      if (Utility.isNullOrEmpty(filter.categorySlug) == false) {
+      if (isNullOrEmpty(filter.categorySlug) == false) {
         return 'banners?page=category&slug=${filter.categorySlug}';
-      } else if (Utility.isNullOrEmpty(filter.tagSlug) == false) {
+      } else if (isNullOrEmpty(filter.tagSlug) == false) {
         return 'banners?page=tag&slug=${filter.tagSlug}';
-      }else if (Utility.isNullOrEmpty(filter.productSearch) == false) {
+      }else if (isNullOrEmpty(filter.productSearch) == false) {
         return 'banners?page=search';
       }
       return null;

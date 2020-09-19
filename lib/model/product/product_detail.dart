@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 
 class ProductDetail extends Product {
@@ -71,7 +71,7 @@ class ProductDetail extends Product {
         _detail.carousel.add(new ProductCarousel.fromJson(v));
       });
     }
-    if(Utility.isNullOrEmpty(_detail.carousel)){
+    if(isNullOrEmpty(_detail.carousel)){
       _detail.carousel=[ProductCarousel(origin: '', feature: '', thumbnail: '')];
     }
 
@@ -80,11 +80,11 @@ class ProductDetail extends Product {
         RegExp(r"/uploads[\w\W]+?.jpg|/uploads[\w\W]+?.png")
             .allMatches(_detail.content)
             .toList();
-    if (Utility.isNullOrEmpty(matches) == false) {
+    if (isNullOrEmpty(matches) == false) {
       _detail.contentImages = new List();
       matches.forEach((f) {
         String srcImage = f.group(0);
-        if (Utility.isNullOrEmpty(srcImage) == false) {
+        if (isNullOrEmpty(srcImage) == false) {
           _detail.contentImages.add(srcImage);
         }
       });

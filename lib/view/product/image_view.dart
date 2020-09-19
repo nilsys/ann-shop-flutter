@@ -1,7 +1,8 @@
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
-import 'package:ann_shop_flutter/ui/utility/app_image.dart';
-import 'package:ann_shop_flutter/ui/utility/ui_manager.dart';
+
+import 'package:ping9/ping9.dart';
+
 import 'package:flutter/material.dart';
 import 'package:gesture_zoom_box/gesture_zoom_box.dart';
 
@@ -41,7 +42,7 @@ class _ImageViewState extends State<ImageView> {
             Positioned(
               right: 15,
               top: 15,
-              child: UIManager.btnClose(onPressed: () {
+              child: ButtonClose(onPressed: () {
                 Navigator.pop(context);
               }),
             ),

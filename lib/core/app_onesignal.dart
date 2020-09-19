@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/core/app_action.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -62,7 +62,7 @@ class AppOneSignal {
     final launchUrl = payload.launchUrl;
     final data = payload.additionalData;
 
-    if (Utility.isNullOrEmpty(data)) {
+    if (isNullOrEmpty(data)) {
       final action = data['action'] ?? '';
       final value = data['actionValue'] ?? '';
       final message = data['message'] ?? 'message';
@@ -74,7 +74,7 @@ class AppOneSignal {
         AppAction.instance
             .onHandleAction(MyApp.context, action, value, message);
       }
-    } else if (Utility.isNullOrEmpty(launchUrl) == false) {
+    } else if (isNullOrEmpty(launchUrl) == false) {
       launch(launchUrl);
     }
   }

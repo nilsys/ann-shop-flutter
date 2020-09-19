@@ -3,7 +3,6 @@ import 'package:ann_shop_flutter/core/custom_fade_roue.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
-import 'package:ann_shop_flutter/model/web_view/web_view_query_parameter_model.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/product/seen_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/inapp_provider.dart';
@@ -12,7 +11,6 @@ import 'package:ann_shop_flutter/src/controllers/common/permission_controller.da
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
 import 'package:ann_shop_flutter/src/pages/blogs/blog_page.dart';
-import 'package:ann_shop_flutter/src/pages/not_found_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/notification_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/root_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/search_page.dart';
@@ -41,9 +39,9 @@ import 'package:ann_shop_flutter/view/product/product_image_by_size_and_color.da
 import 'package:ann_shop_flutter/view/product/product_image_fancy_view.dart';
 import 'package:ann_shop_flutter/view/scan_barcode/scan_view.dart';
 import 'package:ann_shop_flutter/view/utility/init_view.dart';
-import 'package:ann_shop_flutter/view/utility/web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ping9/ping9.dart';
 import 'package:provider/provider.dart';
 import 'package:quiver/strings.dart';
 

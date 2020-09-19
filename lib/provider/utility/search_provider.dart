@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:ann_shop_flutter/core/storage_manager.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
@@ -10,7 +10,7 @@ import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/category_repository.dart';
 import 'package:ann_shop_flutter/repository/list_product_repository.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
-import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
+
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +109,7 @@ class SearchProvider with ChangeNotifier {
             .loadBySearch(text, filter: AppFilter());
         loadingDialog.close();
 
-        if (Utility.isNullOrEmpty(data)) {
+        if (isNullOrEmpty(data)) {
           AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm.');
         } else {
           if (data.length == 1) {

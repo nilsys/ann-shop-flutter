@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +19,7 @@ class UtilityRepository {
   List<Cover> cachePolicy;
 
   Future<List<Cover>> loadPolicy() async {
-    if (Utility.isNullOrEmpty(cachePolicy) == false) {
+    if (isNullOrEmpty(cachePolicy) == false) {
       return cachePolicy;
     }
     try {

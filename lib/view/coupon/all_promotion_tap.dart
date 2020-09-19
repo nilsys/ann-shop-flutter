@@ -1,11 +1,11 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/ui/coupon/promotion_item.dart';
-import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
-import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
+
+
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +44,7 @@ class _AllPromotionTapState extends State<AllPromotionTap> {
                 onReload: _reload,
               )));
     } else {
-      if (Utility.isNullOrEmpty(provider.promotions.data)) {
+      if (isNullOrEmpty(provider.promotions.data)) {
         return const SliverFillRemaining(
           child: Padding(
             padding: EdgeInsets.all(30),

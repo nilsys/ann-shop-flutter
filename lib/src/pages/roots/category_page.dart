@@ -1,13 +1,9 @@
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
-import 'package:ann_shop_flutter/ui/utility/empty_list_ui.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
-import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,14 +24,14 @@ class _CategoryPageState extends State<CategoryPage> {
             slivers: <Widget>[
               SliverAppBar(
                 pinned: true,
-                backgroundColor: ANNColor.orange,
+                backgroundColor: AppStyles.orange,
                 title: Padding(
                     padding: EdgeInsets.only(left: defaultPadding),
                     child: SearchTitle('Bạn tìm gì hôm nay?')),
                 titleSpacing: 0,
                 actions: <Widget>[
                   FavoriteButton(
-                    color: ANNColor.white,
+                    color: Colors.white,
                   ),
                 ],
               ),
@@ -65,7 +61,7 @@ class _CategoryPageState extends State<CategoryPage> {
         ),
       );
     } else {
-      if (Utility.isNullOrEmpty(provider.categories.data)) {
+      if (isNullOrEmpty(provider.categories.data)) {
         return SliverFillRemaining(
           child: EmptyListUI(
             body: 'Không tìm thấy danh mục',

@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ping9/ping9.dart';
 import 'package:quiver/strings.dart';
-
-import 'ann_alert_dialog.dart';
 
 class AlertDialogPermission extends ANNAlertDialog {
   // region Singleton Pattern

@@ -1,8 +1,9 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 
 class SearchTitle extends StatelessWidget {
   SearchTitle(this.text);
@@ -19,7 +20,7 @@ class SearchTitle extends StatelessWidget {
         height: 35,
         padding: EdgeInsets.symmetric(horizontal: 15),
         decoration: BoxDecoration(
-          color: ANNColor.searchColor,
+          color: AppStyles.searchColor,
           borderRadius: BorderRadius.all(
             Radius.circular(5),
           ),
@@ -29,7 +30,7 @@ class SearchTitle extends StatelessWidget {
             Icon(
               AppIcons.search,
               size: 20,
-              color: ANNColor.iconSearchColor,
+              color: AppStyles.iconSearchColor,
             ),
             SizedBox(
               width: 15,

@@ -6,7 +6,7 @@ import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_dialog_permission.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
@@ -14,6 +14,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ping9/ping9.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,7 +37,7 @@ class _UserPageState extends State<UserPage> {
         centerTitle: true,
         title: const Text('Cá nhân'),
         actions: <Widget>[
-          FavoriteButton(color: ANNColor.white),
+          FavoriteButton(color: Colors.white),
         ],
       ),
       body: CustomScrollView(
@@ -105,7 +106,7 @@ class _UserPageState extends State<UserPage> {
                 margin: EdgeInsets.symmetric(
                     horizontal: defaultPadding, vertical: defaultPadding),
                 decoration: BoxDecoration(
-                    color: ANNColor.white,
+                    color: Colors.white,
                     border: Border.all(
                         color: Theme.of(context).primaryColor, width: 1)),
                 child: InkWell(
@@ -138,7 +139,7 @@ class _UserPageState extends State<UserPage> {
       {IconData icon, GestureTapCallback onTap}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 1),
-      color: ANNColor.white,
+      color: Colors.white,
       child: ListTile(
         onTap: onTap,
         leading: icon != null
@@ -149,7 +150,7 @@ class _UserPageState extends State<UserPage> {
             : null,
         title: Text(title),
         trailing:
-            Icon(Icons.keyboard_arrow_right, color: ANNColor.dividerColor),
+            Icon(Icons.keyboard_arrow_right, color: AppStyles.dividerColor),
       ),
     );
   }
@@ -161,7 +162,7 @@ class _UserPageState extends State<UserPage> {
       },
       child: Container(
         height: 80,
-        color: ANNColor.white,
+        color: Colors.white,
         padding: const EdgeInsets.all(15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -214,7 +215,7 @@ class _UserPageState extends State<UserPage> {
       },
       child: Container(
         height: 80,
-        color: ANNColor.white,
+        color: Colors.white,
         padding: const EdgeInsets.all(15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

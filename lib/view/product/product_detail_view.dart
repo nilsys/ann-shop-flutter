@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
@@ -10,9 +10,6 @@ import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
 import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/theme/app_styles.dart';
-import 'package:ann_shop_flutter/ui/button/button_gradient.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
@@ -22,13 +19,13 @@ import 'package:ann_shop_flutter/ui/product_ui/option_menu_product.dart';
 import 'package:ann_shop_flutter/ui/product_ui/policy_product_block.dart';
 import 'package:ann_shop_flutter/ui/product_ui/preview_image_product.dart';
 import 'package:ann_shop_flutter/ui/product_ui/product_banner.dart';
-import 'package:ann_shop_flutter/ui/utility/app_image.dart';
+
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/download_background.dart';
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
-import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
+
+
 import 'package:ann_shop_flutter/view/product/product_related_list.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +98,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               floating: true,
               pinned: false,
               iconTheme: IconThemeData(color: AppStyles.dartIcon),
-              backgroundColor: ANNColor.white,
+              backgroundColor: Colors.white,
               actions: <Widget>[
                 IconButton(
                   icon: Icon(AppIcons.search,
@@ -204,7 +201,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   Provider.of<CoverProvider>(context).headerProduct.data,
                   border: Border(
                       top:
-                          BorderSide(color: ANNColor.dividerColor, width: 10))),
+                          BorderSide(color: AppStyles.dividerColor, width: 10))),
             ),
             InfoProduct(detail),
             _buildTitle('Thông tin sản phẩm'),
@@ -221,7 +218,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               child: ProductBanner(
                 Provider.of<CoverProvider>(context).footerProduct.data,
                 border: Border(
-                    top: BorderSide(color: ANNColor.dividerColor, width: 10)),
+                    top: BorderSide(color: AppStyles.dividerColor, width: 10)),
               ),
             ),
           ],
@@ -229,9 +226,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
       );
     } else if (data.isLoading) {
       return Scaffold(
-        backgroundColor: ANNColor.white,
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: ANNColor.white,
+          backgroundColor: Colors.white,
           elevation: 0,
           iconTheme: IconThemeData(color: AppStyles.dartIcon),
         ),
@@ -239,9 +236,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
       );
     } else {
       return Scaffold(
-        backgroundColor: ANNColor.white,
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: ANNColor.white,
+          backgroundColor: Colors.white,
           elevation: 0,
           iconTheme: IconThemeData(color: AppStyles.dartIcon),
         ),
@@ -260,7 +257,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
       delegate: SliverChildListDelegate([
         Container(
           height: 10,
-          color: ANNColor.dividerColor,
+          color: AppStyles.dividerColor,
         ),
         Container(
           padding: EdgeInsets.all(defaultPadding),
@@ -288,11 +285,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
   Widget _buildListImageOrLoadMore() {
     if (detail != null) {
       final images = [];
-      if (Utility.isNullOrEmpty(detail.contentImages) == false) {
+      if (isNullOrEmpty(detail.contentImages) == false) {
         images.addAll(detail.contentImages);
       }
-      if (Utility.isNullOrEmpty(detail.carousel) == false) {
-        if ((Utility.isNullOrEmpty(detail.contentImages) == false)) {
+      if (isNullOrEmpty(detail.carousel) == false) {
+        if ((isNullOrEmpty(detail.contentImages) == false)) {
           for (final item in detail.carousel) {
             if (images.contains(item.origin) == false) {
               images.remove(item.origin);
@@ -301,7 +298,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
         }
         images.addAll(detail.carousel);
       }
-      if (Utility.isNullOrEmpty(images)) {
+      if (isNullOrEmpty(images)) {
         return const SliverToBoxAdapter();
       } else {
         return SliverToBoxAdapter(
@@ -346,7 +343,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeIn);
             },
-            child: const Icon(Icons.arrow_upward, color: ANNColor.white),
+            child: const Icon(Icons.arrow_upward, color: Colors.white),
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
@@ -361,7 +358,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             },
             child: const Icon(
               Icons.unfold_less,
-              color: ANNColor.white,
+              color: Colors.white,
             ),
           ),
         ],
@@ -395,7 +392,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [
-                  ANNColor.white,
+                  Colors.white,
                   Colors.white.withAlpha(180),
                   Colors.white.withAlpha(0),
                 ],
@@ -489,7 +486,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     final favorite = Provider.of<FavoriteProvider>(context)
         .containsInFavorite(detail.productID);
     return BottomAppBar(
-      color: ANNColor.white,
+      color: Colors.white,
       child: Container(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -622,8 +619,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   Widget _buildProductColorSize() {
-    if (Utility.isNullOrEmpty(detail.colors) &&
-        Utility.isNullOrEmpty(detail.sizes)) {
+    if (isNullOrEmpty(detail.colors) &&
+        isNullOrEmpty(detail.sizes)) {
       return Container();
     }
     return ButtonGradient(
@@ -645,7 +642,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
   }
 
   Widget _buildByCatalog() {
-    if (detail != null && Utility.isNullOrEmpty(detail.categorySlug) == false) {
+    if (detail != null && isNullOrEmpty(detail.categorySlug) == false) {
       final category = Category(
           name: detail.categoryName,
           filter: ProductFilter(categorySlug: detail.categorySlug));

@@ -1,16 +1,14 @@
 import 'dart:async';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/src/controllers/views/view_controller.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
 import 'package:ann_shop_flutter/src/models/views/view_navigation_bar.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
+
+
 import 'package:ann_shop_flutter/ui/utility/html_content.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
-import 'package:ann_shop_flutter/ui/utility/something_went_wrong.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quiver/strings.dart';
@@ -80,7 +78,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
     String content = data.content;
     Widget child;
 
-    if (Utility.isNullOrEmpty(content))
+    if (isNullOrEmpty(content))
       child = new Center(
         child: Text('Không có nội dung'),
       );
@@ -151,8 +149,8 @@ class _ViewMorePageState extends State<ViewMorePage> {
       onTap: (int index) => _onItemTapped(context, index, data),
       currentIndex: _selectedIndex,
       elevation: 1.0,
-      selectedItemColor: ANNColor.black,
-      unselectedItemColor: ANNColor.black,
+      selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.black,
       selectedFontSize: 12,
       unselectedFontSize: 12
     );

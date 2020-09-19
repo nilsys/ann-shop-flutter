@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/main.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class DownloadImageProvider extends ChangeNotifier {
   Future<bool> downloadImages(List<String> images) async {
     if (_images == null) {
       _images = images;
-      if (Utility.isNullOrEmpty(images) == false) {
+      if (isNullOrEmpty(images) == false) {
         countFail = 0;
         _saveImage(0);
       }

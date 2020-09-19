@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/utility/app_filter.dart';
@@ -7,7 +7,7 @@ import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/spam_cover_provider.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/ui/home_page/category_button.dart';
 import 'package:ann_shop_flutter/ui/product_ui/product_banner.dart';
 import 'package:ann_shop_flutter/ui/utility/download_background.dart';
@@ -65,7 +65,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
           productFilter: category.filter,
           initData: initData,
           topObject: _buildCategoryButtonGrid()),
-      bottomNavigationBar: Utility.isNullOrEmpty(message)
+      bottomNavigationBar: isNullOrEmpty(message)
           ? null
           : BottomAppBar(
               child: DownLoadBackground(),
@@ -77,10 +77,10 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
     List<Category> _categories = category.children;
 
     List<Widget> children = [];
-    if (Utility.isNullOrEmpty(_categories) == false) {
+    if (isNullOrEmpty(_categories) == false) {
       int crossAxisCount = _categories.length >= 8 ? 2 : 1;
       children.add(Container(
-        color: ANNColor.white,
+        color: Colors.white,
         child: Column(
           children: <Widget>[
 //            Container(
@@ -112,27 +112,27 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
             ),
             Container(
               height: 10,
-              color: ANNColor.dividerColor,
+              color: AppStyles.dividerColor,
             ),
           ],
         ),
       ));
     }
-    if (Utility.isNullOrEmpty(category.getSlugBanner) == false) {
+    if (isNullOrEmpty(category.getSlugBanner) == false) {
       ResponseProvider<List<Cover>> _covers =
           Provider.of<SpamCoverProvider>(context)
               .getBySlug(category.getSlugBanner);
-      if (Utility.isNullOrEmpty(_covers.data) == false) {
+      if (isNullOrEmpty(_covers.data) == false) {
         children.add(
           ProductBanner(
             _covers.data,
             border: Border(
-                bottom: BorderSide(color: ANNColor.dividerColor, width: 10)),
+                bottom: BorderSide(color: AppStyles.dividerColor, width: 10)),
           ),
         );
       }
     }
-    if (Utility.isNullOrEmpty(children)) {
+    if (isNullOrEmpty(children)) {
       return null;
     } else {
       children.add(SizedBox(height: 20));

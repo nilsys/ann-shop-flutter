@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 
 class CopySetting {
   bool productCode;
@@ -10,10 +10,10 @@ class CopySetting {
 
   String getUserInfo() {
     String _value = '';
-    if (Utility.isNullOrEmpty(phoneNumber) == false) {
+    if (isNullOrEmpty(phoneNumber) == false) {
       _value += '\n⭐SDT: $phoneNumber';
     }
-    if (Utility.isNullOrEmpty(address) == false) {
+    if (isNullOrEmpty(address) == false) {
       _value += '\n⭐Địa chỉ: $address';
     }
     return _value;

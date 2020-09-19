@@ -7,7 +7,7 @@ import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/src/controllers/common/user_controller.dart';
 import 'package:ann_shop_flutter/src/models/common/contanct_type.dart';
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_banner.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_category.dart';
@@ -17,10 +17,11 @@ import 'package:ann_shop_flutter/ui/home_page/home_navigation.dart';
 import 'package:ann_shop_flutter/ui/home_page/home_product_slide.dart';
 import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
 import 'package:ann_shop_flutter/ui/utility/ann-icon.dart';
-import 'package:ann_shop_flutter/ui/utility/title_view_more.dart';
+
 import 'package:ann_shop_flutter/view/search/search_title.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ping9/ping9.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -123,7 +124,7 @@ class _HomePageState extends State<HomePage>
   SliverAppBar _buildAppBar() {
     return new SliverAppBar(
       pinned: true,
-      backgroundColor: ANNColor.appBarColor,
+      backgroundColor: AppStyles.appBarColor,
       title: Padding(
           padding: EdgeInsets.only(left: defaultPadding),
           child: Row(
@@ -142,7 +143,7 @@ class _HomePageState extends State<HomePage>
       titleSpacing: 0,
       actions: <Widget>[
         FavoriteButton(
-          color: ANNColor.favoriteColor,
+          color: AppStyles.favoriteColor,
         ),
       ],
     );
@@ -154,7 +155,7 @@ class _HomePageState extends State<HomePage>
       delegate: SliverChildListDelegate([
         Container(
           height: 10,
-          color: ANNColor.dividerColor,
+          color: AppStyles.dividerColor,
         ),
         TitleViewMore(title: 'Kênh tư vấn & đặt hàng'),
         _buildCardContact(
@@ -210,7 +211,7 @@ class _HomePageState extends State<HomePage>
     if (type == ContactType.facebookMessenger) {
       icon = FaIcon(
         FontAwesomeIcons.facebookMessenger,
-        color: ANNColor.white,
+        color: Colors.white,
       );
       url = 'http://m.me/$contact';
     } else if (type == ContactType.zalo) {
@@ -223,7 +224,7 @@ class _HomePageState extends State<HomePage>
 
     title = new Text(text,
         style: TextStyle(
-            color: ANNColor.white, fontSize: 17, fontWeight: FontWeight.bold),
+            color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center);
 
     if (icon == null) {
@@ -258,13 +259,13 @@ class _HomePageState extends State<HomePage>
         delegate: SliverChildListDelegate([
       Container(
         height: 10,
-        color: ANNColor.dividerColor,
+        color: AppStyles.dividerColor,
       ),
       TitleViewMore(title: 'Địa chỉ'),
       Container(
         child: Center(
           child: Card(
-            color: ANNColor.cardColor,
+            color: AppStyles.cardColor,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             borderOnForeground: false,
             margin: EdgeInsets.all(0),
@@ -273,7 +274,7 @@ class _HomePageState extends State<HomePage>
               children: <Widget>[
                 const ListTile(
                   leading: FaIcon(FontAwesomeIcons.mapMarkedAlt,
-                      color: ANNColor.orange),
+                      color: AppStyles.orange),
                   title: const Text(
                       '68 Đường C12, Phường 13, Quận Tân Bình, TP.HCM'),
                   subtitle: const Text('8h30 - 19h30 (Chủ Nhật 8h30 - 17h00)'),

@@ -1,9 +1,9 @@
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/ui/utility/app_image.dart';
+
+
 import 'package:flutter/material.dart';
 
 class BlogItem extends StatelessWidget {
@@ -16,7 +16,7 @@ class BlogItem extends StatelessWidget {
     return Container(
       child: Container(
         padding: EdgeInsets.all(defaultPadding),
-        color: ANNColor.cardColor,
+        color: AppStyles.cardColor,
         child: InkWell(
           onTap: () {
             AppAction.instance.onHandleAction(
@@ -37,7 +37,7 @@ class BlogItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Utility.isNullOrEmpty(item.image)
+                isNullOrEmpty(item.image)
                     ? Container()
                     : Container(
                         padding: EdgeInsets.only(top: 8),

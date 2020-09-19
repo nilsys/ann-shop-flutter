@@ -1,10 +1,10 @@
 import 'package:ann_shop_flutter/core/app_action.dart';
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/repository/inapp_repository.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/ui/utility/app_image.dart';
+
+
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class InAppItem extends StatelessWidget {
     bool isNew = false;
     return InkWell(
       onTap: () {
-        if (Utility.isNullOrEmpty(item.action)) {
+        if (isNullOrEmpty(item.action)) {
           AppPopup.showCustomDialog(
             context,
             title: item.name,
@@ -38,7 +38,7 @@ class InAppItem extends StatelessWidget {
         }
       },
       child: Container(
-        color: isNew ? Colors.lightBlue[50] : ANNColor.white,
+        color: isNew ? Colors.lightBlue[50] : Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -58,7 +58,7 @@ class InAppItem extends StatelessWidget {
                             InAppRepository.instance.getColorInApp(item.kind)),
                     child: Icon(
                       InAppRepository.instance.getIconInApp(item.kind),
-                      color: ANNColor.white,
+                      color: Colors.white,
                     ),
                   ),
                   Expanded(
@@ -92,7 +92,7 @@ class InAppItem extends StatelessWidget {
                 ],
               ),
             ),
-            if (Utility.isNullOrEmpty(item.image) == false)
+            if (isNullOrEmpty(item.image) == false)
               Container(
                 padding:
                     EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 8),
@@ -123,7 +123,7 @@ class InAppItem extends StatelessWidget {
             ),
             Container(
               height: 1,
-              color: ANNColor.dividerColor,
+              color: AppStyles.dividerColor,
             ),
           ],
         ),

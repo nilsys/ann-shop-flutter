@@ -1,11 +1,10 @@
 import 'dart:math';
 
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 import 'package:ann_shop_flutter/src/configs/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/ui/button/bottom_view_more.dart';
+
 import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +22,13 @@ class _HomeListNotificationState extends State<HomeListNotification> {
   Widget build(BuildContext context) {
     var data = Provider.of<CoverProvider>(context).notificationHome.data;
 
-    if (Utility.isNullOrEmpty(data) == false) {
+    if (isNullOrEmpty(data) == false) {
       int length =
           (limit == null || limit <= 0) ? data.length : min(limit, data.length);
       List<Widget> children = [
         Container(
           height: 10,
-          color: ANNColor.dividerColor,
+          color: AppStyles.dividerColor,
         ),
       ];
 
@@ -37,7 +36,7 @@ class _HomeListNotificationState extends State<HomeListNotification> {
         children.add(BlogItem(data[i]));
         children.add(Container(
           height: 1,
-          color: ANNColor.dividerColor,
+          color: AppStyles.dividerColor,
         ));
       }
       children.add(BottomViewMore(

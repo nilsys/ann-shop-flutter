@@ -1,10 +1,10 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/repository/account_repository.dart';
 import 'package:ann_shop_flutter/repository/app_response.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
-import 'package:ann_shop_flutter/src/widgets/loading/loading_dialog.dart';
+
+
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
@@ -76,7 +76,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               ),
               SizedBox(height: 15),
               InkWell(
-                onTap: Utility.isNullOrEmpty(password)
+                onTap: isNullOrEmpty(password)
                     ? _showDateTimePicker
                     : null,
                 child: IgnorePointer(
@@ -91,7 +91,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       hintText: 'Chọn ngày sinh',
                     ),
                     validator: (value) {
-                      if (Utility.isNullOrEmpty(value)) {
+                      if (isNullOrEmpty(value)) {
                         return 'Chưa chọn ngày sinh';
                       }
                       return null;
@@ -103,13 +103,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               RaisedButton(
                 child: Text(
                   'Tiếp tục',
-                  style: TextStyle(color: ANNColor.white),
+                  style: TextStyle(color: Colors.white),
                 ),
                 onPressed: _validateInput,
               ),
               SizedBox(height: 15),
               RaisedButton(
-                color: ANNColor.white,
+                color: Colors.white,
                 child: Text('Quên ngày sinh'),
                 onPressed: () {
                   onSentOTP();
@@ -127,7 +127,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   _showDateTimePicker() {
     DateTime now = DateTime.now();
     DateTime temp = new DateTime(now.year - 25, 1, 1);
-    if (Utility.isNullOrEmpty(birthDay) == false) {
+    if (isNullOrEmpty(birthDay) == false) {
       temp = DateTime.parse(birthDay);
     }
     DateTime maxDay = new DateTime.utc(DateTime.now().year - 1, 12, 31);

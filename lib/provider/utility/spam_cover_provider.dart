@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/cover_repository.dart';
@@ -35,7 +35,7 @@ class SpamCoverProvider extends ChangeNotifier {
     if (covers[code] == null) {
       covers[code] = ResponseProvider<List<Cover>>();
     }
-    if (Utility.isNullOrEmpty(code)) {
+    if (isNullOrEmpty(code)) {
       covers[code].completed = [];
     }
     try {

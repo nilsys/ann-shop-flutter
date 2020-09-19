@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
@@ -28,7 +28,7 @@ class BlogRepository {
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(body);
-        if (Utility.isNullOrEmpty(message)) {
+        if (isNullOrEmpty(message)) {
           return [];
         } else {
           List<BlogCategory> _data = new List();
@@ -50,7 +50,7 @@ class BlogRepository {
     try {
       var url = Core.domain;
 
-      if (Utility.isNullOrEmpty(category)) {
+      if (isNullOrEmpty(category)) {
         url += 'api/flutter/posts?pageNumber=$page&pageSize=$pageSize';
       } else {
         url +=
@@ -64,7 +64,7 @@ class BlogRepository {
 
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(body);
-        if (Utility.isNullOrEmpty(message)) {
+        if (isNullOrEmpty(message)) {
           return [];
         } else {
           List<Cover> _data = new List();

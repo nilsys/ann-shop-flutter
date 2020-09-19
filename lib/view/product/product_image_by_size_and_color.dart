@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
@@ -35,7 +35,7 @@ class _ProductImageBySizeAndColorState
           .loadProductImageSize(detail.productID, currentColor, currentSize);
       setState(() {
         isLoading = false;
-        if (Utility.isNullOrEmpty(image) == false) {
+        if (isNullOrEmpty(image) == false) {
           int index = indexOf(image);
           if (index >= 0) {
             animationToPage(index);
@@ -115,7 +115,7 @@ class _ProductImageBySizeAndColorState
   }
 
   Widget _buildColorsSelect() {
-    if (Utility.isNullOrEmpty(detail.colors)) {
+    if (isNullOrEmpty(detail.colors)) {
       return Container();
     } else {
       return Container(
@@ -135,7 +135,7 @@ class _ProductImageBySizeAndColorState
   }
 
   Widget _buildSizesSelect() {
-    if (Utility.isNullOrEmpty(detail.sizes)) {
+    if (isNullOrEmpty(detail.sizes)) {
       return Container();
     } else {
       return Container(

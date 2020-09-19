@@ -1,6 +1,6 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +37,7 @@ class _SearchInputState extends State<SearchInput> {
       padding: EdgeInsets.symmetric(horizontal: 15),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: ANNColor.white,
+        color: Colors.white,
         borderRadius: BorderRadius.all(
           Radius.circular(5),
         ),

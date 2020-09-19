@@ -1,8 +1,7 @@
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,10 +10,10 @@ class HomeProductSlide extends StatelessWidget {
   Widget build(BuildContext context) {
     CategoryProvider provider = Provider.of(context);
     var data = provider.dataHome.data;
-    if (Utility.isNullOrEmpty(data)) {
+    if (isNullOrEmpty(data)) {
       return SliverFillRemaining(
         child: Container(
-          color: ANNColor.white,
+          color: Colors.white,
           child: Center(
             child: Indicator(),
           ),

@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:core';
 
-import 'package:ann_shop_flutter/core/storage_manager.dart';
+
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 
 class SeenProvider with ChangeNotifier {
   final String _keyLocaleSeenProduct = '_keyLocaleSeenProduct';

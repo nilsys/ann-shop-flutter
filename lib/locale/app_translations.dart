@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ann_shop_flutter/core/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
+import 'package:ping9/ping9.dart';
 
 import 'application.dart';
 
@@ -40,7 +40,7 @@ class AppTranslations {
     try {
       final response = await http.get(pathRemote).timeout(Duration(seconds: 5));
       if (response.statusCode == HttpStatus.ok) {
-        if (Utility.isNullOrEmpty(response.body) == false) {
+        if (isNullOrEmpty(response.body) == false) {
           _tmpLocale = json.decode(utf8.decode(response.bodyBytes));
           _localisedValues.addAll(_tmpLocale);
         }

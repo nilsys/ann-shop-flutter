@@ -1,10 +1,10 @@
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/repository/product_repository.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class _InfoProductState extends State<InfoProduct> {
 
     /// 0 Title
     List<Widget> children = [
-      Container(height: 10, color: ANNColor.dividerColor),
+      Container(height: 10, color: AppStyles.dividerColor),
       _buildTitle('Thông tin chi tiết'),
       Row(
         children: <Widget>[
@@ -78,7 +78,7 @@ class _InfoProductState extends State<InfoProduct> {
     ));
 
     /// 2 TAG
-    if (Utility.isNullOrEmpty(detail.tags) == false) {
+    if (isNullOrEmpty(detail.tags) == false) {
       children.add(Row(
         children: <Widget>[
           Expanded(
@@ -110,7 +110,7 @@ class _InfoProductState extends State<InfoProduct> {
     }
 
     /// 3 Color
-    if (Utility.isNullOrEmpty(detail.colors) == false) {
+    if (isNullOrEmpty(detail.colors) == false) {
       children.add(Row(
         children: <Widget>[
           Expanded(
@@ -139,7 +139,7 @@ class _InfoProductState extends State<InfoProduct> {
     }
 
     /// 4 Size
-    if (Utility.isNullOrEmpty(detail.sizes) == false) {
+    if (isNullOrEmpty(detail.sizes) == false) {
       children.add(Row(
         children: <Widget>[
           Expanded(
@@ -168,7 +168,7 @@ class _InfoProductState extends State<InfoProduct> {
     }
 
     /// 5 Materials
-    if (Utility.isNullOrEmpty(detail.materials) == false) {
+    if (isNullOrEmpty(detail.materials) == false) {
       children.add(Row(
         children: <Widget>[
           Expanded(
@@ -198,7 +198,7 @@ class _InfoProductState extends State<InfoProduct> {
     ));
 
     /// 6 View
-    if (Utility.isNullOrEmpty(detail.discounts) == false) {
+    if (isNullOrEmpty(detail.discounts) == false) {
       children.add(_buildTitle('Chiết khấu'));
       if (isFull) {
         for (var item in detail.discounts) {

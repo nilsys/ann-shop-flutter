@@ -1,6 +1,5 @@
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +9,7 @@ class DownLoadBackground extends StatelessWidget {
     DownloadImageProvider provider = Provider.of(context);
     String message = provider.currentMessage;
 
-    if (Utility.isNullOrEmpty(message)) {
+    if (isNullOrEmpty(message)) {
       return Container(
         height: 0,
       );

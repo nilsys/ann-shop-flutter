@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/model/utility/in_app.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_logging.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -74,10 +74,10 @@ class InAppRepository {
   Color getColorInApp(String category) {
     switch (category) {
       case 'all':
-        return ANNColor.white;
+        return Colors.white;
         break;
       case 'promotion':
-        return ANNColor.orange;
+        return AppStyles.orange;
         break;
       case 'notification':
         return Colors.blue;
@@ -96,7 +96,7 @@ class InAppRepository {
       {page = 1, pageSize = 20}) async {
     try {
       var url = Core.domain;
-      if (Utility.isNullOrEmpty(kind) || kind == 'all') {
+      if (isNullOrEmpty(kind) || kind == 'all') {
         url += 'api/flutter/notifications?pageNumber=$page&pageSize=$pageSize';
       } else {
         url +=
@@ -108,7 +108,7 @@ class InAppRepository {
 
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);
-        if (Utility.isNullOrEmpty(message)) {
+        if (isNullOrEmpty(message)) {
           return [];
         } else {
           List<InApp> _data = new List();

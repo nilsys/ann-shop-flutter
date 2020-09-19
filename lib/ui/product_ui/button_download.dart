@@ -2,13 +2,12 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_controller.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
-import 'package:ann_shop_flutter/ui/utility/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -48,14 +47,14 @@ class _ButtonDownloadState extends State<ButtonDownload> {
                   ? Icon(
                       Icons.done,
                       size: 20,
-                      color: ANNColor.white,
+                      color: Colors.white,
                     )
                   : Icon(
                       Icons.file_download,
                       size: 20,
-                      color: ANNColor.white,
+                      color: Colors.white,
                     ),
-          onPressed: (Utility.isNullOrEmpty(widget.imageName) == false &&
+          onPressed: (isNullOrEmpty(widget.imageName) == false &&
                   loading == loadState.none)
               ? _download
               : null,

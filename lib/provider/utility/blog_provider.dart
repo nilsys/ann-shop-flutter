@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:ann_shop_flutter/core/utility.dart';
+import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
 import 'package:ann_shop_flutter/provider/response_provider.dart';
 import 'package:ann_shop_flutter/repository/blog_repository.dart';
@@ -44,7 +44,7 @@ class BlogProvider with ChangeNotifier {
       if (data == null) {
         category.error = 'load error';
       } else {
-        if (Utility.isNullOrEmpty(data) == false) {
+        if (isNullOrEmpty(data) == false) {
           _currentCategory = data[0];
         }
         category.completed = data;

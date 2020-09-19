@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/src/themes/ann_color.dart';
+
 import 'package:flutter/material.dart';
 
 class AskLogin extends StatelessWidget {
@@ -21,7 +21,7 @@ class AskLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: ANNColor.white,
+        color: Colors.white,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15), topRight: Radius.circular(15)),
       ),
@@ -74,7 +74,7 @@ class AskLogin extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .button
-                      .merge(TextStyle(color: ANNColor.white)),
+                      .merge(TextStyle(color: Colors.white)),
                 ),
                 onPressed: () {
                   _onLogIn(context);

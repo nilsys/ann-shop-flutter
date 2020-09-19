@@ -1,5 +1,5 @@
-import 'package:ann_shop_flutter/ui/button/text_button.dart';
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
 
 class BottomBarPolicy extends StatelessWidget {
   @override
