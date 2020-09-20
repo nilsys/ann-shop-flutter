@@ -10,14 +10,13 @@ import 'package:youtube_extractor/youtube_extractor.dart';
 import '../flutube.dart';
 import 'callback_control.dart';
 import 'control.dart';
+import 'fluture_utility.dart';
 
 typedef FTCallBack(VideoPlayerController controller);
 
 class FluTube extends StatefulWidget {
   /// Youtube video URL(s)
-  var _videourls;
-
-  var _idVideo;
+  final String videourl;
 
   /// Initialize the Video on Startup. This will prep the video for playback.
   final bool autoInitialize;
@@ -65,11 +64,6 @@ class FluTube extends StatefulWidget {
   /// Whether or not to show the video thumbnail when the video did not start playing.
   final bool showThumb;
 
-  @Deprecated("The variable isn't used.")
-  final Widget subVideo;
-
-  /// Video events
-
   /// Video start
   final VoidCallback onVideoStart;
 
@@ -82,18 +76,16 @@ class FluTube extends StatefulWidget {
 
   final double height;
 
-  FTCallBack callBackController;
+  final FTCallBack callBackController;
 
-  PlayControlDelegate playCtrDelegate;
+  final PlayControlDelegate playCtrDelegate;
 
-  bool isFullscreen;
-
-  String typeVideo;
+  final bool isFullscreen;
 
   String urlImageThumnail;
 
   FluTube(
-    String videourl, {
+    this.videourl, {
     Key key,
     this.aspectRatio,
     this.autoInitialize = false,
@@ -112,49 +104,15 @@ class FluTube extends StatefulWidget {
     this.onVideoStart,
     this.onVideoEnd,
     this.callBackController,
-    this.subVideo,
     this.customControl,
     this.width,
     this.height,
     this.playCtrDelegate,
     this.isFullscreen,
-    this.typeVideo = "YOUTUBE",
     this.urlImageThumnail,
   }) : super(key: key) {
-    this._videourls = videourl; //TODO: data cu chua xu ly lai.
-    this._idVideo = videourl;
-  }
-
-  FluTube.playlist(List<String> playlist,
-      {Key key,
-      this.aspectRatio,
-      this.autoInitialize = false,
-      this.autoPlay = false,
-      this.startAt,
-      this.placeholder,
-      this.looping = false,
-      this.showControls = true,
-      this.fullscreenByDefault = false,
-      this.showThumb = true,
-      this.allowMuting = true,
-      this.allowScreenSleep = false,
-      this.allowFullScreen = true,
-      this.deviceOrientationAfterFullscreen,
-      this.systemOverlaysAfterFullscreen,
-      this.onVideoStart,
-      this.onVideoEnd,
-      this.callBackController,
-      this.subVideo,
-      this.customControl,
-      this.width,
-      this.height,
-      this.playCtrDelegate,
-      this.isFullscreen,
-      this.typeVideo = "YOUTUBE"})
-      : super(key: key) {
-    assert(playlist.length > 0, 'Playlist should not be empty!');
-    this._videourls = playlist;
-    this._idVideo = "";
+    this.urlImageThumnail =
+        this.urlImageThumnail ?? videoThumbURL(this.videourl);
   }
 
   @override
@@ -167,13 +125,9 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
   bool isPlaying = false;
   bool isErrorInit = false;
   bool _needsShowThumb;
-  int _currentlyPlaying = 0; // Track position of currently playing video
   double widthCurrent;
   double heightCurrent;
-  String _lastUrl;
 
-  bool get _isPlaylist => widget._videourls is List<String>;
-  bool _isFullScreen = false;
   Controls controls;
 
   bool get showControls => widget.showControls ?? true;
@@ -201,12 +155,9 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
     statePlaying = StatePlaying();
     player = StatePlayer();
     _needsShowThumb = !widget.autoPlay;
-    if (_isPlaylist) {
-      _initialize((widget._videourls as List<String>)[0],
-          widget.typeVideo); // Play the very first video of the playlist
-    } else {
-      _initialize(widget._videourls as String, widget.typeVideo);
-    }
+
+    _initialize(widget.videourl);
+
     widget.playCtrDelegate.replay = () {
       _playVideoLoop();
     };
@@ -223,7 +174,8 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
       this.videoController.removeListener(_startListener);
     }
     if (this.chewieController != null) {
-      if (this.chewieController?.videoPlayerController?.value?.isPlaying) {
+      if (this.chewieController?.videoPlayerController?.value?.isPlaying ??
+          false) {
         this.chewieController?.videoPlayerController?.pause();
       }
       this.chewieController?.dispose();
@@ -250,7 +202,7 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
     } catch (e) {}
   }
 
-  void _initialize(String _url, String type) {
+  void _initialize(String _url) {
     print(
         "[Flutube_player.dart] _initialize--------------------URL VIDEO: $_url");
     statePlaying.hashCodeWidget = widget.playCtrDelegate.hashCode;
@@ -263,7 +215,7 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
       });
     }
 
-    _fetchVideoURL(_url, type).then((url) {
+    _fetchVideoURL(_url).then((url) {
       if (url == null) {
         setState(() {
           isErrorInit = true;
@@ -322,14 +274,6 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
   }
 
   _startListener() {
-    // TODO: check listen - handle next and pre of player -- 02/11/2019
-    // print("---------------------call back from _startListener to CONTROL xxx------------------");
-    // print(player.statePlayer == FlutubeState.OFF);
-    // print(statePlaying.idPlaying != null);
-    // print(statePlaying.idPlaying != widget._idVideo);
-    // print(this.videoController != null);
-    // print(this.videoController.value.isPlaying);
-
     if (((player.statePlayer == FlutubeState.OFF) ||
             (statePlaying.hashCodeWidget != null &&
                 statePlaying.hashCodeWidget !=
@@ -357,24 +301,14 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
             chewieController.seekTo(Duration());
           }
           if (widget.onVideoEnd != null) widget.onVideoEnd();
-          if (widget.showThumb && !_isPlaylist && mounted) {
+          if (widget.showThumb && mounted) {
             setState(() {
               _needsShowThumb = true;
             });
           }
-          if (_isPlaylist) {
-            if (_currentlyPlaying <
-                (widget._videourls as List<String>).length - 1) {
-              _playlistLoadNext();
-            } else {
-              if (widget.looping) {
-                _playlistLoop();
-              }
-            }
-          } else {
-            if (widget.looping) {
-              _playVideoLoop();
-            }
+
+          if (widget.looping) {
+            _playVideoLoop();
           }
 
           widget.callBackController(this.videoController);
@@ -400,7 +334,7 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
       if (videoController.value.errorDescription.contains("code: 403")) {
         countReplayWhenError++;
         Timer(Duration(seconds: 2), () {
-          _initialize(widget._videourls as String, widget.typeVideo);
+          _initialize(widget.videourl);
           pending = false;
         });
       } else {
@@ -409,38 +343,11 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
         chewieController = null;
         countReplayWhenError++;
         Timer(Duration(seconds: 2), () {
-          _initialize(widget._videourls as String, widget.typeVideo);
+          _initialize(widget.videourl);
           pending = false;
         });
       }
     }
-  }
-
-  _playlistLoadNext() {
-    chewieController?.dispose();
-    if (mounted) {
-      setState(() {
-        _currentlyPlaying++;
-      });
-    }
-    this.videoController.pause();
-    this.videoController = null;
-    _initialize((widget._videourls as List<String>)[_currentlyPlaying],
-        widget.typeVideo);
-    chewieController.play();
-  }
-
-  _playlistLoop() {
-    chewieController?.dispose();
-    if (mounted) {
-      setState(() {
-        _currentlyPlaying = 0;
-      });
-    }
-    this.videoController.pause();
-    this.videoController = null;
-    _initialize((widget._videourls as List<String>)[0], widget.typeVideo);
-    chewieController.play();
   }
 
   _playVideoLoop() {
@@ -449,7 +356,7 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
       chewieController?.dispose();
       this.videoController.pause();
       this.videoController = null;
-      _initialize(widget._videourls as String, widget.typeVideo);
+      _initialize(widget.videourl);
     });
   }
 
@@ -481,7 +388,8 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
                 isErrorInit
                     ? _controls
                     : CachedNetworkImage(
-                        imageUrl: widget.urlImageThumnail,
+                        imageUrl: widget.urlImageThumnail ??
+                            videoThumbURL(widget.videourl),
                         width: widget.width,
                         height: widget.height,
                         fit: BoxFit.cover,
@@ -503,10 +411,7 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
     }
   }
 
-
-  Future<String> _fetchVideoURL(String yt, String type) async {
-    if (type.toUpperCase() == "MP4") return yt;
-
+  Future<String> _fetchVideoURL(String yt) async {
     print(
         "------>>>> _extractor Start: [${DateTime.now().toString()}] <<<<------");
     try {
@@ -527,19 +432,5 @@ class FluTubeState extends State<FluTube> with WidgetsBindingObserver {
       callBackVideoController?.listenStateError(true);
       return null;
     }
-  }
-
-  Iterable<String> _allStringMatches(String text, RegExp regExp) =>
-      regExp.allMatches(text).map((m) => m.group(0));
-
-  String _videoThumbURL(String yt) {
-    String id = yt.substring(yt.indexOf('v=') + 2);
-    if (id.contains('&')) id = id.substring(0, id.indexOf('&'));
-    return "http://img.youtube.com/vi/$id/0.jpg";
-  }
-
-  void printWrapped(String text) {
-    final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0)));
   }
 }

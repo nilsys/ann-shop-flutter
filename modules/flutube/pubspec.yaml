@@ -16,8 +16,10 @@ dependencies:
       ref: 168cc08ee9f9a69cb5a667cacbdf525530f82832
   cached_network_image: ^2.3.1
   chewie: ^0.9.10
+  screen: 0.0.5
+
   flutter:
     sdk: flutter
 
 flutter:
-  assets:
+#  assets:

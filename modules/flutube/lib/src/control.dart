@@ -13,6 +13,7 @@ typedef YoutubeQualityChangeCallback(String quality, Duration position);
 
 const double kSizeIcon = 32;
 const double kSizePlayIcon = 40;
+const IconData kIconDownload = Icons.file_download;
 const IconData kIconReplay = Icons.replay;
 const IconData kIconPlay = Icons.play_arrow;
 const IconData kIconPause = Icons.pause;
@@ -22,7 +23,6 @@ const TextStyle textStyleTime = TextStyle(
   color: Colors.white,
   fontSize: 10.0,
 );
-
 
 class ControlsColor {
   final Color timerColor;
@@ -62,21 +62,20 @@ class Controls extends StatefulWidget {
   PlayControlDelegate playCtrDelegate;
   bool isFullScreen;
 
-  Controls({
-    this.showControls,
-    this.width,
-    this.height,
-    this.defaultQuality = "720p",
-    this.defaultCall,
-    this.controlsActiveBackgroundOverlay,
-    this.controlsTimeOut,
-    this.switchFullScreenOnLongPress,
-    this.hideShareButton,
-    this.urlImageThumnail,
-    this.playCtrDelegate,
-    this.isFullScreen,
-    this.isErrorVideo = false
-  });
+  Controls(
+      {this.showControls,
+      this.width,
+      this.height,
+      this.defaultQuality = "720p",
+      this.defaultCall,
+      this.controlsActiveBackgroundOverlay,
+      this.controlsTimeOut,
+      this.switchFullScreenOnLongPress,
+      this.hideShareButton,
+      this.urlImageThumnail,
+      this.playCtrDelegate,
+      this.isFullScreen,
+      this.isErrorVideo = false});
 
   @override
   _ControlsState createState() => _ControlsState();
@@ -101,7 +100,6 @@ class _ControlsState extends State<Controls> {
   bool _isShowSub = true;
   bool _isShowIconFast;
   bool _isError;
-
 
   //---------------------------------------------------------
   //-----------------------Function of root------------------
@@ -210,7 +208,7 @@ class _ControlsState extends State<Controls> {
     });
   }
 
-  //--------------------------------------------------------- 
+  //---------------------------------------------------------
   //-----------------------Function Render ------------------
   //---------------------------------------------------------
 
@@ -220,27 +218,23 @@ class _ControlsState extends State<Controls> {
     return Stack(
       children: <Widget>[
         (_stateControl != StateControl.ACTIVE)
-            ? _isError ?
-        Container(
-            color: Colors.black,
-            width: widget.width,
-            height: widget.height,
-            child: Center(
-              child: Text(
-                "Error loading video!",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15
-                ),
-              ),
-            )
-        ) : CachedNetworkImage(
-          imageUrl: widget.urlImageThumnail ??
-              "http://i3.ytimg.com/vi/D86RtevtfrA/hqdefault.jpg",
-          width: widget.width,
-          height: widget.height,
-          fit: BoxFit.cover,
-        )
+            ? _isError
+                ? Container(
+                    color: Colors.black,
+                    width: widget.width,
+                    height: widget.height,
+                    child: Center(
+                      child: Text(
+                        "Error loading video!",
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
+                    ))
+                : CachedNetworkImage(
+                    imageUrl: widget.urlImageThumnail ?? "",
+                    width: widget.width,
+                    height: widget.height,
+                    fit: BoxFit.cover,
+                  )
             : SizedBox(),
         _renderAreaOfActionDoubleTap(),
         GestureDetector(
@@ -258,88 +252,90 @@ class _ControlsState extends State<Controls> {
                 children: <Widget>[
                   (_showControls || _stateControl != StateControl.ACTIVE)
                       ? Stack(
-                    children: <Widget>[
-                      Container(
-                        width: widget.width,
-                        height: widget.height,
-                        child: Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                child: _fastRewind(),
-                                flex: 4,
+                          children: <Widget>[
+                            Container(
+                              width: widget.width,
+                              height: widget.height,
+                              child: Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: _fastRewind(),
+                                      flex: 4,
+                                    ),
+                                    Expanded(
+                                      child: _playButton(),
+                                      flex: 2,
+                                    ),
+                                    Expanded(
+                                      child: _fastForward(),
+                                      flex: 4,
+                                    )
+                                  ],
+                                ),
                               ),
-                              Expanded(
-                                child: _playButton(),
-                                flex: 2,
-                              ),
-                              Expanded(
-                                child: _fastForward(),
-                                flex: 4,
-                              )
-                            ],
+                            ),
+                            _buildBottomControls(),
+                            Positioned(
+                              child: _buildAppBar(context),
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                            )
+                          ],
+                        )
+                      : Container(
+                          width: widget.width,
+                          height: widget.height,
+                          child: Center(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      tapLayout();
+                                    },
+                                    onDoubleTap: () {
+                                      actionFastForwardAndRewind(
+                                        stateActionPlayer:
+                                            StateActionPlayer.FAST_REWIND,
+                                        isStateDoubleTap: StateDoubleTap.LEFT,
+                                        isShowIconFast: true,
+                                      );
+                                    },
+                                    child: Container(
+                                      color: Colors.transparent,
+                                    ),
+                                  ),
+                                  flex: 1,
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      tapLayout();
+                                    },
+                                    onDoubleTap: () {
+                                      actionFastForwardAndRewind(
+                                          stateActionPlayer:
+                                              StateActionPlayer.FAST_FORWARD,
+                                          isStateDoubleTap:
+                                              StateDoubleTap.RIGHT,
+                                          isShowIconFast: true);
+                                    },
+                                    child: Container(
+                                      color: Colors.transparent,
+                                    ),
+                                  ),
+                                  flex: 1,
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      _buildBottomControls(),
-                      Positioned(
-                        child: _buildAppBar(context),
-                        top: 0,
-                      )
-                    ],
-                  ) :
-                  Container(
-                    width: widget.width,
-                    height: widget.height,
-                    child: Center(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                tapLayout();
-                              },
-                              onDoubleTap: () {
-                                actionFastForwardAndRewind(
-                                  stateActionPlayer: StateActionPlayer
-                                      .FAST_REWIND,
-                                  isStateDoubleTap: StateDoubleTap.LEFT,
-                                  isShowIconFast: true,
-                                );
-                              },
-                              child: Container(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                            flex: 1,
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                tapLayout();
-                              },
-                              onDoubleTap: () {
-                                actionFastForwardAndRewind(
-                                    stateActionPlayer: StateActionPlayer
-                                        .FAST_FORWARD,
-                                    isStateDoubleTap: StateDoubleTap.RIGHT,
-                                    isShowIconFast: true
-                                );
-                              },
-                              child: Container(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                            flex: 1,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -349,70 +345,26 @@ class _ControlsState extends State<Controls> {
     );
   }
 
-  //-----------------------Render button Subtitle----------------------
-  Widget _buildButtonSubtitles() {
-    return Align(
-      alignment: Alignment.topRight,
-      child: Padding(
-        padding: EdgeInsets.only(right: (widget.isFullScreen ? 30 : 10.0)),
-        child: GestureDetector(
-          onTap: () {
-            if (_stateControl != StateControl.INIT &&
-                widget.playCtrDelegate != null && mounted) {
-              setState(() {
-                _isShowSub = widget.playCtrDelegate.subvideo(_isShowSub);
-              });
-            }
-          },
-          child: Icon(
-            Icons.subtitles,
-            size: 30.0,
-            color: _isShowSub ? Colors.red : Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
 //-----------------------Render app bar----------------------
   Widget _buildAppBar(BuildContext context) {
     return Container(
-      width: widget.width,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Align(
-              alignment: Alignment.topLeft,
-              child: GestureDetector(
-                onTap: () {
-                  if (widget.playCtrDelegate != null) {
-                    widget.playCtrDelegate.backButton();
-                  }
-                },
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      IconButton(
-                          iconSize: 30,
-                          icon: Icon(
-                            Icons.chevron_left,
-                            color: Colors.white,
-                          )),
-                      Text(
-                        'Detail',
-                        style: TextStyle(
-                            decoration: TextDecoration.none,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16.5),
-                      )
-                    ],
-                  ),
-                ),
-              )),
-          _buildButtonSubtitles()
+          Expanded(
+            child: SizedBox(),
+          ),
+          IconButton(
+            onPressed: () {
+              if (_stateControl != StateControl.INIT &&
+                  widget.playCtrDelegate != null &&
+                  mounted) {
+                setState(() {
+                  _isShowSub = widget.playCtrDelegate.downloadVideo();
+                });
+              }
+            },
+            icon: Icon(kIconDownload, color: Colors.white70, size: kSizeIcon),
+          )
         ],
       ),
     );
@@ -429,25 +381,23 @@ class _ControlsState extends State<Controls> {
             onDoubleTap: () {
               actionFastForwardAndRewind(
                   stateActionPlayer: StateActionPlayer.FAST_FORWARD,
-                  isStateDoubleTap: StateDoubleTap.RIGHT
-              );
+                  isStateDoubleTap: StateDoubleTap.RIGHT);
             },
             child: Container(
               color: Colors.transparent,
-            )
-        ),
+            )),
         (_stateControl != StateControl.INIT)
             ? Center(
-          child: IconButton(
-            onPressed: () {
-              actionFastForwardAndRewind(
-                  stateActionPlayer: StateActionPlayer.FAST_FORWARD,
-                  isStateDoubleTap: StateDoubleTap.RIGHT);
-            },
-            icon: const Icon(kIconForward5,
-                color: Colors.white70, size: 32),
-          ),
-        )
+                child: IconButton(
+                  onPressed: () {
+                    actionFastForwardAndRewind(
+                        stateActionPlayer: StateActionPlayer.FAST_FORWARD,
+                        isStateDoubleTap: StateDoubleTap.RIGHT);
+                  },
+                  icon: const Icon(kIconForward5,
+                      color: Colors.white70, size: kSizeIcon),
+                ),
+              )
             : SizedBox(),
       ],
     );
@@ -464,25 +414,23 @@ class _ControlsState extends State<Controls> {
             onDoubleTap: () {
               actionFastForwardAndRewind(
                   stateActionPlayer: StateActionPlayer.FAST_REWIND,
-                  isStateDoubleTap: StateDoubleTap.LEFT
-              );
+                  isStateDoubleTap: StateDoubleTap.LEFT);
             },
             child: Container(
               color: Colors.transparent,
-            )
-        ),
+            )),
         (_stateControl != StateControl.INIT)
             ? Center(
-          child: IconButton(
-            onPressed: () {
-              actionFastForwardAndRewind(
-                  stateActionPlayer: StateActionPlayer.FAST_REWIND,
-                  isStateDoubleTap: StateDoubleTap.LEFT);
-            },
-            icon:
-            const Icon(kIconReplay5, color: Colors.white70, size: 32),
-          ),
-        )
+                child: IconButton(
+                  onPressed: () {
+                    actionFastForwardAndRewind(
+                        stateActionPlayer: StateActionPlayer.FAST_REWIND,
+                        isStateDoubleTap: StateDoubleTap.LEFT);
+                  },
+                  icon: const Icon(kIconReplay5,
+                      color: Colors.white70, size: kSizeIcon),
+                ),
+              )
             : SizedBox()
       ],
     );
@@ -492,57 +440,58 @@ class _ControlsState extends State<Controls> {
   Widget _playButton() {
     return (_stateControl != StateControl.INIT)
         ? Material(
-      borderRadius: BorderRadius.circular(100.0),
-      color: Colors.transparent,
-      child: GestureDetector(
-        onTap: () {
-          if (_stateControl != StateControl.INIT) {
-            if (widget.playCtrDelegate != null) {
-              if (_stateControl == StateControl.ACTIVE) {
-                bool oldStateLive = _videoController.value.isPlaying;
-                bool newStateLive = widget.playCtrDelegate
-                    .playVideo(_videoController.value.isPlaying);
-                if (oldStateLive == newStateLive) {
-                  playVideo();
+            borderRadius: BorderRadius.circular(100.0),
+            color: Colors.transparent,
+            child: GestureDetector(
+              onTap: () {
+                if (_stateControl != StateControl.INIT) {
+                  if (widget.playCtrDelegate != null) {
+                    if (_stateControl == StateControl.ACTIVE) {
+                      bool oldStateLive = _videoController.value.isPlaying;
+                      bool newStateLive = widget.playCtrDelegate
+                          .playVideo(_videoController.value.isPlaying);
+                      if (oldStateLive == newStateLive) {
+                        playVideo();
+                      }
+                    } else {
+                      widget.playCtrDelegate.replay();
+                      _stateControl = StateControl.INIT;
+                      _flagAddListener = false;
+                    }
+                  }
                 }
-              } else {
-                widget.playCtrDelegate.replay();
-                _stateControl = StateControl.INIT;
-                _flagAddListener = false;
-              }
-            }
-          }
-          onTapAction();
-        },
-        child: (_stateControl == StateControl.DONE)
-            ? const Icon(
-          kIconReplay,
-          size: kSizePlayIcon,
-          color: Colors.white,
-        )
-            : ((_videoController != null &&
-            _videoController.value.initialized &&
-            _videoController.value.isPlaying)
-            ? const Icon(
-          kIconPause,
-          size: kSizePlayIcon,
-          color: Colors.white,
-        )
-            : const Icon(
-          kIconPlay,
-          size: kSizePlayIcon,
-          color: Colors.white,
-        )
-        ),
-      ),
-    )
-        : _isError ? SizedBox() : AspectRatio(
-      aspectRatio: 16 / 9,
-      child: Center(
-        child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.red)),
-      ),
-    );
+                onTapAction();
+              },
+              child: (_stateControl == StateControl.DONE)
+                  ? const Icon(
+                      kIconReplay,
+                      size: kSizePlayIcon,
+                      color: Colors.white,
+                    )
+                  : ((_videoController != null &&
+                          _videoController.value.initialized &&
+                          _videoController.value.isPlaying)
+                      ? const Icon(
+                          kIconPause,
+                          size: kSizePlayIcon,
+                          color: Colors.white,
+                        )
+                      : const Icon(
+                          kIconPlay,
+                          size: kSizePlayIcon,
+                          color: Colors.white,
+                        )),
+            ),
+          )
+        : _isError
+            ? SizedBox()
+            : AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Center(
+                  child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.red)),
+                ),
+              );
   }
 
 //-----------------------Render bottom control----------------------
@@ -552,8 +501,8 @@ class _ControlsState extends State<Controls> {
       left: 0.0,
       child: Center(
         child: Container(
-          margin: EdgeInsets.only(
-              left: 20, right: widget.isFullScreen ? 50 : 20),
+          margin:
+              EdgeInsets.only(left: 20, right: widget.isFullScreen ? 50 : 20),
           width: widget.width - 20,
           child: Padding(
             padding: EdgeInsets.only(bottom: 10.0),
@@ -584,15 +533,19 @@ class _ControlsState extends State<Controls> {
                         if (_videoController != null &&
                             _stateControl != StateControl.INIT) {
                           if ((_videoController.value.duration.inMilliseconds -
-                              700) <= (position *
-                              _videoController.value.duration.inSeconds)
-                              .floor() * 1000) {
+                                  700) <=
+                              (position *
+                                          _videoController
+                                              .value.duration.inSeconds)
+                                      .floor() *
+                                  1000) {
                             _handleDone();
                           } else {
                             onTapAction();
                             _videoController.seekTo(Duration(
                                 seconds: (position *
-                                    _videoController.value.duration.inSeconds)
+                                        _videoController
+                                            .value.duration.inSeconds)
                                     .floor()));
 
                             if (!_videoController.value.isPlaying) {
@@ -630,16 +583,15 @@ class _ControlsState extends State<Controls> {
                       if (widget.playCtrDelegate != null) {
                         if (mounted) {
                           setState(() async {
-                            widget.isFullScreen =
-                            await widget.playCtrDelegate.fullscreen(
-                                widget.isFullScreen);
+                            widget.isFullScreen = await widget.playCtrDelegate
+                                .fullscreen(widget.isFullScreen);
                           });
                         }
                       }
                     },
                     child: Container(
                       margin:
-                      EdgeInsets.only(right: widget.isFullScreen ? 20 : 10),
+                          EdgeInsets.only(right: widget.isFullScreen ? 20 : 10),
                       child: Align(
                         alignment: Alignment.center,
                         child: Icon(
@@ -689,19 +641,15 @@ class _ControlsState extends State<Controls> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Center(
-                          child: Icon(
-                              Icons.fast_rewind,
-                              color: _isShowIconFast ? Colors.white60 : Colors
-                                  .transparent,
-                              size: 40.0
-                          ),
+                          child: Icon(Icons.fast_rewind,
+                              color: _isShowIconFast
+                                  ? Colors.white60
+                                  : Colors.transparent,
+                              size: 40.0),
                         ),
                         Text(
                           "5 seconds",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 10),
                         )
                       ],
                     ),
@@ -711,7 +659,9 @@ class _ControlsState extends State<Controls> {
               flex: 4,
             ),
             Expanded(
-              child: Container(color: Colors.transparent,),
+              child: Container(
+                color: Colors.transparent,
+              ),
               flex: 2,
             ),
             Expanded(
@@ -732,19 +682,15 @@ class _ControlsState extends State<Controls> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Center(
-                          child: Icon(
-                              Icons.fast_forward,
-                              color: _isShowIconFast ? Colors.white60 : Colors
-                                  .transparent,
-                              size: 40.0
-                          ),
+                          child: Icon(Icons.fast_forward,
+                              color: _isShowIconFast
+                                  ? Colors.white60
+                                  : Colors.transparent,
+                              size: 40.0),
                         ),
                         Text(
                           "5 seconds",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 10),
                         )
                       ],
                     ),
@@ -788,15 +734,16 @@ class _ControlsState extends State<Controls> {
   }
 
   actionFastForwardAndRewind(
-      {StateActionPlayer stateActionPlayer, StateDoubleTap isStateDoubleTap, isShowIconFast = false}) async {
+      {StateActionPlayer stateActionPlayer,
+      StateDoubleTap isStateDoubleTap,
+      isShowIconFast = false}) async {
     _isShowIconFast = isShowIconFast;
     onDoubleTap(isStateDoubleTap);
 
     if (mounted) {
       if (_videoController != null && _stateControl != StateControl.INIT) {
-        int handle = (stateActionPlayer == StateActionPlayer.FAST_FORWARD)
-            ? 5
-            : (-5);
+        int handle =
+            (stateActionPlayer == StateActionPlayer.FAST_FORWARD) ? 5 : (-5);
         int _seconds = _videoController.value.position.inSeconds + handle;
 
         if ((_videoController.value.duration.inMilliseconds - 700) <=
@@ -858,15 +805,12 @@ class _ControlsState extends State<Controls> {
     var minutes = seconds ~/ 60;
     seconds = seconds % 60;
     final hoursString = hours >= 10 ? '$hours' : hours == 0 ? '00' : '0$hours';
-    final minutesString = minutes >= 10 ? '$minutes' : minutes == 0
-        ? '00'
-        : '0$minutes';
-    final secondsString = seconds >= 10 ? '$seconds' : seconds == 0
-        ? '00'
-        : '0$seconds';
-    final formattedTime = '${hoursString == '00' ? '' : hoursString +
-        ':'}$minutesString:$secondsString';
+    final minutesString =
+        minutes >= 10 ? '$minutes' : minutes == 0 ? '00' : '0$minutes';
+    final secondsString =
+        seconds >= 10 ? '$seconds' : seconds == 0 ? '00' : '0$seconds';
+    final formattedTime =
+        '${hoursString == '00' ? '' : hoursString + ':'}$minutesString:$secondsString';
     return formattedTime;
   }
-
 }

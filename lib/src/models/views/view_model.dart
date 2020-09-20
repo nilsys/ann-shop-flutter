@@ -13,7 +13,11 @@ class ViewModel {
   ViewModel.formJson(Map<String, dynamic> json) {
     this.title = json['title'] ?? '';
     this.content = json['content'] ?? '';
-    this.videoUrl = json['video_url'] ?? '';
+
+    // todo: mock to test video
+    this.videoUrl = "https://www.youtube.com/watch?v=LI3E709rQDE";
+    // this.videoUrl = json['video_url'] ?? '';
+
     this.createDate = DateTime.parse(json['createdDate']) ?? DateTime.now();
 
     if (!isEmpty(this.content)) {
