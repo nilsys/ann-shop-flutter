@@ -30,6 +30,6 @@ class _ANNPlayerState extends State<ANNPlayer> {
   }
 
   Future<bool> _onWillPop() async {
-    return false;
+    return true;
   }
 }
