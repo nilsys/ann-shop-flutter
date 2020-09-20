@@ -100,13 +100,10 @@ class SearchProvider with ChangeNotifier {
         ListProduct.showBySearch(context,
             Category(name: value, filter: ProductFilter(productSearch: value)));
       } else {
-        final loadingDialog =
-            new LoadingDialog(context, message: 'Tìm kiếm sản phẩm...');
-
-        loadingDialog.show();
+        showLoading(context, message: 'Tìm kiếm sản phẩm...');
         final data = await ListProductRepository.instance
             .loadBySearch(text, filter: AppFilter());
-        loadingDialog.close();
+        hideLoading(context);
 
         if (isNullOrEmpty(data)) {
           AppSnackBar.showFlushbar(context, 'Không tìm thấy sản phẩm.');

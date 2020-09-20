@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
@@ -361,12 +359,10 @@ class _UpdateInformationState extends State<UpdateInformation> {
     } else {
       try {
         final message = widget.isRegister ? 'Đăng ký...' : 'Cập nhật...';
-        final loadingDialog = new LoadingDialog(context, message: message);
-
-        loadingDialog.show();
+        showLoading(context, message: message);
         final response =
             await AccountRepository.instance.updateInformation(account);
-        loadingDialog.close();
+        hideLoading(context);
 
         if (response.status) {
           AC.instance.updateAccountInfo(account);

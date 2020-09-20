@@ -151,14 +151,12 @@ class _ViewMorePageState extends State<ViewMorePage> {
       return;
     }
 
-    final loadingDialog = LoadingDialog(context, message: 'Đang xử lý...');
-
-    loadingDialog.show();
+    showLoading(context, message: 'Đang xử lý...');
     Navigator.pushNamed(context, 'product/detail/share-social', arguments: {
       'images': data.images,
       'title': data.title,
       'message': data.postContent
-    }).then((_) => loadingDialog.close());
+    }).then((_) => hideLoading(context));
   }
 
   void _onClickCopy(BuildContext context, String content) async {
@@ -169,13 +167,12 @@ class _ViewMorePageState extends State<ViewMorePage> {
 
     if (isEmpty(content)) return;
 
-    final loadingDialog = LoadingDialog(context, message: 'Đang copy...');
+    showLoading(context, message: 'Đang copy...');
 
-    loadingDialog.show();
     await Future.delayed(const Duration(milliseconds: 500));
     await Clipboard.setData(new ClipboardData(text: content));
-    loadingDialog.message = 'Đã copy xong';
+    updateLoading('Đã copy xong');
     await Future.delayed(const Duration(milliseconds: 500));
-    loadingDialog.close();
+    hideLoading(context);
   }
 }

@@ -179,13 +179,11 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        final loadingDialog = new LoadingDialog(context);
-
-        loadingDialog.show();
+        showLoading(context);
         AppResponse response = await AccountRepository.instance
             .registerStep4CreatePassword(AccountRegisterState.instance.phone,
                 AccountRegisterState.instance.otp, password);
-        loadingDialog.close();
+        hideLoading(context);
 
         if (response.status) {
           AC.instance.finishLogin(response.data, password);

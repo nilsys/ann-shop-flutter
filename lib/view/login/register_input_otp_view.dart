@@ -201,13 +201,11 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        final loadingDialog = new LoadingDialog(context, message: 'Xác nhận OTP...');
-
-        loadingDialog.show();
+        showLoading(context, message: 'Xác nhận OTP...');
         AppResponse response = await AccountRepository.instance
             .registerStep3ValidateOTP(AccountRegisterState.instance.phone,
                 AccountRegisterState.instance.otp);
-        loadingDialog.close();
+        hideLoading(context);
 
         if (response.status) {
           Navigator.pushNamedAndRemoveUntil(context, 'user/register/password',
@@ -230,13 +228,11 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        final loadingDialog = new LoadingDialog(context);
-
-        loadingDialog.show();
+        showLoading(context);
         AppResponse response = await AccountRepository.instance
             .registerStep2RequestOTP(AccountRegisterState.instance.phone,
                 AccountRegisterState.instance.randomNewOtp());
-        loadingDialog.close();
+        hideLoading(context);
 
         if (response.status) {
           AccountRegisterState.instance.timeOTP = DateTime.now();

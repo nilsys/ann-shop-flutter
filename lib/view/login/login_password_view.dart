@@ -167,13 +167,10 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        final loadingDialog =
-            new LoadingDialog(context, message: 'Đăng nhập...');
-
-        loadingDialog.show();
+        showLoading(context, message: 'Đăng nhập...');
         final AppResponse response =
             await AccountRepository.instance.login(widget.phone, password);
-        loadingDialog.close();
+        hideLoading(context);
 
         if (response.status) {
           AC.instance.finishLogin(response.data, password);

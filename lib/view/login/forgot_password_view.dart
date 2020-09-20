@@ -174,12 +174,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
   Future _onForgotPassword() async {
     try {
-      final loadingDialog = new LoadingDialog(context);
-
-      loadingDialog.show();
+      showLoading(context);
       AppResponse response = await AccountRepository.instance
           .forgotPasswordByBirthDay(widget.phone, birthDay);
-      loadingDialog.close();
+      hideLoading(context);
 
       if (response.status) {
         /// go to update password
@@ -204,13 +202,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         return;
       }
 
-      final loadingDialog = new LoadingDialog(context, message: 'Gửi OTP...');
-
-      loadingDialog.show();
+      showLoading(context, message: 'Gửi OTP...');
       AppResponse response = await AccountRepository.instance
           .registerStep2RequestOTP(
               widget.phone, AccountRegisterState.instance.randomNewOtp());
-      loadingDialog.close();
+      hideLoading(context);
 
       if (response.status) {
         AccountRegisterState.instance.timeOTP = DateTime.now();

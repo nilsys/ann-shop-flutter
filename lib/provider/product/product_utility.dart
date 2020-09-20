@@ -9,7 +9,6 @@ import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
 
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -121,12 +120,10 @@ class ProductUtility {
   Future _onShare(BuildContext context, Product product) async {
     try {
       final message = await _onCopy(context, product.productID);
-      final loadingDialog = new LoadingDialog(context, message: 'Đang tải...');
-
-      loadingDialog.show();
+      showLoading(context, message: 'Đang tải...');
       final images = await ProductRepository.instance
           .loadProductAdvertisementImage(product.productID);
-      loadingDialog.close();
+      hideLoading(context);
       if (isNullOrEmpty(images) == false) {
         await Navigator.pushNamed(context, 'product/detail/share-social',
             arguments: {

@@ -48,12 +48,10 @@ class ANNDownload {
 
     // endregion
 
-    var loadingDialog = new LoadingDialog(context, message: 'Đang tải...');
+    showLoading(context, message: 'Đang tải...');
     var cache = DefaultCacheManager();
     var downloaded = 0;
     var count = images.length;
-
-    loadingDialog.show();
     for (var index = 0; index < count; index++) {
       await Future.delayed(const Duration(milliseconds: 500));
 
@@ -69,7 +67,7 @@ class ANNDownload {
               (e) => _logging.logError('Save the image into the gallery', e));
 
           downloaded++;
-          loadingDialog.message = 'Đã tải $downloaded/$count hình';
+          updateLoading('Đã tải $downloaded/$count hình');
         }
       } catch (e) {
         _logging.logError('Cache Manger', e);
@@ -78,11 +76,11 @@ class ANNDownload {
 
     await Future.delayed(const Duration(milliseconds: 500));
     if (downloaded == 0)
-      loadingDialog.message = 'Đã xảy ra lỗi trong quá trình tải hình.';
+      updateLoading('Đã xảy ra lỗi trong quá trình tải hình.');
     else
-      loadingDialog.message = 'Đã tải xong';
+      updateLoading('Đã tải xong');
 
     await Future.delayed(const Duration(milliseconds: 500));
-    loadingDialog.close();
+    hideLoading(context);
   }
 }

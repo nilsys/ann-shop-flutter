@@ -359,9 +359,7 @@ class _SharePageState extends State<SharePage> {
 
     final List<String> files = [];
     final Map<String, List<int>> mapByte = {};
-    final loadingDialog = new LoadingDialog(context, message: 'Đang tải...');
-
-    loadingDialog.show();
+    showLoading(context, message: 'Đang tải...');
     // TODO: At share in the product, the clipboard is double copy
     await Clipboard.setData(new ClipboardData(text: message));
 
@@ -375,10 +373,10 @@ class _SharePageState extends State<SharePage> {
         if (Platform.isAndroid && fixZalo)
           ImageGallerySaver.saveImage(mapByte['image_$i.png'])
               .catchError((e) => print(e));
-        loadingDialog.message = 'Đã tải ${i + 1}/${imagesSelected.length} hình';
+        updateLoading('Đã tải ${i + 1}/${imagesSelected.length} hình');
       }).catchError((e) => print(e));
     }
-    loadingDialog.close();
+    hideLoading(context);
 
     if (files.length == 0) {
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',

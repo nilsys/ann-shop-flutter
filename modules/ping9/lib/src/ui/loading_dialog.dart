@@ -3,148 +3,112 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quiver/strings.dart';
 
-class LoadingDialog {
-  // region Parameters
-  BuildContext _context;
-  StreamController _streamController;
+String _dialogMessage = '';
+StreamController<String> _streamController =
+    StreamController<String>.broadcast();
 
-  // endregion
+_ProgressDialog _progressDialog;
 
-  // region Setter
-  set message(String value) {
-    _streamController.add(value);
+void showLoading(BuildContext context,
+    {String message = '', Color bgRoundedColor}) {
+  if (_progressDialog == null) {
+    _progressDialog = _ProgressDialog(bgRoundedColor: bgRoundedColor)
+      ..show(context);
+    _dialogMessage = message;
+  }
+}
+
+void hideLoading(BuildContext context) {
+  if (_progressDialog != null) {
+    _progressDialog.hide(context);
+    _progressDialog = null;
+  }
+}
+
+void updateLoading(String message) {
+  _dialogMessage = message;
+  _streamController.add(message);
+}
+
+class _ProgressDialog {
+  _ProgressDialog({this.bgRoundedColor});
+
+  final Color bgRoundedColor;
+
+  void hide(BuildContext context) {
+    Navigator.of(context).pop();
   }
 
-  // endregion
-
-  LoadingDialog(BuildContext context, {String message = ''}) {
-    _context = context;
-    _streamController = StreamController();
-    _streamController.add(message);
-  }
-
-  Future<void> show() async {
-    // Create loading by the devices
-    if (!(Platform.isIOS || Platform.isAndroid)) return null;
-
-    print(_streamController);
-    return showDialog<void>(
-      context: _context,
+  void show(BuildContext context) {
+    showDialog<dynamic>(
+      context: context,
       barrierDismissible: false,
-      builder: (_) => new Material(
-        type: MaterialType.transparency,
-        child: StreamBuilder(
+      builder: (context) {
+        return Material(
+          type: MaterialType.transparency,
+          child: StreamBuilder(
+            initialData: _dialogMessage,
             stream: _streamController.stream,
-            builder: (context, snapshot) => new Center(
-                  child: Platform.isIOS
-                      ? _iosLoading(snapshot.hasData ? snapshot.data : '')
-                      : _androidLoading(snapshot.hasData ? snapshot.data : ''),
-                )),
-      ),
-    );
-  }
+            builder: (_, builder) {
+              return Center(
+                child: Container(
+                  width: _dialogMessage.isEmpty ? 80 : 130,
+                  decoration: BoxDecoration(
+                    color: bgRoundedColor ?? Colors.black87,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        height: 80,
+                        padding: const EdgeInsets.all(20),
+                        alignment: Alignment.center,
+                        child: Platform.isIOS
+                            ? const CupertinoActivityIndicator(
+                                radius: 15,
+                              )
+                            : SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Colors.white,
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation(
+                                      Theme.of(context).primaryColor),
+                                ),
+                              ),
+                      ),
 
-  void close() {
-    _streamController.close();
-    Navigator.pop(_context);
-  }
-
-  // Create the alert dialog for the IOS
-  Container _iosLoading(String message) {
-    var children = new List<Widget>();
-
-    // Cupertino Activity Indicator
-    children.add(new Container(
-      width: double.infinity,
-      height: 80,
-      padding: const EdgeInsets.all(20),
-      alignment: Alignment.center,
-      child: new CupertinoActivityIndicator(
-        radius: 15,
-      ),
-    ));
-
-    // Text message
-    if (!isEmpty(message))
-      children.add(new Container(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-        width: double.infinity,
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+                      /// Bottom
+                      if (_dialogMessage.isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                          width: double.infinity,
+                          child: Text(
+                            _dialogMessage,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: bgRoundedColor != null
+                                  ? Colors.black87
+                                  : Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
-        ),
-      ));
-
-    return new Container(
-      width: isEmpty(message) ? 80 : 130,
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: children,
-      ),
-    );
-  }
-
-  // Create the alert dialog for the Android
-  Container _androidLoading(String message) {
-    var children = new List<Widget>();
-
-    // Cupertino Activity Indicator
-    children.add(new Container(
-        width: double.infinity,
-        height: 80,
-        padding: const EdgeInsets.all(20),
-        alignment: Alignment.center,
-        child: SizedBox(
-          width: 30,
-          height: 30,
-          child: CircularProgressIndicator(
-            backgroundColor: Colors.white,
-            strokeWidth: 2,
-            valueColor: AlwaysStoppedAnimation(Theme.of(_context).primaryColor),
-          ),
-        )));
-
-    // Text message
-    if (!isEmpty(message))
-      children.add(new Container(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-        width: double.infinity,
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ));
-
-    return new Container(
-      width: isEmpty(message) ? 80 : 130,
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: children,
-      ),
+        );
+      },
     );
   }
 }

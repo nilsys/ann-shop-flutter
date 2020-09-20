@@ -150,13 +150,10 @@ class _LoginViewState extends State<LoginView> {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
       try {
-        final loadingDialog =
-            new LoadingDialog(context, message: 'Kiểm tra số điện thoại...');
-
-        loadingDialog.show();
+        showLoading(context, message: 'Kiểm tra số điện thoại...');
         final AppResponse response =
             await AccountRepository.instance.checkPhoneNumber(phone);
-        loadingDialog.close();
+        hideLoading(context);
 
         if (response.status) {
           if (response.data) {
@@ -219,13 +216,11 @@ class _LoginViewState extends State<LoginView> {
         return;
       }
 
-      final loadingDialog = new LoadingDialog(context, message: 'Gửi OTP...');
-
-      loadingDialog.show();
+      showLoading(context, message: 'Gửi OTP...');
       final AppResponse response = await AccountRepository.instance
           .registerStep2RequestOTP(
               phone, AccountRegisterState.instance.randomNewOtp());
-      loadingDialog.close();
+      hideLoading(context);
 
       if (response.status) {
         AccountRegisterState.instance.timeOTP = DateTime.now();

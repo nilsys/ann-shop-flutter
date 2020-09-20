@@ -65,12 +65,10 @@ class _PromotionItemState extends State<PromotionItem> {
   }
 
   Future _submit() async {
-    var loadingDialog = new LoadingDialog(context, message: 'Đang xử lý...');
-
-    loadingDialog.show();
+    showLoading(context, message: 'Đang xử lý...');
     final _result =
         await CouponRepository.instance.receiveCoupon(widget.data.code);
-    loadingDialog.close();
+    hideLoading(context);
 
     if (isNullOrEmpty(_result)) {
       await AppPopup.showCustomDialog(context, content: [

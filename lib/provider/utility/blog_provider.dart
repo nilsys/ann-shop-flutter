@@ -36,7 +36,15 @@ class BlogProvider with ChangeNotifier {
     }
   }
 
-  fetchBlog() async {
+  Future loading;
+
+  Future fetchBlog() async {
+    loading = _fetchBlog();
+    await loading;
+    loading = null;
+  }
+
+  Future _fetchBlog() async {
     try {
       category.loading = 'loading';
       notifyListeners();
