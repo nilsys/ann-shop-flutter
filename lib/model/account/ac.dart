@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ann_shop_flutter/core/app_onesignal.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_token.dart';
 import 'package:ann_shop_flutter/model/account/no_login_info.dart';
@@ -35,18 +36,21 @@ class AC {
     token = AccountToken.fromJson(response['token']);
     StorageManager.instance.setObject(_keyToken, json.encode(token.toJson()));
     AppHttp.setTokenApi(token?.accessToken);
+    AppOneSignal.instance.sendTagsUserInfo();
   }
 
   void clearToken() {
     token = null;
     AppHttp.setTokenApi(token?.accessToken);
     StorageManager.instance.clearObjectByKey(_keyToken);
+    AppOneSignal.instance.sendTagsUserInfo();
   }
 
   updateAccountInfo(Account _account) {
     this.account = _account;
     StorageManager.instance
         .setObject(_keyAccount, json.encode(account.toJson()));
+    AppOneSignal.instance.sendTagsUserInfo();
   }
 
   loadFormLocale() async {

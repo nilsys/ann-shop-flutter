@@ -1,4 +1,6 @@
 import 'package:ann_shop_flutter/core/app_action.dart';
+import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/main.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +57,10 @@ class AppOneSignal {
     OneSignal.shared.setNotificationOpenedHandler((notificationOpen) {
       _processNotificationReceived(notificationOpen.notification, false);
     });
+
+    Future.delayed(Duration(seconds: 4)).then((value) {
+      sendTagsUserInfo();
+    });
   }
 
   void _processNotificationReceived(OSNotification notification, bool init) {
@@ -65,7 +71,7 @@ class AppOneSignal {
     if (isNullOrEmpty(data)) {
       final action = data['action'] ?? '';
       final value = data['actionValue'] ?? '';
-      final message = data['message'] ?? 'message';
+      final message = data['message'] ?? 'Notification';
 
       if (init) {
         AppAction.instance
@@ -76,6 +82,19 @@ class AppOneSignal {
       }
     } else if (isNullOrEmpty(launchUrl) == false) {
       launch(launchUrl);
+    }
+  }
+
+  void sendUserTag() {
+    Account user = AC.instance.account;
+    if (AC.instance.isLogin && user != null) {
+      sendTags({
+        NoticeTags.full_name: user.fullName,
+        NoticeTags.phone: user.phone,
+        NoticeTags.city: user.city
+      });
+    } else {
+      deleteTags([NoticeTags.full_name, NoticeTags.phone, NoticeTags.city]);
     }
   }
 
@@ -99,6 +118,7 @@ class AppOneSignal {
 }
 
 class NoticeTags {
-  static const String logon = "logon";
-  static const String last_name = "full_name";
+  static const String full_name = "full_name";
+  static const String phone = "phone";
+  static const String city = "city";
 }
