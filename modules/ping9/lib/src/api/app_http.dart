@@ -4,12 +4,11 @@ import 'package:stack_trace/stack_trace.dart';
 
 class AppHttp {
   static Map<String, String> get _headers => {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
-    "Authorization": "Bearer $tokenApi"
-  };
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        "Authorization": "Bearer $tokenApi"
+      };
   static String tokenApi;
-
 
   static void setTokenApi(String tokenApi) {
     AppHttp.tokenApi = tokenApi;
@@ -22,13 +21,12 @@ class AppHttp {
       final response = await http
           .get(domain + url, headers: _headers)
           .timeout(const Duration(seconds: 10));
-      debugPrint(_headers.toString());
-      debugPrint('> GET RESPONSE <  $domain$url');
-      log(response.body);
+      // log(_headers.toString());
+      log('> GET RESPONSE [${response.statusCode}]<  $domain$url');
+      // log(response.body);
       return response;
     } catch (e) {
-      debugPrint('> API CATCH <');
-      debugPrint(e.toString());
+      log('> API CATCH < $e');
       rethrow;
     }
   }
@@ -39,32 +37,30 @@ class AppHttp {
       final response = await http
           .post(domain + url, body: body, headers: _headers)
           .timeout(const Duration(seconds: 10));
-      debugPrint('> POST RESPONSE < $domain$url');
-      log(body);
-      log(response.body);
+      log('> POST RESPONSE [${response.statusCode}]< $domain$url');
+      // log(body);
+      // log(response.body);
       return response;
     } catch (e) {
-      debugPrint('> API CATCH <');
-      debugPrint(e.toString());
+      log('> API CATCH < $e');
       rethrow;
     }
   }
+
   static Future<http.Response> patch(String url, {String body}) async {
     try {
       final response = await http
           .patch(domain + url, body: body, headers: _headers)
           .timeout(const Duration(seconds: 10));
-      debugPrint('> PATCH RESPONSE < $domain$url');
-      log(body);
-      log(response.body);
+      log('> PATCH RESPONSE [${response.statusCode}]< $domain$url');
+      // log(body);
+      // log(response.body);
       return response;
     } catch (e) {
-      debugPrint('> API CATCH <');
-      debugPrint(e.toString());
+      log('> API CATCH < $e');
       rethrow;
     }
   }
-
 
   static void log(Object object) {
     final output = "${Trace.current().frames[2].location} | $object";
@@ -72,4 +68,3 @@ class AppHttp {
     pattern.allMatches(output).forEach((match) => debugPrint(match.group(0)));
   }
 }
-

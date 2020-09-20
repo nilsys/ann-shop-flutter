@@ -10,23 +10,9 @@ import 'package:ping9/ping9.dart';
 class ViewController extends ANNController {
   static final _instance = ViewController._internal();
 
-  // endregion
-
-  // region Parameters
-  ANNLogging _logging;
-  ANNDownload _download;
-
-  // endregion
-
-  // region Getter
   static ViewController get instance => _instance;
 
-  // endregion
-
-  ViewController._internal() {
-    _logging = ANNLogging.instance;
-    _download = ANNDownload.instance;
-  }
+  ViewController._internal();
 
   factory ViewController() => instance;
 
@@ -39,18 +25,18 @@ class ViewController extends ANNController {
       if (response.statusCode == HttpStatus.ok) {
         return new ViewModel.formJson(jsonDecode(body));
       } else {
-        _logging.logError('API - Post & Blog', body);
+        ANNLogging.instance.logError('API - Post & Blog', body);
 
         throw Exception('Đã có lỗi xãy ra.');
       }
     } catch (e) {
-      _logging.logError('API - Post & Blog', e);
+      ANNLogging.instance.logError('API - Post & Blog', e);
 
       throw Exception('Đã có lỗi xãy ra.');
     }
   }
 
   Future<void> downloadImage(BuildContext context, List<String> images) async {
-    _download.downloadImages(context, images);
+    ANNDownload.instance.downloadImages(context, images);
   }
 }

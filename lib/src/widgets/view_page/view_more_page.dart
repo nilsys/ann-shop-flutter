@@ -22,16 +22,11 @@ class _ViewMorePageState extends State<ViewMorePage> {
   ViewController _controller;
   Future<ViewModel> _fetchData;
 
-  int _selectedIndex;
-
   @override
   void initState() {
     super.initState();
-
     _controller = ViewController.instance;
     _fetchData = _controller.getViewBySlug(widget.slug);
-
-    _selectedIndex = 0;
   }
 
   @override
@@ -65,15 +60,13 @@ class _ViewMorePageState extends State<ViewMorePage> {
     Widget child;
 
     if (isNullOrEmpty(content))
-      child = new Center(
-        child: Text('Không có nội dung'),
+      child = EmptyListUI(
+        body: "Không có nội dung",
       );
     else
       child = new ListView(
+        padding: EdgeInsets.symmetric(vertical: 16),
         children: <Widget>[
-          SizedBox(
-            height: 15,
-          ),
           HtmlContent(content),
         ],
       );
@@ -96,13 +89,13 @@ class _ViewMorePageState extends State<ViewMorePage> {
       appBar: AppBar(
         title: Text('Đang tải...'),
       ),
-      body: Container(child: SomethingWentWrong(
+      body: SomethingWentWrong(
         onReload: () async {
           setState(() {
             _fetchData = _controller.getViewBySlug(widget.slug);
           });
         },
-      )),
+      ),
     );
   }
 
@@ -114,9 +107,15 @@ class _ViewMorePageState extends State<ViewMorePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              if (isNullOrEmpty(data?.videoUrl) == false)
+                ButtonIconText(
+                  'Tải Video',
+                  Icons.video_library,
+                  onPressed: () => _onClickDownload(context, data.images),
+                ),
               ButtonIconText(
                 'Tải hình',
-                Icons.cloud_download,
+                MaterialCommunityIcons.image_multiple,
                 onPressed: () => _onClickDownload(context, data.images),
               ),
               ButtonIconText(

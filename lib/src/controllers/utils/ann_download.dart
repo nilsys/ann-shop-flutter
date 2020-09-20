@@ -12,12 +12,7 @@ import 'package:ping9/ping9.dart';
 import 'ann_logging.dart';
 
 class ANNDownload {
-  // region Singleton Pattern
   static final _instance = ANNDownload._internal();
-
-  // endregion
-
-  // region Parameters
   ANNLogging _logging;
   PermissionController _permission;
   int _timeout;

@@ -1,3 +1,4 @@
+import 'package:ann_shop_flutter/src/pages/blogs/bloc_category_bar.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
@@ -23,6 +24,8 @@ class _BlogPageState extends State<BlogPage> {
     });
   }
 
+  final GlobalKey appBarKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     BlogProvider provider = Provider.of<BlogProvider>(context);
@@ -43,13 +46,22 @@ class _BlogPageState extends State<BlogPage> {
 
     return Scaffold(
       appBar: AppBar(
+        key: appBarKey,
         title: Text(title),
+        elevation: 0,
+        titleSpacing: 0,
       ),
       body: AC.instance.isLogin == false
           ? RequestLogin()
-          : ListBlog(
-              slug,
-              topObject: _buildCategoryButtonList(provider),
+          : Column(
+              children: [
+                BlogCategoryBar(
+                  appBarKey: appBarKey,
+                ),
+                Expanded(
+                  child: ListBlog(slug),
+                ),
+              ],
             ),
     );
   }

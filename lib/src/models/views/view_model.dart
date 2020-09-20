@@ -8,10 +8,12 @@ class ViewModel {
   DateTime createDate;
   String postContent;
   List<String> images;
+  String videoUrl;
 
   ViewModel.formJson(Map<String, dynamic> json) {
     this.title = json['title'] ?? '';
     this.content = json['content'] ?? '';
+    this.videoUrl = json['video_url'] ?? '';
     this.createDate = DateTime.parse(json['createdDate']) ?? DateTime.now();
 
     if (!isEmpty(this.content)) {
