@@ -78,7 +78,7 @@ class ProductItem extends StatelessWidget {
               padding: EdgeInsets.only(top: 8),
               child: Text(
                 'Lẻ: ' + Utility.formatPrice(product.retailPrice),
-                style: Theme.of(context).textTheme.body2,
+                style: Theme.of(context).textTheme.bodyText1,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

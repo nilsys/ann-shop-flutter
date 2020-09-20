@@ -1,13 +1,9 @@
 import 'dart:async';
 import 'dart:math';
-
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
-import 'package:ping9/ping9.dart';
-
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:fast_qr_reader_view/fast_qr_reader_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -243,7 +239,7 @@ class _ScanViewState extends State<ScanView>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            width: 60,
+            margin: EdgeInsets.only(left: 16, right: 16),
             child: ButtonClose(
               onPressed: () {
                 if (flashOn) {

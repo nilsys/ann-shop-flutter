@@ -96,7 +96,7 @@ class ChooseCityBottomSheet extends StatelessWidget {
                     title,
                     textAlign: TextAlign.left,
                     maxLines: 1,
-                    style: Theme.of(context).textTheme.body2,
+                    style: Theme.of(context).textTheme.bodyText1,
                   ),
                   Icon(Icons.check),
                 ],

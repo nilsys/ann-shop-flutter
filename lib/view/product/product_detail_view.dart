@@ -566,7 +566,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
         ),
         Text(
           'Lưu tất cả hình ảnh của sản phẩm về máy?',
-          style: Theme.of(context).textTheme.body2,
+          style: Theme.of(context).textTheme.bodyText1,
           textAlign: TextAlign.center,
         ),
         CenterButtonPopup(
@@ -599,7 +599,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
           children: [
             TextSpan(
                 text: 'Chọn màu / Chọn size',
-                style: Theme.of(context).textTheme.body2)
+                style: Theme.of(context).textTheme.bodyText1)
           ],
         ),
       ),

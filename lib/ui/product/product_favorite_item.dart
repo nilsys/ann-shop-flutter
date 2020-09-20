@@ -54,7 +54,7 @@ class ProductFavoriteItem extends StatelessWidget {
                           child: Text(
                             data.product.name,
                             textAlign: TextAlign.left,
-                            style: Theme.of(context).textTheme.body2,
+                            style: Theme.of(context).textTheme.bodyText1,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -90,7 +90,7 @@ class ProductFavoriteItem extends StatelessWidget {
                                 'Lẻ: ' +
                                     Utility.formatPrice(
                                         data.product.retailPrice),
-                                style: Theme.of(context).textTheme.body2,
+                                style: Theme.of(context).textTheme.bodyText1,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),

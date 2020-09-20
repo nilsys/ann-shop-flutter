@@ -109,11 +109,13 @@ class _LoginViewState extends State<LoginView> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              const SizedBox(height: 15),
-              BorderButton(
-                onPressed: _skipLogin,
-                child: Text('Để sau'),
-              ),
+              if (AC.instance.requestLogin == false) ...[
+                const SizedBox(height: 15),
+                BorderButton(
+                  onPressed: _skipLogin,
+                  child: Text('Để sau'),
+                ),
+              ],
             ],
           ),
         ),
@@ -181,7 +183,7 @@ class _LoginViewState extends State<LoginView> {
                         style: Theme.of(context).textTheme.bodyText2),
                     TextSpan(
                         text: phone,
-                        style: Theme.of(context).textTheme.body2.merge(
+                        style: Theme.of(context).textTheme.bodyText1.merge(
                             TextStyle(decoration: TextDecoration.underline))),
                     TextSpan(
                         text: ' chưa được đăng ký. Bạn có muốn đăng ký?',

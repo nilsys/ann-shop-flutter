@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ButtonClose extends StatelessWidget {
-
   const ButtonClose({this.onPressed});
+
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onPressed,
       child: Container(
         width: 32,

@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/src/controllers/ann_controller.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_logging.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:ping9/ping9.dart';
 
 class ViewController extends ANNController {

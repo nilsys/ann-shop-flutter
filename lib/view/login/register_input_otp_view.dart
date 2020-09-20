@@ -99,7 +99,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                             style: Theme.of(context).textTheme.bodyText2),
                         TextSpan(
                             text: AccountRegisterState.instance.phone,
-                            style: Theme.of(context).textTheme.body2.merge(
+                            style: Theme.of(context).textTheme.bodyText1.merge(
                                 TextStyle(
                                     decoration: TextDecoration.underline))),
                         TextSpan(
@@ -122,7 +122,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                         padding: EdgeInsets.symmetric(vertical: 15),
                         child: Text(
                           'Gửi lại OTP (00:$countDown)',
-                          style: Theme.of(context).textTheme.body2,
+                          style: Theme.of(context).textTheme.bodyText1,
                         )),
               ),
               TextFormField(

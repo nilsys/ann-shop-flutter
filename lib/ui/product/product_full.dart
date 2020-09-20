@@ -21,170 +21,97 @@ class ProductFull extends StatefulWidget {
 }
 
 class _ProductFullState extends State<ProductFull> {
-  int currentPage = 0;
   bool isDownload = false;
-  int itemCount = 9;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    itemCount = min(widget.product.images.length + 1, 9);
-  }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width - (defaultPadding * 2);
-    double height = width * 4 / 3;
     return Container(
-      margin: EdgeInsets.all(defaultPadding),
+      margin: EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 12),
       decoration: BoxDecoration(
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Colors.black.withAlpha(70),
             offset: Offset(1.0, 4.0),
-            blurRadius: 5.0,
+            blurRadius: 8.0,
           ),
         ],
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
+        borderRadius: BorderRadius.circular(5),
         color: Colors.white,
       ),
-      child: InkWell(
-        onTap: () {
-          Routes.showProductDetail(context, product: widget.product);
-        },
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: [
-                Container(
-                  height: height,
-                  child: PageView.builder(
-                    onPageChanged: (index) {
-                      setState(() {
-                        currentPage = index;
-                      });
-                    },
-                    itemCount: itemCount,
-                    itemBuilder: (context, index) {
-                      if (index == (itemCount - 1)) {
-                        return Container(
-                          color: Colors.grey,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: <Widget>[
-                              AppImage(
-                                AppImage.imageDomain + widget.product.images[0],
-                                fit: BoxFit.contain,
-                              ),
-                              Container(
-                                color: Colors.black.withAlpha(100),
-                                alignment: Alignment.center,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.filter,
-                                      color: Colors.white,
-                                      size: 40,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      'Xem thêm',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .button
-                                          .merge(
-                                              TextStyle(color: Colors.white)),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      } else {
-                        return AppImage(
-                          AppImage.imageDomain + widget.product.images[index],
-                          fit: BoxFit.contain,
-                        );
-                      }
-                    },
-                  ),
-                ),
-                Positioned(
-                  left: 0,
-                  top: 0,
-                  child: BadgeTagProductUI(widget.product.badge),
-                ),
-                Positioned(
-                  width: width,
-                  child: _buildListDot(),
-                  bottom: 15,
-                ),
-              ],
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 10),
-                    child: Text(
-                      widget.product.name,
-                      style: Theme.of(context).textTheme.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Text(
-                    'Mã: ' + widget.product.sku,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subhead
-                        .merge(TextStyle(color: Colors.grey)),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Container(
-                    height: 30,
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'Giá sỉ: ${widget.product.regularDisplay}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .body2
-                              .merge(widget.product.regularDisplayStyle),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Text(
-                          'Giá lẻ: ' +
-                              Utility.formatPrice(widget.product.retailPrice),
-                          style: Theme.of(context).textTheme.body2,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                  _buildButtonControl(context),
-                  SizedBox(
-                    height: 15,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: InkWell(
+          onTap: () {
+            Routes.showProductDetail(context, product: widget.product);
+          },
+          child: Column(
+            children: <Widget>[
+              Stack(
+                children: [
+                  ImageGrid(widget.product.images),
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    child: BadgeTagProductUI(widget.product.badge),
                   ),
                 ],
               ),
-            )
-          ],
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 15, bottom: 10),
+                      child: Text(
+                        widget.product.name,
+                        style: Theme.of(context).textTheme.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Text(
+                      'Mã: ' + widget.product.sku,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .merge(TextStyle(color: Colors.grey)),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Container(
+                      height: 30,
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'Giá sỉ: ${widget.product.regularDisplay}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .body2
+                                .merge(widget.product.regularDisplayStyle),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Text(
+                            'Giá lẻ: ' +
+                                Utility.formatPrice(widget.product.retailPrice),
+                            style: Theme.of(context).textTheme.bodyText1,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                    _buildButtonControl(context),
+                    SizedBox(height: 8),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -193,10 +120,10 @@ class _ProductFullState extends State<ProductFull> {
   _buildButtonControl(context) {
     bool favorite = Provider.of<FavoriteProvider>(context)
         .containsInFavorite(widget.product.productID);
-    Color iconColor = Theme.of(context).primaryColor;
+    Color iconColor = AppStyles.dartIcon;
 
     return Container(
-      height: 50,
+      height: 40,
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -255,26 +182,6 @@ class _ProductFullState extends State<ProductFull> {
           ),
         ],
       ),
-    );
-  }
-
-  _buildListDot() {
-    List listIndex = List.generate(itemCount, (index) => index);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: listIndex
-          .map(
-            (index) => Container(
-              margin: EdgeInsets.all(2),
-              width: index == currentPage ? 16 : 8,
-              height: 8,
-              decoration: BoxDecoration(
-                color: index == currentPage ? Colors.white : Colors.grey,
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-              ),
-            ),
-          )
-          .toList(),
     );
   }
 }

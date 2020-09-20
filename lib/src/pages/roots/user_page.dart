@@ -222,7 +222,7 @@ class _UserPageState extends State<UserPage> {
                     ),
                     Text(
                       'Đăng nhập/Đăng ký',
-                      style: Theme.of(context).textTheme.body2.merge(
+                      style: Theme.of(context).textTheme.bodyText1.merge(
                           TextStyle(color: Theme.of(context).primaryColor)),
                     )
                   ],

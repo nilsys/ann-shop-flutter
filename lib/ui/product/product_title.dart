@@ -57,7 +57,7 @@ class ProductTitle extends StatelessWidget {
                       child: Text(
                         product.name,
                         textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.body2,
+                        style: Theme.of(context).textTheme.bodyText1,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -89,7 +89,7 @@ class ProductTitle extends StatelessWidget {
                           SizedBox(width: 20),
                           Text(
                             'Lẻ: ' + Utility.formatPrice(product.retailPrice),
-                            style: Theme.of(context).textTheme.body2,
+                            style: Theme.of(context).textTheme.bodyText1,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),

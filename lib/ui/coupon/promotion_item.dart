@@ -53,7 +53,7 @@ class _PromotionItemState extends State<PromotionItem> {
               style: Theme.of(context).textTheme.bodyText2),
           TextSpan(
               text: '\"${widget.data.name}\"',
-              style: Theme.of(context).textTheme.body2),
+              style: Theme.of(context).textTheme.bodyText1),
         ]),
       ),
       const SizedBox(height: 15),
