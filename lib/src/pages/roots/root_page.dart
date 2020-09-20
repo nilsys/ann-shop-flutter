@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:ann_shop_flutter/core/app_dynamic_links.dart';
+import 'package:ann_shop_flutter/service/app_dynamic_links.dart';
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/core/app_onesignal.dart';
+import 'package:ann_shop_flutter/service/app_onesignal.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/utility/search_provider.dart';
 import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
@@ -12,7 +12,6 @@ import 'package:ann_shop_flutter/src/pages/roots/home_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/search_page.dart';
 import 'package:ann_shop_flutter/src/pages/roots/user_page.dart';
 import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
-
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +23,6 @@ class RootPage extends StatefulWidget {
 
 class _RootPageState extends State<RootPage>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
-  // region Parameters
   Timer _timer;
 
   List<Widget> pageList;
@@ -35,14 +33,14 @@ class _RootPageState extends State<RootPage>
   void initState() {
     super.initState();
 
-    AppDynamicLinks.instance.checkAndInit();
+    AppDynamicLinks.instance.checkAndInit(context);
+    AppOneSignal.instance.initOneSignalOpenedHandler(context);
     WidgetsBinding.instance.addObserver(this);
 
     _timer = new Timer(const Duration(seconds: 5), () {
       try {
         Core.instance.versionCheck(context);
       } catch (e) {}
-      AppOneSignal.instance.checkAndInit();
     });
 
     pageList = new List<Widget>();
@@ -64,10 +62,11 @@ class _RootPageState extends State<RootPage>
   @override
   Widget build(BuildContext context) {
     return Consumer<RootPageProvider>(
-        builder: (context, navigation, _) => new Scaffold(
-            body: _buildBody(context, navigation.selectedPage),
-            bottomNavigationBar:
-                _buildBottomNavigationBar(context, navigation)));
+      builder: (context, navigation, _) => new Scaffold(
+        body: _buildBody(context, navigation.selectedPage),
+        bottomNavigationBar: _buildBottomNavigationBar(context, navigation),
+      ),
+    );
   }
 
   // region build the page

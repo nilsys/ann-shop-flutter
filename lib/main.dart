@@ -1,4 +1,4 @@
-import 'package:ann_shop_flutter/core/app_analytics.dart';
+import 'package:ann_shop_flutter/service/app_analytics.dart';
 import 'package:ann_shop_flutter/provider/category/category_provider.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/category_product_provider.dart';
@@ -20,6 +20,8 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import 'service/app_onesignal.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
@@ -82,5 +84,6 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    AppOneSignal.instance.initOneSignal(context);
   }
 }

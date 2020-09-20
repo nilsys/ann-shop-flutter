@@ -10,9 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 class AppOneSignal {
   factory AppOneSignal() => instance;
 
-  AppOneSignal._internal() {
-    _initOneSignal(MyApp.context);
-  }
+  AppOneSignal._internal();
 
   static final AppOneSignal instance = AppOneSignal._internal();
 
@@ -20,9 +18,7 @@ class AppOneSignal {
   String pushToken;
   final _privateKey = "4cfab7f0-6dc2-4004-a631-fc4ba7cbf046";
 
-  void checkAndInit() {}
-
-  Future<void> _initOneSignal(BuildContext context) async {
+  Future<void> initOneSignal(BuildContext context) async {
     await OneSignal.shared.init(_privateKey, iOSSettings: {
       OSiOSSettings.autoPrompt: false,
       OSiOSSettings.inAppLaunchUrl: true
@@ -49,7 +45,14 @@ class AppOneSignal {
       // will be called whenever then user's email subscription changes
       // (ie. OneSignal.setEmail(email) is called and the user gets registered
     });
+  }
 
+  bool isInitOpen = false;
+  void initOneSignalOpenedHandler(BuildContext context) {
+    if(isInitOpen){
+      return;
+    }
+    isInitOpen = true;
     OneSignal.shared.setNotificationReceivedHandler((notification) {
 //      _processNotificationReceived(notification, false);
     });
@@ -57,10 +60,7 @@ class AppOneSignal {
     OneSignal.shared.setNotificationOpenedHandler((notificationOpen) {
       _processNotificationReceived(notificationOpen.notification, false);
     });
-
-    Future.delayed(Duration(seconds: 4)).then((value) {
-      sendTagsUserInfo();
-    });
+    sendTagsUserInfo();
   }
 
   void _processNotificationReceived(OSNotification notification, bool init) {

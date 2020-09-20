@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ann_shop_flutter/core/app_onesignal.dart';
+import 'package:ann_shop_flutter/service/app_onesignal.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/account_token.dart';
 import 'package:ann_shop_flutter/model/account/no_login_info.dart';
