@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/src/controllers/views/view_controller.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
@@ -65,20 +66,33 @@ class _ViewMorePageState extends State<ViewMorePage> {
       );
     else
       child = new ListView(
-        padding: EdgeInsets.symmetric(vertical: 16),
         children: <Widget>[
-          HtmlContent(content),
+          if (isNullOrEmpty(data.videoUrl))
+            HtmlContent(content)
+          else
+            ANNPlayer(
+              videoUrl: data.videoUrl,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: defaultPadding, vertical: 16),
+                child: HtmlContent(content),
+              ),
+            ),
         ],
       );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: AppStyles.dartIcon),
+        actionsIconTheme: IconThemeData(color: AppStyles.dartIcon),
+        title: Text(
+          title,
+          style: TextStyle(color: Colors.black),
+        ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-        child: child,
-      ),
+      body: child,
       bottomNavigationBar: _buildBottomNavigationBar(context, data),
     );
   }
