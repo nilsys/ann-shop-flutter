@@ -17,7 +17,7 @@ class CoverRepository {
     /// init
   }
 
-  /// http://xuongann.com/api/flutter/home/banners
+  /// http://backend.xuongann.com/api/flutter/home/banners
   Future<List<Cover>> loadCover(String slug) async {
     try {
       final url = 'flutter/$slug';

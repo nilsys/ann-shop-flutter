@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SeenBlock extends StatelessWidget {
-  SeenBlock({this.exceptID});
+  SeenBlock({this.exceptId});
 
-  final int exceptID;
+  final int exceptId;
   final limit = 10;
 
   @override
@@ -23,7 +23,7 @@ class SeenBlock extends StatelessWidget {
         provider.products == null ? 0 : min(provider.products.length, limit);
     for (int i = 0; i < length; i++) {
       if (provider.products[i] != null &&
-          exceptID != provider.products[i].productID) {
+          exceptId != provider.products[i].productId) {
         children.add(ProductItem(
           provider.products[i],
           width: imageWidth,

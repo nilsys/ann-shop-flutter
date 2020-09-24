@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/provider/utility/app_response.dart';
+import 'package:device_info/device_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:ping9/ping9.dart';
 
@@ -36,10 +36,12 @@ class AccountRepository {
 
   Future<AppResponse> registerStep2RequestOTP(String phone, String otp) async {
     try {
-      String formatPhone = '84' + phone.substring(1);
-      Map data = {"phone": formatPhone, "otp": otp};
-      final url = '${AppHttp.domain}sms/otp';
-      final response = await http.post(url, body: data);
+      var url = '${AppHttp.domain}sms/otp';
+      var headers = {"Content-type": "application/json"};
+      var formatPhone = '84' + phone.substring(1);
+      var data = {"phone": formatPhone, "otp": otp};
+      final response =
+          await http.post(url, headers: headers, body: jsonEncode(data));
 
       if (response.statusCode == HttpStatus.ok) {
         return AppResponse(true);
@@ -54,9 +56,11 @@ class AccountRepository {
 
   Future<AppResponse> registerStep3ValidateOTP(String phone, String otp) async {
     try {
-      Map data = {"phone": phone, "otp": otp};
-      final url = '${AppHttp.domain}flutter/user/confirm-otp';
-      final response = await http.post(url, body: data);
+      var url = '${AppHttp.domain}flutter/user/confirm-otp';
+      var headers = {"Content-type": "application/json"};
+      var data = {"phone": phone, "otp": otp};
+      final response =
+          await http.post(url, headers: headers, body: jsonEncode(data));
 
       if (response.statusCode == HttpStatus.ok) {
         return AppResponse(true);
@@ -72,13 +76,11 @@ class AccountRepository {
   Future<AppResponse> registerStep4CreatePassword(
       String phone, String otp, String password) async {
     try {
-      Map data = {"phone": phone, 'otp': otp, "passwordNew": password};
-      String url = '${AppHttp.domain}flutter/user/create-password';
+      var url = '${AppHttp.domain}flutter/user/create-password';
+      var headers = {"Content-type": "application/json"};
+      var data = {"phone": phone, 'otp': otp, "passwordNew": password};
       final response = await http
-          .post(
-            url,
-            body: data
-          )
+          .post(url, headers: headers, body: jsonEncode(data))
           .timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
@@ -95,13 +97,26 @@ class AccountRepository {
 
   Future<AppResponse> login(String phone, String password) async {
     try {
-      Map data = {"phone": phone, "password": password};
-      String url = '${AppHttp.domain}flutter/user/login';
+      //#region Get Device Info
+      AndroidDeviceInfo androidInfo;
+      IosDeviceInfo iosInfo;
+
+      var deviceInfo = DeviceInfoPlugin();
+      if (Platform.isAndroid)
+        androidInfo = await deviceInfo.androidInfo;
+      else
+        iosInfo = await deviceInfo.iosInfo;
+      //#endregion
+
+      var url = '${AppHttp.domain}flutter/user/login';
+      var headers = {"Content-type": "application/json"};
+      var data = {
+        "phone": phone,
+        "password": password,
+        "device": Platform.isAndroid ? androidInfo.model : iosInfo.model
+      };
       final response = await http
-          .post(
-            url,
-            body: data
-          )
+          .post(url, headers: headers, body: jsonEncode(data))
           .timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
@@ -118,9 +133,17 @@ class AccountRepository {
 
   Future<AppResponse> updateInformation(Account account) async {
     try {
-      final url = 'flutter/user/update-info';
-      final response =
-          await AppHttp.patch(url, body: jsonEncode(account.toJson()));
+      var url = 'flutter/user/update-info';
+      var data = {
+        "phone": account.phone,
+        "fullName": account.fullName,
+        "birthday": account.birthDay,
+        "gender": account.gender,
+        "address": account.address,
+        "city": account.city
+      };
+      final response = await AppHttp.patch(url, body: jsonEncode(data))
+          .timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
@@ -137,15 +160,17 @@ class AccountRepository {
   Future<AppResponse> forgotPasswordByBirthDay(
       String phone, String birthDay) async {
     try {
-      String newPass = birthDay.replaceAll('-', '').substring(0, 6);
-      Map data = {
+      var headers = {"Content-type": "application/json"};
+      var newPass = birthDay.replaceAll('-', '').substring(0, 6);
+      var data = {
         "phone": phone,
         "otp": newPass,
         "birthday": birthDay,
       };
       String url = '${AppHttp.domain}flutter/user/password-new-by-birthday';
-      final response =
-          await http.patch(url, body: data).timeout(Duration(seconds: 10));
+      final response = await http
+          .patch(url, headers: headers, body: jsonEncode(data))
+          .timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
@@ -162,7 +187,7 @@ class AccountRepository {
   Future<AppResponse> changePassword(String newPassword) async {
     try {
       final response = await AppHttp.patch(
-              "flutter/user/change-password?passwordNew=$newPassword")
+              "flutter/user/change-password?newPassword=$newPassword")
           .timeout(Duration(seconds: 10));
 
       if (response.statusCode == HttpStatus.ok) {

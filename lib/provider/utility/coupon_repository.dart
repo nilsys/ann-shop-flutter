@@ -23,7 +23,7 @@ class CouponRepository {
     try {
       final myHeader = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer ${AppHttp.tokenApi}"
+        "Authorization": "Token ${AppHttp.tokenApi}"
       };
 
       final Map<String, String> mapData = {};
@@ -48,7 +48,7 @@ class CouponRepository {
       // send
 //      final response = await request.send();
       final response = await AppHttp.post(url,
-          body: json.encode({'imageBase64': base64Image}));
+          body: jsonEncode({'imageBase64': base64Image}));
 
       return response.statusCode == HttpStatus.ok;
     } catch (e) {
@@ -57,7 +57,7 @@ class CouponRepository {
     return false;
   }
 
-  /// http://xuongann.com/api/flutter/
+  /// http://backend.xuongann.com/api/flutter/
   Future<List<Coupon>> loadMyCoupon() async {
     try {
       final url = 'flutter/coupon/customer';
@@ -83,7 +83,7 @@ class CouponRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/flutter/coupon/promotions
+  /// http://backend.xuongann.com/api/flutter/coupon/promotions
   Future<List<Promotion>> loadListPromotion() async {
     try {
       final url = 'flutter/coupon/promotions';
@@ -109,7 +109,7 @@ class CouponRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/flutter/coupon/${code}
+  /// http://backend.xuongann.com/api/flutter/coupon/${code}
   Future<String> receiveCoupon(String code) async {
     try {
       final url = 'flutter/coupon/$code';

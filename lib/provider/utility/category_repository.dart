@@ -18,7 +18,7 @@ class CategoryRepository {
     /// init
   }
 
-  /// http://xuongann.com/api/flutter/categories
+  /// http://backend.xuongann.com/api/flutter/categories
   Future<List<Category>> loadCategories(String slug) async {
     try {
       final url = 'flutter/$slug';
@@ -53,7 +53,7 @@ class CategoryRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/flutter/home/blocks
+  /// http://backend.xuongann.com/api/flutter/home/blocks
   Future<List<CategoryHome>> loadDataHome() async {
     try {
       final url = 'flutter/home/blocks';

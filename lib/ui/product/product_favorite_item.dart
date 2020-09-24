@@ -115,7 +115,7 @@ class ProductFavoriteItem extends StatelessWidget {
                 ),
                 onPressed: () {
                   Provider.of<FavoriteProvider>(context, listen: false)
-                      .removeProduct(data.product.productID);
+                      .removeProduct(data.product.productId);
                 },
               ),
             )

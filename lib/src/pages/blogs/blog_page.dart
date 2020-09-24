@@ -33,10 +33,10 @@ class _BlogPageState extends State<BlogPage> {
     String slug;
 
     // Get title
-    if (provider.currentCategory == null)
-      title = 'Bài viết';
-    else
-      title = provider.currentCategory.name;
+    // if (provider.currentCategory == null)
+    title = 'Bài viết';
+    // else
+    //   title = provider.currentCategory.name;
 
     // Get slug
     if (provider.currentCategory == null)

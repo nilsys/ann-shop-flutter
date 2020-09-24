@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:ann_shop_flutter/core/app_action.dart';
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
 
@@ -18,7 +17,6 @@ class _HomeBannerState extends State<HomeBanner>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     time = Timer.periodic(Duration(seconds: 8), _autoChangePage);
   }
@@ -42,7 +40,6 @@ class _HomeBannerState extends State<HomeBanner>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     time.cancel();
     super.dispose();
   }

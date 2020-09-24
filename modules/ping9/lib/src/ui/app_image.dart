@@ -9,7 +9,7 @@ class AppImage extends StatelessWidget {
   final String url;
   final BoxFit fit;
   final bool showLoading;
-  static String imageDomain = "http://xuongann.com/";
+  static String imageDomain = "http://backend.xuongann.com";
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,10 @@ class AppImage extends StatelessWidget {
       fit: fit,
       placeholder: showLoading
           ? (context, url) {
-        return Center(
-          child: Indicator(),
-        );
-      }
+              return Center(
+                child: Indicator(),
+              );
+            }
           : null,
       errorWidget: (context, url, error) => Icon(Icons.error),
     );
