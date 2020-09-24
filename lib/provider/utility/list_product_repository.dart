@@ -101,7 +101,7 @@ class ListProductRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/flutter/products?categorySlugList[0]=ao-thun-nu&categorySlugList[1]=so-mi-nu
+  /// http://backend.xuongann.com/api/flutter/products?categorySlugList[0]=ao-thun-nu&categorySlugList[1]=so-mi-nu
   Future<List<Product>> _loadByListCategory(List<String> names,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     var categorySlugList = 'categorySlugList[0]=${names[0]}';
@@ -127,7 +127,7 @@ class ListProductRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/flutter/products?categorySlug=bao-li-xi-tet&pageNumber=1&pageSize=28&sort=4
+  /// http://backend.xuongann.com/api/flutter/products?categorySlug=bao-li-xi-tet&pageNumber=1&pageSize=28&sort=4
   Future<List<Product>> _loadByCategory(String name,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
@@ -149,7 +149,7 @@ class ListProductRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/flutter/products?productSearch
+  /// http://backend.xuongann.com/api/flutter/products?productSearch
   Future<List<Product>> loadBySearch(String text,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
@@ -190,7 +190,7 @@ class ListProductRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/flutter/products?productSKU=cs001
+  /// http://backend.xuongann.com/api/flutter/products?productSKU=cs001
   Future<List<Product>> loadBySku(String sku,
       {page = 1, pageSize = itemPerPage, AppFilter filter}) async {
     try {
@@ -214,7 +214,7 @@ class ListProductRepository {
 
   cacheProduct(String _keyCache, List<Product> products) {
     var myJsonString =
-        json.encode(products.map((value) => value.toJson()).toList());
+        jsonEncode(products.map((value) => value.toJson()).toList());
     StorageManager.instance
         .setObject(_prefixCategoryKey + _keyCache, myJsonString);
   }

@@ -53,6 +53,9 @@ dependencies:
   avatar_glow: ^1.2.0
   flushbar: ^1.10.4
 
+  # Device Info
+  device_info: ^0.4.2+8
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

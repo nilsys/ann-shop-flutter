@@ -22,7 +22,8 @@ class CopyController {
 
   loadCopySetting() async {
     try {
-      var response = await StorageManager.instance.getObjectByKey(_keyCopySetting);
+      var response =
+          await StorageManager.instance.getObjectByKey(_keyCopySetting);
       if (response == null) {
         copySetting = CopySetting();
       } else {
@@ -37,7 +38,7 @@ class CopyController {
   }
 
   saveCopySetting() {
-    var myJsonString = json.encode(copySetting.toJson());
+    var myJsonString = jsonEncode(copySetting.toJson());
     StorageManager.instance.setObject(_keyCopySetting, myJsonString);
   }
 }

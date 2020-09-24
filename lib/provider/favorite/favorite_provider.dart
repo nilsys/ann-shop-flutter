@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
 
-
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -21,7 +20,8 @@ class FavoriteProvider with ChangeNotifier {
   Future loadShoppingList() async {
     try {
       /// shopping
-      final response = await StorageManager.instance.getObjectByKey(_keyLocaleFavorite);
+      final response =
+          await StorageManager.instance.getObjectByKey(_keyLocaleFavorite);
       if (isNullOrEmpty(response)) {
         products = [];
       } else {
@@ -36,7 +36,7 @@ class FavoriteProvider with ChangeNotifier {
 
   saveShoppingList() {
     var myJsonString =
-        json.encode(products.map((value) => value.toJson()).toList());
+        jsonEncode(products.map((value) => value.toJson()).toList());
     StorageManager.instance.setObject(_keyLocaleFavorite, myJsonString);
   }
 
@@ -47,7 +47,7 @@ class FavoriteProvider with ChangeNotifier {
     }
 
     List<ProductFavorite> array =
-        products.where((p) => p.product.productID == item.productID).toList();
+        products.where((p) => p.product.productId == item.productId).toList();
     if (isNullOrEmpty(array)) {
       products.add(ProductFavorite(product: item, count: count));
     } else {
@@ -75,15 +75,15 @@ class FavoriteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  removeProduct(int productID) {
-    products.removeWhere((p) => p.product.productID == productID);
+  removeProduct(int productId) {
+    products.removeWhere((p) => p.product.productId == productId);
     saveShoppingList();
     notifyListeners();
   }
 
-  bool containsInFavorite(int productID) {
+  bool containsInFavorite(int productId) {
     for (var m in products) {
-      if (m.product.productID == productID) return true;
+      if (m.product.productId == productId) return true;
     }
     return false;
   }

@@ -11,7 +11,7 @@ class AddFavoriteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool favorite = Provider.of<FavoriteProvider>(context)
-        .containsInFavorite(product.productID);
+        .containsInFavorite(product.productId);
 
     return Container(
       alignment: Alignment.topRight,
@@ -19,7 +19,7 @@ class AddFavoriteButton extends StatelessWidget {
         onPressed: () {
           if (favorite) {
             Provider.of<FavoriteProvider>(context, listen: false)
-                .removeProduct(product.productID);
+                .removeProduct(product.productId);
           } else {
             Provider.of<FavoriteProvider>(context, listen: false)
                 .addNewProduct(context, product, count: 1);

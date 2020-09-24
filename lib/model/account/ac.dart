@@ -32,16 +32,16 @@ class AC {
     account = Account.fromJson(response['user']);
     account.password = password;
     StorageManager.instance
-        .setObject(_keyAccount, json.encode(account.toJson()));
+        .setObject(_keyAccount, jsonEncode(account.toJson()));
     token = AccountToken.fromJson(response['token']);
-    StorageManager.instance.setObject(_keyToken, json.encode(token.toJson()));
-    AppHttp.setTokenApi(token?.accessToken);
+    StorageManager.instance.setObject(_keyToken, jsonEncode(token.toJson()));
+    AppHttp.setTokenApi(token?.type, token?.accessToken);
     AppOneSignal.instance.sendTagsUserInfo();
   }
 
   void clearToken() {
     token = null;
-    AppHttp.setTokenApi(token?.accessToken);
+    AppHttp.setTokenApi(token?.type, token?.accessToken);
     StorageManager.instance.clearObjectByKey(_keyToken);
     AppOneSignal.instance.sendTagsUserInfo();
   }
@@ -49,7 +49,7 @@ class AC {
   updateAccountInfo(Account _account) {
     this.account = _account;
     StorageManager.instance
-        .setObject(_keyAccount, json.encode(account.toJson()));
+        .setObject(_keyAccount, jsonEncode(account.toJson()));
     AppOneSignal.instance.sendTagsUserInfo();
   }
 
@@ -71,7 +71,7 @@ class AC {
     if (account == null || token?.accessToken == null) {
       clearToken();
     } else {
-      AppHttp.setTokenApi(token?.accessToken);
+      AppHttp.setTokenApi(token?.type, token?.accessToken);
     }
   }
 
@@ -94,6 +94,6 @@ class AC {
 
   void saveRestrict() {
     StorageManager.instance
-        .setObject(_keyNoLoginInfo, json.encode(noLoginInfo.toJson()));
+        .setObject(_keyNoLoginInfo, jsonEncode(noLoginInfo.toJson()));
   }
 }

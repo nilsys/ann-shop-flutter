@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
-import 'package:http/http.dart' as http;
 
 class BlogRepository {
   static final BlogRepository instance = BlogRepository._internal();
@@ -17,7 +14,7 @@ class BlogRepository {
     /// init
   }
 
-  /// http://xuongann.com/api/flutter/post-categories
+  /// http://backend.xuongann.com/api/flutter/post-categories
   Future<List<BlogCategory>> loadCategoryBlog() async {
     try {
       var url = 'flutter/post-categories';
@@ -42,7 +39,7 @@ class BlogRepository {
     return null;
   }
 
-  /// http://xuongann.com/api/flutter/
+  /// http://backend.xuongann.com/api/flutter/
   Future<List<Cover>> loadBlog(String category,
       {page = 1, pageSize = 20}) async {
     try {

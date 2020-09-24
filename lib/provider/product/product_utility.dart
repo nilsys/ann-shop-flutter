@@ -85,13 +85,13 @@ class ProductUtility {
     }
   }
 
-  Future onCheckAndCopy(BuildContext context, int productID) async {
+  Future onCheckAndCopy(BuildContext context, int productId) async {
     if (AC.instance.canCopyBloc == false) {
       AppSnackBar.askLogin(context);
       return;
     }
     if (CopyController.instance.copySetting.showed) {
-      await _onCopy(context, productID);
+      await _onCopy(context, productId);
       AppSnackBar.showFlushbar(
         context,
         'Đã copy, hãy dán vào nơi đăng sản phẩm',
@@ -102,9 +102,9 @@ class ProductUtility {
     }
   }
 
-  Future<String> _onCopy(BuildContext context, int productID) async {
+  Future<String> _onCopy(BuildContext context, int productId) async {
     final result = await ProductRepository.instance
-        .loadProductAdvertisementContent(productID);
+        .loadProductAdvertisementContent(productId);
     await Clipboard.setData(new ClipboardData(text: result));
     return result;
   }
@@ -119,10 +119,10 @@ class ProductUtility {
 
   Future _onShare(BuildContext context, Product product) async {
     try {
-      final message = await _onCopy(context, product.productID);
+      final message = await _onCopy(context, product.productId);
       showLoading(context, message: 'Đang tải...');
       final images = await ProductRepository.instance
-          .loadProductAdvertisementImage(product.productID);
+          .loadProductAdvertisementImage(product.productId);
       hideLoading(context);
       if (isNullOrEmpty(images) == false) {
         await Navigator.pushNamed(context, 'product/detail/share-social',
@@ -143,14 +143,14 @@ class ProductUtility {
   }
 
   /// save to gallery
-  Future<bool> onDownLoad(BuildContext context, int productID) async {
+  Future<bool> onDownLoad(BuildContext context, int productId) async {
     if (AC.instance.canDownloadProduct == false) {
       AppSnackBar.askLogin(context);
       return false;
     }
     try {
       final images = await ProductRepository.instance
-          .loadProductAdvertisementImage(productID);
+          .loadProductAdvertisementImage(productId);
       if (isNullOrEmpty(images)) {
         AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
             duration: const Duration(seconds: 1));

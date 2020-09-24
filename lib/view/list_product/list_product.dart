@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
@@ -62,7 +61,6 @@ class _BuildAllViewState extends State<ListProduct> {
   @override
   void dispose() {
     listSourceRepository?.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 

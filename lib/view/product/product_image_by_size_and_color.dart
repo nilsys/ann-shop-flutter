@@ -32,7 +32,7 @@ class _ProductImageBySizeAndColorState
         isLoading = true;
       });
       String image = await ProductRepository.instance
-          .loadProductImageSize(detail.productID, currentColor, currentSize);
+          .loadProductImageSize(detail.productId, currentColor, currentSize);
       setState(() {
         isLoading = false;
         if (isNullOrEmpty(image) == false) {
