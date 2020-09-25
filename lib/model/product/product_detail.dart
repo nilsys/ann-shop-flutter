@@ -21,7 +21,7 @@ class ProductDetail extends Product {
   }
 
   ProductDetail.fromProduct(Product product) {
-    productID = product.productID;
+    productId = product.productId;
     sku = product.sku;
     name = product.name;
     slug = product.slug;
@@ -71,8 +71,10 @@ class ProductDetail extends Product {
         _detail.carousel.add(new ProductCarousel.fromJson(v));
       });
     }
-    if(isNullOrEmpty(_detail.carousel)){
-      _detail.carousel=[ProductCarousel(origin: '', feature: '', thumbnail: '')];
+    if (isNullOrEmpty(_detail.carousel)) {
+      _detail.carousel = [
+        ProductCarousel(origin: '', feature: '', thumbnail: '')
+      ];
     }
 
     _detail.content = json['content'] ?? '';
@@ -92,7 +94,7 @@ class ProductDetail extends Product {
     return _detail;
   }
 
-  Product toProduct(){
+  Product toProduct() {
     Map map = toJson();
     return Product.fromJson(map);
   }

@@ -86,7 +86,7 @@ class InAppRepository {
     }
   }
 
-  /// http://xuongann.com/api/flutter/notifications?kind=$kind
+  /// http://backend.xuongann.com/api/flutter/notifications?kind=$kind
   Future<List<InApp>> loadInAppNotification(String kind,
       {page = 1, pageSize = 20}) async {
     try {

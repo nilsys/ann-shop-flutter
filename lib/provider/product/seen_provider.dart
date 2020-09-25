@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
 
-
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:flutter/material.dart';
 import 'package:ping9/ping9.dart';
@@ -34,13 +33,13 @@ class SeenProvider with ChangeNotifier {
 
   saveListProduct() {
     var myJsonString =
-        json.encode(products.map((value) => value.toJson()).toList());
+        jsonEncode(products.map((value) => value.toJson()).toList());
     StorageManager.instance.setObject(_keyLocaleSeenProduct, myJsonString);
   }
 
   addNewProduct(Product item) {
     products.removeWhere((product) =>
-        (product.productID == item.productID || product.sku == item.sku));
+        (product.productId == item.productId || product.sku == item.sku));
     products.insert(0, item);
     if (products.length > maxItem) {
       products.removeLast();
@@ -55,8 +54,8 @@ class SeenProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  removeProduct(int productID) {
-    products.removeWhere((p) => p.productID == productID);
+  removeProduct(int productId) {
+    products.removeWhere((p) => p.productId == productId);
     saveListProduct();
     notifyListeners();
   }

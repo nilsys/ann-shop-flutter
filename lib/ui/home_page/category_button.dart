@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
@@ -28,7 +27,10 @@ class CategoryButton extends StatelessWidget {
               height: 50,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: AppImage(this.item.icon, showLoading: false,),
+                child: AppImage(
+                  this.item.icon,
+                  showLoading: false,
+                ),
               ),
             ),
           ),

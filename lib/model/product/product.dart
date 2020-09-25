@@ -6,7 +6,7 @@ import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 
 class Product {
-  int productID;
+  int productId;
   String sku;
   String name;
   String slug;
@@ -21,7 +21,7 @@ class Product {
 
   List<String> images;
 
-  Product({this.productID});
+  Product({this.productId});
 
   String get getCover {
     return avatar;
@@ -88,7 +88,7 @@ class Product {
     */
     if (hasContent) {
       String result = await ProductRepository.instance
-          .loadProductAdvertisementContent(productID);
+          .loadProductAdvertisementContent(productId);
       if (isNullOrEmpty(result)) {
         value += result;
       }
@@ -98,7 +98,7 @@ class Product {
   }
 
   Product.fromJson(Map<String, dynamic> json) {
-    productID = json['productID'];
+    productId = json['productId'];
     sku = json['sku'];
     name = json['name'];
     slug = json['slug'];
@@ -114,7 +114,7 @@ class Product {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['productID'] = this.productID;
+    data['productId'] = this.productId;
     data['sku'] = this.sku;
     data['name'] = this.name;
     data['slug'] = this.slug;

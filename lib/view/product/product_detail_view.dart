@@ -116,7 +116,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 OptionMenuProduct(
                   onCopy: () {
                     ProductUtility.instance
-                        .onCheckAndCopy(context, detail.productID);
+                        .onCheckAndCopy(context, detail.productId);
                   },
                   onDownload: () {
                     if (data.isCompleted) {
@@ -210,7 +210,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             _buildRelate(),
             _buildByCatalog(),
             SeenBlock(
-              exceptID: detail.productID,
+              exceptId: detail.productId,
             ),
             SliverToBoxAdapter(
               child: ProductBanner(
@@ -481,7 +481,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     }
 
     final favorite = Provider.of<FavoriteProvider>(context)
-        .containsInFavorite(detail.productID);
+        .containsInFavorite(detail.productId);
     return BottomAppBar(
       color: Colors.white,
       child: Container(
@@ -498,7 +498,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                         Icons.favorite,
                         onPressed: () {
                           Provider.of<FavoriteProvider>(context, listen: false)
-                              .removeProduct(detail.productID);
+                              .removeProduct(detail.productId);
                         },
                       )
                     : ButtonIconText(
@@ -516,7 +516,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   onPressed: () {
                     if (detail != null) {
                       ProductUtility.instance
-                          .onDownLoad(context, detail.productID);
+                          .onDownLoad(context, detail.productId);
                     } else {
                       AppSnackBar.showFlushbar(
                           context, 'Đang tải dữ liệu. Thử lại sau');
@@ -539,7 +539,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   'Copy',
                   Icons.content_copy,
                   onPressed: () => ProductUtility.instance
-                      .onCheckAndCopy(context, detail.productID),
+                      .onCheckAndCopy(context, detail.productId),
                 ),
               ],
             ),
@@ -576,7 +576,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
           highlight: ButtonData(
             'Lưu',
             onPressed: () {
-              ProductUtility.instance.onDownLoad(context, detail.productID);
+              ProductUtility.instance.onDownLoad(context, detail.productId);
             },
           ),
         )

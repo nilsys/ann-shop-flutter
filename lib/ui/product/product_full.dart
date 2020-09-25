@@ -119,7 +119,7 @@ class _ProductFullState extends State<ProductFull> {
 
   _buildButtonControl(context) {
     bool favorite = Provider.of<FavoriteProvider>(context)
-        .containsInFavorite(widget.product.productID);
+        .containsInFavorite(widget.product.productId);
     Color iconColor = AppStyles.dartIcon;
 
     return Container(
@@ -135,7 +135,7 @@ class _ProductFullState extends State<ProductFull> {
                   icon: Icon(Icons.favorite),
                   onPressed: () {
                     Provider.of<FavoriteProvider>(context, listen: false)
-                        .removeProduct(widget.product.productID);
+                        .removeProduct(widget.product.productId);
                   },
                 )
               : IconButton(
@@ -155,7 +155,7 @@ class _ProductFullState extends State<ProductFull> {
                 ? null
                 : () {
                     ProductUtility.instance
-                        .onDownLoad(context, widget.product.productID);
+                        .onDownLoad(context, widget.product.productId);
                     setState(() {
                       isDownload = true;
                     });
@@ -177,7 +177,7 @@ class _ProductFullState extends State<ProductFull> {
             ),
             onPressed: () {
               ProductUtility.instance
-                  .onCheckAndCopy(context, widget.product.productID);
+                  .onCheckAndCopy(context, widget.product.productId);
             },
           ),
         ],

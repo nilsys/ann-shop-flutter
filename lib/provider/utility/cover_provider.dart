@@ -5,13 +5,23 @@ import 'package:ann_shop_flutter/provider/utility/cover_repository.dart';
 import 'package:flutter/material.dart';
 
 class CoverProvider extends ChangeNotifier {
-  CoverProvider();
-
-  ApiResponse<List<Cover>> coversHome = ApiResponse();
-  ApiResponse<List<Cover>> postsHome = ApiResponse();
-  ApiResponse<List<Cover>> notificationHome = ApiResponse();
-  ApiResponse<List<Cover>> headerProduct = ApiResponse();
+  ApiResponse<List<Cover>> coversHome;
+  ApiResponse<List<Cover>> postsHome;
+  ApiResponse<List<Cover>> notificationHome;
+  ApiResponse<List<Cover>> headerProduct;
   ApiResponse<List<Cover>> footerProduct = ApiResponse();
+
+  CoverProvider() {
+    coversHome = ApiResponse();
+    postsHome = ApiResponse();
+    notificationHome = ApiResponse();
+    headerProduct = ApiResponse();
+    footerProduct = ApiResponse();
+
+    loadCoverHome();
+    loadNotificationHome();
+    loadPostHome();
+  }
 
   checkLoadCoverHomePage() {
     if (coversHome.isError) {

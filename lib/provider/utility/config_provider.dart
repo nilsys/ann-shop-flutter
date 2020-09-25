@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ConfigProvider with ChangeNotifier {
   ConfigProvider() {
-    _view = ViewType.grid;
+    _view = ViewType.big;
   }
 
   int _view;
@@ -14,7 +14,7 @@ class ConfigProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  forceUpdate(){
+  forceUpdate() {
     notifyListeners();
   }
 

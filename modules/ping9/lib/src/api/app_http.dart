@@ -3,18 +3,20 @@ import 'package:http/http.dart' as http;
 import 'package:stack_trace/stack_trace.dart';
 
 class AppHttp {
+  static String tokenType;
+  static String tokenApi;
   static Map<String, String> get _headers => {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        "Authorization": "Bearer $tokenApi"
+        "Authorization": "$tokenType $tokenApi"
       };
-  static String tokenApi;
 
-  static void setTokenApi(String tokenApi) {
+  static void setTokenApi(String tokenType, String tokenApi) {
+    AppHttp.tokenType = tokenType;
     AppHttp.tokenApi = tokenApi;
   }
 
-  static const domain = 'http://xuongann.com/api/';
+  static const domain = 'http://backend.xuongann.com/api/';
 
   static Future<http.Response> get(String url) async {
     try {
@@ -31,7 +33,7 @@ class AppHttp {
     }
   }
 
-  //json.encode body first
+  //jsonEncode body first
   static Future<http.Response> post(String url, {String body}) async {
     try {
       final response = await http
