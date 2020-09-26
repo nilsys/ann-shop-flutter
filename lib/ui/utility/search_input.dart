@@ -12,7 +12,7 @@ class SearchInput extends StatefulWidget {
 class _SearchInputState extends State<SearchInput> {
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
   }
 

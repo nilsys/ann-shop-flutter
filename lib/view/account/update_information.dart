@@ -221,7 +221,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       children: <Widget>[
                         Text(
                           'Nam',
-                          style: Theme.of(context).textTheme.display1,
+                          style: Theme.of(context).textTheme.headline4,
                         ),
                         Checkbox(
                           focusNode: _sexFocus,
@@ -239,7 +239,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         const SizedBox(
                           width: 50,
                         ),
-                        Text('Nữ', style: Theme.of(context).textTheme.display1),
+                        Text('Nữ', style: Theme.of(context).textTheme.headline4),
                         Checkbox(
                           value: account.gender == 'F',
                           onChanged: (value) {

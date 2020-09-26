@@ -103,9 +103,9 @@ class _UserPageState extends State<UserPage> {
                     onTap: () => _onClickPermission(context)),
                 BorderButton(
                   onPressed: () {
-                    AC.instance.clearToken();
                     Navigator.pushNamedAndRemoveUntil(
                         context, 'user/login', (route) => false);
+                    AC.instance.clearToken();
                     Provider.of<CouponProvider>(context, listen: false)
                         .myCoupons
                         .error = 'logout';
@@ -131,6 +131,12 @@ class _UserPageState extends State<UserPage> {
                 _buildItemCommon('Chính sách bán hàng',
                     icon: Icons.question_answer,
                     onTap: () => Navigator.pushNamed(context, 'shop/policy')),
+                BorderButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'user/login');
+                  },
+                  child: Text('ĐĂNG NHẬP'),
+                ),
               ]
             ]),
           ),

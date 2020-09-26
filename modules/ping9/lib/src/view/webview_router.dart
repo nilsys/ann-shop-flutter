@@ -16,7 +16,7 @@ class _WebViewRouterState extends State<WebViewRouter> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
 
     _title = 'Đang tải...';

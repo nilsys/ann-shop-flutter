@@ -10,7 +10,7 @@ class FixViewInsetsBottom extends StatefulWidget {
 class _FixViewInsetsBottomState extends State<FixViewInsetsBottom> {
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     Future.delayed(Duration(milliseconds: 300)).then((v) {
       Navigator.pop(context);

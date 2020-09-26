@@ -70,7 +70,7 @@ class AppPopup {
               flex: 1,
               child: Text(
                 title,
-                style: Theme.of(context).textTheme.title,
+                style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
                 maxLines: 3,
                 softWrap: true,

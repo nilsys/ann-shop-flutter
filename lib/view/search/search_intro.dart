@@ -56,7 +56,7 @@ class _SearchIntroState extends State<SearchIntro> {
                   flex: 1,
                   child: Text(
                     'Từ Khoá Hot',
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.headline6,
                     maxLines: 1,
                   ),
                 )
@@ -94,7 +94,7 @@ class _SearchIntroState extends State<SearchIntro> {
                         flex: 1,
                         child: Text(
                           'Lịch Sử',
-                          style: Theme.of(context).textTheme.title,
+                          style: Theme.of(context).textTheme.headline6,
                           maxLines: 1,
                         ),
                       ),

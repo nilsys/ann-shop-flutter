@@ -71,7 +71,7 @@ class _ProductFullState extends State<ProductFull> {
       padding: EdgeInsets.symmetric(horizontal: 15),
       child: Text(
         widget.product.name,
-        style: Theme.of(context).textTheme.title,
+        style: Theme.of(context).textTheme.headline6,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),

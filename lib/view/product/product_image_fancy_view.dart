@@ -19,7 +19,6 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _indexImage = widget.data['index'];
     detail = widget.data['data'];

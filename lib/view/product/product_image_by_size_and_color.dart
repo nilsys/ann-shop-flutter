@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
@@ -65,7 +64,7 @@ class _ProductImageBySizeAndColorState
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     _indexImage = widget.data['index'] ?? 0;
     detail = widget.data['data'];

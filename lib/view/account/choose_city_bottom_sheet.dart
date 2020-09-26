@@ -48,7 +48,7 @@ class ChooseCityBottomSheet extends StatelessWidget {
                     'Chọn Tỉnh / Thành phố',
                     textAlign: TextAlign.center,
                     maxLines: 1,
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
                 IconButton(

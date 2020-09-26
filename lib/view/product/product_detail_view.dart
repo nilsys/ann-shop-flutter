@@ -8,7 +8,6 @@ import 'package:ann_shop_flutter/model/product/product_filter.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
 import 'package:ann_shop_flutter/provider/product/product_provider.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
-import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 import 'package:ann_shop_flutter/ui/favorite/favorite_button.dart';
 import 'package:ann_shop_flutter/ui/home_page/product_slide.dart';
 import 'package:ann_shop_flutter/ui/home_page/seen_block.dart';
@@ -171,14 +170,14 @@ class _ProductDetailViewState extends State<ProductDetailView>
                 delegate: SliverChildListDelegate([
                   Text(
                     '${detail.sku} - ${detail.name}',
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                   const SizedBox(height: 10),
                   Text(
                     'Giá sỉ: ${detail.regularDisplay}',
                     style: Theme.of(context)
                         .textTheme
-                        .title
+                        .headline6
                         .merge(detail.regularDisplayStyle),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -186,7 +185,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   const SizedBox(height: 5),
                   Text(
                     'Giá lẻ: ${Utility.formatPrice(detail.retailPrice)}',
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.headline6,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -261,7 +260,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
           child: Text(
             title,
             textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.title,
+            style: Theme.of(context).textTheme.headline6,
           ),
         )
       ]),
@@ -405,7 +404,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   'Xem thêm',
                   style: Theme.of(context)
                       .textTheme
-                      .display1
+                      .headline4
                       .merge(TextStyle(color: Theme.of(context).primaryColor)),
                   textAlign: TextAlign.center,
                 ),

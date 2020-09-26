@@ -42,7 +42,7 @@ class AskLogin extends StatelessWidget {
                 Text(
                   'Đăng Nhập / Đăng Ký',
                   maxLines: 1,
-                  style: Theme.of(context).textTheme.title,
+                  style: Theme.of(context).textTheme.headline6,
                 ),
                 IconButton(
                   icon: Icon(

@@ -1,10 +1,7 @@
-import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/src/widgets/common/gesture_zoom_box.dart';
 import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
-
 import 'package:ping9/ping9.dart';
-
 import 'package:flutter/material.dart';
-import 'package:gesture_zoom_box/gesture_zoom_box.dart';
 
 class ImageView extends StatefulWidget {
   ImageView(this.data);

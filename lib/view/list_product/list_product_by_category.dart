@@ -28,7 +28,7 @@ class ListProductByCategory extends StatefulWidget {
 class _ListProductByCategoryState extends State<ListProductByCategory> {
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
 
     category = widget.data['category'];
@@ -88,7 +88,7 @@ class _ListProductByCategoryState extends State<ListProductByCategory> {
 //              alignment: Alignment.centerLeft,
 //              child: Text(
 //                category.name,
-//                style: Theme.of(context).textTheme.title,
+//                style: Theme.of(context).textTheme.headline6,
 //                overflow: TextOverflow.ellipsis,
 //                textAlign: TextAlign.left,
 //              ),

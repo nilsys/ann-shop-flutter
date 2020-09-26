@@ -16,7 +16,7 @@ class _LanguageButtonState extends State<LanguageButton> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
 
     flags = new Map();

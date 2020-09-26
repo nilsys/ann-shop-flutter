@@ -22,7 +22,7 @@ class NotFoundPage extends StatelessWidget {
             ),
             Text(
               'OOPS! TRANG KHÔNG TỒN TẠI',
-              style: Theme.of(context).textTheme.title,
+              style: Theme.of(context).textTheme.headline6,
             ),
             SizedBox(
               height: 10,

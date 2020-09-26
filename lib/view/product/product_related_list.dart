@@ -63,7 +63,7 @@ class _ProductRelatedListState extends State<ProductRelatedList> {
               child: Text(
                 'Thuộc tính',
                 textAlign: TextAlign.left,
-                style: Theme.of(context).textTheme.title,
+                style: Theme.of(context).textTheme.headline6,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

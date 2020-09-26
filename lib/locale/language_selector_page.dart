@@ -23,7 +23,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     languagesMap = new Map();
     for (var i = 0; i < languageCodesList.length; i++) {
@@ -46,7 +46,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
           children: <Widget>[
             Text(
               AppTranslations.of(context).text("setting_language_title"),
-              style: Theme.of(context).textTheme.title,
+              style: Theme.of(context).textTheme.headline6,
             ),
             Padding(
               padding: EdgeInsets.only(top: 10),
@@ -77,7 +77,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
           },
           child: Text(
             languagesMap[code],
-            style: Theme.of(context).textTheme.title,
+            style: Theme.of(context).textTheme.headline6,
           ),
         ),
       ],

@@ -328,7 +328,7 @@ class _ScanViewState extends State<ScanView>
                   const SizedBox(width: 24),
                   Text(
                     'Nhập mã sản phẩm',
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                   const CloseButton(),
                 ],

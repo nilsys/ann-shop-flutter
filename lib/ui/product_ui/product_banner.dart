@@ -21,7 +21,7 @@ class _ProductBannerState extends State<ProductBanner>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     time = Timer.periodic(Duration(seconds: 5), _autoChangePage);
   }

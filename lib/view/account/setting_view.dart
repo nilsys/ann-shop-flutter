@@ -19,7 +19,7 @@ class _SettingViewState extends State<SettingView> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     this._account = Account.fromJson(AC.instance.account.toJson());
     CopySetting copy = CopyController.instance.copySetting;

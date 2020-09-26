@@ -273,7 +273,7 @@ class _InfoProductState extends State<InfoProduct> {
       child: Text(
         title,
         textAlign: TextAlign.left,
-        style: Theme.of(context).textTheme.title,
+        style: Theme.of(context).textTheme.headline6,
       ),
     );
   }

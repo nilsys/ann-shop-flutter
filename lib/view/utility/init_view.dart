@@ -43,7 +43,7 @@ class _InitViewState extends State<InitView> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     checkAccountInfo();
     CopyController.instance.loadCopySetting();

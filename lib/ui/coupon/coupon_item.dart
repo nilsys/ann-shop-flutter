@@ -21,7 +21,7 @@ class CouponItem extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 5),
           alignment: Alignment.centerLeft,
           child: Text.rich(TextSpan(children: [
-            TextSpan(text: code, style: Theme.of(context).textTheme.title),
+            TextSpan(text: code, style: Theme.of(context).textTheme.headline6),
             TextSpan(text: discount),
           ])),
         ),

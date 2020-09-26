@@ -28,7 +28,7 @@ class _ProductSlideState extends State<ProductSlide> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     controller = new ScrollController();
     currentCategory = widget.group;
