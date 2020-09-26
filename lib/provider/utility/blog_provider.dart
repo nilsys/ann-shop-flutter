@@ -20,7 +20,7 @@ class BlogProvider with ChangeNotifier {
   BlogProvider() {
     // init
     category = ApiResponse();
-    _currentCategory = BlogCategory(name: "Tất cả", filter: BlogCategoryFilter());
+    _currentCategory = BlogCategory(name: "Danh mục bài viết", filter: BlogCategoryFilter());
     fetchBlog();
   }
 

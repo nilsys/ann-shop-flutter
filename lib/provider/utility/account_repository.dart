@@ -118,7 +118,7 @@ class AccountRepository {
       final response = await http
           .post(url, headers: headers, body: jsonEncode(data))
           .timeout(Duration(seconds: 10));
-
+      printTrack(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
         return AppResponse(true, data: parsed);
@@ -204,8 +204,8 @@ class AccountRepository {
   String getMessage(body) {
     try {
       Map parsed = jsonDecode(body);
-      if (parsed.containsKey('Message')) {
-        return parsed['Message'];
+      if (parsed.containsKey('message')) {
+        return parsed['message'];
       }
       if (parsed.containsKey('ModelState')) {}
     } catch (e) {

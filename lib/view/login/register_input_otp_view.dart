@@ -22,15 +22,6 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.offset < -50) {
-        if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
-          FocusScope.of(context).requestFocus(FocusNode());
-        }
-      }
-    });
-
     registerStream();
   }
 
@@ -62,14 +53,11 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     stream.takeWhile((value) {
       return true;
     });
     super.dispose();
   }
-
-  ScrollController _scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -77,102 +65,103 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
       appBar: AppBar(
         title: Text('Nhập mã OTP'),
       ),
-      body: Form(
-        key: _formKey,
-        autovalidate: _autoValidate,
-        child: Container(
-          padding: EdgeInsets.all(defaultPadding),
-          child: ListView(
-            controller: _scrollController,
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                  padding: EdgeInsets.only(bottom: 8),
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                            text:
-                                'Vui lòng nhập mã OTP đã gửi đến số điện thoại ',
-                            style: Theme.of(context).textTheme.bodyText2),
-                        TextSpan(
-                            text: AccountRegisterState.instance.phone,
-                            style: Theme.of(context).textTheme.bodyText1.merge(
-                                TextStyle(
-                                    decoration: TextDecoration.underline))),
-                        TextSpan(
-                            text: '  của quý khách',
-                            style: Theme.of(context).textTheme.bodyText2),
-                      ],
-                    ),
-                    textAlign: TextAlign.center,
-                  )),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: countDown <= 0
-                    ? TextButton(
-                        'Gửi lại OTP',
-                        onPressed: () {
-                          _onResentOTP();
-                        },
-                      )
-                    : Padding(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        child: Text(
-                          'Gửi lại OTP (00:$countDown)',
-                          style: Theme.of(context).textTheme.bodyText1,
-                        )),
-              ),
-              TextFormField(
-                controller: controllerOTP,
-                autofocus: true,
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 15,
-                    fontSize: 25,
-                    color: Colors.black87),
-                textAlign: TextAlign.center,
-                showCursor: false,
-                onFieldSubmitted: (String value) {
-                  this._validateInput();
-                },
-                decoration: InputDecoration(
-                  hintText: '______',
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  errorStyle: Theme.of(context)
-                      .textTheme
-                      .caption
-                      .merge(TextStyle(color: Colors.red)),
+      body: DismissKeyBoard(
+        child: Form(
+          key: _formKey,
+          autovalidate: _autoValidate,
+          child: Container(
+            padding: EdgeInsets.all(defaultPadding),
+            child: ListView(
+              children: <Widget>[
+                SizedBox(
+                  height: 10,
                 ),
-                inputFormatters: [OTPInputFormatter()],
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
-                onChanged: (value) {
-                  setState(() {});
-                },
-                validator: (value) {
-                  if (value != AccountRegisterState.instance.otp) {
-                    return 'OTP không trùng khớp';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              SizedBox(height: 30),
-              RaisedButton(
-                child: Text(
-                  'Xác nhận',
-                  style: TextStyle(color: Colors.white),
+                Container(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                              text:
+                                  'Vui lòng nhập mã OTP đã gửi đến số điện thoại ',
+                              style: Theme.of(context).textTheme.bodyText2),
+                          TextSpan(
+                              text: AccountRegisterState.instance.phone,
+                              style: Theme.of(context).textTheme.bodyText1.merge(
+                                  TextStyle(
+                                      decoration: TextDecoration.underline))),
+                          TextSpan(
+                              text: '  của quý khách',
+                              style: Theme.of(context).textTheme.bodyText2),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    )),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: countDown <= 0
+                      ? TextButton(
+                          'Gửi lại OTP',
+                          onPressed: () {
+                            _onResentOTP();
+                          },
+                        )
+                      : Padding(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Text(
+                            'Gửi lại OTP (00:$countDown)',
+                            style: Theme.of(context).textTheme.bodyText1,
+                          )),
                 ),
-                onPressed: checkLength6() ? _validateInput : null,
-              ),
-            ],
+                TextFormField(
+                  controller: controllerOTP,
+                  autofocus: true,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 15,
+                      fontSize: 25,
+                      color: Colors.black87),
+                  textAlign: TextAlign.center,
+                  showCursor: false,
+                  onFieldSubmitted: (String value) {
+                    this._validateInput();
+                  },
+                  decoration: InputDecoration(
+                    hintText: '______',
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    errorStyle: Theme.of(context)
+                        .textTheme
+                        .caption
+                        .merge(TextStyle(color: Colors.red)),
+                  ),
+                  inputFormatters: [OTPInputFormatter()],
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  validator: (value) {
+                    if (value != AccountRegisterState.instance.otp) {
+                      return 'OTP không trùng khớp';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                SizedBox(height: 30),
+                RaisedButton(
+                  child: Text(
+                    'Xác nhận',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: checkLength6() ? _validateInput : null,
+                ),
+              ],
+            ),
           ),
         ),
       ),

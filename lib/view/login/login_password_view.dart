@@ -1,13 +1,9 @@
-import 'package:ann_shop_flutter/core/core.dart';
-
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
 import 'package:ann_shop_flutter/provider/utility/app_response.dart';
 import 'package:ann_shop_flutter/src/route/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
-
 import 'package:ping9/ping9.dart';
-
 import 'package:ann_shop_flutter/ui/utility/ann-logo.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/bottom_bar_policy.dart';
@@ -33,13 +29,6 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
   String password;
   bool showPassword;
 
-  // endregion
-
-  // region Widget
-  ScrollController _scrollController;
-
-  // endregion
-
   @override
   void initState() {
     super.initState();
@@ -51,18 +40,10 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
       password = _accountController.account.password;
     }
     showPassword = false;
-
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.offset < -50) {
-        FocusScope.of(context).requestFocus(FocusNode());
-      }
-    });
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
   }
 
@@ -73,75 +54,76 @@ class _LoginPasswordViewState extends State<LoginPasswordView> {
         title: const Text('Đăng nhập'),
       ),
       bottomNavigationBar: BottomBarPolicy(),
-      body: Form(
-        key: _formKey,
-        autovalidate: _autoValidate,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-          child: ListView(
-            controller: _scrollController,
-            children: <Widget>[
-              Container(
-                height: 100,
-                margin: const EdgeInsets.only(top: 50, bottom: 40),
-                child: AnnLogo(),
-              ),
-              TextFormField(
-                initialValue: widget.phone,
-                style: TextStyle(fontWeight: FontWeight.w600),
-                enabled: false,
-                readOnly: true,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.phone_iphone),
+      body: DismissKeyBoard(
+        child: Form(
+          key: _formKey,
+          autovalidate: _autoValidate,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  height: 100,
+                  margin: const EdgeInsets.only(top: 50, bottom: 40),
+                  child: AnnLogo(),
                 ),
-              ),
-              const SizedBox(height: 15),
-              TextFormField(
-                initialValue: password,
-                autofocus: true,
-                obscureText: !showPassword,
-                style: TextStyle(fontWeight: FontWeight.w600),
-                onFieldSubmitted: (String value) {
-                  _validateInput();
-                },
-                decoration: InputDecoration(
-                    helperText: ' ',
-                    hintText: 'Nhập mật khẩu',
-                    prefixIcon: Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        showPassword ? Icons.visibility : Icons.visibility_off,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          showPassword = !showPassword;
-                        });
-                      },
-                    )),
-                validator: Validator.passwordValidator,
-                onSaved: (value) {
-                  password = value;
-                },
-              ),
-              const SizedBox(height: 15),
-              RaisedButton(
-                child: Text(
-                  'Đăng nhập',
-                  style: TextStyle(color: Colors.white),
+                TextFormField(
+                  initialValue: widget.phone,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                  enabled: false,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.phone_iphone),
+                  ),
                 ),
-                onPressed: _validateInput,
-              ),
-              const SizedBox(height: 15),
-              RaisedButton(
-                color: Colors.white,
-                child: const Text('Quên mật khẩu?'),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'user/forgot_password',
-                      arguments: widget.phone);
-                },
-              ),
-              const SizedBox(height: 30),
-            ],
+                const SizedBox(height: 15),
+                TextFormField(
+                  initialValue: password,
+                  autofocus: true,
+                  obscureText: !showPassword,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                  onFieldSubmitted: (String value) {
+                    _validateInput();
+                  },
+                  decoration: InputDecoration(
+                      helperText: ' ',
+                      hintText: 'Nhập mật khẩu',
+                      prefixIcon: Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          showPassword ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            showPassword = !showPassword;
+                          });
+                        },
+                      )),
+                  validator: Validator.passwordValidator,
+                  onSaved: (value) {
+                    password = value;
+                  },
+                ),
+                const SizedBox(height: 15),
+                RaisedButton(
+                  child: Text(
+                    'Đăng nhập',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: _validateInput,
+                ),
+                const SizedBox(height: 15),
+                RaisedButton(
+                  color: Colors.white,
+                  child: const Text('Quên mật khẩu?'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'user/forgot_password',
+                        arguments: widget.phone);
+                  },
+                ),
+                const SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
       ),

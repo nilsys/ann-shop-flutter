@@ -37,7 +37,7 @@ class _BlogCategoryBarState extends State<BlogCategoryBar> {
       children: <Widget>[
         Expanded(
           child: Text(
-            provider.currentCategory?.name ?? "Tất cả",
+            provider.currentCategory?.fixName ?? BlogCategory.unSelectName,
             textAlign: TextAlign.right,
             maxLines: 1,
             style: TextStyle(

@@ -39,12 +39,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.offset < -50) {
-        FocusScope.of(context).requestFocus(FocusNode());
-      }
-    });
     account = Account.fromJson(AC.instance.account.toJson());
     _controllerBirthDate =
         TextEditingController(text: Utility.fixFormatDate(account.birthDay));
@@ -77,11 +71,9 @@ class _UpdateInformationState extends State<UpdateInformation> {
     _addressFocus.dispose();
     _cityFocus.dispose();
     _sexFocus.dispose();
-    _scrollController.dispose();
     super.dispose();
   }
 
-  ScrollController _scrollController;
 
   final double contentPadding = 12;
 
@@ -109,183 +101,184 @@ class _UpdateInformationState extends State<UpdateInformation> {
                   },
                 ),
         ),
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-          child: Form(
-            key: _formKey,
-            autovalidate: _autoValidate,
-            child: ListView(
-              controller: _scrollController,
-              children: <Widget>[
-                const SizedBox(height: 50),
-                TextFormField(
-                  autofocus: true,
-                  focusNode: _nameFocus,
-                  initialValue: account.fullName,
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                  onFieldSubmitted: (String value) {
-                    _fieldFocusChange(context, _nameFocus, _birthDateFocus);
-                    _showDateTimePicker();
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.perm_identity),
-                    hintText: 'Nhập tên',
+        body: DismissKeyBoard(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+            child: Form(
+              key: _formKey,
+              autovalidate: _autoValidate,
+              child: ListView(
+                children: <Widget>[
+                  const SizedBox(height: 50),
+                  TextFormField(
+                    autofocus: true,
+                    focusNode: _nameFocus,
+                    initialValue: account.fullName,
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                    onFieldSubmitted: (String value) {
+                      _fieldFocusChange(context, _nameFocus, _birthDateFocus);
+                      _showDateTimePicker();
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.perm_identity),
+                      hintText: 'Nhập tên',
+                    ),
+                    textInputAction: TextInputAction.next,
+                    textCapitalization: TextCapitalization.words,
+                    validator: (value) {
+                      if (isNullOrEmpty(value)) {
+                        return 'Chưa nhập tên';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      account.fullName = value;
+                    },
                   ),
-                  textInputAction: TextInputAction.next,
-                  textCapitalization: TextCapitalization.words,
-                  validator: (value) {
-                    if (isNullOrEmpty(value)) {
-                      return 'Chưa nhập tên';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    account.fullName = value;
-                  },
-                ),
-                if (widget.isRegister == false) ...[
+                  if (widget.isRegister == false) ...[
+                    const SizedBox(height: 15),
+                    TextFormField(
+                        readOnly: true,
+                        initialValue: account.phone,
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.phone_iphone),
+                        )),
+                  ],
+                  const SizedBox(height: 15),
+                  InkWell(
+                    onTap: _showDateTimePicker,
+                    child: IgnorePointer(
+                      child: TextFormField(
+                        controller: _controllerBirthDate,
+                        focusNode: _birthDateFocus,
+                        readOnly: true,
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.date_range),
+                          hintText: 'Chọn ngày sinh',
+                        ),
+                        keyboardType: TextInputType.datetime,
+                        validator: (value) {
+                          if (isNullOrEmpty(value)) {
+                            return 'Chưa chọn ngày sinh';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 15),
                   TextFormField(
-                      readOnly: true,
-                      initialValue: account.phone,
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.phone_iphone),
-                      )),
-                ],
-                const SizedBox(height: 15),
-                InkWell(
-                  onTap: _showDateTimePicker,
-                  child: IgnorePointer(
-                    child: TextFormField(
-                      controller: _controllerBirthDate,
-                      focusNode: _birthDateFocus,
-                      readOnly: true,
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.date_range),
-                        hintText: 'Chọn ngày sinh',
-                      ),
-                      keyboardType: TextInputType.datetime,
-                      validator: (value) {
-                        if (isNullOrEmpty(value)) {
-                          return 'Chưa chọn ngày sinh';
-                        }
-                        return null;
-                      },
+                    focusNode: _addressFocus,
+                    initialValue: account.address,
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                    onFieldSubmitted: (String value) {
+                      _fieldFocusChange(context, _addressFocus, _cityFocus);
+                      _showCityPicker();
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.map),
+                      hintText: 'Nhập địa chỉ (không bắt buộc)',
                     ),
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      return null;
+                    },
+                    onSaved: (value) {
+                      account.address = value;
+                    },
                   ),
-                ),
-                const SizedBox(height: 15),
-                TextFormField(
-                  focusNode: _addressFocus,
-                  initialValue: account.address,
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                  onFieldSubmitted: (String value) {
-                    _fieldFocusChange(context, _addressFocus, _cityFocus);
-                    _showCityPicker();
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.map),
-                    hintText: 'Nhập địa chỉ (không bắt buộc)',
-                  ),
-                  textInputAction: TextInputAction.next,
-                  validator: (value) {
-                    return null;
-                  },
-                  onSaved: (value) {
-                    account.address = value;
-                  },
-                ),
-                const SizedBox(height: 15),
-                InkWell(
-                  onTap: _showCityPicker,
-                  child: IgnorePointer(
-                    child: TextFormField(
-                      controller: _controllerCity,
-                      focusNode: _cityFocus,
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.location_city),
-                        hintText: 'Chọn tỉnh thành',
-                      ),
-                      validator: (value) {
-                        if (isNullOrEmpty(value)) {
-                          return 'Chưa chọn tỉnh thành';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        account.city = value;
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: contentPadding),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        'Nam',
-                        style: Theme.of(context).textTheme.display1,
-                      ),
-                      Checkbox(
-                        focusNode: _sexFocus,
-                        value: account.gender == 'M',
-                        onChanged: (value) {
-                          setState(
-                            () {
-                              if (value == true) {
-                                account.gender = 'M';
-                              }
-                            },
-                          );
+                  const SizedBox(height: 15),
+                  InkWell(
+                    onTap: _showCityPicker,
+                    child: IgnorePointer(
+                      child: TextFormField(
+                        controller: _controllerCity,
+                        focusNode: _cityFocus,
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.location_city),
+                          hintText: 'Chọn tỉnh thành',
+                        ),
+                        validator: (value) {
+                          if (isNullOrEmpty(value)) {
+                            return 'Chưa chọn tỉnh thành';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          account.city = value;
                         },
                       ),
-                      const SizedBox(
-                        width: 50,
-                      ),
-                      Text('Nữ', style: Theme.of(context).textTheme.display1),
-                      Checkbox(
-                        value: account.gender == 'F',
-                        onChanged: (value) {
-                          setState(
-                            () {
-                              if (value == true) {
-                                account.gender = 'F';
-                              }
-                            },
-                          );
-                        },
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                if (_autoValidate && isNullOrEmpty(account.gender))
+                  const SizedBox(height: 15),
                   Container(
-                    padding: EdgeInsets.only(
-                        bottom: contentPadding + 10, left: contentPadding),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Chưa chọn giới tín',
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          .merge(TextStyle(color: Colors.red)),
+                    padding: EdgeInsets.symmetric(horizontal: contentPadding),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'Nam',
+                          style: Theme.of(context).textTheme.display1,
+                        ),
+                        Checkbox(
+                          focusNode: _sexFocus,
+                          value: account.gender == 'M',
+                          onChanged: (value) {
+                            setState(
+                              () {
+                                if (value == true) {
+                                  account.gender = 'M';
+                                }
+                              },
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                          width: 50,
+                        ),
+                        Text('Nữ', style: Theme.of(context).textTheme.display1),
+                        Checkbox(
+                          value: account.gender == 'F',
+                          onChanged: (value) {
+                            setState(
+                              () {
+                                if (value == true) {
+                                  account.gender = 'F';
+                                }
+                              },
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                const SizedBox(height: 15),
-                RaisedButton(
-                  onPressed: _validateInput,
-                  child: Text(
-                    widget.isRegister ? 'Hoàn tất đăng ký' : 'Cập nhật',
-                    style: TextStyle(color: Colors.white),
+                  if (_autoValidate && isNullOrEmpty(account.gender))
+                    Container(
+                      padding: EdgeInsets.only(
+                          bottom: contentPadding + 10, left: contentPadding),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Chưa chọn giới tín',
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .merge(TextStyle(color: Colors.red)),
+                      ),
+                    ),
+                  const SizedBox(height: 15),
+                  RaisedButton(
+                    onPressed: _validateInput,
+                    child: Text(
+                      widget.isRegister ? 'Hoàn tất đăng ký' : 'Cập nhật',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 30),
-              ],
+                  const SizedBox(height: 30),
+                ],
+              ),
             ),
           ),
         ),

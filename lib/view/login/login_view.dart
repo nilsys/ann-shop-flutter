@@ -28,12 +28,6 @@ class _LoginViewState extends State<LoginView> {
 
   String phone;
 
-  // endregion
-
-  // region Widget
-  ScrollController _scrollController;
-
-  // endregion
 
   @override
   void initState() {
@@ -46,21 +40,8 @@ class _LoginViewState extends State<LoginView> {
         !isEmpty(_accountController.account.phone)) {
       phone = _accountController.account.phone;
     }
-
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.offset < -50) {
-        FocusScope.of(context).requestFocus(FocusNode());
-      }
-    });
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,53 +51,54 @@ class _LoginViewState extends State<LoginView> {
         title: const Text(Core.appFullName),
       ),
       bottomNavigationBar: BottomBarPolicy(),
-      body: Form(
-        key: _formKey,
-        autovalidate: _autoValidate,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-          child: ListView(
-            controller: _scrollController,
-            children: <Widget>[
-              Container(
-                height: 100,
-                margin: const EdgeInsets.only(top: 50, bottom: 40),
-                child: AnnLogo(),
-              ),
-              TextFormField(
-                  initialValue: phone,
-                  autofocus: true,
-                  maxLength: 10,
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.phone_iphone),
-                    hintText: 'Nhập số điện thoại',
-                  ),
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                  validator: Validator.phoneNumberValidator,
-                  onSaved: (value) {
-                    phone = value;
-                  },
-                  onFieldSubmitted: (String value) {
-                    _validateInput();
-                  }),
-              const SizedBox(height: 15),
-              RaisedButton(
-                onPressed: _validateInput,
-                child: Text(
-                  'Tiếp tục',
-                  style: TextStyle(color: Colors.white),
+      body: DismissKeyBoard(
+        child: Form(
+          key: _formKey,
+          autovalidate: _autoValidate,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  height: 100,
+                  margin: const EdgeInsets.only(top: 50, bottom: 40),
+                  child: AnnLogo(),
                 ),
-              ),
-              if (AC.instance.requestLogin == false) ...[
+                TextFormField(
+                    initialValue: phone,
+                    autofocus: true,
+                    maxLength: 10,
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.phone_iphone),
+                      hintText: 'Nhập số điện thoại',
+                    ),
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.next,
+                    validator: Validator.phoneNumberValidator,
+                    onSaved: (value) {
+                      phone = value;
+                    },
+                    onFieldSubmitted: (String value) {
+                      _validateInput();
+                    }),
                 const SizedBox(height: 15),
-                BorderButton(
-                  onPressed: _skipLogin,
-                  child: Text('Để sau'),
+                RaisedButton(
+                  onPressed: _validateInput,
+                  child: Text(
+                    'Tiếp tục',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
+                if (AC.instance.requestLogin == false) ...[
+                  const SizedBox(height: 15),
+                  BorderButton(
+                    onPressed: _skipLogin,
+                    child: Text('Bỏ qua'),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),

@@ -9,6 +9,7 @@ import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:ping9/ping9.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   ForgotPasswordView(this.phone);
@@ -27,26 +28,15 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.offset < -50) {
-        if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
-          FocusScope.of(context).requestFocus(FocusNode());
-        }
-      }
-    });
-
     _controllerBirthDate =
         TextEditingController(text: Utility.fixFormatDate(''));
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
   }
 
-  ScrollController _scrollController;
   String password;
   String birthDay;
 
@@ -56,66 +46,67 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       appBar: AppBar(
         title: Text('Quên mật khẩu'),
       ),
-      body: Form(
-        key: _formKey,
-        autovalidate: _autoValidate,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-          child: ListView(
-            controller: _scrollController,
-            children: [
-              SizedBox(height: 50),
-              TextFormField(
-                style: TextStyle(fontWeight: FontWeight.w600),
-                initialValue: widget.phone,
-                enabled: false,
-                readOnly: true,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.phone_iphone),
-                ),
-              ),
-              SizedBox(height: 15),
-              InkWell(
-                onTap: isNullOrEmpty(password)
-                    ? _showDateTimePicker
-                    : null,
-                child: IgnorePointer(
-                  child: TextFormField(
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                    controller: _controllerBirthDate,
-                    readOnly: true,
-                    autofocus: true,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.date_range),
-                      helperText: ' ',
-                      hintText: 'Chọn ngày sinh',
-                    ),
-                    validator: (value) {
-                      if (isNullOrEmpty(value)) {
-                        return 'Chưa chọn ngày sinh';
-                      }
-                      return null;
-                    },
+      body: DismissKeyBoard(
+        child: Form(
+          key: _formKey,
+          autovalidate: _autoValidate,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+            child: ListView(
+              children: [
+                SizedBox(height: 50),
+                TextFormField(
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                  initialValue: widget.phone,
+                  enabled: false,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.phone_iphone),
                   ),
                 ),
-              ),
-              SizedBox(height: 15),
-              RaisedButton(
-                child: Text(
-                  'Tiếp tục',
-                  style: TextStyle(color: Colors.white),
+                SizedBox(height: 15),
+                InkWell(
+                  onTap: isNullOrEmpty(password)
+                      ? _showDateTimePicker
+                      : null,
+                  child: IgnorePointer(
+                    child: TextFormField(
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                      controller: _controllerBirthDate,
+                      readOnly: true,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.date_range),
+                        helperText: ' ',
+                        hintText: 'Chọn ngày sinh',
+                      ),
+                      validator: (value) {
+                        if (isNullOrEmpty(value)) {
+                          return 'Chưa chọn ngày sinh';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
                 ),
-                onPressed: _validateInput,
-              ),
-              SizedBox(height: 15),
-              RaisedButton(
-                color: Colors.white,
-                child: Text('Quên ngày sinh'),
-                onPressed: () {
-                  onSentOTP();
-                },
-              )
-            ],
+                SizedBox(height: 15),
+                RaisedButton(
+                  child: Text(
+                    'Tiếp tục',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: _validateInput,
+                ),
+                SizedBox(height: 15),
+                RaisedButton(
+                  color: Colors.white,
+                  child: Text('Quên ngày sinh'),
+                  onPressed: () {
+                    onSentOTP();
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

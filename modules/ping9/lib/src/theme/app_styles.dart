@@ -19,6 +19,7 @@ class AppStyles {
   static const titleBlockColor = white;
   static const cardColor = white;
   static const viewMoreColor = white;
+  static final borderColor = Colors.grey[300];
 
   // endregion
 

@@ -5,6 +5,15 @@ class BlogCategory {
   BlogCategoryFilter filter;
   List<BlogCategory> children;
 
+  String get fixName {
+    if(filter?.categorySlug == null){
+      return unSelectName;
+    }
+    return name;
+  }
+
+  static String unSelectName = "Danh mục bài viết";
+
   BlogCategory(
       {this.name, this.icon, this.description, this.filter, this.children});
 

@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:ann_shop_flutter/provider/load_more/load_more_blog_repository.dart';
+import 'package:ann_shop_flutter/ui/inapp/media_border_item.dart';
 import 'package:ann_shop_flutter/ui/inapp/media_item.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,6 @@ class _BuildAllViewState extends State<ListBlog> {
   @override
   void dispose() {
     listSourceRepository?.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -77,9 +77,6 @@ class _BuildAllViewState extends State<ListBlog> {
 
 class ItemBuilder {
   static Widget itemBuilderList(BuildContext context, Cover item, int index) {
-    return Column(children: [
-      MediaItem(item),
-      Container(height: 6, color: AppStyles.dividerColor),
-    ]);
+    return MediaBorderItem(item);
   }
 }

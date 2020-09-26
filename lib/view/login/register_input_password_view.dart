@@ -8,7 +8,6 @@ import 'package:ann_shop_flutter/src/route/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 import 'package:ping9/ping9.dart';
 
-
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
 
@@ -27,14 +26,6 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.offset < -50) {
-        if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
-          FocusScope.of(context).requestFocus(FocusNode());
-        }
-      }
-    });
     showPassword = false;
 
     _passwordFocus = FocusNode();
@@ -45,11 +36,9 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
   void dispose() {
     _passwordFocus.dispose();
     _confirmPasswordFocus.dispose();
-    _scrollController.dispose();
     super.dispose();
   }
 
-  ScrollController _scrollController;
   String confirmPassword;
   String password;
   bool showPassword;
@@ -71,84 +60,85 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
           title: Text('Tạo mật khẩu'),
           leading: Container(),
         ),
-        body: Form(
-          key: _formKey,
-          autovalidate: _autoValidate,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-            child: ListView(
-              controller: _scrollController,
-              children: <Widget>[
-                SizedBox(height: 50),
-                TextFormField(
-                  focusNode: _passwordFocus,
-                  obscureText: !showPassword,
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                  onFieldSubmitted: (String value) {
-                    this._fieldFocusChange(
-                        context, _passwordFocus, _confirmPasswordFocus);
-                  },
-                  decoration: InputDecoration(
-                      hintText: 'Nhập mật khẩu',
-                      prefixIcon: Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          showPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            showPassword = !showPassword;
-                          });
-                        },
-                      )),
-                  textInputAction: TextInputAction.next,
-                  validator: Validator.passwordValidator,
-                  onSaved: (String value) {
-                    password = value;
-                  },
-                ),
-                SizedBox(height: 15),
-                TextFormField(
-                  focusNode: _confirmPasswordFocus,
-                  obscureText: !showPassword,
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                  onFieldSubmitted: (String value) {
-                    _confirmPasswordFocus.unfocus();
-                    this._validateInput();
-                  },
-                  decoration: InputDecoration(
-                      helperText: ' ',
-                      hintText: 'Nhập lại mật khẩu',
-                      prefixIcon: Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          showPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            showPassword = !showPassword;
-                          });
-                        },
-                      )),
-                  textInputAction: TextInputAction.done,
-                  validator: Validator.passwordValidator,
-                  onSaved: (String value) {
-                    confirmPassword = value;
-                  },
-                ),
-                SizedBox(height: 15),
-                RaisedButton(
-                  child: Text(
-                    'Tiếp tục',
-                    style: TextStyle(color: Colors.white),
+        body: DismissKeyBoard(
+          child: Form(
+            key: _formKey,
+            autovalidate: _autoValidate,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: ListView(
+                children: <Widget>[
+                  SizedBox(height: 50),
+                  TextFormField(
+                    focusNode: _passwordFocus,
+                    obscureText: !showPassword,
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                    onFieldSubmitted: (String value) {
+                      this._fieldFocusChange(
+                          context, _passwordFocus, _confirmPasswordFocus);
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'Nhập mật khẩu',
+                        prefixIcon: Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              showPassword = !showPassword;
+                            });
+                          },
+                        )),
+                    textInputAction: TextInputAction.next,
+                    validator: Validator.passwordValidator,
+                    onSaved: (String value) {
+                      password = value;
+                    },
                   ),
-                  onPressed: _validateInput,
-                ),
-              ],
+                  SizedBox(height: 15),
+                  TextFormField(
+                    focusNode: _confirmPasswordFocus,
+                    obscureText: !showPassword,
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                    onFieldSubmitted: (String value) {
+                      _confirmPasswordFocus.unfocus();
+                      this._validateInput();
+                    },
+                    decoration: InputDecoration(
+                        helperText: ' ',
+                        hintText: 'Nhập lại mật khẩu',
+                        prefixIcon: Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              showPassword = !showPassword;
+                            });
+                          },
+                        )),
+                    textInputAction: TextInputAction.done,
+                    validator: Validator.passwordValidator,
+                    onSaved: (String value) {
+                      confirmPassword = value;
+                    },
+                  ),
+                  SizedBox(height: 15),
+                  RaisedButton(
+                    child: Text(
+                      'Tiếp tục',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: _validateInput,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

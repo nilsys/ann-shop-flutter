@@ -21,6 +21,7 @@ class BlogRepository {
       final response = await AppHttp.get(url).timeout(Duration(seconds: 10));
 
       final body = response.body;
+      printTrack(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(body);
         if (isNullOrEmpty(message)) {

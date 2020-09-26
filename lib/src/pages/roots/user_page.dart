@@ -52,64 +52,86 @@ class _UserPageState extends State<UserPage> {
                 height: 10,
                 thickness: 10,
               ),
-              _buildItemCommon('Quản lý đơn hàng',
-                  icon: Icons.description, onTap: _viewOrderManagement),
-              _buildItemCommon('Sản phẩm đã xem',
-                  icon: Icons.remove_red_eye,
-                  onTap: () => Navigator.pushNamed(context, 'user/seen')),
-              _buildItemCommon('Sản phẩm yêu thích',
-                  icon: Icons.favorite,
-                  onTap: () => Navigator.pushNamed(context, 'user/favorite')),
-              _buildItemCommon('Thông báo',
-                  icon: Icons.notifications,
-                  onTap: () =>
-                      Routes.navigateUser(context, ANNPage.notification)),
-              _buildItemCommon('Bài viết',
-                  icon: AppIcons.blogger,
-                  onTap: () => Navigator.pushNamed(context, 'blog')),
-              const Divider(
-                height: 10,
-                thickness: 10,
-              ),
-              _buildItemCommon('Mã khuyến mãi',
-                  icon: MaterialCommunityIcons.ticket_percent,
-                  onTap: () => Navigator.pushNamed(context, 'user/promotion')),
-              _buildItemCommon(
-                'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
-                icon: Icons.star_border,
-                onTap: () => launch(Core.urlStoreReview),
-              ),
-              _buildItemCommon('Chia sẻ ứng dụng này',
-                  icon: Icons.share,
-                  onTap: () => Share.text(Core.dynamicLinkStore,
-                      Core.dynamicLinkStore, 'text/plain')),
-              const Divider(
-                height: 10,
-                thickness: 10,
-              ),
-              _buildItemCommon('Liên hệ',
-                  icon: Icons.headset_mic,
-                  onTap: () => Navigator.pushNamed(context, 'shop/contact')),
-              _buildItemCommon('Chính sách bán hàng',
-                  icon: Icons.question_answer,
-                  onTap: () => Navigator.pushNamed(context, 'shop/policy')),
-              _buildItemCommon('Cài đặt copy sản phẩm',
-                  icon: Icons.settings,
-                  onTap: () => Navigator.pushNamed(context, 'user')),
-              _buildItemCommon('Cấp quyền tải ảnh',
-                  icon: Icons.settings,
-                  onTap: () => _onClickPermission(context)),
-              BorderButton(
-                onPressed: () {
-                  AC.instance.clearToken();
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, 'user/login', (route) => false);
-                  Provider.of<CouponProvider>(context, listen: false)
-                      .myCoupons
-                      .error = 'logout';
-                },
-                child: Text('ĐĂNG XUẤT'),
-              ),
+              if (AC.instance.isLogin) ...[
+                _buildItemCommon('Quản lý đơn hàng',
+                    icon: Icons.description, onTap: _viewOrderManagement),
+                _buildItemCommon('Sản phẩm đã xem',
+                    icon: Icons.remove_red_eye,
+                    onTap: () => Navigator.pushNamed(context, 'user/seen')),
+                _buildItemCommon('Sản phẩm yêu thích',
+                    icon: Icons.favorite,
+                    onTap: () => Navigator.pushNamed(context, 'user/favorite')),
+                _buildItemCommon('Thông báo',
+                    icon: Icons.notifications,
+                    onTap: () =>
+                        Routes.navigateUser(context, ANNPage.notification)),
+                _buildItemCommon('Bài viết',
+                    icon: AppIcons.blogger,
+                    onTap: () => Navigator.pushNamed(context, 'blog')),
+                const Divider(
+                  height: 10,
+                  thickness: 10,
+                ),
+                _buildItemCommon('Mã khuyến mãi',
+                    icon: MaterialCommunityIcons.ticket_percent,
+                    onTap: () =>
+                        Navigator.pushNamed(context, 'user/promotion')),
+                _buildItemCommon(
+                  'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
+                  icon: Icons.star_border,
+                  onTap: () => launch(Core.urlStoreReview),
+                ),
+                _buildItemCommon('Chia sẻ ứng dụng này',
+                    icon: Icons.share,
+                    onTap: () => Share.text(Core.dynamicLinkStore,
+                        Core.dynamicLinkStore, 'text/plain')),
+                const Divider(
+                  height: 10,
+                  thickness: 10,
+                ),
+                _buildItemCommon('Liên hệ',
+                    icon: Icons.headset_mic,
+                    onTap: () => Navigator.pushNamed(context, 'shop/contact')),
+                _buildItemCommon('Chính sách bán hàng',
+                    icon: Icons.question_answer,
+                    onTap: () => Navigator.pushNamed(context, 'shop/policy')),
+                _buildItemCommon('Cài đặt copy sản phẩm',
+                    icon: Icons.settings,
+                    onTap: () => Navigator.pushNamed(context, 'user')),
+                _buildItemCommon('Cấp quyền tải ảnh',
+                    icon: Icons.settings,
+                    onTap: () => _onClickPermission(context)),
+                BorderButton(
+                  onPressed: () {
+                    AC.instance.clearToken();
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, 'user/login', (route) => false);
+                    Provider.of<CouponProvider>(context, listen: false)
+                        .myCoupons
+                        .error = 'logout';
+                  },
+                  child: Text('ĐĂNG XUẤT'),
+                ),
+              ] else ...[
+                _buildItemCommon('Sản phẩm đã xem',
+                    icon: Icons.remove_red_eye,
+                    onTap: () => Navigator.pushNamed(context, 'user/seen')),
+                _buildItemCommon(
+                  'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
+                  icon: Icons.star_border,
+                  onTap: () => launch(Core.urlStoreReview),
+                ),
+                _buildItemCommon('Chia sẻ ứng dụng này',
+                    icon: Icons.share,
+                    onTap: () => Share.text(Core.dynamicLinkStore,
+                        Core.dynamicLinkStore, 'text/plain')),
+                _buildItemCommon('Liên hệ',
+                    icon: Icons.headset_mic,
+                    onTap: () => Navigator.pushNamed(context, 'shop/contact')),
+                _buildItemCommon('Chính sách bán hàng',
+                    icon: Icons.question_answer,
+                    onTap: () => Navigator.pushNamed(context, 'shop/policy')),
+              ]
             ]),
           ),
         ],

@@ -10,6 +10,7 @@ import 'package:ann_shop_flutter/ui/product_ui/badge_tag_product_ui.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class ProductFull extends StatefulWidget {
   ProductFull(this.product);
@@ -26,15 +27,9 @@ class _ProductFullState extends State<ProductFull> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 12),
+      margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black.withAlpha(70),
-            offset: Offset(1.0, 4.0),
-            blurRadius: 8.0,
-          ),
-        ],
+        border: Border.all(width: 1, color: Colors.grey[300]),
         borderRadius: BorderRadius.circular(5),
         color: Colors.white,
       ),
@@ -45,7 +40,14 @@ class _ProductFullState extends State<ProductFull> {
             Routes.showProductDetail(context, product: widget.product);
           },
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              const SizedBox(height: 16),
+              _buildTitle(),
+              const SizedBox(height: 8),
+              _buildCode(),
+              _buildPrice(),
               Stack(
                 children: [
                   ImageGrid(widget.product.images),
@@ -56,60 +58,7 @@ class _ProductFullState extends State<ProductFull> {
                   ),
                 ],
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 15, bottom: 10),
-                      child: Text(
-                        widget.product.name,
-                        style: Theme.of(context).textTheme.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Text(
-                      'Mã: ' + widget.product.sku,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          .merge(TextStyle(color: Colors.grey)),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Container(
-                      height: 30,
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            'Giá sỉ: ${widget.product.regularDisplay}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .body2
-                                .merge(widget.product.regularDisplayStyle),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Text(
-                            'Giá lẻ: ' +
-                                Utility.formatPrice(widget.product.retailPrice),
-                            style: Theme.of(context).textTheme.bodyText1,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                    _buildButtonControl(context),
-                    SizedBox(height: 8),
-                  ],
-                ),
-              )
+              _buildButtonControl(context),
             ],
           ),
         ),
@@ -117,14 +66,70 @@ class _ProductFullState extends State<ProductFull> {
     );
   }
 
-  _buildButtonControl(context) {
+  Widget _buildTitle() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Text(
+        widget.product.name,
+        style: Theme.of(context).textTheme.title,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  Widget _buildCode() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Text(
+        'Mã: ' + widget.product.sku,
+        style: Theme.of(context)
+            .textTheme
+            .subtitle1
+            .merge(TextStyle(color: Colors.grey)),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  Widget _buildPrice() {
+    return Container(
+      height: 32,
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        children: <Widget>[
+          Text(
+            'Giá sỉ: ${widget.product.regularDisplay}',
+            style: Theme.of(context)
+                .textTheme
+                .body2
+                .merge(widget.product.regularDisplayStyle),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(
+            width: 30,
+          ),
+          Text(
+            'Giá lẻ: ' + Utility.formatPrice(widget.product.retailPrice),
+            style: Theme.of(context).textTheme.bodyText1,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildButtonControl(context) {
     bool favorite = Provider.of<FavoriteProvider>(context)
         .containsInFavorite(widget.product.productId);
     Color iconColor = AppStyles.dartIcon;
 
     return Container(
       height: 40,
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,7 +153,7 @@ class _ProductFullState extends State<ProductFull> {
                 ),
           IconButton(
             icon: Icon(
-              Icons.cloud_download,
+              MaterialCommunityIcons.image_multiple,
               color: isDownload ? Colors.grey : iconColor,
             ),
             onPressed: isDownload
