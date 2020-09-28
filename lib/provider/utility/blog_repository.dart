@@ -18,7 +18,7 @@ class BlogRepository {
   Future<List<BlogCategory>> loadCategoryBlog() async {
     try {
       var url = 'flutter/post-categories';
-      final response = await AppHttp.get(url).timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(url).timeout(Duration(minutes: 5));
 
       final body = response.body;
       printTrack(response.body);
@@ -52,7 +52,7 @@ class BlogRepository {
         url =
             'flutter/posts?categorySlug=$category&pageNumber=$page&pageSize=$pageSize';
       }
-      final response = await AppHttp.get(url).timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(url).timeout(Duration(minutes: 5));
 
       final body = response.body;
 

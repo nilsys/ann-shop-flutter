@@ -88,7 +88,7 @@ class ListProductRepository {
       url += getFilterParams(filter);
       final response = await AppHttp.get(
         url,
-      ).timeout(Duration(seconds: 10));
+      ).timeout(Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -114,7 +114,7 @@ class ListProductRepository {
       url += getFilterParams(filter);
       final response = await AppHttp.get(
         url,
-      ).timeout(Duration(seconds: 10));
+      ).timeout(Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -136,7 +136,7 @@ class ListProductRepository {
       url += getFilterParams(filter);
       final response = await AppHttp.get(
         url,
-      ).timeout(Duration(seconds: 10));
+      ).timeout(Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -158,7 +158,7 @@ class ListProductRepository {
       url += getFilterParams(filter);
       final response = await AppHttp.get(
         url,
-      ).timeout(Duration(seconds: 10));
+      ).timeout(Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -177,7 +177,7 @@ class ListProductRepository {
       var url =
           'flutter/products?tagSlug=$text&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await AppHttp.get(url).timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(url).timeout(Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);
@@ -197,7 +197,7 @@ class ListProductRepository {
       var url =
           'flutter/products?productSKU=$sku&pageNumber=$page&pageSize=$pageSize';
       url += getFilterParams(filter);
-      final response = await AppHttp.get(url).timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(url).timeout(Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         return listProductByString(response.body);

@@ -16,10 +16,9 @@ class MediaBorderItem extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: AppStyles.cardColor,
-        border: Border.all(color: AppStyles.borderColor, width: 1)
-      ),
+          borderRadius: BorderRadius.circular(10),
+          color: AppStyles.cardColor,
+          border: Border.all(color: AppStyles.borderColor, width: 1)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
@@ -28,7 +27,7 @@ class MediaBorderItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.fromLTRB(16,16,16,0),
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   item.name,
@@ -41,19 +40,19 @@ class MediaBorderItem extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(16,8,16,8),
+                padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
                 child: RichText(
                   maxLines: 20,
                   overflow: TextOverflow.ellipsis,
                   text: TextSpan(children: [
                     TextSpan(
-                        text: item.message + '...',
+                        text: item.message + '... ',
                         style: Theme.of(context).textTheme.bodyText2),
                     TextSpan(
-                      text: 'xem thêm >',
+                      text: 'Xem thêm',
                       style: Theme.of(context).textTheme.bodyText2.merge(
-                        TextStyle(color: Colors.blue),
-                      ),
+                            TextStyle(color: Colors.blue),
+                          ),
                     )
                   ]),
                 ),

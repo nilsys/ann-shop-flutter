@@ -164,34 +164,29 @@ class _HomePageState extends State<HomePage>
             backgroundColor: const Color(0xff3b5998)),
         _buildCardContact(
             type: ContactType.zalo,
-            text: 'Thời trang 1: 0918567409',
-            contact: '0918567409',
+            text: 'Thời trang 1: 0946.500.509',
+            contact: '0946500509',
             backgroundColor: const Color(0xff3189eb)),
         _buildCardContact(
             type: ContactType.zalo,
-            text: 'Thời trang 2: 0913268406',
-            contact: '0913268406',
+            text: 'Thời trang 2: 0971.500.506',
+            contact: '0971500506',
             backgroundColor: const Color(0xffea2f2f)),
         _buildCardContact(
             type: ContactType.zalo,
-            text: 'Thời trang 3: 0936786404',
-            contact: '0936786404',
+            text: 'Thời trang 3: 0946.500.504',
+            contact: '0946500504',
             backgroundColor: const Color(0xffeabf2e)),
         _buildCardContact(
             type: ContactType.zalo,
-            text: 'Thời trang 4: 0918569400',
+            text: 'Thời trang 4: 0918.569.400',
             contact: '0918569400',
             backgroundColor: const Color(0xffe92697)),
         _buildCardContact(
             type: ContactType.zalo,
-            text: 'Mỹ phẩm 1: 0914500502',
+            text: 'Mỹ phẩm: 0914.500.502',
             contact: '0914500502',
-            backgroundColor: const Color(0xff02ae31)),
-        _buildCardContact(
-            type: ContactType.zalo,
-            text: 'Mỹ phẩm 2: 0941500503',
-            contact: '0941500503',
-            backgroundColor: const Color(0xff9201b1)),
+            backgroundColor: const Color(0xff02ae31))
       ]),
     );
   }
@@ -223,7 +218,7 @@ class _HomePageState extends State<HomePage>
 
     title = new Text(text,
         style: TextStyle(
-            color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
+            color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center);
 
     if (icon == null) {

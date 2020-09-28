@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
@@ -213,7 +212,7 @@ class _SharePageState extends State<SharePage> {
         opacity: opacity,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(5),
-          child: AppImage(AppImage.imageDomain + url),
+          child: AppImage(url),
         ),
       ),
     );
@@ -360,7 +359,7 @@ class _SharePageState extends State<SharePage> {
     final List<String> files = [];
     final Map<String, List<int>> mapByte = {};
     showLoading(context, message: 'Đang tải...');
-    // TODO: At share in the product, the clipboard is double copy
+    // At share in the product, the clipboard is double copy
     await Clipboard.setData(new ClipboardData(text: message));
 
     for (int i = 0; i < imagesSelected.length; i++) {

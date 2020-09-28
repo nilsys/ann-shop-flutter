@@ -19,7 +19,7 @@ class ViewController extends ANNController {
   Future<ViewModel> getViewBySlug(String slug) async {
     try {
       final url = 'flutter/$slug';
-      final response = await AppHttp.get(url).timeout(Duration(seconds: 10));
+      final response = await AppHttp.get(url).timeout(Duration(minutes: 5));
       final body = response.body;
 
       if (response.statusCode == HttpStatus.ok) {

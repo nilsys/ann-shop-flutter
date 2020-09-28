@@ -14,15 +14,20 @@ class MediaItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Container(
-        padding: EdgeInsets.all(defaultPadding),
-        color: AppStyles.cardColor,
+      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: AppStyles.cardColor,
+          border: Border.all(color: AppStyles.borderColor, width: 1)),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
         child: InkWell(
           onTap: () => showBloc(context),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   item.name,
@@ -34,24 +39,25 @@ class MediaItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Container(
-                padding: EdgeInsets.only(top: 8),
-                child: RichText(
-                  maxLines: 20,
-                  overflow: TextOverflow.ellipsis,
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: item.message + '...',
-                        style: Theme.of(context).textTheme.bodyText2),
-                    TextSpan(
-                      text: 'xem thêm >',
-                      style: Theme.of(context).textTheme.bodyText2.merge(
-                            TextStyle(color: Colors.blue),
-                          ),
-                    )
-                  ]),
+              if (!isNullOrEmpty(item.message))
+                Container(
+                  padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  child: RichText(
+                    maxLines: 20,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: item.message + '... ',
+                          style: Theme.of(context).textTheme.bodyText2),
+                      TextSpan(
+                        text: 'Xem thêm',
+                        style: Theme.of(context).textTheme.bodyText2.merge(
+                              TextStyle(color: Colors.blue),
+                            ),
+                      )
+                    ]),
+                  ),
                 ),
-              ),
               if (isNullOrEmpty(item.images) == false) ...[
                 const SizedBox(height: 8),
                 ImageGrid(item.images),
