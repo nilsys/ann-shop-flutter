@@ -82,7 +82,7 @@ class _ButtonDownloadState extends State<ButtonDownload> {
       });
       final file = await DefaultCacheManager()
           .getSingleFile(AppImage.imageDomain + widget.imageName)
-          .timeout(const Duration(seconds: 10));
+          .timeout(const Duration(minutes: 5));
       final Uint8List bytes = file.readAsBytesSync();
       await ImageGallerySaver.saveImage(bytes)
           .timeout(const Duration(seconds: 5));

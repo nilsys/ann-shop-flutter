@@ -199,7 +199,7 @@ class _InfoProductState extends State<InfoProduct> {
     ));
 
     /// 6 View
-    if (isNullOrEmpty(detail.discounts) == false) {
+    if (_allowedShowDiscount()) {
       children.add(_buildTitle('Chiết khấu'));
       if (isFull) {
         for (var item in detail.discounts) {
@@ -276,5 +276,16 @@ class _InfoProductState extends State<InfoProduct> {
         style: Theme.of(context).textTheme.headline6,
       ),
     );
+  }
+
+  bool _allowedShowDiscount() {
+    if (detail.categorySlug == "my-pham")
+      return false;
+    else if (detail.categorySlug == "thuc-pham-chuc-nang")
+      return false;
+    else if (isNullOrEmpty(detail.discounts))
+      return false;
+    else
+      return true;
   }
 }

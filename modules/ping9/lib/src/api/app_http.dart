@@ -22,7 +22,7 @@ class AppHttp {
     try {
       final response = await http
           .get(domain + url, headers: _headers)
-          .timeout(const Duration(seconds: 10));
+          .timeout(const Duration(minutes: 5));
       // log(_headers.toString());
       log('> GET RESPONSE [${response.statusCode}]<  $domain$url');
       // log(response.body);
@@ -38,7 +38,7 @@ class AppHttp {
     try {
       final response = await http
           .post(domain + url, body: body, headers: _headers)
-          .timeout(const Duration(seconds: 10));
+          .timeout(const Duration(minutes: 5));
       log('> POST RESPONSE [${response.statusCode}]< $domain$url');
       // log(body);
       // log(response.body);
@@ -53,7 +53,7 @@ class AppHttp {
     try {
       final response = await http
           .patch(domain + url, body: body, headers: _headers)
-          .timeout(const Duration(seconds: 10));
+          .timeout(const Duration(minutes: 5));
       log('> PATCH RESPONSE [${response.statusCode}]< $domain$url');
       // log(body);
       // log(response.body);

@@ -14,7 +14,6 @@ class BlogCategoryBar extends StatefulWidget {
 }
 
 class _BlogCategoryBarState extends State<BlogCategoryBar> {
-
   final double heightBar = 32;
 
   @override
@@ -23,7 +22,7 @@ class _BlogCategoryBarState extends State<BlogCategoryBar> {
       onTap: showCategory,
       child: Container(
         height: heightBar,
-        decoration: BoxDecoration(color: AppStyles.orange.withAlpha(100)),
+        decoration: BoxDecoration(color: Colors.grey[200]),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: _buildCurrentCategory(),
       ),
@@ -41,9 +40,7 @@ class _BlogCategoryBarState extends State<BlogCategoryBar> {
             textAlign: TextAlign.right,
             maxLines: 1,
             style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-                fontSize: 14),
+                fontWeight: FontWeight.w500, color: Colors.black, fontSize: 14),
           ),
         ),
         Icon(Icons.arrow_drop_down, color: Colors.grey),
@@ -165,11 +162,11 @@ class _BlogCategoryBarState extends State<BlogCategoryBar> {
           textAlign: TextAlign.left,
           style: isChoose
               ? TextStyle(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: Theme.of(context).primaryColor,
                   fontSize: 14)
               : TextStyle(
-                  fontWeight: FontWeight.w300,
+                  fontWeight: FontWeight.w600,
                   color: Colors.black,
                   fontSize: 14),
         ),

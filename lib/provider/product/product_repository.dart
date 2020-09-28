@@ -19,7 +19,7 @@ class ProductRepository {
       final url = 'flutter/product/$slug';
       final response = await AppHttp.get(
         url,
-      ).timeout(const Duration(seconds: 10));
+      ).timeout(const Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);
@@ -39,7 +39,7 @@ class ProductRepository {
           'flutter/product/$slug/related?pageNumber=$page&pageSize=$pageSize';
       final response = await AppHttp.get(
         url,
-      ).timeout(const Duration(seconds: 10));
+      ).timeout(const Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);

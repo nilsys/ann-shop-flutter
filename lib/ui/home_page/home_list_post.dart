@@ -30,10 +30,8 @@ class _HomeListPostState extends State<HomeListPost> {
         ),
       ];
 
-      for (int i = 0; i < length; i++) {
-        children.add(MediaItem(data[i]));
-        children.add(Container(height: 1,color: AppStyles.dividerColor,));
-      }
+      for (int i = 0; i < length; i++) children.add(MediaItem(data[i]));
+
       children.add(BottomViewMore(
         onPressed: () {
           Navigator.pushNamed(context, 'blog');

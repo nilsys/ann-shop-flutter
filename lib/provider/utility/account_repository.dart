@@ -81,7 +81,7 @@ class AccountRepository {
       var data = {"phone": phone, 'otp': otp, "passwordNew": password};
       final response = await http
           .post(url, headers: headers, body: jsonEncode(data))
-          .timeout(Duration(seconds: 10));
+          .timeout(Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
@@ -117,7 +117,7 @@ class AccountRepository {
       };
       final response = await http
           .post(url, headers: headers, body: jsonEncode(data))
-          .timeout(Duration(seconds: 10));
+          .timeout(Duration(minutes: 5));
       printTrack(response.body);
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
@@ -143,7 +143,7 @@ class AccountRepository {
         "city": account.city
       };
       final response = await AppHttp.patch(url, body: jsonEncode(data))
-          .timeout(Duration(seconds: 10));
+          .timeout(Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
@@ -170,7 +170,7 @@ class AccountRepository {
       String url = '${AppHttp.domain}flutter/user/password-new-by-birthday';
       final response = await http
           .patch(url, headers: headers, body: jsonEncode(data))
-          .timeout(Duration(seconds: 10));
+          .timeout(Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         var parsed = jsonDecode(response.body);
@@ -188,7 +188,7 @@ class AccountRepository {
     try {
       final response = await AppHttp.patch(
               "flutter/user/change-password?newPassword=$newPassword")
-          .timeout(Duration(seconds: 10));
+          .timeout(Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         return AppResponse(true);

@@ -62,7 +62,7 @@ class CouponRepository {
     try {
       final url = 'flutter/coupon/customer';
       final response =
-          await AppHttp.get(url).timeout(const Duration(seconds: 10));
+          await AppHttp.get(url).timeout(const Duration(minutes: 5));
 
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
@@ -88,7 +88,7 @@ class CouponRepository {
     try {
       final url = 'flutter/coupon/promotions';
       final response =
-          await AppHttp.get(url).timeout(const Duration(seconds: 10));
+          await AppHttp.get(url).timeout(const Duration(minutes: 5));
 
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {
@@ -114,7 +114,7 @@ class CouponRepository {
     try {
       final url = 'flutter/coupon/$code';
       final response =
-          await AppHttp.get(url).timeout(const Duration(seconds: 10));
+          await AppHttp.get(url).timeout(const Duration(minutes: 5));
 
       final body = response.body;
       if (response.statusCode == HttpStatus.ok) {

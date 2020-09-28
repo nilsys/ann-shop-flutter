@@ -33,15 +33,11 @@ class _HomeListNotificationState extends State<HomeListNotification> {
         ),
       ];
 
-      for (int i = 0; i < length; i++) {
-        children.add(MediaItem(data[i]));
-        children.add(Container(
-          height: 1,
-          color: AppStyles.dividerColor,
-        ));
-      }
+      for (int i = 0; i < length; i++) children.add(MediaItem(data[i]));
+
       children.add(BottomViewMore(
         onPressed: () => Routes.navigateHome(context, ANNPage.notification),
+        blockName: "thông báo",
       ));
       return SliverList(delegate: SliverChildListDelegate(children));
     } else {

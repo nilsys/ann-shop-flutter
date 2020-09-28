@@ -3,23 +3,45 @@ import 'package:flutter/material.dart';
 
 import 'indicator.dart';
 
+// ignore: must_be_immutable
 class AppImage extends StatelessWidget {
-  AppImage(this.url, {this.fit = BoxFit.cover, this.showLoading = true});
-
-  final String url;
-  final BoxFit fit;
-  final bool showLoading;
+  String url;
+  BoxFit fit;
+  bool showLoading;
   static String imageDomain = "http://backend.xuongann.com";
+
+  AppImage(this.url, {fit = BoxFit.cover, showLoading = true}) {
+    this.url = AppImage.getUrl(this.url);
+    this.fit = fit;
+    this.showLoading = showLoading;
+  }
 
   @override
   Widget build(BuildContext context) {
     return _buildCachedImage();
   }
 
+  static String getUrl(String url) {
+    var reg =
+        new RegExp(r"^(?<domain>(http|https):\/\/([\w]+.)?[\w]+\.[\w]+)?\/.+$");
+
+    // Trường hợp url không đúng định dạng
+    if (!reg.hasMatch(url)) {
+      return url;
+    } else {
+      var match = reg.firstMatch(url);
+      var domain = match.namedGroup("domain");
+
+      if (domain != null)
+        return url;
+      else
+        return AppImage.imageDomain + url;
+    }
+  }
+
   _buildCachedImage() {
-    var fullUrl = url.contains('http') ? url : ("$imageDomain$url");
     return CachedNetworkImage(
-      imageUrl: fullUrl,
+      imageUrl: url,
       fit: fit,
       placeholder: showLoading
           ? (context, url) {
