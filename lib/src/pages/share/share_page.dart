@@ -365,7 +365,7 @@ class _SharePageState extends State<SharePage> {
     for (int i = 0; i < imagesSelected.length; i++) {
       await Future.delayed(const Duration(milliseconds: 500));
       await DefaultCacheManager()
-          .getSingleFile(AppImage.imageDomain + imagesSelected[i])
+          .getSingleFile(AppImage.getUrl(imagesSelected[i]))
           .then((File file) {
         files.add(file.path);
         mapByte['image_$i.png'] = file.readAsBytesSync();

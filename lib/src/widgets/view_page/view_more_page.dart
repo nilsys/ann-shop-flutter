@@ -158,18 +158,22 @@ class _ViewMorePageState extends State<ViewMorePage> {
     _controller.downloadImage(context, images);
   }
 
-  void _onClickShare(BuildContext context, ViewModel data) async {
+  Future<void> _onClickShare(BuildContext context, ViewModel data) async {
     if (AC.instance.canPostBloc == false) {
       AppSnackBar.askLogin(context);
       return;
     }
 
     showLoading(context, message: 'Đang xử lý...');
-    Navigator.pushNamed(context, 'product/detail/share-social', arguments: {
-      'images': data.images,
-      'title': data.title,
-      'message': data.postContent
-    }).then((_) => hideLoading(context));
+    await Future.delayed(const Duration(milliseconds: 500));
+    hideLoading(context);
+
+    await Navigator.pushNamed(context, 'product/detail/share-social',
+        arguments: {
+          'images': data.images,
+          'title': data.title,
+          'message': data.postContent
+        });
   }
 
   void _onClickCopy(BuildContext context, String content) async {

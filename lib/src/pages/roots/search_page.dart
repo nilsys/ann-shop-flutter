@@ -20,7 +20,6 @@ class SearchPage extends StatelessWidget {
                 Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
             onPressed: () {
               if (MediaQuery.of(context).viewInsets.bottom > 100 || true) {
-                FocusScope.of(context).requestFocus(FocusNode());
                 if (Navigator.canPop(context)) {
                   Navigator.pop(context);
                 } else {

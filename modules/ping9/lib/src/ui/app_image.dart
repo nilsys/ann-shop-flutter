@@ -11,7 +11,7 @@ class AppImage extends StatelessWidget {
   static String imageDomain = "http://backend.xuongann.com";
 
   AppImage(this.url, {fit = BoxFit.cover, showLoading = true}) {
-    _addDomain(this.url);
+    this.url = AppImage.getUrl(this.url);
     this.fit = fit;
     this.showLoading = showLoading;
   }
@@ -21,21 +21,21 @@ class AppImage extends StatelessWidget {
     return _buildCachedImage();
   }
 
-  _addDomain(String url) {
+  static String getUrl(String url) {
     var reg =
         new RegExp(r"^(?<domain>(http|https):\/\/([\w]+.)?[\w]+\.[\w]+)?\/.+$");
 
     // Trường hợp url không đúng định dạng
     if (!reg.hasMatch(url)) {
-      this.url = url;
+      return url;
     } else {
       var match = reg.firstMatch(url);
       var domain = match.namedGroup("domain");
 
       if (domain != null)
-        this.url = url;
+        return url;
       else
-        this.url = AppImage.imageDomain + url;
+        return AppImage.imageDomain + url;
     }
   }
 

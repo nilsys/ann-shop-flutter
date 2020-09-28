@@ -10,12 +10,12 @@ StreamController<String> _streamController =
 
 _ProgressDialog _progressDialog;
 
-void showLoading(BuildContext context,
-    {String message = '', Color bgRoundedColor}) {
+Future<void> showLoading(BuildContext context,
+    {String message = '', Color bgRoundedColor}) async {
   if (_progressDialog == null) {
-    _progressDialog = _ProgressDialog(bgRoundedColor: bgRoundedColor)
-      ..show(context);
+    _progressDialog = _ProgressDialog(bgRoundedColor: bgRoundedColor);
     _dialogMessage = message;
+    await _progressDialog.show(context);
   }
 }
 
