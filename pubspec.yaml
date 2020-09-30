@@ -21,6 +21,7 @@ dependencies:
   loading_more_list: ^3.0.1
   transparent_image: ^1.0.0
   image_gallery_saver: ^1.5.0
+  gallery_saver: ^2.0.1
 
   firebase_core: ^0.5.0
   firebase_dynamic_links: ^0.6.0

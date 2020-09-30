@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:ann_shop_flutter/core/core.dart';
-import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/ac.dart';
-import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:ping9/ping9.dart';
+import 'package:ann_shop_flutter/model/utility/cover.dart';
+import 'package:path/path.dart';
 
 class UtilityRepository {
   static final UtilityRepository instance = UtilityRepository._internal();
@@ -60,5 +59,18 @@ class UtilityRepository {
       print(e);
     }
     return null;
+  }
+
+  Future<File> downloadFile(String url) async {
+    print(url);
+    http.Client _client = new http.Client();
+    var req = await _client.get(Uri.parse(url));
+    var bytes = req.bodyBytes;
+    String dir = (await getTemporaryDirectory()).path;
+    File file = new File('$dir/${basename(url)}');
+    await file.writeAsBytes(bytes);
+    print('File size:${await file.length()}');
+    print(file.path);
+    return file;
   }
 }

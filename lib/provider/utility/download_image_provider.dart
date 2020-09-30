@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/main.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -51,7 +52,7 @@ class DownloadImageProvider extends ChangeNotifier {
     try {
       notifyListeners();
       var file = await DefaultCacheManager()
-          .getSingleFile(AppImage.imageDomain + images[_index])
+          .getSingleFile(checkLink(images[_index]))
           .timeout(Duration(minutes: 5));
       Uint8List bytes = file.readAsBytesSync();
       await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));
@@ -74,15 +75,19 @@ class DownloadImageProvider extends ChangeNotifier {
     }
     try {
       notifyListeners();
-      var file = await DefaultCacheManager()
-          .getSingleFile(AppImage.imageDomain + images[_index])
-          .timeout(Duration(minutes: 5));
-      Uint8List bytes = file.readAsBytesSync();
-      await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));
+      await GallerySaver.saveVideo(checkLink(_images[index]))
+          .timeout(Duration(seconds: 30));
     } catch (e) {
       countFail++;
       print(e);
     }
     _saveVideo(_index + 1);
+  }
+
+  String checkLink(String name) {
+    if (name.contains("http")) {
+      return name;
+    }
+    return "${AppImage.imageDomain}$name";
   }
 }
