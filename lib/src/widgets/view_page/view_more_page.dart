@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-// import 'package:flutube/flutube.dart';
+import 'package:ann_shop_flutter/ui/utility/download_background.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/src/controllers/views/view_controller.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
@@ -20,14 +22,12 @@ class ViewMorePage extends StatefulWidget {
 }
 
 class _ViewMorePageState extends State<ViewMorePage> {
-  ViewController _controller;
   Future<ViewModel> _fetchData;
 
   @override
   void initState() {
     super.initState();
-    _controller = ViewController.instance;
-    _fetchData = _controller.getViewBySlug(widget.slug);
+    _fetchData = ViewController.instance.getViewBySlug(widget.slug);
   }
 
   @override
@@ -64,22 +64,23 @@ class _ViewMorePageState extends State<ViewMorePage> {
       child = EmptyListUI(
         body: "Không có nội dung",
       );
-    else
-      child = new ListView(
+    else {
+      child = ListView(
         children: <Widget>[
-          // if (isNullOrEmpty(data.videoUrl))
-          HtmlContent(content)
-          // else
-          //   ANNPlayer(
-          //     videoUrl: data.videoUrl,
-          //     child: Padding(
-          //       padding: EdgeInsets.symmetric(
-          //           horizontal: defaultPadding, vertical: 16),
-          //       child: HtmlContent(content),
-          //     ),
-          //   ),
+          if (isNullOrEmpty(data.videoUrl))
+            HtmlContent(content)
+          else
+            ANNPlayer(
+              videoUrl: data.videoUrl,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: defaultPadding, vertical: 16),
+                child: HtmlContent(content),
+              ),
+            ),
         ],
       );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -106,7 +107,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
       body: SomethingWentWrong(
         onReload: () async {
           setState(() {
-            _fetchData = _controller.getViewBySlug(widget.slug);
+            _fetchData = ViewController.instance.getViewBySlug(widget.slug);
           });
         },
       ),
@@ -116,22 +117,26 @@ class _ViewMorePageState extends State<ViewMorePage> {
   Widget _buildBottomNavigationBar(BuildContext context, ViewModel data) {
     return BottomAppBar(
       color: Colors.white,
-      child: Container(
-          height: 56,
-          child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              // if (isNullOrEmpty(data?.videoUrl) == false)
-              //   ButtonIconText(
-              //     'Tải Video',
-              //     Icons.video_library,
-              //     onPressed: () => _onClickDownload(context, data.images),
-              //   ),
-              ButtonIconText(
-                'Tải hình',
-                MaterialCommunityIcons.image_multiple,
-                onPressed: () => _onClickDownload(context, data.images),
-              ),
+              if (isNullOrEmpty(data?.videoUrl) == false)
+                ButtonIconText(
+                  'Tải Video',
+                  Icons.video_library,
+                  onPressed: () => ANNDownload.instance
+                      .onDownLoadVideo(context, data.videoUrl),
+                ),
+              if (isNullOrEmpty(data.images) == false)
+                ButtonIconText(
+                  'Tải hình',
+                  MaterialCommunityIcons.image_multiple,
+                  onPressed: () => ANNDownload.instance.onDownLoadImages(context, data.images),
+                ),
               ButtonIconText(
                 'Đăng bài',
                 Icons.share,
@@ -143,19 +148,11 @@ class _ViewMorePageState extends State<ViewMorePage> {
                 onPressed: () => _onClickCopy(context, data.postContent),
               )
             ],
-          )),
+          ),
+          DownLoadBackground(),
+        ],
+      ),
     );
-  }
-
-  void _onClickDownload(BuildContext context, List<String> images) async {
-    if (AC.instance.canDownloadBloc == false) {
-      AppSnackBar.askLogin(context);
-      return;
-    }
-
-    if (images == null || images.length == 0) return;
-
-    _controller.downloadImage(context, images);
   }
 
   Future<void> _onClickShare(BuildContext context, ViewModel data) async {

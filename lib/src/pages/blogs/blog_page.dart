@@ -76,16 +76,10 @@ class _BlogPageState extends State<BlogPage> {
       delegate: CommonSliverPersistentHeaderDelegate(
         Container(
           color: Colors.white,
-          padding: EdgeInsets.only(top: 20, bottom: 5),
           width: double.infinity,
           child: ListView.separated(
+            padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
             itemBuilder: (context, index) {
-              index -= 1;
-              if (index < 0 || index == categories.length) {
-                return SizedBox(
-                  width: 5,
-                );
-              }
               BlogCategory item = categories[index];
               bool selected = item.filter.categorySlug ==
                   provider.currentCategory.filter.categorySlug;
@@ -105,7 +99,7 @@ class _BlogPageState extends State<BlogPage> {
                 width: 10,
               );
             },
-            itemCount: categories.length + 2,
+            itemCount: categories.length,
             scrollDirection: Axis.horizontal,
           ),
         ),

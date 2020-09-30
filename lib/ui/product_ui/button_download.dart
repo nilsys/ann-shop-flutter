@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
@@ -108,3 +109,35 @@ class _ButtonDownloadState extends State<ButtonDownload> {
 }
 
 enum loadState { none, loading, success }
+
+
+class ButtonDownLoadVideo extends StatelessWidget {
+  ButtonDownLoadVideo(this.videoUrl);
+  final String videoUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 10,
+      bottom: 0,
+      child: Stack(alignment: Alignment.center, children: [
+        Container(
+          height: 35,
+          width: 40,
+          decoration: BoxDecoration(
+            color: Colors.green,
+            shape: BoxShape.circle,
+          ),
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.file_download,
+            size: 20,
+            color: Colors.white,
+          ),
+          onPressed: ()=> ANNDownload.instance.onDownLoadVideo(context, videoUrl),
+        ),
+      ]),
+    );
+  }
+}

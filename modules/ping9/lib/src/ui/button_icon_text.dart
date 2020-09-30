@@ -25,7 +25,7 @@ class ButtonIconText extends StatelessWidget {
             Text(
               title,
               maxLines: 1,
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 10, fontWeight: FontWeight.normal),
             ),
             SizedBox(height: 6.0),
           ],

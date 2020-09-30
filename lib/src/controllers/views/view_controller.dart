@@ -35,8 +35,4 @@ class ViewController extends ANNController {
       throw Exception('Đã có lỗi xãy ra.');
     }
   }
-
-  Future<void> downloadImage(BuildContext context, List<String> images) async {
-    ANNDownload.instance.downloadImages(context, images);
-  }
 }

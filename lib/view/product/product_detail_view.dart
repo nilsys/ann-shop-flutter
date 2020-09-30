@@ -1,5 +1,6 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/provider/product/product_utility.dart';
+import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -151,6 +152,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                           'data': data.data
                         });
                   },
+                  videoUrl: detail.videoUrl,
                   initIndex: 0,
                 ),
               ),
@@ -485,60 +487,80 @@ class _ProductDetailViewState extends State<ProductDetailView>
       color: Colors.white,
       child: Container(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                favorite
-                    ? ButtonIconText(
-                        'Xoá',
-                        Icons.favorite,
-                        onPressed: () {
-                          Provider.of<FavoriteProvider>(context, listen: false)
-                              .removeProduct(detail.productId);
-                        },
-                      )
-                    : ButtonIconText(
-                        'Thích',
-                        Icons.favorite_border,
-                        onPressed: () {
-                          Provider.of<FavoriteProvider>(context, listen: false)
-                              .addNewProduct(context, detail.toProduct(),
-                                  count: 1);
-                        },
-                      ),
-                ButtonIconText(
-                  'Tải hình',
-                  Icons.cloud_download,
-                  onPressed: () {
-                    if (detail != null) {
-                      ProductUtility.instance
-                          .onDownLoad(context, detail.productId);
-                    } else {
-                      AppSnackBar.showFlushbar(
-                          context, 'Đang tải dữ liệu. Thử lại sau');
-                    }
-                  },
+                if (favorite)
+                  Expanded(
+                    child: ButtonIconText(
+                      'Xoá',
+                      Icons.favorite,
+                      onPressed: () {
+                        Provider.of<FavoriteProvider>(context, listen: false)
+                            .removeProduct(detail.productId);
+                      },
+                    ),
+                  )
+                else
+                  Expanded(
+                    child: ButtonIconText(
+                      'Thích',
+                      Icons.favorite_border,
+                      onPressed: () {
+                        Provider.of<FavoriteProvider>(context, listen: false)
+                            .addNewProduct(context, detail.toProduct(), count: 1);
+                      },
+                    ),
+                  ),
+                if (isNullOrEmpty(detail.videoUrl) == false)
+                  Expanded(
+                    child: ButtonIconText(
+                      'Tải video',
+                      Icons.video_library,
+                      onPressed: () => ANNDownload.instance
+                          .onDownLoadVideo(context, detail.videoUrl),
+                    ),
+                  ),
+                Expanded(
+                  child: ButtonIconText(
+                    'Tải hình',
+                    MaterialCommunityIcons.image_multiple,
+                    onPressed: () {
+                      if (detail != null) {
+                        ANNDownload.instance
+                            .onDownLoadImagesProduct(context, detail.productId);
+                      } else {
+                        AppSnackBar.showFlushbar(
+                            context, 'Đang tải dữ liệu. Thử lại sau');
+                      }
+                    },
+                  ),
                 ),
-                ButtonIconText(
-                  'Đăng bài',
-                  Icons.share,
-                  onPressed: () {
-                    if (detail != null) {
-                      ProductUtility.instance.onCheckAndShare(context, detail);
-                    } else {
-                      AppSnackBar.showFlushbar(
-                          context, 'Đang tải dữ liệu. Thử lại sau');
-                    }
-                  },
+                Expanded(
+                  child: ButtonIconText(
+                    'Đăng bài',
+                    Icons.share,
+                    onPressed: () {
+                      if (detail != null) {
+                        ProductUtility.instance.onCheckAndShare(context, detail);
+                      } else {
+                        AppSnackBar.showFlushbar(
+                            context, 'Đang tải dữ liệu. Thử lại sau');
+                      }
+                    },
+                  ),
                 ),
-                ButtonIconText(
-                  'Copy',
-                  Icons.content_copy,
-                  onPressed: () => ProductUtility.instance
-                      .onCheckAndCopy(context, detail.productId),
+                Expanded(
+                  child: ButtonIconText(
+                    'Copy',
+                    Icons.content_copy,
+                    onPressed: () => ProductUtility.instance
+                        .onCheckAndCopy(context, detail.productId),
+                  ),
                 ),
               ],
             ),
@@ -575,7 +597,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
           highlight: ButtonData(
             'Lưu',
             onPressed: () {
-              ProductUtility.instance.onDownLoad(context, detail.productId);
+              ANNDownload.instance
+                  .onDownLoadImagesProduct(context, detail.productId);
             },
           ),
         )

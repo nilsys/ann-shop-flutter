@@ -141,40 +141,4 @@ class ProductUtility {
       return;
     }
   }
-
-  /// save to gallery
-  Future<bool> onDownLoad(BuildContext context, int productId) async {
-    if (AC.instance.canDownloadProduct == false) {
-      AppSnackBar.askLogin(context);
-      return false;
-    }
-    try {
-      final images = await ProductRepository.instance
-          .loadProductAdvertisementImage(productId);
-      if (isNullOrEmpty(images)) {
-        AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
-            duration: const Duration(seconds: 1));
-      } else {
-        final permissionGroup =
-            Platform.isAndroid ? Permission.storage : Permission.photos;
-        final permission = await PermissionController.instance
-            .checkAndRequestPermission(context, permissionGroup);
-        if (permission) {
-          final result =
-              await Provider.of<DownloadImageProvider>(context, listen: false)
-                  .downloadImages(images);
-          if (result == false) {
-            AppSnackBar.showFlushbar(
-                context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
-          }
-        }
-      }
-      return true;
-    } catch (e) {
-      print(e);
-      AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
-          duration: const Duration(seconds: 1));
-      return false;
-    }
-  }
 }

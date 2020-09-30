@@ -20,6 +20,7 @@ class Product {
   double retailPrice;
 
   List<String> images;
+  String videoUrl;
 
   Product({this.productId});
 
@@ -110,6 +111,9 @@ class Product {
     regularPrice = json['regularPrice'];
     oldPrice = json['oldPrice'];
     retailPrice = json['retailPrice'];
+    // todo: mock data
+    this.videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+    // videoUrl = json['videoUrl'];
   }
 
   Map<String, dynamic> toJson() {
@@ -126,6 +130,7 @@ class Product {
     data['regularPrice'] = this.regularPrice;
     data['oldPrice'] = this.oldPrice;
     data['retailPrice'] = this.retailPrice;
+    data['videoUrl'] = this.videoUrl;
     return data;
   }
 }

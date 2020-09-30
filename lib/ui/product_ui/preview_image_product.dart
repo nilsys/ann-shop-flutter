@@ -1,38 +1,53 @@
 import 'package:ann_shop_flutter/model/product/product.dart';
+import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ann_shop_flutter/src/widgets/common/gesture_zoom_box.dart';
 import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
 import 'package:flutter/material.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 
 class PreviewImageProduct extends StatefulWidget {
   PreviewImageProduct(this.carousel,
-      {this.initIndex = 0, this.controller, this.tapExpanded});
+      {this.initIndex = 0, this.controller, this.tapExpanded, this.videoUrl});
 
   final List<ProductCarousel> carousel;
-  final initIndex;
+  final int initIndex;
   final PageController controller;
-  final tapExpanded;
+  final VoidCallback tapExpanded;
+  final String videoUrl;
 
   @override
   _PreviewImageProductState createState() => _PreviewImageProductState();
 }
 
 class _PreviewImageProductState extends State<PreviewImageProduct> {
-  List<ProductCarousel> carousel;
   PageController controller;
-  VoidCallback tapExpanded;
 
   @override
   void initState() {
-
     super.initState();
-    _indexImage = widget.initIndex;
-    carousel = widget.carousel;
-    tapExpanded = widget.tapExpanded;
-    controller =
-        widget.controller ?? new PageController(initialPage: indexImage);
-    thumbnailController =
-        ScrollController(initialScrollOffset: getOffsetByIndex(_indexImage));
+    _indexImage = isNullOrEmpty(widget.videoUrl)
+        ? widget.initIndex
+        : widget.initIndex - 1;
+    printTrack(_indexImage);
+    controller = widget.controller ??
+        new PageController(initialPage: indexPageAt(_indexImage));
+    thumbnailController = ScrollController(
+        initialScrollOffset: getOffsetByIndex(indexPageAt(_indexImage)));
+  }
+
+  int get maxCountPage {
+    if (isNullOrEmpty(widget.videoUrl) == false) {
+      return widget.carousel.length + 1;
+    }
+    return widget.carousel.length;
+  }
+
+  int indexPageAt(int index) {
+    if (isNullOrEmpty(widget.videoUrl) == false) {
+      return index + 1;
+    }
+    return index;
   }
 
   @override
@@ -42,31 +57,42 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
         Expanded(
           flex: 1,
           child: InkWell(
-            onTap: tapExpanded,
+            onTap: widget.tapExpanded,
             child: Stack(
               fit: StackFit.expand,
               children: <Widget>[
                 PageView.builder(
-                    itemCount: carousel.length,
-                    controller: controller,
-                    onPageChanged: (index) {
+                  itemCount: maxCountPage,
+                  controller: controller,
+                  onPageChanged: (index) {
+                    if (isNullOrEmpty(widget.videoUrl) == false) {
+                      indexImage = index - 1;
+                    } else {
                       indexImage = index;
-                    },
-                    itemBuilder: (context, index) {
-                      return Container(
-                        alignment: Alignment.center,
-                        child: GestureZoomBox(
-                          child: AppImage(
-                            AppImage.imageDomain +
-                                (tapExpanded != null
-                                    ? carousel[index].feature
-                                    : carousel[index].origin),
-                            fit: BoxFit.contain,
-                          ),
+                    }
+                  },
+                  itemBuilder: (context, fakeIndex) {
+                    int index = isNullOrEmpty(widget.videoUrl)
+                        ? fakeIndex
+                        : fakeIndex - 1;
+                    if (index == -1) {
+                      return _buildVideo();
+                    }
+                    return Container(
+                      alignment: Alignment.center,
+                      child: GestureZoomBox(
+                        child: AppImage(
+                          AppImage.imageDomain +
+                              (widget.tapExpanded != null
+                                  ? widget.carousel[index].feature
+                                  : widget.carousel[index].origin),
+                          fit: BoxFit.contain,
                         ),
-                      );
-                    }),
-                tapExpanded == null
+                      ),
+                    );
+                  },
+                ),
+                widget.tapExpanded == null
                     ? Positioned(
                         right: 15,
                         top: 15,
@@ -82,17 +108,24 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
                           color: Theme.of(context).primaryColor,
                         ),
                       ),
-                ButtonDownload(
-                  imageName: carousel[indexImage].origin,
-                ),
+                if (indexImage < 0)
+                  ButtonDownLoadVideo(widget.videoUrl)
+                else
+                  ButtonDownload(
+                    imageName: widget.carousel[indexImage].origin,
+                  ),
               ],
             ),
           ),
         ),
         SizedBox(height: 10),
-        _buildImageSelect(carousel)
+        _buildImageSelect(widget.carousel)
       ],
     );
+  }
+
+  Widget _buildVideo() {
+    return MyChewie(widget.videoUrl);
   }
 
   int _indexImage = 0;
@@ -120,20 +153,19 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
   Widget _buildImageSelect(List<ProductCarousel> images) {
     return Container(
       height: 70,
-      padding: EdgeInsets.symmetric(vertical: 5),
       child: ListView.builder(
+        padding: EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 5),
         controller: thumbnailController,
         physics: ClampingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        itemCount: images.length + 2,
-        itemBuilder: (context, index) {
-          if (index == (images.length + 1) || index == 0) {
-            return SizedBox(
-              width: defaultPadding,
-            );
-          } else {
-            return _imageButton(images[index - 1].thumbnail, index: index - 1);
+        itemCount: maxCountPage,
+        itemBuilder: (context, fakeIndex) {
+          int index =
+              isNullOrEmpty(widget.videoUrl) ? fakeIndex : fakeIndex - 1;
+          if (index == -1) {
+            return _videoButton();
           }
+          return _imageButton(images[index].thumbnail, index: index);
         },
       ),
     );
@@ -159,7 +191,7 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
       margin: EdgeInsets.symmetric(horizontal: 5),
       child: InkWell(
         onTap: () {
-          controller.animateToPage(index,
+          controller.animateToPage(indexPageAt(index),
               duration: Duration(milliseconds: 500), curve: Curves.easeIn);
         },
         child: Opacity(
@@ -172,6 +204,34 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _videoButton() {
+    bool isSelect = indexImage == -1;
+    return Container(
+      width: 55,
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        border: isSelect
+            ? new Border.all(
+                color: Theme.of(context).primaryColor,
+                width: 1.5,
+                style: BorderStyle.solid,
+              )
+            : null,
+        borderRadius: BorderRadius.all(
+          Radius.circular(7),
+        ),
+      ),
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      child: InkWell(
+        onTap: () {
+          controller.animateToPage(0,
+              duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+        },
+        child: Icon(MaterialCommunityIcons.video),
       ),
     );
   }

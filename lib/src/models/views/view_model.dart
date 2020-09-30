@@ -15,7 +15,7 @@ class ViewModel {
     this.content = json['content'] ?? '';
 
     // todo: mock to test video
-    this.videoUrl = "https://ssd-asia.com/files/media/video/ar_intro.mp4";
+    this.videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
     // this.videoUrl = json['video_url'] ?? '';
 
     this.createDate = DateTime.parse(json['createdDate']) ?? DateTime.now();
