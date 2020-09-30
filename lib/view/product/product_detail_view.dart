@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -71,7 +72,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
   @override
   void dispose() {
     controllerScroll.dispose();
+    VideoHelper.instance.dispose();
     super.dispose();
+
   }
 
   ProductDetail detail;

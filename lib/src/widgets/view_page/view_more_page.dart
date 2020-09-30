@@ -29,6 +29,11 @@ class _ViewMorePageState extends State<ViewMorePage> {
     super.initState();
     _fetchData = ViewController.instance.getViewBySlug(widget.slug);
   }
+  @override
+  void dispose(){
+    VideoHelper.instance.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

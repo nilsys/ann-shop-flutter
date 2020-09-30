@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/services.dart';
+import 'package:flutube/flutube.dart';
 import 'package:video_player/video_player.dart';
-
 import 'fluture_utility.dart';
 
 class MyChewie extends StatefulWidget {
@@ -19,7 +19,6 @@ class MyChewie extends StatefulWidget {
 }
 
 class MyChewieState extends State<MyChewie> {
-  VideoPlayerController videoController;
   ChewieController chewieController;
 
   @override
@@ -30,11 +29,7 @@ class MyChewieState extends State<MyChewie> {
 
   @override
   void dispose() {
-    if (videoController?.value?.isPlaying ?? false) {
-      this.videoController.pause();
-    }
-    this.videoController?.dispose();
-    this.videoController = null;
+    VideoHelper.instance.dispose();
 
     if (this.chewieController != null) {
       this.chewieController?.dispose();
@@ -46,9 +41,9 @@ class MyChewieState extends State<MyChewie> {
     print(
         "[Flutube_player.dart] _initialize--------------------URL VIDEO: $_url");
 
-    this.videoController = VideoPlayerController.network(_url);
+    VideoHelper.instance.initialize(VideoPlayerController.network(_url));
     chewieController = ChewieController(
-      videoPlayerController: this.videoController,
+      videoPlayerController: VideoHelper.instance.videoController,
       aspectRatio: kRatioVideo,
       autoInitialize: false,
       autoPlay: true,
@@ -65,16 +60,6 @@ class MyChewieState extends State<MyChewie> {
       allowedScreenSleep: false,
       allowMuting: true,
     );
-  }
-
-  _playVideoLoop() {
-    print("-------------------Handle current-----------------");
-    setState(() {
-      chewieController?.dispose();
-      this.videoController.pause();
-      this.videoController = null;
-      _initialize(widget.videoUrl);
-    });
   }
 
   @override
