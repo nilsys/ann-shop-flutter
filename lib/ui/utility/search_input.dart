@@ -12,7 +12,6 @@ class SearchInput extends StatefulWidget {
 class _SearchInputState extends State<SearchInput> {
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -26,11 +25,7 @@ class _SearchInputState extends State<SearchInput> {
     // Focus the keyboard when open the search page
     final provider = Provider.of<SearchProvider>(context);
 
-    if (provider.openKeyboard) {
-      FocusScope.of(context).requestFocus(provider.focusNode);
-    } else {
-      provider.focusNode.unfocus();
-    }
+    provider.focusNode.unfocus();
 
     return Container(
       height: 35,

@@ -50,6 +50,10 @@
 	<string>ANN cần quyền sử dụng CAMERA để quét mã sản phẩm, giúp việc tìm kiếm sản phẩm dể dàng hơn</string>
 	<key>NSContactsUsageDescription</key>
 	<string>ANN cần quyền sử dụng CONTACT</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>ANN cần quyền sử dụng RECOGNITION</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ANN cần quyền sử dụng RECOGNITION</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>ANN cần quyền sử dụng Microphone</string>
 	<key>NSMotionUsageDescription</key>

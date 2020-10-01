@@ -36,6 +36,7 @@ class _HomeListPostState extends State<HomeListPost> {
         onPressed: () {
           Navigator.pushNamed(context, 'blog');
         },
+        blockName: "bài viết",
       ));
       return SliverList(delegate: SliverChildListDelegate(children));
     } else {

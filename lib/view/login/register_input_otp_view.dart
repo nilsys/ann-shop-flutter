@@ -3,7 +3,8 @@ import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
 import 'package:ann_shop_flutter/provider/utility/app_response.dart';
-
+import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 
 import 'package:ping9/ping9.dart';
 
@@ -87,8 +88,10 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                               style: Theme.of(context).textTheme.bodyText2),
                           TextSpan(
                               text: AccountRegisterState.instance.phone,
-                              style: Theme.of(context).textTheme.bodyText1.merge(
-                                  TextStyle(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .merge(TextStyle(
                                       decoration: TextDecoration.underline))),
                           TextSpan(
                               text: '  của quý khách',
@@ -176,6 +179,9 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
   void _validateInput() {
     final form = _formKey.currentState;
     if (form.validate()) {
+      setState(() {
+        countDown = 0;
+      });
       _onValidateOTP();
     } else {
       setState(() {
@@ -216,25 +222,44 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
     if (_checkInternet == false) {
       AppSnackBar.showFlushbar(context, 'Kiểm tra kết nối mạng và thử lại.');
     } else {
-      try {
-        showLoading(context);
-        AppResponse response = await AccountRepository.instance
-            .registerStep2RequestOTP(AccountRegisterState.instance.phone,
-                AccountRegisterState.instance.randomNewOtp());
-        hideLoading(context);
-
-        if (response.status) {
-          AccountRegisterState.instance.timeOTP = DateTime.now();
-          registerStream();
-        } else {
-          AppSnackBar.showFlushbar(context,
-              response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
-        }
-      } catch (e) {
-        print(e);
-        AppSnackBar.showFlushbar(
-            context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
-      }
+      await AppPopup.showCustomDialog(context, content: [
+        AvatarGlow(
+          endRadius: 50,
+          duration: const Duration(milliseconds: 1000),
+          glowColor: Theme.of(context).primaryColor,
+          child: Icon(
+            Icons.warning,
+            size: 50,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                  text: 'Xác nhận số điện thoại ',
+                  style: Theme.of(context).textTheme.bodyText2),
+              TextSpan(
+                  text: AccountRegisterState.instance.phone,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .merge(TextStyle(decoration: TextDecoration.underline))),
+              TextSpan(
+                  text: ' là chính xác?',
+                  style: Theme.of(context).textTheme.bodyText2),
+            ],
+          ),
+          textAlign: TextAlign.center,
+        ),
+        CenterButtonPopup(
+          normal: ButtonData('Quay lại', onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, 'user/login', (route) => false);
+          }),
+          highlight: ButtonData('Xác nhận', onPressed: _onValidateOTP),
+        )
+      ]);
     }
   }
 }
