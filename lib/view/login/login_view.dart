@@ -28,7 +28,6 @@ class _LoginViewState extends State<LoginView> {
 
   String phone;
 
-
   @override
   void initState() {
     super.initState();
@@ -41,7 +40,6 @@ class _LoginViewState extends State<LoginView> {
       phone = _accountController.account.phone;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

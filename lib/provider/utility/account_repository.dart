@@ -76,9 +76,25 @@ class AccountRepository {
   Future<AppResponse> registerStep4CreatePassword(
       String phone, String otp, String password) async {
     try {
+      //#region Get Device Info
+      AndroidDeviceInfo androidInfo;
+      IosDeviceInfo iosInfo;
+
+      var deviceInfo = DeviceInfoPlugin();
+      if (Platform.isAndroid)
+        androidInfo = await deviceInfo.androidInfo;
+      else
+        iosInfo = await deviceInfo.iosInfo;
+      //#endregion
+
       var url = '${AppHttp.domain}flutter/user/create-password';
       var headers = {"Content-type": "application/json"};
-      var data = {"phone": phone, 'otp': otp, "passwordNew": password};
+      var data = {
+        "phone": phone,
+        "otp": otp,
+        "passwordNew": password,
+        "device": Platform.isAndroid ? androidInfo.model : iosInfo.model
+      };
       final response = await http
           .post(url, headers: headers, body: jsonEncode(data))
           .timeout(Duration(minutes: 5));

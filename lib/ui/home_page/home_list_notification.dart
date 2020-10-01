@@ -26,12 +26,7 @@ class _HomeListNotificationState extends State<HomeListNotification> {
     if (isNullOrEmpty(data) == false) {
       int length =
           (limit == null || limit <= 0) ? data.length : min(limit, data.length);
-      List<Widget> children = [
-        Container(
-          height: 10,
-          color: AppStyles.dividerColor,
-        ),
-      ];
+      List<Widget> children = [];
 
       for (int i = 0; i < length; i++) children.add(MediaItem(data[i]));
 
