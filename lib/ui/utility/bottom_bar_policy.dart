@@ -10,7 +10,7 @@ class BottomBarPolicy extends StatelessWidget {
       child: Container(
         height: 50,
         alignment: Alignment.center,
-        child: TextButton(
+        child: MyTextButton(
           'Chính sách và điều khoản của ANN',
           onPressed: () {
             Navigator.pushNamed(context, 'shop/policy');

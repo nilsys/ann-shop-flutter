@@ -4,7 +4,6 @@ import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
 import 'package:ann_shop_flutter/provider/utility/app_response.dart';
 
-
 import 'package:ping9/ping9.dart';
 
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -87,8 +86,10 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                               style: Theme.of(context).textTheme.bodyText2),
                           TextSpan(
                               text: AccountRegisterState.instance.phone,
-                              style: Theme.of(context).textTheme.bodyText1.merge(
-                                  TextStyle(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .merge(TextStyle(
                                       decoration: TextDecoration.underline))),
                           TextSpan(
                               text: '  của quý khách',
@@ -100,7 +101,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: countDown <= 0
-                      ? TextButton(
+                      ? MyTextButton(
                           'Gửi lại OTP',
                           onPressed: () {
                             _onResentOTP();

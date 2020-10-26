@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TextButton extends StatelessWidget {
-  TextButton(this.title, {this.onPressed});
+class MyTextButton extends StatelessWidget {
+  MyTextButton(this.title, {this.onPressed});
 
   final String title;
   final VoidCallback onPressed;
