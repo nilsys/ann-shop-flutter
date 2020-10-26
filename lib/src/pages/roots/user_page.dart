@@ -101,16 +101,20 @@ class _UserPageState extends State<UserPage> {
                 _buildItemCommon('Cấp quyền tải ảnh',
                     icon: Icons.settings,
                     onTap: () => _onClickPermission(context)),
-                BorderButton(
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, 'user/login', (route) => false);
-                    AC.instance.clearToken();
-                    Provider.of<CouponProvider>(context, listen: false)
-                        .myCoupons
-                        .error = 'logout';
-                  },
-                  child: Text('ĐĂNG XUẤT'),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: defaultPadding, vertical: 8),
+                  child: BorderButton(
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, 'user/login', (route) => false);
+                      AC.instance.clearToken();
+                      Provider.of<CouponProvider>(context, listen: false)
+                          .myCoupons
+                          .error = 'logout';
+                    },
+                    child: Text('ĐĂNG XUẤT'),
+                  ),
                 ),
               ] else ...[
                 _buildItemCommon('Sản phẩm đã xem',
@@ -131,11 +135,15 @@ class _UserPageState extends State<UserPage> {
                 _buildItemCommon('Chính sách bán hàng',
                     icon: Icons.question_answer,
                     onTap: () => Navigator.pushNamed(context, 'shop/policy')),
-                BorderButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'user/login');
-                  },
-                  child: Text('ĐĂNG NHẬP'),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: defaultPadding, vertical: 8),
+                  child: BorderButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'user/login');
+                    },
+                    child: Text('ĐĂNG NHẬP'),
+                  ),
                 ),
               ]
             ]),

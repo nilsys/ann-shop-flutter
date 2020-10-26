@@ -30,7 +30,7 @@ export 'src/ui/button_gradient.dart';
 export 'src/ui/empty_list_ui.dart';
 export 'src/ui/indicator.dart';
 export 'src/ui/loading_dialog.dart';
-export 'src/ui/something_wentW_wrong.dart';
+export 'src/ui/something_went_wrong.dart';
 export 'src/ui/text_button.dart';
 export 'src/ui/title_view_more.dart';
 export 'src/ui/border_button.dart';

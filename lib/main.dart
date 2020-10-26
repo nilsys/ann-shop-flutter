@@ -27,6 +27,8 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
       .copyWith(statusBarIconBrightness: Brightness.light));
 
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(MyApp());
 }
 

@@ -33,7 +33,7 @@ class ProductDetail extends Product {
     oldPrice = product.oldPrice;
     retailPrice = product.retailPrice;
     images = product.images;
-    videoUrl = product.videoUrl;
+    videos = product.videos;
   }
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) {

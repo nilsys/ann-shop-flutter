@@ -208,13 +208,15 @@ class  Routes {
       Provider.of<ProductProvider>(context, listen: false)
           .getBySlug(detail.slug)
           .completed = detail;
+      slug = detail.slug;
     } else {
       if (product != null) {
         Provider.of<SeenProvider>(context, listen: false)
             .addNewProduct(product);
         slug = product.slug;
       }
-      await Navigator.pushNamed(context, 'product/detail', arguments: slug);
     }
+    printTrack("object");
+    await Navigator.pushNamed(context, 'product/detail', arguments: slug);
   }
 }

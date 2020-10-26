@@ -323,7 +323,7 @@ SPEC CHECKSUMS:
   sqflite: ff1d9da63c06588cc8d1faf7256d741f16989d5a
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
-  wakelock: da5012e206ec8978df58d8642e4cdd4fe506185f
+  wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 
 PODFILE CHECKSUM: 6c2dac6dddf8ccbaca8c2c1a195ee55b8feb14fd

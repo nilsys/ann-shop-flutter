@@ -3,16 +3,8 @@ import 'dart:developer' as developer;
 import 'package:ann_shop_flutter/core/core.dart';
 
 class ANNLogging {
-  // region Singleton Pattern
   static final _instance = ANNLogging._internal();
-
-  // endregion
-
-  // region Getter
   static ANNLogging get instance => _instance;
-
-  // endregion
-
   ANNLogging._internal();
 
   factory ANNLogging() => _instance;

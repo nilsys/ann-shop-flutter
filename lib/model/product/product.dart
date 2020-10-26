@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:ann_shop_flutter/model/utility/my_video.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ping9/ping9.dart';
@@ -20,7 +21,7 @@ class Product {
   double retailPrice;
 
   List<String> images;
-  String videoUrl;
+  List<MyVideo> videos;
 
   Product({this.productId});
 
@@ -112,8 +113,20 @@ class Product {
     oldPrice = json['oldPrice'];
     retailPrice = json['retailPrice'];
     // todo: mock data
-    this.videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-    // videoUrl = json['videoUrl'];
+    final videoUrl =
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+    final videoThumbnail =
+        "http://xuongann.com/uploads/images/350x467/13602-01535c6f-68cf-41d0-a4d0-7b098fe34c84.png";
+    videos = [
+      MyVideo(videoUrl, videoThumbnail),
+      MyVideo(videoUrl, videoThumbnail),
+    ];
+    // if (json['videoUrl'] != null) {
+    //   videos = [];
+    //   json['videos'].forEach((v) {
+    //     videos.add(MyVideo.fromJson(v));
+    //   });
+    // }
   }
 
   Map<String, dynamic> toJson() {
@@ -130,7 +143,9 @@ class Product {
     data['regularPrice'] = this.regularPrice;
     data['oldPrice'] = this.oldPrice;
     data['retailPrice'] = this.retailPrice;
-    data['videoUrl'] = this.videoUrl;
+    if(videos != null){
+      data['videos'] = videos.map((value) => value.toJson()).toList();
+    }
     return data;
   }
 }
@@ -251,6 +266,7 @@ class ProductCarousel {
   String origin;
   String feature;
   String thumbnail;
+
 
   ProductCarousel({this.origin, this.feature, this.thumbnail});
 

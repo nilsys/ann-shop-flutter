@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
+import 'package:ann_shop_flutter/model/utility/my_video.dart';
 import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:flutube/flutube.dart';
@@ -72,9 +73,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
   @override
   void dispose() {
     controllerScroll.dispose();
-    VideoHelper.instance.dispose();
+    // VideoHelper.instance.dispose();
     super.dispose();
-
   }
 
   ProductDetail detail;
@@ -155,7 +155,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                           'data': data.data
                         });
                   },
-                  videoUrl: detail.videoUrl,
+                  videos: detail.videos,
                   initIndex: 0,
                 ),
               ),
@@ -515,17 +515,18 @@ class _ProductDetailViewState extends State<ProductDetailView>
                       Icons.favorite_border,
                       onPressed: () {
                         Provider.of<FavoriteProvider>(context, listen: false)
-                            .addNewProduct(context, detail.toProduct(), count: 1);
+                            .addNewProduct(context, detail.toProduct(),
+                                count: 1);
                       },
                     ),
                   ),
-                if (isNullOrEmpty(detail.videoUrl) == false)
+                if (isNullOrEmpty(detail.videos) == false)
                   Expanded(
                     child: ButtonIconText(
                       'Tải video',
                       Icons.video_library,
-                      onPressed: () => ANNDownload.instance
-                          .onDownLoadVideo(context, detail.videoUrl),
+                      onPressed: () => ANNDownload.instance.onDownLoadVideo(
+                          context, MyVideo.parseToListString(detail.videos)),
                     ),
                   ),
                 Expanded(
@@ -549,7 +550,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     Icons.share,
                     onPressed: () {
                       if (detail != null) {
-                        ProductUtility.instance.onCheckAndShare(context, detail);
+                        ProductUtility.instance
+                            .onCheckAndShare(context, detail);
                       } else {
                         AppSnackBar.showFlushbar(
                             context, 'Đang tải dữ liệu. Thử lại sau');
@@ -616,7 +618,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
     return ButtonGradient(
       onTap: () {
         Navigator.pushNamed(context, 'product/detail/select-size-color',
-            arguments: {'index': controllerPage.page.round(), 'data': detail});
+            arguments: {'index': controllerPage.page.round() - (detail.videos?.length ?? 0), 'data': detail});
       },
       child: RichText(
         text: TextSpan(

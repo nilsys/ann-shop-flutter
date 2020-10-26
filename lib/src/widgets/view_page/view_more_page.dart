@@ -29,9 +29,10 @@ class _ViewMorePageState extends State<ViewMorePage> {
     super.initState();
     _fetchData = ViewController.instance.getViewBySlug(widget.slug);
   }
+
   @override
-  void dispose(){
-    VideoHelper.instance.dispose();
+  void dispose() {
+    // VideoHelper.instance.dispose();
     super.dispose();
   }
 
@@ -134,13 +135,14 @@ class _ViewMorePageState extends State<ViewMorePage> {
                   'Tải Video',
                   Icons.video_library,
                   onPressed: () => ANNDownload.instance
-                      .onDownLoadVideo(context, data.videoUrl),
+                      .onDownLoadVideo(context, [data.videoUrl]),
                 ),
               if (isNullOrEmpty(data.images) == false)
                 ButtonIconText(
                   'Tải hình',
                   MaterialCommunityIcons.image_multiple,
-                  onPressed: () => ANNDownload.instance.onDownLoadImages(context, data.images),
+                  onPressed: () => ANNDownload.instance
+                      .onDownLoadImages(context, data.images),
                 ),
               ButtonIconText(
                 'Đăng bài',

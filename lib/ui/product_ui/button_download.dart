@@ -135,7 +135,7 @@ class ButtonDownLoadVideo extends StatelessWidget {
             size: 20,
             color: Colors.white,
           ),
-          onPressed: ()=> ANNDownload.instance.onDownLoadVideo(context, videoUrl),
+          onPressed: ()=> ANNDownload.instance.onDownLoadVideo(context, [videoUrl]),
         ),
       ]),
     );

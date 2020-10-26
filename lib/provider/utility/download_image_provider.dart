@@ -24,9 +24,9 @@ class DownloadImageProvider extends ChangeNotifier {
     return false;
   }
 
-  Future<bool> downloadVideo(String url) async {
+  Future<bool> downloadVideos(List<String> urls) async {
     if (_images == null) {
-      _images = [url];
+      _images = urls;
       countFail = 0;
       _saveVideo(0);
       return true;

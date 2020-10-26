@@ -31,7 +31,7 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView> {
       body: SafeArea(
         child: PreviewImageProduct(
           detail.carousel,
-          videoUrl: detail.videoUrl,
+          videos: detail.videos,
           initIndex: _indexImage,
         ),
       ),

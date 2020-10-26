@@ -1,30 +1,52 @@
 import 'package:video_player/video_player.dart';
-import 'package:wakelock/wakelock.dart';
 
-
-class VideoHelper{
-
+class VideoHelper {
   static final _instance = VideoHelper._internal();
 
   static VideoHelper get instance => _instance;
 
   VideoHelper._internal();
 
-  VideoPlayerController videoController;
+  VideoPlayerController _currentController;
 
+  VideoPlayerController get currentController => _currentController;
 
-  void initialize(VideoPlayerController controller){
-    dispose();
-    videoController = controller;
-    Wakelock.enable();
-  }
-
-  void dispose(){
-    if (videoController?.value?.isPlaying ?? false) {
-      this.videoController.pause();
+  void setCurrentController(VideoPlayerController _controller) {
+    if (this._currentController != null &&
+        (this._currentController?.value?.isPlaying ?? false) &&
+        this._currentController != _controller) {
+      this._currentController?.pause();
+      print("pause");
     }
-    this.videoController?.dispose();
-    this.videoController = null;
-    Wakelock.disable();
+    _currentController = _controller;
   }
+}
+
+class StatePlaying {
+  static StatePlaying instance;
+
+  String idPlaying;
+  int hashCodeWidget;
+
+  factory StatePlaying() {
+    return instance ??= StatePlaying._internal();
+  }
+
+  StatePlaying._internal();
+}
+
+enum FlutubeState { ON, OFF }
+enum FlutubeStateScreen { NEW, OLD, SPECIAL }
+
+class StatePlayer {
+  static StatePlayer instance;
+
+  FlutubeState statePlayer;
+  FlutubeStateScreen stateScreen;
+
+  factory StatePlayer() {
+    return instance ??= StatePlayer._internal();
+  }
+
+  StatePlayer._internal();
 }

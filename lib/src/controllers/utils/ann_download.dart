@@ -83,7 +83,7 @@ class ANNDownload {
     return true;
   }
 
-  Future<bool> onDownLoadVideo(BuildContext context, String videoUrl) async {
+  Future<bool> onDownLoadVideo(BuildContext context, List<String> videos) async {
     if (AC.instance.canDownloadProduct == false) {
       AppSnackBar.askLogin(context);
       return false;
@@ -92,7 +92,7 @@ class ANNDownload {
       AppSnackBar.askLogin(context);
       return false;
     }
-    if(isNullOrEmpty(videoUrl)){
+    if(isNullOrEmpty(videos)){
       return false;
     }
     final permissionGroup =
@@ -102,7 +102,7 @@ class ANNDownload {
     if (permission) {
       final result =
       await Provider.of<DownloadImageProvider>(context, listen: false)
-          .downloadVideo(videoUrl);
+          .downloadVideos(videos);
       if (result == false) {
         AppSnackBar.showFlushbar(
             context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
