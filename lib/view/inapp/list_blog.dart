@@ -43,10 +43,13 @@ class _BuildAllViewState extends State<ListBlog> {
         child: LoadingMoreCustomScrollView(
           showGlowLeading: false,
           slivers: <Widget>[
-            widget.topObject ?? SliverToBoxAdapter(),
+            if (widget.topObject != null) widget.topObject,
             SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 0),
-                sliver: LoadingMoreSliverList(_buildByView()))
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 16),
+              sliver: LoadingMoreSliverList(
+                _buildByView(),
+              ),
+            )
           ],
         ),
       ),

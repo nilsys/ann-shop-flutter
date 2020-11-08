@@ -112,7 +112,15 @@ class Product {
     regularPrice = json['regularPrice'];
     oldPrice = json['oldPrice'];
     retailPrice = json['retailPrice'];
-    // todo: mock data
+
+    if (json['videoUrl'] != null) {
+      videos = [];
+      json['videos'].forEach((v) {
+        videos.add(MyVideo.fromJson(v));
+      });
+    }
+  }
+  void addMockData(){
     final videoUrl =
         "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
     final videoThumbnail =
@@ -121,12 +129,6 @@ class Product {
       MyVideo(videoUrl, videoThumbnail),
       MyVideo(videoUrl, videoThumbnail),
     ];
-    // if (json['videoUrl'] != null) {
-    //   videos = [];
-    //   json['videos'].forEach((v) {
-    //     videos.add(MyVideo.fromJson(v));
-    //   });
-    // }
   }
 
   Map<String, dynamic> toJson() {

@@ -1,4 +1,5 @@
-import 'package:ann_shop_flutter/src/pages/blogs/bloc_category_bar.dart';
+import 'package:ann_shop_flutter/src/pages/blogs/blog_category_bar.dart';
+import 'package:ann_shop_flutter/src/pages/blogs/blog_category_popup_menu.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';
@@ -8,6 +9,8 @@ import 'package:ann_shop_flutter/view/inapp/list_blog.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'blog_category_popup.dart';
 
 class BlogPage extends StatefulWidget {
   @override
@@ -29,40 +32,37 @@ class _BlogPageState extends State<BlogPage> {
   @override
   Widget build(BuildContext context) {
     BlogProvider provider = Provider.of<BlogProvider>(context);
-    String title;
-    String slug;
-
-    // Get title
-    // if (provider.currentCategory == null)
-    title = 'Bài viết';
-    // else
-    //   title = provider.currentCategory.name;
-
-    // Get slug
-    if (provider.currentCategory == null)
-      slug = null;
-    else
-      slug = provider.currentCategory.filter.categorySlug;
+    final String slug = provider.currentCategory?.filter?.categorySlug;
+    final String title = provider.currentCategory?.name ?? "Bài viết";
 
     return Scaffold(
       appBar: AppBar(
         key: appBarKey,
         title: Text(title),
-        elevation: 0,
         titleSpacing: 0,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                showGeneralDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  barrierLabel: "Dismissible",
+                  pageBuilder: (context, anim1, anim2) {
+                    return BlogCategoryPopup(anim1, anim2);
+                  },
+                  transitionBuilder: (context, anim1, anim2, child) {
+                    return SlideTransition(
+                      position: Tween(begin: Offset(1, 0), end: Offset(0, 0))
+                          .animate(anim1),
+                      child: child,
+                    );
+                  },
+                );
+              }),
+        ],
       ),
-      body: AC.instance.isLogin == false
-          ? RequestLogin()
-          : Column(
-              children: [
-                BlogCategoryBar(
-                  appBarKey: appBarKey,
-                ),
-                Expanded(
-                  child: ListBlog(slug),
-                ),
-              ],
-            ),
+      body: AC.instance.isLogin == false ? RequestLogin() : ListBlog(slug),
     );
   }
 

@@ -31,10 +31,10 @@ class AC {
   finishLogin(Map response, String password) {
     account = Account.fromJson(response['user']);
     account.password = password;
-    StorageManager.instance
+    UserDefaults.instance
         .setObject(_keyAccount, jsonEncode(account.toJson()));
     token = AccountToken.fromJson(response['token']);
-    StorageManager.instance.setObject(_keyToken, jsonEncode(token.toJson()));
+    UserDefaults.instance.setObject(_keyToken, jsonEncode(token.toJson()));
     AppHttp.setTokenApi(token?.type, token?.accessToken);
     AppOneSignal.instance.sendTagsUserInfo();
   }
@@ -42,13 +42,13 @@ class AC {
   void clearToken() {
     token = null;
     AppHttp.setTokenApi(token?.type, token?.accessToken);
-    StorageManager.instance.clearObjectByKey(_keyToken);
+    UserDefaults.instance.clearObjectByKey(_keyToken);
     AppOneSignal.instance.sendTagsUserInfo();
   }
 
   updateAccountInfo(Account _account) {
     this.account = _account;
-    StorageManager.instance
+    UserDefaults.instance
         .setObject(_keyAccount, jsonEncode(account.toJson()));
     AppOneSignal.instance.sendTagsUserInfo();
   }
@@ -56,12 +56,12 @@ class AC {
   loadFormLocale() async {
     try {
       var userResponse =
-          await StorageManager.instance.getObjectByKey(_keyAccount);
+          await UserDefaults.instance.getObjectByKey(_keyAccount);
       if (userResponse != null) {
         account = Account.fromJson(jsonDecode(userResponse));
       }
       var tokenResponse =
-          await StorageManager.instance.getObjectByKey(_keyToken);
+          await UserDefaults.instance.getObjectByKey(_keyToken);
       if (tokenResponse != null) {
         token = AccountToken.fromJson(jsonDecode(tokenResponse));
       }
@@ -78,7 +78,7 @@ class AC {
   Future initRestrict() async {
     noLoginConfig = NoLoginConfig();
     final objectJson =
-        await StorageManager.instance.getObjectByKey(_keyNoLoginInfo);
+        await UserDefaults.instance.getObjectByKey(_keyNoLoginInfo);
     try {
       if (objectJson != null) {
         noLoginInfo = NoLoginInfo.fromJson(jsonDecode(objectJson));
@@ -93,7 +93,7 @@ class AC {
   }
 
   void saveRestrict() {
-    StorageManager.instance
+    UserDefaults.instance
         .setObject(_keyNoLoginInfo, jsonEncode(noLoginInfo.toJson()));
   }
 }

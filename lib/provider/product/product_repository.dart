@@ -23,6 +23,7 @@ class ProductRepository {
 
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);
+        printTrack(message);
         return ProductDetail.fromJson(message);
       }
     } catch (e) {

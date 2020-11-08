@@ -74,7 +74,7 @@ class SearchProvider with ChangeNotifier {
   }
 
   Future loadHistory() async {
-    String response = await StorageManager.instance.getObjectByKey(_keyHistory);
+    String response = await UserDefaults.instance.getObjectByKey(_keyHistory);
     if (response != null) {
       var json = jsonDecode(response);
       _history = json.cast<String>();
@@ -131,7 +131,7 @@ class SearchProvider with ChangeNotifier {
         _history.remove(text);
         _history.insert(0, text);
       }
-      StorageManager.instance.setObject(_keyHistory, jsonEncode(history));
+      UserDefaults.instance.setObject(_keyHistory, jsonEncode(history));
     }
     notifyListeners();
   }
@@ -144,19 +144,19 @@ class SearchProvider with ChangeNotifier {
         _history.remove(text);
         _history.insert(0, text);
       }
-      StorageManager.instance.setObject(_keyHistory, jsonEncode(history));
+      UserDefaults.instance.setObject(_keyHistory, jsonEncode(history));
     }
   }
 
   void removeHistoryUnit(String title) {
     history.removeWhere((m) => m == title);
-    StorageManager.instance.setObject(_keyHistory, jsonEncode(history));
+    UserDefaults.instance.setObject(_keyHistory, jsonEncode(history));
     notifyListeners();
   }
 
   void removeHistoryAll() {
     _history = [];
-    StorageManager.instance.clearObjectByKey(_keyHistory);
+    UserDefaults.instance.clearObjectByKey(_keyHistory);
     notifyListeners();
   }
 
