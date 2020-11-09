@@ -1,11 +1,8 @@
-import 'dart:typed_data';
-import 'package:gallery_saver/gallery_saver.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/main.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'gallery_saver_helper.dart';
 
 class DownloadImageProvider extends ChangeNotifier {
   List<String> _images;
@@ -51,11 +48,8 @@ class DownloadImageProvider extends ChangeNotifier {
     }
     try {
       notifyListeners();
-      var file = await DefaultCacheManager()
-          .getSingleFile(checkLink(images[_index]))
-          .timeout(Duration(minutes: 5));
-      Uint8List bytes = file.readAsBytesSync();
-      await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));
+      await GallerySaverHelper.instance.saveImage(_images[index]);
+
     } catch (e) {
       countFail++;
       print(e);
@@ -75,8 +69,7 @@ class DownloadImageProvider extends ChangeNotifier {
     }
     try {
       notifyListeners();
-      await GallerySaver.saveVideo(checkLink(_images[index]))
-          .timeout(Duration(seconds: 30));
+      await GallerySaverHelper.instance.saveVideo(_images[index]);
     } catch (e) {
       countFail++;
       print(e);
@@ -91,3 +84,5 @@ class DownloadImageProvider extends ChangeNotifier {
     return "${AppImage.imageDomain}$name";
   }
 }
+
+

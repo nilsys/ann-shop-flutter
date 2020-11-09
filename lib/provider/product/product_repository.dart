@@ -23,7 +23,6 @@ class ProductRepository {
 
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);
-        printTrack(message);
         return ProductDetail.fromJson(message);
       }
     } catch (e) {
@@ -38,9 +37,8 @@ class ProductRepository {
     try {
       final url =
           'flutter/product/$slug/related?pageNumber=$page&pageSize=$pageSize';
-      final response = await AppHttp.get(
-        url,
-      ).timeout(const Duration(minutes: 5));
+      final response =
+          await AppHttp.get(url).timeout(const Duration(minutes: 5));
 
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);

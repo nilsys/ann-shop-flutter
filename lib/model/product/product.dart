@@ -112,22 +112,20 @@ class Product {
     regularPrice = json['regularPrice'];
     oldPrice = json['oldPrice'];
     retailPrice = json['retailPrice'];
-
-    if (json['videoUrl'] != null) {
+    if (json['videos'] != null) {
       videos = [];
       json['videos'].forEach((v) {
         videos.add(MyVideo.fromJson(v));
       });
     }
+    // todo
+    addMockData();
   }
-  void addMockData(){
-    final videoUrl =
-        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-    final videoThumbnail =
-        "http://xuongann.com/uploads/images/350x467/13602-01535c6f-68cf-41d0-a4d0-7b098fe34c84.png";
+
+  void addMockData() {
     videos = [
-      MyVideo(videoUrl, videoThumbnail),
-      MyVideo(videoUrl, videoThumbnail),
+      MyVideo(K.mockVideo, K.mockThumbnail),
+      MyVideo(K.mockVideo, K.mockThumbnail),
     ];
   }
 
@@ -145,7 +143,7 @@ class Product {
     data['regularPrice'] = this.regularPrice;
     data['oldPrice'] = this.oldPrice;
     data['retailPrice'] = this.retailPrice;
-    if(videos != null){
+    if (videos != null) {
       data['videos'] = videos.map((value) => value.toJson()).toList();
     }
     return data;
@@ -268,7 +266,6 @@ class ProductCarousel {
   String origin;
   String feature;
   String thumbnail;
-
 
   ProductCarousel({this.origin, this.feature, this.thumbnail});
 

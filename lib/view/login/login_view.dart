@@ -20,11 +20,9 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  // region Parameters
   final _formKey = GlobalKey<FormState>();
 
   AC _accountController;
-  bool _autoValidate;
 
   String phone;
 
@@ -34,7 +32,6 @@ class _LoginViewState extends State<LoginView> {
     super.initState();
 
     _accountController = AC.instance;
-    _autoValidate = false;
 
     if (_accountController.account != null &&
         !isEmpty(_accountController.account.phone)) {
@@ -54,7 +51,7 @@ class _LoginViewState extends State<LoginView> {
       body: DismissKeyBoard(
         child: Form(
           key: _formKey,
-          autovalidate: _autoValidate,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: defaultPadding),
             child: ListView(
@@ -119,10 +116,6 @@ class _LoginViewState extends State<LoginView> {
     if (form.validate()) {
       form.save();
       onLogin();
-    } else {
-      setState(() {
-        _autoValidate = true;
-      });
     }
   }
 

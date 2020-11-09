@@ -19,8 +19,6 @@ class ANNDownload {
 
   ANNDownload._internal();
 
-
-
   /// save to gallery
   Future<bool> onDownLoadImagesProduct(
       BuildContext context, int productId) async {
@@ -35,10 +33,8 @@ class ANNDownload {
         AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
             duration: const Duration(seconds: 1));
       } else {
-        final permissionGroup =
-            Platform.isAndroid ? Permission.storage : Permission.photos;
         final permission = await PermissionController.instance
-            .checkAndRequestPermission(context, permissionGroup);
+            .checkAndRequestStorageMedia(context);
         if (permission) {
           final result =
               await Provider.of<DownloadImageProvider>(context, listen: false)
@@ -64,13 +60,11 @@ class ANNDownload {
       AppSnackBar.askLogin(context);
       return false;
     }
-    if(isNullOrEmpty(images)){
+    if (isNullOrEmpty(images)) {
       return false;
     }
-    final permissionGroup =
-        Platform.isAndroid ? Permission.storage : Permission.photos;
     final permission = await PermissionController.instance
-        .checkAndRequestPermission(context, permissionGroup);
+        .checkAndRequestStorageMedia(context);
     if (permission) {
       final result =
           await Provider.of<DownloadImageProvider>(context, listen: false)
@@ -83,7 +77,8 @@ class ANNDownload {
     return true;
   }
 
-  Future<bool> onDownLoadVideo(BuildContext context, List<String> videos) async {
+  Future<bool> onDownLoadVideo(
+      BuildContext context, List<String> videos) async {
     if (AC.instance.canDownloadProduct == false) {
       AppSnackBar.askLogin(context);
       return false;
@@ -92,17 +87,17 @@ class ANNDownload {
       AppSnackBar.askLogin(context);
       return false;
     }
-    if(isNullOrEmpty(videos)){
+    if (isNullOrEmpty(videos)) {
       return false;
     }
     final permissionGroup =
-    Platform.isAndroid ? Permission.storage : Permission.photos;
+        Platform.isAndroid ? Permission.storage : Permission.photos;
     final permission = await PermissionController.instance
         .checkAndRequestPermission(context, permissionGroup);
     if (permission) {
       final result =
-      await Provider.of<DownloadImageProvider>(context, listen: false)
-          .downloadVideos(videos);
+          await Provider.of<DownloadImageProvider>(context, listen: false)
+              .downloadVideos(videos);
       if (result == false) {
         AppSnackBar.showFlushbar(
             context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');

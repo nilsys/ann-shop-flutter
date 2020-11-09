@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:ann_shop_flutter/provider/utility/gallery_saver_helper.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
@@ -13,39 +14,37 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:ping9/ping9.dart';
 import 'package:share_extend/share_extend.dart';
 
 class SharePage extends StatefulWidget {
-  // region Parameters
   final Map data;
-
-  // endregion
 
   const SharePage(this.data);
 
   @override
-  _SharePageState createState() =>
-      _SharePageState(data['images'], data['message'], data['title']);
+  _SharePageState createState() => _SharePageState(
+        title: data['title'],
+        message: data['message'],
+        images: data['images'],
+        videos: data['videos'],
+      );
 }
 
 class _SharePageState extends State<SharePage> {
-  // region Parameters
+  _SharePageState({this.images, this.message, this.title, this.videos});
+
   final List<String> images;
+  final List<String> videos;
   final String message;
   final String title;
 
-  // Max Image for posting the Facebook
   final int limit = 30;
 
   int maxImage;
   List<String> imagesSelected;
 
   // endregion
-
-  _SharePageState(this.images, this.message, this.title);
 
   @override
   void initState() {
@@ -273,7 +272,7 @@ class _SharePageState extends State<SharePage> {
       return;
     }
 
-    if (images == null || images.length == 0)
+    if (isNullOrEmpty(images))
       _onShareMessageOnly(context, message: message);
     else
       _onShare(context, message: message);
@@ -293,45 +292,15 @@ class _SharePageState extends State<SharePage> {
       return;
     }
 
-    if (images == null || images.length == 0) {
+    if (isNullOrEmpty(images)) {
       _onShareMessageOnly(context, message: message);
       return;
     }
 
-    final maxForZalo = 9;
+    final int maxForZalo = 9;
 
     if (Platform.isIOS && imagesSelected.length > maxForZalo) {
-      AppPopup.showCustomDialog(
-        context,
-        content: [
-          AvatarGlow(
-            endRadius: 50,
-            duration: const Duration(milliseconds: 1000),
-            glowColor: Colors.blue,
-            child: SizedBox(
-                height: 50,
-                child: Image.asset('assets/images/ui/zalo-logo.png')),
-          ),
-          Text(
-            'Nếu bạn muốn chia sẽ lên ZALO thì chỉ được chọn tối đa $maxForZalo hình',
-            style: Theme.of(context).textTheme.subtitle,
-            textAlign: TextAlign.center,
-          ),
-          CenterButtonPopup(
-              normal: ButtonData(
-                'Đóng',
-              ),
-              highlight: ButtonData(
-                'Chọn $maxForZalo hình',
-                onPressed: () {
-                  setState(() {
-                    imagesSelected.removeRange(
-                        maxForZalo, imagesSelected.length);
-                  });
-                },
-              ))
-        ],
-      );
+      showWarningForZalo(maxForZalo);
     } else {
       _onShare(context, message: message, fixZalo: true);
     }
@@ -348,13 +317,10 @@ class _SharePageState extends State<SharePage> {
       return;
     }
 
-    final permission = PermissionController.instance;
-    final permissionGroup =
-        Platform.isAndroid ? Permission.storage : Permission.photos;
-    final checkPermission =
-        await permission.checkAndRequestPermission(context, permissionGroup);
+    final permission = await PermissionController.instance
+        .checkAndRequestStorageMedia(context);
 
-    if (!checkPermission) return;
+    if (!permission) return;
 
     final List<String> files = [];
     final Map<String, List<int>> mapByte = {};
@@ -369,9 +335,11 @@ class _SharePageState extends State<SharePage> {
           .then((File file) {
         files.add(file.path);
         mapByte['image_$i.png'] = file.readAsBytesSync();
-        if (Platform.isAndroid && fixZalo)
-          ImageGallerySaver.saveImage(mapByte['image_$i.png'])
+        if (Platform.isAndroid && fixZalo) {
+          GallerySaverHelper.instance
+              .saveImageByByte(mapByte['image_$i.png'])
               .catchError((e) => print(e));
+        }
         updateLoading('Đã tải ${i + 1}/${imagesSelected.length} hình');
       }).catchError((e) => print(e));
     }
@@ -393,7 +361,6 @@ class _SharePageState extends State<SharePage> {
         if (files.length == 1) {
           final imageName = mapByte.keys.first;
           final imageByte = mapByte[imageName];
-
           Share.file(title, imageName, imageByte, "image/png", text: message);
         } else {
           ShareExtend.shareMultiple(files, "image");
@@ -404,5 +371,36 @@ class _SharePageState extends State<SharePage> {
     } else {
       return;
     }
+  }
+
+  void showWarningForZalo(maxForZalo) {
+    AppPopup.showCustomDialog(
+      context,
+      content: [
+        AvatarGlow(
+          endRadius: 50,
+          duration: const Duration(milliseconds: 1000),
+          glowColor: Colors.blue,
+          child: SizedBox(
+              height: 50, child: Image.asset('assets/images/ui/zalo-logo.png')),
+        ),
+        Text(
+          'Nếu bạn muốn chia sẽ lên ZALO thì chỉ được chọn tối đa $maxForZalo hình',
+          style: Theme.of(context).textTheme.subtitle2,
+          textAlign: TextAlign.center,
+        ),
+        CenterButtonPopup(
+          normal: ButtonData('Đóng'),
+          highlight: ButtonData(
+            'Chọn $maxForZalo hình',
+            onPressed: () {
+              setState(() {
+                imagesSelected.removeRange(maxForZalo, imagesSelected.length);
+              });
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

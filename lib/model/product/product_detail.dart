@@ -39,6 +39,7 @@ class ProductDetail extends Product {
   factory ProductDetail.fromJson(Map<String, dynamic> json) {
     Product _product = Product.fromJson(json);
     ProductDetail _detail = ProductDetail.fromProduct(_product);
+    printTrack(json['videos']);
     // _detail
     _detail.categoryName = json['categoryName'];
     _detail.categorySlug = json['categorySlug'];

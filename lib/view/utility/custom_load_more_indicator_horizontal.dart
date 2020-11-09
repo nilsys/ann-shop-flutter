@@ -90,18 +90,10 @@ class CustomLoadMoreIndicatorHorizontal extends StatelessWidget {
 
   Widget _setBackGround(bool full, Widget widget, double height,
       {BuildContext context}) {
-    widget = ConstrainedBox(
-      constraints: BoxConstraints(
-          minWidth: double.infinity,
-          minHeight: context != null
-              ? MediaQuery.of(context).size.height - 140
-              : height),
-      child: Container(
-        child: widget,
-        color: Colors.transparent,
-        alignment: Alignment.center,
-      ),
+    return Container(
+      child: widget,
+      color: Colors.transparent,
+      alignment: Alignment.center,
     );
-    return widget;
   }
 }
