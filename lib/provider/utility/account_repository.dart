@@ -217,6 +217,31 @@ class AccountRepository {
     return AppResponse(false);
   }
 
+  /*
+   * Lấy số điện thoại Zalo để liên hệ khi quên ngày tháng năm sinh.
+   */
+  Future<AppResponse> getPhoneSupportForgotPassword(String phone) async {
+    try {
+      final response = await AppHttp.get(
+          "flutter/user/phone-support-forgot-password?phone=$phone")
+          .timeout(Duration(minutes: 5));
+
+      if (response.statusCode == HttpStatus.ok) {
+        var parsed = jsonDecode(response.body);
+
+        if (parsed["success"])
+          return AppResponse(true, data: parsed['data']);
+        else
+          return AppResponse(false, data: parsed['message']);
+      } else {
+        return AppResponse(false, message: getMessage(response.body));
+      }
+    } catch (e) {
+      print(e);
+    }
+    return AppResponse(false);
+  }
+
   String getMessage(body) {
     try {
       Map parsed = jsonDecode(body);

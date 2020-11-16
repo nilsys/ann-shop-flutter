@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ping9/ping9.dart';
+import 'package:ping9/ping9.dart' as Ping9;
 
 class BottomBarPolicy extends StatelessWidget {
   @override
@@ -10,7 +10,7 @@ class BottomBarPolicy extends StatelessWidget {
       child: Container(
         height: 50,
         alignment: Alignment.center,
-        child: TextButton(
+        child: Ping9.TextButton(
           'Chính sách và điều khoản của ANN',
           onPressed: () {
             Navigator.pushNamed(context, 'shop/policy');

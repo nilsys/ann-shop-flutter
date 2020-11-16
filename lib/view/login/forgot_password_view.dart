@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_forgot_password.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
@@ -21,15 +22,21 @@ class ForgotPasswordView extends StatefulWidget {
 }
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
+  //region Parameters
   final _formKey = GlobalKey<FormState>();
-  bool _autoValidate = false;
+  final _formatDatePicker = 'd  M  yyyy';
+
+  String birthDay;
   TextEditingController _controllerBirthDate;
+  String password;
+
+  bool _autoValidate = false;
+  //endregion
 
   @override
   void initState() {
     super.initState();
-    _controllerBirthDate =
-        TextEditingController(text: Utility.fixFormatDate(''));
+    _controllerBirthDate = TextEditingController(text: Utility.fixFormatDate(''));
   }
 
   @override
@@ -37,8 +44,93 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     super.dispose();
   }
 
-  String password;
-  String birthDay;
+  //region Private
+  //region Date Time Picker
+  void _updateDate(DateTime dateTime) {
+    if (dateTime != null) {
+      setState(() {
+        birthDay = DateFormat('yyyy-MM-dd').format(dateTime);
+        _controllerBirthDate.text = Utility.fixFormatDate(birthDay);
+      });
+    }
+  }
+
+  _showDateTimePicker() {
+    DateTime now = DateTime.now();
+    DateTime temp = new DateTime(now.year - 25, 1, 1);
+    if (isNullOrEmpty(birthDay) == false) {
+      temp = DateTime.parse(birthDay);
+    }
+    DateTime maxDay = new DateTime.utc(DateTime.now().year - 1, 12, 31);
+
+    DatePicker.showDatePicker(
+      context,
+      initialDateTime: temp,
+      dateFormat: _formatDatePicker,
+      maxDateTime: maxDay,
+      pickerMode: DateTimePickerMode.date,
+      onCancel: () {
+        _updateDate(null);
+      },
+      onChange: (dateTime, List<int> index) {
+        _updateDate(dateTime);
+      },
+      onConfirm: (dateTime, List<int> index) {
+        _updateDate(dateTime);
+        this._validateInput();
+      },
+    );
+  }
+
+  void _validateInput() {
+    final form = _formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      _onForgotPassword();
+    } else {
+      setState(() {
+        _autoValidate = true;
+      });
+    }
+  }
+
+  Future _onForgotPassword() async {
+    try {
+      showLoading(context);
+      AppResponse response = await AccountRepository.instance
+          .forgotPasswordByBirthDay(widget.phone, birthDay);
+      hideLoading(context);
+
+      if (response.status) {
+        /// go to update password
+        AccountRegisterState.instance.otp = response.data;
+        AccountRegisterState.instance.phone = widget.phone;
+        Navigator.pushNamedAndRemoveUntil(context, 'user/register/password',
+            ModalRoute.withName('user/login'));
+      } else {
+        AppSnackBar.showFlushbar(context, 'Ngày sinh không đúng.');
+      }
+    } catch (e) {
+      print(e);
+      AppSnackBar.showFlushbar(context, 'Ngày sinh không đúng.');
+    }
+  }
+  //endregion
+
+  //region Forgot Birthday
+  void _onForgotBirthDay(BuildContext context) async {
+    var phoneSupport = '0913268406';
+
+    AppResponse response = await AccountRepository.instance
+      .getPhoneSupportForgotPassword(widget.phone);
+
+    if (response.status)
+      phoneSupport = response.data;
+
+    AlertForgotPassword(phoneSupport).show(context);
+  }
+  //endregion
+  //endregion
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +193,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 RaisedButton(
                   color: Colors.white,
                   child: Text('Quên ngày sinh'),
-                  onPressed: () {
-                    onSentOTP();
-                  },
+                  onPressed: () => _onForgotBirthDay(context),
                 )
               ],
             ),
@@ -111,104 +201,5 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         ),
       ),
     );
-  }
-
-  final _formatDatePicker = 'd  M  yyyy';
-
-  _showDateTimePicker() {
-    DateTime now = DateTime.now();
-    DateTime temp = new DateTime(now.year - 25, 1, 1);
-    if (isNullOrEmpty(birthDay) == false) {
-      temp = DateTime.parse(birthDay);
-    }
-    DateTime maxDay = new DateTime.utc(DateTime.now().year - 1, 12, 31);
-
-    DatePicker.showDatePicker(
-      context,
-      initialDateTime: temp,
-      dateFormat: _formatDatePicker,
-      maxDateTime: maxDay,
-      pickerMode: DateTimePickerMode.date,
-      onCancel: () {
-        updateDate(null);
-      },
-      onChange: (dateTime, List<int> index) {
-        updateDate(dateTime);
-      },
-      onConfirm: (dateTime, List<int> index) {
-        updateDate(dateTime);
-        this._validateInput();
-      },
-    );
-  }
-
-  void updateDate(DateTime dateTime) {
-    if (dateTime != null) {
-      setState(() {
-        birthDay = DateFormat('yyyy-MM-dd').format(dateTime);
-        _controllerBirthDate.text = Utility.fixFormatDate(birthDay);
-      });
-    }
-  }
-
-  void _validateInput() {
-    final form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
-      _onForgotPassword();
-    } else {
-      setState(() {
-        _autoValidate = true;
-      });
-    }
-  }
-
-  Future _onForgotPassword() async {
-    try {
-      showLoading(context);
-      AppResponse response = await AccountRepository.instance
-          .forgotPasswordByBirthDay(widget.phone, birthDay);
-      hideLoading(context);
-
-      if (response.status) {
-        /// go to update password
-        AccountRegisterState.instance.otp = response.data;
-        AccountRegisterState.instance.phone = widget.phone;
-        Navigator.pushNamedAndRemoveUntil(context, 'user/register/password',
-            ModalRoute.withName('user/login'));
-      } else {
-        AppSnackBar.showFlushbar(context, 'Ngày sinh không đúng.');
-      }
-    } catch (e) {
-      print(e);
-      AppSnackBar.showFlushbar(context, 'Ngày sinh không đúng.');
-    }
-  }
-
-  onSentOTP() async {
-    try {
-      AccountRegisterState.instance.phone = widget.phone;
-      if (AccountRegisterState.instance.checkTimeOTP() == false) {
-        Navigator.pushNamed(context, 'user/otp');
-        return;
-      }
-
-      showLoading(context, message: 'Gửi OTP...');
-      AppResponse response = await AccountRepository.instance
-          .registerStep2RequestOTP(
-              widget.phone, AccountRegisterState.instance.randomNewOtp());
-      hideLoading(context);
-
-      if (response.status) {
-        AccountRegisterState.instance.timeOTP = DateTime.now();
-        Navigator.pushNamed(context, 'user/otp');
-      } else {
-        AppSnackBar.showFlushbar(context,
-            response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
-      }
-    } catch (e) {
-      print(e);
-      AppSnackBar.showFlushbar(context, 'Có lỗi xãi ra, vui lòng thử lại sau.');
-    }
   }
 }
