@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ann_shop_flutter/model/utility/my_video.dart';
 import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
@@ -123,12 +124,15 @@ class ProductUtility {
       showLoading(context, message: 'Đang tải...');
       final images = await ProductRepository.instance
           .loadProductAdvertisementImage(product.productId);
+      List<MyVideo> videos =
+          await ProductRepository.instance.loadProductVideo(product.productId);
+
       hideLoading(context);
       if (isNullOrEmpty(images) == false) {
         await Navigator.pushNamed(context, 'product/detail/share-social',
             arguments: {
               'images': images,
-              'videos': product.videos,
+              'videos': videos,
               'title': product.name,
               'message': message
             });

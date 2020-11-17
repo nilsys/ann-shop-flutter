@@ -5,6 +5,7 @@ import 'package:quiver/strings.dart';
 import 'package:sprintf/sprintf.dart';
 
 class ViewModel {
+  int id;
   String title;
   String content;
   DateTime createDate;
@@ -13,13 +14,19 @@ class ViewModel {
   MyVideo video;
 
   ViewModel.formJson(Map<String, dynamic> json) {
+    this.id = json['id'];
     this.title = json['title'] ?? '';
     this.content = json['content'] ?? '';
 
-    // todo: mock to test video
-    // this.video = json['video'] != null ? MyVideo.fromJson(json['video']) : null;
-    video= MyVideo(K.mockVideo, null);
-    this.createDate = DateTime.parse(json['createdDate']) ?? DateTime.now();
+    if (json['videos'] != null) {
+      List<MyVideo> videos = [];
+      json['videos'].forEach((v) {
+        videos.add(MyVideo.fromJson(v));
+      });
+      if (isNullOrEmpty(videos) == false) {
+        this.video = videos[0];
+      }
+    }
 
     if (!isEmpty(this.content)) {
       this.images = _imageFilter(this.content);

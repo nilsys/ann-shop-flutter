@@ -16,7 +16,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:ping9/ping9.dart';
 import 'package:share/share.dart';
-import 'package:share_extend/share_extend.dart';
 
 class SharePage extends StatefulWidget {
   final Map data;
@@ -129,7 +128,7 @@ class _SharePageState extends State<SharePage> {
           if (videos.isNotEmpty) ...[
             _buildTitle("Video " +
                 (videosSelected.isNotEmpty
-                    ? "${videosSelected.length}/$maxImage"
+                    ? "${videosSelected.length}/${videos.length}"
                     : "")),
             SliverPadding(
               padding: const EdgeInsets.all(10),
@@ -404,9 +403,9 @@ class _SharePageState extends State<SharePage> {
       return;
     }
 
-    final int maxForZalo = 9;
+    final int maxForZalo = -1;
 
-    if (Platform.isIOS && imagesSelected.length > maxForZalo) {
+    if (maxForZalo > 0 && Platform.isIOS && imagesSelected.length > maxForZalo) {
       showWarningForZalo(maxForZalo);
     } else {
       _onShare(fixZalo: true);

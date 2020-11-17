@@ -119,15 +119,8 @@ class Product {
       });
       printTrack(json['videos']);
     }
-    // addMockData();
   }
 
-  void addMockData() {
-    videos = [
-      MyVideo(K.mockVideo, K.mockThumbnail),
-      MyVideo(K.mockVideo, K.mockThumbnail),
-    ];
-  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

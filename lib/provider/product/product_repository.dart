@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ann_shop_flutter/model/utility/my_video.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';
@@ -78,7 +79,7 @@ class ProductRepository {
       final url = 'flutter/product/$id/advertisement-image';
       final response = await AppHttp.get(
         url,
-      ).timeout(const Duration(seconds: 5));
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);
@@ -89,6 +90,7 @@ class ProductRepository {
     }
     return null;
   }
+
 
   /// http://backend.xuongann.com/api/flutter/product/1/advertisement-content
   Future<String> loadProductAdvertisementContent(int id) async {
@@ -113,5 +115,27 @@ class ProductRepository {
       print(e);
     }
     return '';
+  }
+
+  /// http://backend.xuongann.com/api/flutter/product/1/videos
+  Future<List<MyVideo>> loadProductVideo(int id) async {
+    try {
+      final url = 'flutter/product/$id/videos';
+      final response = await AppHttp.get(
+        url,
+      ).timeout(const Duration(seconds: 15));
+
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(response.body);
+        final List<MyVideo> _data = [];
+        message.forEach((v) {
+          _data.add(MyVideo.fromJson(v));
+        });
+        return _data;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return null;
   }
 }

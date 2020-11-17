@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:ann_shop_flutter/model/utility/my_video.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/download_background.dart';
@@ -72,7 +73,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
       );
     else {
       if (isNullOrEmpty(data.video))
-        child = HtmlContent(content);
+        child = SingleChildScrollView(child: HtmlContent(content));
       else
         child = ANNPlayer(
           data.video.url,
@@ -167,7 +168,8 @@ class _ViewMorePageState extends State<ViewMorePage> {
     }
 
     showLoading(context, message: 'Đang xử lý...');
-    await Future.delayed(const Duration(milliseconds: 500));
+    List<MyVideo> videos =
+        await ViewController.instance.getViewMoreVideo(data.id);
     hideLoading(context);
 
     await Navigator.pushNamed(
@@ -175,7 +177,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
       'product/detail/share-social',
       arguments: {
         'images': data.images,
-        if (data.video != null) 'videos': [data.video],
+        'videos': videos,
         'title': data.title,
         'message': data.postContent
       },
