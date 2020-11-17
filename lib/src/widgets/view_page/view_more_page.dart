@@ -65,42 +65,40 @@ class _ViewMorePageState extends State<ViewMorePage> {
     String title = isEmpty(data.title) ? 'Thông báo' : data.title;
     String content = data.content;
     Widget child;
-
+    final isFull = isFullScreen(context);
     if (isNullOrEmpty(content))
       child = EmptyListUI(
         body: "Không có nội dung",
       );
     else {
-      child = ListView(
-        children: <Widget>[
-          if (isNullOrEmpty(data.video))
-            HtmlContent(content)
-          else
-            ANNPlayer(
-              videoUrl: data.video.url,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: defaultPadding, vertical: 16),
-                child: HtmlContent(content),
+      if (isNullOrEmpty(data.video))
+        child = HtmlContent(content);
+      else
+        child = ANNPlayer(
+          data.video.url,
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 16),
+            child: HtmlContent(content),
+          ),
+        );
+    }
+    return Scaffold(
+      appBar: isFull
+          ? null
+          : AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              iconTheme: IconThemeData(color: AppStyles.dartIcon),
+              actionsIconTheme: IconThemeData(color: AppStyles.dartIcon),
+              title: Text(
+                title,
+                style: TextStyle(color: Colors.black),
               ),
             ),
-        ],
-      );
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(color: AppStyles.dartIcon),
-        actionsIconTheme: IconThemeData(color: AppStyles.dartIcon),
-        title: Text(
-          title,
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
-      body: child,
-      bottomNavigationBar: _buildBottomNavigationBar(context, data),
+      body: SafeArea(child: child),
+      bottomNavigationBar:
+          isFull ? null : _buildBottomNavigationBar(context, data),
     );
   }
 

@@ -13,6 +13,7 @@ export 'src/core/utility.dart';
 export 'src/core/validator.dart';
 export 'src/core/config.dart';
 export 'src/core/constant.dart';
+export 'src/core/orientation.dart';
 
 // api
 export 'src/api/app_http.dart';

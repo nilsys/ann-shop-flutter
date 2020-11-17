@@ -5,13 +5,11 @@ class MyYoutube extends StatefulWidget {
   const MyYoutube(
     this.url, {
     Key key,
-    this.thumnailUrl,
-    this.placeholder,
+    this.showFullButton = true,
   }) : super(key: key);
 
   final String url;
-  final String thumnailUrl;
-  final Widget placeholder;
+  final bool showFullButton;
 
   @override
   _MyYoutubeState createState() => _MyYoutubeState();
@@ -39,6 +37,10 @@ class _MyYoutubeState extends State<MyYoutube> {
     return YoutubePlayerBuilder(
       player: YoutubePlayer(
         controller: _controller,
+        bottomActions: widget.showFullButton ? null : [
+          CurrentPosition(),
+          ProgressBar(isExpanded: true),
+        ],
       ),
       builder: (context, player) {
         return Column(

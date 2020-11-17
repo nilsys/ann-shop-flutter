@@ -1,13 +1,11 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutube/src/default_placeholder.dart';
-import 'my_youtube.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ANNPlayer extends StatefulWidget {
-  final String videoUrl;
-  final Widget child;
+  const ANNPlayer(this.url, {Key key, this.child}) : super(key: key);
 
-  ANNPlayer({@required this.videoUrl, @required this.child});
+  final String url;
+  final Widget child;
 
   @override
   _ANNPlayerState createState() => _ANNPlayerState();
@@ -15,21 +13,44 @@ class ANNPlayer extends StatefulWidget {
 
 class _ANNPlayerState extends State<ANNPlayer> {
   @override
-  Widget build(BuildContext context) {
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        MyYoutube(
-          widget.videoUrl,
-          key: Key("ANNPlayer: ${widget.videoUrl}"),
-          placeholder: DefaultPlaceHolder(),
-        ),
-        widget.child ?? SizedBox(),
-      ],
+  void initState() {
+    super.initState();
+    final videoID = YoutubePlayer.convertUrlToId(widget.url);
+    _controller = YoutubePlayerController(
+      initialVideoId: videoID,
+      flags: YoutubePlayerFlags(autoPlay: true, mute: false),
     );
   }
 
+  YoutubePlayerController _controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return youtubeHierarchy();
+  }
+
+  youtubeHierarchy() {
+    final size = MediaQuery.of(context).size;
+    final isFull = size.height < size.width;
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: _controller,
+      ),
+      builder: (context, player) {
+        if(isFull || widget.child == null){
+          return Center(child: player);
+        }
+        return ListView(
+          children: [
+            player,
+            widget.child
+          ],
+        );
+      },
+    );
+  }
+
+  void listener() {
+    // print(_controller.value);
+  }
 }

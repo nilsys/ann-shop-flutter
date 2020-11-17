@@ -8,13 +8,15 @@ import 'package:ping9/ping9.dart';
 
 class PreviewImageProduct extends StatefulWidget {
   PreviewImageProduct(this.carousel,
-      {this.initIndex = 0, this.controller, this.tapExpanded, this.videos});
+      {this.initIndex = 0, this.controller, this.tapExpanded, this.videos, this.showFullButton = true});
 
   final List<ProductCarousel> carousel;
   final int initIndex;
   final PageController controller;
   final VoidCallback tapExpanded;
   final List<MyVideo> videos;
+  final bool showFullButton;
+
 
   @override
   _PreviewImageProductState createState() => _PreviewImageProductState();
@@ -26,7 +28,7 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
   @override
   void initState() {
     super.initState();
-    _currentIndex = widget.initIndex;
+    _currentIndex = widget.initIndex < 0 ? 0 : widget.initIndex;
     controller =
         widget.controller ?? new PageController(initialPage: _currentIndex);
     thumbnailController =
@@ -47,6 +49,7 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
 
   @override
   Widget build(BuildContext context) {
+    final isFull = isFullScreen(context);
     return Column(
       children: <Widget>[
         Expanded(
@@ -87,7 +90,11 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
                       right: 15,
                       top: 15,
                       child: ButtonClose(onPressed: () {
-                        Navigator.pop(context, currentIndex);
+                        if (isFull) {
+                          OrientationUtility.setPortrait();
+                        } else {
+                          Navigator.pop(context, currentIndex);
+                        }
                       }),
                     )
                   : Positioned(
@@ -110,8 +117,10 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
             ],
           ),
         ),
-        SizedBox(height: 10),
-        _buildImageSelect(),
+        if (isFull == false) ...[
+          SizedBox(height: 10),
+          _buildImageSelect(),
+        ],
       ],
     );
   }
@@ -122,6 +131,7 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
       video,
       index,
       key: Key("ProductVideo-$index-${video.url}"),
+      showFullButton: widget.showFullButton,
     );
   }
 

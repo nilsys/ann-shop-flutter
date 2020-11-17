@@ -88,66 +88,71 @@ class _ProductDetailViewState extends State<ProductDetailView>
     detail = data.data;
 
     if (data.isCompleted) {
+      final isFull = isFullScreen(context);
       return Scaffold(
         floatingActionButton: _buildFloatButton(),
-        bottomNavigationBar: _buildButtonControl(),
+        bottomNavigationBar: isFull ? null : _buildButtonControl(),
         body: CustomScrollView(
           controller: controllerScroll,
           slivers: <Widget>[
             /// app bar
-            SliverAppBar(
-              floating: true,
-              pinned: false,
-              iconTheme: IconThemeData(color: AppStyles.dartIcon),
-              backgroundColor: Colors.white,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(AppIcons.search,
-                      size: 20, color: AppStyles.dartIcon),
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'search');
-                  },
-                ),
-                IconButton(
-                    icon: Icon(Icons.home, color: AppStyles.dartIcon),
+            if (isFull == false)
+              SliverAppBar(
+                floating: true,
+                pinned: false,
+                iconTheme: IconThemeData(color: AppStyles.dartIcon),
+                backgroundColor: Colors.white,
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(AppIcons.search,
+                        size: 20, color: AppStyles.dartIcon),
                     onPressed: () {
-                      Navigator.popUntil(context, ModalRoute.withName('home'));
-                    }),
-                FavoriteButton(
-                  color: AppStyles.dartIcon,
-                ),
-                OptionMenuProduct(
-                  onCopy: () {
-                    ProductUtility.instance
-                        .onCheckAndCopy(context, detail.productId);
-                  },
-                  onDownload: () {
-                    if (data.isCompleted) {
-                      _onAksBeforeDownload();
-                    } else {
-                      AppSnackBar.showFlushbar(
-                          context, 'Đang tải dữ liệu. Thử lại sau');
-                    }
-                  },
-                  onShare: () {
-                    if (data.isCompleted) {
-                      ProductUtility.instance.onCheckAndShare(context, detail);
-                    } else {
-                      AppSnackBar.showFlushbar(
-                          context, 'Đang tải dữ liệu. Thử lại sau');
-                    }
-                  },
-                ),
-              ],
-            ),
+                      Navigator.pushNamed(context, 'search');
+                    },
+                  ),
+                  IconButton(
+                      icon: Icon(Icons.home, color: AppStyles.dartIcon),
+                      onPressed: () {
+                        Navigator.popUntil(
+                            context, ModalRoute.withName('home'));
+                      }),
+                  FavoriteButton(
+                    color: AppStyles.dartIcon,
+                  ),
+                  OptionMenuProduct(
+                    onCopy: () {
+                      ProductUtility.instance
+                          .onCheckAndCopy(context, detail.productId);
+                    },
+                    onDownload: () {
+                      if (data.isCompleted) {
+                        _onAksBeforeDownload();
+                      } else {
+                        AppSnackBar.showFlushbar(
+                            context, 'Đang tải dữ liệu. Thử lại sau');
+                      }
+                    },
+                    onShare: () {
+                      if (data.isCompleted) {
+                        ProductUtility.instance
+                            .onCheckAndShare(context, detail);
+                      } else {
+                        AppSnackBar.showFlushbar(
+                            context, 'Đang tải dữ liệu. Thử lại sau');
+                      }
+                    },
+                  ),
+                ],
+              ),
 
             /// page view image
             SliverToBoxAdapter(
               child: Container(
-                height: MediaQuery.of(context).size.height / 2 + 80,
+                height: MediaQuery.of(context).size.width,
                 child: PreviewImageProduct(
                   detail.carousel,
                   controller: controllerPage,
+                  showFullButton: false,
                   tapExpanded: () {
                     Navigator.pushNamed(context, 'product/detail/fancy-image',
                         arguments: {
@@ -618,7 +623,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
     return ButtonGradient(
       onTap: () {
         Navigator.pushNamed(context, 'product/detail/select-size-color',
-            arguments: {'index': controllerPage.page.round() - (detail.videos?.length ?? 0), 'data': detail});
+            arguments: {
+              'index':
+                  controllerPage.page.round() - (detail.videos?.length ?? 0),
+              'data': detail
+            });
       },
       child: RichText(
         text: TextSpan(
