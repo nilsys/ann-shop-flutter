@@ -128,6 +128,7 @@ class ProductUtility {
         await Navigator.pushNamed(context, 'product/detail/share-social',
             arguments: {
               'images': images,
+              'videos': product.videos,
               'title': product.name,
               'message': message
             });

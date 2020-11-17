@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:ping9/ping9.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
 // import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 
@@ -25,15 +26,19 @@ class GallerySaverHelper {
     Uint8List bytes = file.readAsBytesSync();
     await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));
   }
+
   Future saveImageByByte(Uint8List bytes) async {
     await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));
   }
 
-
-    Future saveVideo(String url) async {
+  Future saveVideo(String url) async {
     final File file = await downLoadFile(url);
     // await GallerySaver.saveVideo(file.path, albumName: "ANN").timeout(Duration(seconds: 30));
     await ImageGallerySaver.saveFile(file.path).timeout(Duration(seconds: 5));
+  }
+
+  Future saveVideoByPath(String path) async {
+    await ImageGallerySaver.saveFile(path).timeout(Duration(seconds: 5));
   }
 
   String checkLink(String name) {

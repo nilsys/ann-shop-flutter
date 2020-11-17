@@ -9,7 +9,7 @@ class ProductVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyChewie(
+    return MyYoutube(
       video.url,
       thumnailUrl: video.thumbnail,
       key: Key("MyChewie-$index-${video.url}"),

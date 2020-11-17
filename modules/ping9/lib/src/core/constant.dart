@@ -2,8 +2,8 @@
 
 class K{
 
-  static const mockVideo = 'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4';
-  static const mockThumbnail = 'http://xuongann.com/uploads/images/350x467/13602-01535c6f-68cf-41d0-a4d0-7b098fe34c84.png';
+  static const mockVideo = 'https://www.youtube.com/embed/5yP6pq8IMOw';
+  static const mockThumbnail = 'https://img.youtube.com/vi/3EBG0NmfnUw/sddefault.jpg';
 
   static const appName = 'ANN';
   static const appFullName = 'Kho Hàng Sỉ ANN';

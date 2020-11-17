@@ -73,11 +73,11 @@ class _ViewMorePageState extends State<ViewMorePage> {
     else {
       child = ListView(
         children: <Widget>[
-          if (isNullOrEmpty(data.videoUrl))
+          if (isNullOrEmpty(data.video))
             HtmlContent(content)
           else
             ANNPlayer(
-              videoUrl: data.videoUrl,
+              videoUrl: data.video.url,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: defaultPadding, vertical: 16),
@@ -130,12 +130,12 @@ class _ViewMorePageState extends State<ViewMorePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              if (isNullOrEmpty(data?.videoUrl) == false)
+              if (isNullOrEmpty(data?.video) == false)
                 ButtonIconText(
                   'Tải Video',
                   Icons.video_library,
                   onPressed: () => ANNDownload.instance
-                      .onDownLoadVideo(context, [data.videoUrl]),
+                      .onDownLoadVideo(context, [data.video.url]),
                 ),
               if (isNullOrEmpty(data.images) == false)
                 ButtonIconText(
@@ -172,12 +172,16 @@ class _ViewMorePageState extends State<ViewMorePage> {
     await Future.delayed(const Duration(milliseconds: 500));
     hideLoading(context);
 
-    await Navigator.pushNamed(context, 'product/detail/share-social',
-        arguments: {
-          'images': data.images,
-          'title': data.title,
-          'message': data.postContent
-        });
+    await Navigator.pushNamed(
+      context,
+      'product/detail/share-social',
+      arguments: {
+        'images': data.images,
+        if (data.video != null) 'videos': [data.video],
+        'title': data.title,
+        'message': data.postContent
+      },
+    );
   }
 
   void _onClickCopy(BuildContext context, String content) async {

@@ -1,4 +1,6 @@
+import 'package:ann_shop_flutter/model/utility/my_video.dart';
 import 'package:html_unescape/html_unescape.dart';
+import 'package:ping9/ping9.dart';
 import 'package:quiver/strings.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -8,16 +10,15 @@ class ViewModel {
   DateTime createDate;
   String postContent;
   List<String> images;
-  String videoUrl;
+  MyVideo video;
 
   ViewModel.formJson(Map<String, dynamic> json) {
     this.title = json['title'] ?? '';
     this.content = json['content'] ?? '';
 
     // todo: mock to test video
-    this.videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-    // this.videoUrl = json['video_url'] ?? '';
-
+    // this.video = json['video'] != null ? MyVideo.fromJson(json['video']) : null;
+    video= MyVideo(K.mockVideo, null);
     this.createDate = DateTime.parse(json['createdDate']) ?? DateTime.now();
 
     if (!isEmpty(this.content)) {

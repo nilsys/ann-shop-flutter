@@ -117,9 +117,9 @@ class Product {
       json['videos'].forEach((v) {
         videos.add(MyVideo.fromJson(v));
       });
+      printTrack(json['videos']);
     }
-    // todo
-    addMockData();
+    // addMockData();
   }
 
   void addMockData() {

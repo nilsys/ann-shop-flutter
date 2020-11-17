@@ -52,6 +52,12 @@
 @import firebase_remote_config;
 #endif
 
+#if __has_include(<flutter_inappwebview/InAppWebViewFlutterPlugin.h>)
+#import <flutter_inappwebview/InAppWebViewFlutterPlugin.h>
+#else
+@import flutter_inappwebview;
+#endif
+
 #if __has_include(<image_gallery_saver/ImageGallerySaverPlugin.h>)
 #import <image_gallery_saver/ImageGallerySaverPlugin.h>
 #else
@@ -86,6 +92,12 @@
 #import <screen/ScreenPlugin.h>
 #else
 @import screen;
+#endif
+
+#if __has_include(<share/FLTSharePlugin.h>)
+#import <share/FLTSharePlugin.h>
+#else
+@import share;
 #endif
 
 #if __has_include(<share_extend/ShareExtendPlugin.h>)
@@ -141,12 +153,14 @@
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseDynamicLinksPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseDynamicLinksPlugin"]];
   [FirebaseRemoteConfigPlugin registerWithRegistrar:[registry registrarForPlugin:@"FirebaseRemoteConfigPlugin"]];
+  [InAppWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppWebViewFlutterPlugin"]];
   [ImageGallerySaverPlugin registerWithRegistrar:[registry registrarForPlugin:@"ImageGallerySaverPlugin"]];
   [OneSignalPlugin registerWithRegistrar:[registry registrarForPlugin:@"OneSignalPlugin"]];
   [FLTPackageInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPackageInfoPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
   [ScreenPlugin registerWithRegistrar:[registry registrarForPlugin:@"ScreenPlugin"]];
+  [FLTSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharePlugin"]];
   [ShareExtendPlugin registerWithRegistrar:[registry registrarForPlugin:@"ShareExtendPlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
