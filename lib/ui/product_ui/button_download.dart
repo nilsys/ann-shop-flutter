@@ -102,9 +102,10 @@ class _ButtonDownloadState extends State<ButtonDownload> {
 enum loadState { none, loading, success }
 
 class ButtonDownLoadVideo extends StatelessWidget {
-  ButtonDownLoadVideo(this.videoUrl);
+  ButtonDownLoadVideo(this.videoUrl, {this.productID});
 
   final String videoUrl;
+  final int productID;
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +128,7 @@ class ButtonDownLoadVideo extends StatelessWidget {
             color: Colors.white,
           ),
           onPressed: () =>
-              ANNDownload.instance.onDownLoadVideo(context, [videoUrl]),
+              ANNDownload.instance.onDownLoadVideoProduct(context, productID),
         ),
       ]),
     );

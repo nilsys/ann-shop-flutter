@@ -33,6 +33,7 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView> {
           detail.carousel,
           videos: detail.videos,
           initIndex: _indexImage,
+          productID: detail?.productId,
         ),
       ),
     );

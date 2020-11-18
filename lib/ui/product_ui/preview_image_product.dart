@@ -8,7 +8,12 @@ import 'package:ping9/ping9.dart';
 
 class PreviewImageProduct extends StatefulWidget {
   PreviewImageProduct(this.carousel,
-      {this.initIndex = 0, this.controller, this.tapExpanded, this.videos, this.showFullButton = true});
+      {this.initIndex = 0,
+      this.controller,
+      this.tapExpanded,
+      this.videos,
+      this.showFullButton = true,
+      this.productID});
 
   final List<ProductCarousel> carousel;
   final int initIndex;
@@ -16,7 +21,7 @@ class PreviewImageProduct extends StatefulWidget {
   final VoidCallback tapExpanded;
   final List<MyVideo> videos;
   final bool showFullButton;
-
+  final int productID;
 
   @override
   _PreviewImageProductState createState() => _PreviewImageProductState();
@@ -109,7 +114,13 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
                       ),
                     ),
               if (currentIndex < countVideo)
-                ButtonDownLoadVideo(widget.videos[currentIndex].url)
+                if (widget.productID != null)
+                  ButtonDownLoadVideo(
+                    widget.videos[currentIndex].url,
+                    productID: widget.productID,
+                  )
+                else
+                  SizedBox()
               else
                 ButtonDownload(
                   imageName: widget.carousel[currentIndex - countVideo].origin,

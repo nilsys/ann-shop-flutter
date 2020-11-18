@@ -134,7 +134,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
                   'Tải Video',
                   Icons.video_library,
                   onPressed: () => ANNDownload.instance
-                      .onDownLoadVideo(context, [data.video.url]),
+                      .onDownLoadVideoViewMore(context, data.id),
                 ),
               if (isNullOrEmpty(data.images) == false)
                 ButtonIconText(

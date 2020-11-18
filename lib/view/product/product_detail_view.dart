@@ -150,7 +150,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               child: Container(
                 height: MediaQuery.of(context).size.width,
                 child: PreviewImageProduct(
-                  detail.carousel,
+                  detail?.carousel,
                   controller: controllerPage,
                   showFullButton: false,
                   tapExpanded: () {
@@ -162,6 +162,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                   },
                   videos: detail.videos,
                   initIndex: 0,
+                  productID: detail.productId,
                 ),
               ),
             ),
@@ -530,8 +531,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     child: ButtonIconText(
                       'Tải video',
                       Icons.video_library,
-                      onPressed: () => ANNDownload.instance.onDownLoadVideo(
-                          context, MyVideo.parseToListString(detail.videos)),
+                      onPressed: () => ANNDownload.instance.onDownLoadVideoProduct(
+                          context, detail.productId),
                     ),
                   ),
                 Expanded(

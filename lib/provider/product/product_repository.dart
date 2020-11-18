@@ -61,7 +61,7 @@ class ProductRepository {
       final url = 'flutter/product/$id/image?color=$color&size=$size';
       final response = await AppHttp.get(
         url,
-      ).timeout(const Duration(seconds: 5));
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == HttpStatus.ok) {
         final message = jsonDecode(response.body);

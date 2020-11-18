@@ -43,7 +43,7 @@ class ViewController extends ANNController {
       final url = 'flutter/post/$id/videos';
       final response = await AppHttp.get(
         url,
-      ).timeout(const Duration(seconds: 5));
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == HttpStatus.ok) {
         var message = jsonDecode(response.body);

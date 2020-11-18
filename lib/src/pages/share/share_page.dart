@@ -40,7 +40,7 @@ class _SharePageState extends State<SharePage> {
   final String messageShare;
   final String titleShare;
 
-  final int limit = 30;
+  final int limitImage = 28;
 
   int maxImage;
   List<String> imagesSelected;
@@ -53,7 +53,7 @@ class _SharePageState extends State<SharePage> {
     super.initState();
 
     // region init Parameters
-    maxImage = min(limit, images.length);
+    maxImage = min(limitImage, images.length);
     videosSelected = [];
     imagesSelected = [];
     for (int i = 0; i < images.length && i < maxImage; i++) {
