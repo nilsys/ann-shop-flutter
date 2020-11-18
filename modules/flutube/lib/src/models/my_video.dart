@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:ping9/ping9.dart';
 
 class MyVideo {
   String url;
@@ -19,7 +17,7 @@ class MyVideo {
   MyVideo(this.url, this.thumbnail);
 
   static List<String> parseToListString(List<MyVideo> videos) {
-    if (isNullOrEmpty(videos)) {
+    if (videos == null || videos.isEmpty) {
       return [];
     }
     List<String> urls = [];

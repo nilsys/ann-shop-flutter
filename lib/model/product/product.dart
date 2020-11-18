@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/model/account/ac.dart';
-import 'package:ann_shop_flutter/model/utility/my_video.dart';
+import 'package:flutube/src/models/my_video.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ping9/ping9.dart';
@@ -117,7 +117,6 @@ class Product {
       json['videos'].forEach((v) {
         videos.add(MyVideo.fromJson(v));
       });
-      printTrack(json['videos']);
     }
   }
 

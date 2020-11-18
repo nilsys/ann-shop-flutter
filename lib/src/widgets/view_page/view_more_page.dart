@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:ann_shop_flutter/model/account/ac.dart';
-import 'package:ann_shop_flutter/model/utility/my_video.dart';
+import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/download_background.dart';
@@ -72,16 +72,28 @@ class _ViewMorePageState extends State<ViewMorePage> {
         body: "Không có nội dung",
       );
     else {
-      if (isNullOrEmpty(data.video))
+      if (isNullOrEmpty(data.videos))
         child = SingleChildScrollView(child: HtmlContent(content));
-      else
+      else if (data.videos.length == 1)
         child = ANNPlayer(
-          data.video.url,
+          data.videos[0].url,
           child: Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 16),
             child: HtmlContent(content),
           ),
+        );
+      else
+        child = ListView(
+          physics: ClampingScrollPhysics(),
+          padding: EdgeInsets.zero,
+          children: [
+            PreviewVideos(
+              videos: data.videos,
+              showFullButton: true,
+            ),
+            if (isFull == false) HtmlContent(content),
+          ],
         );
     }
     return Scaffold(
@@ -97,7 +109,9 @@ class _ViewMorePageState extends State<ViewMorePage> {
                 style: TextStyle(color: Colors.black),
               ),
             ),
-      body: SafeArea(child: child),
+      body: SafeArea(
+          bottom: false,
+          child: child),
       bottomNavigationBar:
           isFull ? null : _buildBottomNavigationBar(context, data),
     );
@@ -129,7 +143,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              if (isNullOrEmpty(data?.video) == false)
+              if (isNullOrEmpty(data?.videos) == false)
                 ButtonIconText(
                   'Tải Video',
                   Icons.video_library,

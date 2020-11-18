@@ -111,7 +111,7 @@ class ButtonDownLoadVideo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       left: 10,
-      bottom: 0,
+      top: 15,
       child: Stack(alignment: Alignment.center, children: [
         Container(
           height: 35,

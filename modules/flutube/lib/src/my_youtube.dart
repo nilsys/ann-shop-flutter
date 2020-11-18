@@ -30,10 +30,6 @@ class _MyYoutubeState extends State<MyYoutube> {
 
   @override
   Widget build(BuildContext context) {
-    return youtubeHierarchy();
-  }
-
-  youtubeHierarchy() {
     return YoutubePlayerBuilder(
       player: YoutubePlayer(
         controller: _controller,
@@ -51,9 +47,5 @@ class _MyYoutubeState extends State<MyYoutube> {
         );
       },
     );
-  }
-
-  void listener() {
-    // print(_controller.value);
   }
 }

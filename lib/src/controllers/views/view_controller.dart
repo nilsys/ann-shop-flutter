@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:ann_shop_flutter/model/utility/my_video.dart';
+import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/src/controllers/ann_controller.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_logging.dart';

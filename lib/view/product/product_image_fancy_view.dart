@@ -29,6 +29,7 @@ class _ProductImageFancyViewState extends State<ProductImageFancyView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: PreviewImageProduct(
           detail.carousel,
           videos: detail.videos,

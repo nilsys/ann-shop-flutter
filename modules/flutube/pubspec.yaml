@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  ping9:
+    path: ../ping9
   http: ^0.12.2
   cached_network_image: ^2.3.1
 #  wakelock: ^0.1.4+2

@@ -1,6 +1,5 @@
-import 'package:ann_shop_flutter/model/utility/my_video.dart';
+import 'package:flutube/src/models/my_video.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:ping9/ping9.dart';
 import 'package:quiver/strings.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -11,7 +10,7 @@ class ViewModel {
   DateTime createDate;
   String postContent;
   List<String> images;
-  MyVideo video;
+  List<MyVideo> videos;
 
   ViewModel.formJson(Map<String, dynamic> json) {
     this.id = json['id'];
@@ -19,13 +18,10 @@ class ViewModel {
     this.content = json['content'] ?? '';
 
     if (json['videos'] != null) {
-      List<MyVideo> videos = [];
+      videos = [];
       json['videos'].forEach((v) {
         videos.add(MyVideo.fromJson(v));
       });
-      if (isNullOrEmpty(videos) == false) {
-        this.video = videos[0];
-      }
     }
 
     if (!isEmpty(this.content)) {

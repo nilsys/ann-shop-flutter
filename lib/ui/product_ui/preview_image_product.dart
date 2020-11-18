@@ -1,9 +1,9 @@
 import 'package:ann_shop_flutter/model/product/product.dart';
-import 'package:ann_shop_flutter/model/utility/my_video.dart';
 import 'package:ann_shop_flutter/src/widgets/common/gesture_zoom_box.dart';
 import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
 import 'package:ann_shop_flutter/view/product/product_video.dart';
 import 'package:flutter/material.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 
 class PreviewImageProduct extends StatefulWidget {
@@ -58,7 +58,6 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
     return Column(
       children: <Widget>[
         Expanded(
-          flex: 1,
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
@@ -104,7 +103,7 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
                     )
                   : Positioned(
                       right: 10,
-                      top: 10,
+                      top: 15,
                       child: IconButton(
                         icon: Icon(
                           Icons.zoom_out_map,
@@ -131,6 +130,7 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
         if (isFull == false) ...[
           SizedBox(height: 10),
           _buildImageSelect(),
+          SizedBox(height: MediaQuery.of(context).padding.bottom,)
         ],
       ],
     );

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:ann_shop_flutter/model/utility/my_video.dart';
+import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';

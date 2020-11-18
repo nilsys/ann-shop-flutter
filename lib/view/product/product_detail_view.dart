@@ -1,5 +1,5 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:ann_shop_flutter/model/utility/my_video.dart';
+import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:flutube/flutube.dart';
@@ -148,7 +148,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
             /// page view image
             SliverToBoxAdapter(
               child: Container(
-                height: MediaQuery.of(context).size.width,
+                height: isFull ?  MediaQuery.of(context).size.height : 350,
                 child: PreviewImageProduct(
                   detail?.carousel,
                   controller: controllerPage,

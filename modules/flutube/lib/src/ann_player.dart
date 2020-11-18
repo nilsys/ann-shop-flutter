@@ -49,8 +49,4 @@ class _ANNPlayerState extends State<ANNPlayer> {
       },
     );
   }
-
-  void listener() {
-    // print(_controller.value);
-  }
 }
