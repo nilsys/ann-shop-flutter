@@ -1,9 +1,12 @@
+import 'dart:core';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
+import 'package:ann_shop_flutter/src/models/pages/root_pages/root_page_navigation_bar.dart';
+import 'package:ann_shop_flutter/src/providers/roots/root_page_provider.dart';
 import 'package:ann_shop_flutter/src/route/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 
@@ -29,122 +32,7 @@ class _UserPageState extends State<UserPage> {
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Cá nhân'),
-        actions: <Widget>[
-          FavoriteButton(color: Colors.white),
-        ],
-      ),
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: <Widget>[
-          SliverToBoxAdapter(
-            child: AC.instance.isLogin ? _buildAccount() : _buildNoLogin(),
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              const Divider(
-                height: 10,
-                thickness: 10,
-              ),
-              if (AC.instance.isLogin) ...[
-                _buildItemCommon('Quản lý đơn hàng',
-                    icon: Icons.description, onTap: _viewOrderManagement),
-                _buildItemCommon('Sản phẩm đã xem',
-                    icon: Icons.remove_red_eye,
-                    onTap: () => Navigator.pushNamed(context, 'user/seen')),
-                _buildItemCommon('Sản phẩm yêu thích',
-                    icon: Icons.favorite,
-                    onTap: () => Navigator.pushNamed(context, 'user/favorite')),
-                _buildItemCommon('Thông báo',
-                    icon: Icons.notifications,
-                    onTap: () =>
-                        Routes.navigateUser(context, ANNPage.notification)),
-                _buildItemCommon('Bài viết',
-                    icon: AppIcons.blogger,
-                    onTap: () => Navigator.pushNamed(context, 'blog')),
-                const Divider(
-                  height: 10,
-                  thickness: 10,
-                ),
-                _buildItemCommon('Mã khuyến mãi',
-                    icon: MaterialCommunityIcons.ticket_percent,
-                    onTap: () =>
-                        Navigator.pushNamed(context, 'user/promotion')),
-                _buildItemCommon(
-                  'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
-                  icon: Icons.star_border,
-                  onTap: () => launch(Core.urlStoreReview),
-                ),
-                _buildItemCommon('Chia sẻ ứng dụng này',
-                    icon: Icons.share,
-                    onTap: () => Share.text(Core.dynamicLinkStore,
-                        Core.dynamicLinkStore, 'text/plain')),
-                const Divider(
-                  height: 10,
-                  thickness: 10,
-                ),
-                _buildItemCommon('Liên hệ',
-                    icon: Icons.headset_mic,
-                    onTap: () => Navigator.pushNamed(context, 'shop/contact')),
-                _buildItemCommon('Chính sách bán hàng',
-                    icon: Icons.question_answer,
-                    onTap: () => Navigator.pushNamed(context, 'shop/policy')),
-                _buildItemCommon('Cài đặt copy sản phẩm',
-                    icon: Icons.settings,
-                    onTap: () => Navigator.pushNamed(context, 'user')),
-                _buildItemCommon('Cấp quyền tải ảnh',
-                    icon: Icons.settings,
-                    onTap: () => _onClickPermission(context)),
-                BorderButton(
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, 'user/login', (route) => false);
-                    AC.instance.clearToken();
-                    Provider.of<CouponProvider>(context, listen: false)
-                        .myCoupons
-                        .error = 'logout';
-                  },
-                  child: Text('ĐĂNG XUẤT'),
-                ),
-              ] else ...[
-                _buildItemCommon('Sản phẩm đã xem',
-                    icon: Icons.remove_red_eye,
-                    onTap: () => Navigator.pushNamed(context, 'user/seen')),
-                _buildItemCommon(
-                  'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
-                  icon: Icons.star_border,
-                  onTap: () => launch(Core.urlStoreReview),
-                ),
-                _buildItemCommon('Chia sẻ ứng dụng này',
-                    icon: Icons.share,
-                    onTap: () => Share.text(Core.dynamicLinkStore,
-                        Core.dynamicLinkStore, 'text/plain')),
-                _buildItemCommon('Liên hệ',
-                    icon: Icons.headset_mic,
-                    onTap: () => Navigator.pushNamed(context, 'shop/contact')),
-                _buildItemCommon('Chính sách bán hàng',
-                    icon: Icons.question_answer,
-                    onTap: () => Navigator.pushNamed(context, 'shop/policy')),
-                BorderButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'user/login');
-                  },
-                  child: Text('ĐĂNG NHẬP'),
-                ),
-              ]
-            ]),
-          ),
-        ],
-      ),
-    );
-  }
-
+  //region Private
   Widget _buildItemCommon(String title,
       {IconData icon, GestureTapCallback onTap}) {
     return Container(
@@ -154,18 +42,41 @@ class _UserPageState extends State<UserPage> {
         onTap: onTap,
         leading: icon != null
             ? Icon(
-                icon,
-                color: Theme.of(context).primaryColor,
-              )
+          icon,
+          color: Theme.of(context).primaryColor,
+        )
             : null,
         title: Text(title),
         trailing:
-            Icon(Icons.keyboard_arrow_right, color: AppStyles.dividerColor),
+        Icon(Icons.keyboard_arrow_right, color: AppStyles.dividerColor),
       ),
     );
   }
 
-  Widget _buildAccount() {
+  void _onClickPermission(BuildContext context) {
+    final permission = Platform.isAndroid
+        ? Permission.storage : Permission.photos;
+
+    AlertAskPermission()
+      ..setMessage(permission)
+      ..show(context);
+  }
+
+  //region AppBar
+  Widget _buildAppBar(BuildContext context) {
+    return AppBar(
+      centerTitle: true,
+      title: const Text('Cá nhân'),
+      actions: <Widget>[
+        FavoriteButton(color: Colors.white),
+      ],
+    );
+  }
+  //endregion
+
+  //region Body
+  //region Account
+  Widget _buildAccount(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, 'user/information');
@@ -218,7 +129,7 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  Widget _buildNoLogin() {
+  Widget _buildNoLogin(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, 'user/login');
@@ -267,21 +178,193 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  void _viewOrderManagement() {
-    if (AC.instance.isLogin) {
-      Navigator.pushNamed(context, 'user/order');
-    } else {
-      AskLogin.show(context,
-          message:
-              'Vui lòng đăng nhập hoặc đăng ký để xem đơn hàng của bạn tại XuongAnn');
-    }
-  }
+  Widget _buildAccountBlock(BuildContext context) {
+    Widget child;
 
-  void _onClickPermission(BuildContext context) {
-    final permission =
-        Platform.isAndroid ? Permission.storage : Permission.photos;
-    AlertAskPermission()
-      ..setMessage(permission)
-      ..show(context);
+    if (AC.instance.isLogin)
+      child = _buildAccount(context);
+    else
+      child = _buildNoLogin(context);
+
+    return SliverToBoxAdapter(child: child);
+  }
+  //endregion
+
+  //region Order Info, Seen Product, Wish List, Notification, Blog
+  List<Widget> _buildAppBlock(BuildContext context) {
+    var blocks = new List<Widget>();
+
+    if (AC.instance.isLogin) {
+      blocks.add(
+        _buildItemCommon(
+          'Quản lý đơn hàng',
+          icon: Icons.description,
+          onTap: () => Navigator.pushNamed(context, 'user/order')
+        )
+      );
+      blocks.add(
+        _buildItemCommon(
+          'Sản phẩm đã xem',
+          icon: Icons.remove_red_eye,
+          onTap: () => Navigator.pushNamed(context, 'user/seen')
+        )
+      );
+      blocks.add(
+        _buildItemCommon(
+          'Sản phẩm yêu thích',
+          icon: Icons.favorite,
+          onTap: () => Navigator.pushNamed(context, 'user/favorite')
+        )
+      );
+      blocks.add(
+        _buildItemCommon(
+          'Thông báo',
+          icon: Icons.notifications,
+          onTap: () => Routes.navigateUser(context, ANNPage.notification)
+        )
+      );
+      blocks.add(
+        _buildItemCommon(
+          'Bài viết',
+          icon: AppIcons.blogger,
+          onTap: () => Navigator.pushNamed(context, 'blog')
+        )
+      );
+    }
+    else {
+      blocks.add(
+          _buildItemCommon(
+              'Sản phẩm đã xem',
+              icon: Icons.remove_red_eye,
+              onTap: () => Navigator.pushNamed(context, 'user/seen')
+          )
+      );
+    }
+
+    return blocks;
+  }
+  //endregion
+
+  //region Promotion, Review App, Share App
+  List<Widget> _buildStoreBlock(BuildContext context) {
+    var blocks = new List<Widget>();
+
+    if (AC.instance.isLogin)
+      blocks.add(
+        _buildItemCommon(
+          'Mã khuyến mãi',
+          icon: MaterialCommunityIcons.ticket_percent,
+          onTap: () => Navigator.pushNamed(context, 'user/promotion')
+        )
+      );
+
+    blocks.add(
+        _buildItemCommon(
+          'Đánh giá ANN trên ${Platform.isIOS ? 'App Store' : 'Google Play'}',
+          icon: Icons.star_border,
+          onTap: () => launch(Core.urlStoreReview),
+        )
+    );
+    blocks.add(
+        _buildItemCommon(
+            'Chia sẻ ứng dụng này',
+            icon: Icons.share,
+            onTap: () => Share.text(Core.dynamicLinkStore, Core.dynamicLinkStore, 'text/plain')
+        )
+    );
+
+    return blocks;
+  }
+  //endregion
+
+  //region Contact
+  List<Widget> _buildContactBlock(BuildContext context) {
+    var blocks = new List<Widget>();
+
+    blocks.add(
+        _buildItemCommon(
+            'Liên hệ',
+            icon: Icons.headset_mic,
+            onTap: () => Navigator.pushNamed(context, 'shop/contact')
+        )
+    );
+    blocks.add(
+        _buildItemCommon(
+            'Chính sách bán hàng',
+            icon: Icons.question_answer,
+            onTap: () => Navigator.pushNamed(context, 'shop/policy'))
+    );
+
+    if (AC.instance.isLogin) {
+      blocks.add(
+        _buildItemCommon(
+          'Cài đặt copy sản phẩm',
+          icon: Icons.settings,
+          onTap: () => Navigator.pushNamed(context, 'user')
+        )
+      );
+      blocks.add(
+        _buildItemCommon(
+          'Cấp quyền tải ảnh',
+          icon: Icons.settings,
+          onTap: () => _onClickPermission(context)
+        )
+      );
+    }
+
+    return blocks;
+  }
+  //endregion
+
+  Widget _buildBody(BuildContext context, RootPageProvider rootPageProvider) {
+    BorderButton btnLogout;
+
+    if (AC.instance.isLogin)
+      btnLogout =  BorderButton(
+        onPressed: () {
+          var couponProvider = Provider.of<CouponProvider>(context, listen: false);
+
+          couponProvider.myCoupons.error = 'logout';
+          rootPageProvider.navigate(RootPageNavigationBar.home);
+          AC.instance.clearToken();
+          Navigator.pushNamedAndRemoveUntil(context, 'user/login', (route) => false);
+        },
+        child: Text('ĐĂNG XUẤT'));
+    else
+      btnLogout = BorderButton(
+        onPressed: () {
+          rootPageProvider.navigate(RootPageNavigationBar.home);
+          Navigator.pushNamed(context, 'user/login');
+        },
+        child: Text('ĐĂNG NHẬP'));
+
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        _buildAccountBlock(context),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            const Divider(height: 10, thickness: 10),
+            ..._buildAppBlock(context),
+            const Divider(height: 10, thickness: 10),
+            ..._buildStoreBlock(context),
+            const Divider(height: 10, thickness: 10),
+            ..._buildContactBlock(context),
+            btnLogout
+        ]))
+      ]
+    );
+  }
+  //endregion
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<RootPageProvider>(
+      builder: (context, navigation, _) => Scaffold(
+        backgroundColor: Colors.grey[100],
+        appBar: _buildAppBar(context),
+        body: _buildBody(context, navigation),
+      )
+    );
   }
 }

@@ -197,18 +197,12 @@ class _LoginViewState extends State<LoginView> {
       }
 
       showLoading(context, message: 'Gửi OTP...');
-      final AppResponse response = await AccountRepository.instance
-          .registerStep2RequestOTP(
-              phone, AccountRegisterState.instance.randomNewOtp());
+      AccountRegisterState.instance.randomNewOtp();
+      await Future.delayed(const Duration(milliseconds: 500));
       hideLoading(context);
 
-      if (response.status) {
-        AccountRegisterState.instance.timeOTP = DateTime.now();
-        await Navigator.pushNamed(context, 'user/otp');
-      } else {
-        AppSnackBar.showFlushbar(context,
-            response.message ?? 'Có lỗi xãi ra, vui lòng thử lại sau.');
-      }
+      AccountRegisterState.instance.timeOTP = DateTime.now();
+      await Navigator.pushNamed(context, 'user/otp');
     } catch (e) {
       print(e);
       AppSnackBar.showFlushbar(context, 'Có lỗi xãi ra, vui lòng thử lại sau.');

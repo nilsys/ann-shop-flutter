@@ -7,6 +7,7 @@ import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 
 import 'package:ping9/ping9.dart';
+import 'package:ping9/ping9.dart' as Ping9;
 
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class RegisterInputOtpView extends StatefulWidget {
 }
 
 class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
+  final _timeout = 10;
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
 
@@ -31,7 +33,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
   TextEditingController controllerOTP = TextEditingController();
 
   registerStream() {
-    countDown = 60 - AccountRegisterState.instance.getDifferenceOTP();
+    countDown = _timeout - AccountRegisterState.instance.getDifferenceOTP();
     stream = Stream<int>.periodic(Duration(seconds: 1), transform);
     stream = stream.takeWhile((value) {
       return countDown > 0;
@@ -49,7 +51,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
 
   int transform(int value) {
     int second = AccountRegisterState.instance.getDifferenceOTP();
-    return 60 - second;
+    return _timeout - second;
   }
 
   @override
@@ -103,8 +105,8 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: countDown <= 0
-                      ? TextButton(
-                          'Gửi lại OTP',
+                      ? Ping9.TextButton(
+                          'Gửi lại mã OTP',
                           onPressed: () {
                             _onResentOTP();
                           },
@@ -112,7 +114,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                       : Padding(
                           padding: EdgeInsets.symmetric(vertical: 15),
                           child: Text(
-                            'Gửi lại OTP (00:$countDown)',
+                            'Gửi lại mã OTP (00:$countDown)',
                             style: Theme.of(context).textTheme.bodyText1,
                           )),
                 ),
