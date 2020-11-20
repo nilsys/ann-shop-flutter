@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ann_shop_flutter/theme/app_style.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
@@ -218,7 +219,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       children: <Widget>[
                         Text(
                           'Nam',
-                          style: Theme.of(context).textTheme.headline4,
+                          style: AppStyle.bigBody2,
                         ),
                         Checkbox(
                           focusNode: _sexFocus,
@@ -237,7 +238,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                           width: 50,
                         ),
                         Text('Nữ',
-                            style: Theme.of(context).textTheme.headline4),
+                            style: AppStyle.bigBody2),
                         Checkbox(
                           value: account.gender == 'F',
                           onChanged: (value) {

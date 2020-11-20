@@ -1,6 +1,7 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
+import 'package:ann_shop_flutter/theme/app_style.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -411,9 +412,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
               children: <Widget>[
                 Text(
                   'Xem thêm',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
+                  style: AppStyle.bigBody2
                       .merge(TextStyle(color: Theme.of(context).primaryColor)),
                   textAlign: TextAlign.center,
                 ),
