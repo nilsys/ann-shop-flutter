@@ -100,7 +100,7 @@ class _ProductSlideState extends State<ProductSlide> {
   Widget buildError(BuildContext context) {
     return buildBox(
       child: SomethingWentWrong(onReload: () async {
-        Provider.of<CategoryProductProvider>(context)
+        Provider.of<CategoryProductProvider>(context, listen: false)
             .loadCategory(currentCategory, refresh: true);
       }),
     );

@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:flutube/src/models/my_video.dart';
+import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-// import 'package:flutube/flutube.dart';
+import 'package:ann_shop_flutter/ui/utility/download_background.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/src/controllers/views/view_controller.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
@@ -20,14 +23,18 @@ class ViewMorePage extends StatefulWidget {
 }
 
 class _ViewMorePageState extends State<ViewMorePage> {
-  ViewController _controller;
   Future<ViewModel> _fetchData;
 
   @override
   void initState() {
     super.initState();
-    _controller = ViewController.instance;
-    _fetchData = _controller.getViewBySlug(widget.slug);
+    _fetchData = ViewController.instance.getViewBySlug(widget.slug);
+  }
+
+  @override
+  void dispose() {
+    // VideoHelper.instance.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,41 +66,54 @@ class _ViewMorePageState extends State<ViewMorePage> {
     String title = isEmpty(data.title) ? 'Thông báo' : data.title;
     String content = data.content;
     Widget child;
-
+    final isFull = isFullScreen(context);
     if (isNullOrEmpty(content))
       child = EmptyListUI(
         body: "Không có nội dung",
       );
-    else
-      child = new ListView(
-        children: <Widget>[
-          // if (isNullOrEmpty(data.videoUrl))
-          HtmlContent(content)
-          // else
-          //   ANNPlayer(
-          //     videoUrl: data.videoUrl,
-          //     child: Padding(
-          //       padding: EdgeInsets.symmetric(
-          //           horizontal: defaultPadding, vertical: 16),
-          //       child: HtmlContent(content),
-          //     ),
-          //   ),
-        ],
-      );
-
+    else {
+      if (isNullOrEmpty(data.videos))
+        child = SingleChildScrollView(child: HtmlContent(content));
+      else if (data.videos.length == 1)
+        child = ANNPlayer(
+          data.videos[0].url,
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 16),
+            child: HtmlContent(content),
+          ),
+        );
+      else
+        child = ListView(
+          physics: ClampingScrollPhysics(),
+          padding: EdgeInsets.zero,
+          children: [
+            PreviewVideos(
+              videos: data.videos,
+              showFullButton: true,
+            ),
+            if (isFull == false) HtmlContent(content),
+          ],
+        );
+    }
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(color: AppStyles.dartIcon),
-        actionsIconTheme: IconThemeData(color: AppStyles.dartIcon),
-        title: Text(
-          title,
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
-      body: child,
-      bottomNavigationBar: _buildBottomNavigationBar(context, data),
+      appBar: isFull
+          ? null
+          : AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              iconTheme: IconThemeData(color: AppStyles.dartIcon),
+              actionsIconTheme: IconThemeData(color: AppStyles.dartIcon),
+              title: Text(
+                title,
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+      body: SafeArea(
+          bottom: false,
+          child: child),
+      bottomNavigationBar:
+          isFull ? null : _buildBottomNavigationBar(context, data),
     );
   }
 
@@ -106,7 +126,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
       body: SomethingWentWrong(
         onReload: () async {
           setState(() {
-            _fetchData = _controller.getViewBySlug(widget.slug);
+            _fetchData = ViewController.instance.getViewBySlug(widget.slug);
           });
         },
       ),
@@ -116,22 +136,27 @@ class _ViewMorePageState extends State<ViewMorePage> {
   Widget _buildBottomNavigationBar(BuildContext context, ViewModel data) {
     return BottomAppBar(
       color: Colors.white,
-      child: Container(
-          height: 56,
-          child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              // if (isNullOrEmpty(data?.videoUrl) == false)
-              //   ButtonIconText(
-              //     'Tải Video',
-              //     Icons.video_library,
-              //     onPressed: () => _onClickDownload(context, data.images),
-              //   ),
-              ButtonIconText(
-                'Tải hình',
-                MaterialCommunityIcons.image_multiple,
-                onPressed: () => _onClickDownload(context, data.images),
-              ),
+              if (isNullOrEmpty(data?.videos) == false)
+                ButtonIconText(
+                  'Tải Video',
+                  Icons.video_library,
+                  onPressed: () => ANNDownload.instance
+                      .onDownLoadVideoViewMore(context, data.id),
+                ),
+              if (isNullOrEmpty(data.images) == false)
+                ButtonIconText(
+                  'Tải hình',
+                  MaterialCommunityIcons.image_multiple,
+                  onPressed: () => ANNDownload.instance
+                      .onDownLoadImages(context, data.images),
+                ),
               ButtonIconText(
                 'Đăng bài',
                 Icons.share,
@@ -143,19 +168,11 @@ class _ViewMorePageState extends State<ViewMorePage> {
                 onPressed: () => _onClickCopy(context, data.postContent),
               )
             ],
-          )),
+          ),
+          DownLoadBackground(),
+        ],
+      ),
     );
-  }
-
-  void _onClickDownload(BuildContext context, List<String> images) async {
-    if (AC.instance.canDownloadBloc == false) {
-      AppSnackBar.askLogin(context);
-      return;
-    }
-
-    if (images == null || images.length == 0) return;
-
-    _controller.downloadImage(context, images);
   }
 
   Future<void> _onClickShare(BuildContext context, ViewModel data) async {
@@ -165,15 +182,20 @@ class _ViewMorePageState extends State<ViewMorePage> {
     }
 
     showLoading(context, message: 'Đang xử lý...');
-    await Future.delayed(const Duration(milliseconds: 500));
+    List<MyVideo> videos =
+        await ViewController.instance.getViewMoreVideo(data.id);
     hideLoading(context);
 
-    await Navigator.pushNamed(context, 'product/detail/share-social',
-        arguments: {
-          'images': data.images,
-          'title': data.title,
-          'message': data.postContent
-        });
+    await Navigator.pushNamed(
+      context,
+      'product/detail/share-social',
+      arguments: {
+        'images': data.images,
+        'videos': videos,
+        'title': data.title,
+        'message': data.postContent
+      },
+    );
   }
 
   void _onClickCopy(BuildContext context, String content) async {

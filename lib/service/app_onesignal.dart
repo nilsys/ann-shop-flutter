@@ -18,7 +18,7 @@ class AppOneSignal {
   String pushToken;
   final _privateKey = "4cfab7f0-6dc2-4004-a631-fc4ba7cbf046";
 
-  Future<void> initOneSignal(BuildContext context) async {
+  Future<void> initOneSignal() async {
     await OneSignal.shared.init(_privateKey, iOSSettings: {
       OSiOSSettings.autoPrompt: false,
       OSiOSSettings.inAppLaunchUrl: true

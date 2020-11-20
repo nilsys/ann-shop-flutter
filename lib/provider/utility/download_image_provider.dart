@@ -1,12 +1,8 @@
-import 'dart:typed_data';
-
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/main.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'gallery_saver_helper.dart';
 
 class DownloadImageProvider extends ChangeNotifier {
   List<String> _images;
@@ -20,6 +16,16 @@ class DownloadImageProvider extends ChangeNotifier {
         countFail = 0;
         _saveImage(0);
       }
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> downloadVideos(List<String> urls) async {
+    if (_images == null) {
+      _images = urls;
+      countFail = 0;
+      _saveVideo(0);
       return true;
     }
     return false;
@@ -42,15 +48,41 @@ class DownloadImageProvider extends ChangeNotifier {
     }
     try {
       notifyListeners();
-      var file = await DefaultCacheManager()
-          .getSingleFile(AppImage.imageDomain + images[_index])
-          .timeout(Duration(minutes: 5));
-      Uint8List bytes = file.readAsBytesSync();
-      await ImageGallerySaver.saveImage(bytes).timeout(Duration(seconds: 5));
+      await GallerySaverHelper.instance.saveImage(_images[index]);
+
     } catch (e) {
       countFail++;
       print(e);
     }
     _saveImage(_index + 1);
   }
+
+  // todo: update download video
+  _saveVideo(_index) async {
+    index = _index;
+    if (_index >= images.length) {
+      AppSnackBar.showHighlightTopMessage(MyApp.context,
+          'Tải thành công ${images.length - countFail}/${images.length} video');
+      _images = null;
+      notifyListeners();
+      return;
+    }
+    try {
+      notifyListeners();
+      await GallerySaverHelper.instance.saveVideo(_images[index]);
+    } catch (e) {
+      countFail++;
+      print(e);
+    }
+    _saveVideo(_index + 1);
+  }
+
+  String checkLink(String name) {
+    if (name.contains("http")) {
+      return name;
+    }
+    return "${AppImage.imageDomain}$name";
+  }
 }
+
+

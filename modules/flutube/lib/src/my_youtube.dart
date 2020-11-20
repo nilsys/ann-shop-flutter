@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class ANNPlayer extends StatefulWidget {
-  const ANNPlayer(this.url, {Key key, this.child}) : super(key: key);
+class MyYoutube extends StatefulWidget {
+  const MyYoutube(
+    this.url, {
+    Key key,
+    this.showFullButton = true,
+  }) : super(key: key);
 
   final String url;
-  final Widget child;
+  final bool showFullButton;
 
   @override
-  _ANNPlayerState createState() => _ANNPlayerState();
+  _MyYoutubeState createState() => _MyYoutubeState();
 }
 
-class _ANNPlayerState extends State<ANNPlayer> {
+class _MyYoutubeState extends State<MyYoutube> {
   @override
   void initState() {
     super.initState();
@@ -26,24 +30,19 @@ class _ANNPlayerState extends State<ANNPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return youtubeHierarchy();
-  }
-
-  youtubeHierarchy() {
-    final size = MediaQuery.of(context).size;
-    final isFull = size.height < size.width;
     return YoutubePlayerBuilder(
       player: YoutubePlayer(
         controller: _controller,
+        bottomActions: widget.showFullButton ? null : [
+          CurrentPosition(),
+          ProgressBar(isExpanded: true),
+        ],
       ),
       builder: (context, player) {
-        if(isFull || widget.child == null){
-          return Center(child: player);
-        }
-        return ListView(
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             player,
-            widget.child
           ],
         );
       },

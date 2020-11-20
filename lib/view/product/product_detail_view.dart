@@ -1,5 +1,8 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
+import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/provider/product/product_utility.dart';
+import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
@@ -70,6 +73,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
   @override
   void dispose() {
     controllerScroll.dispose();
+    // VideoHelper.instance.dispose();
     super.dispose();
   }
 
@@ -84,66 +88,71 @@ class _ProductDetailViewState extends State<ProductDetailView>
     detail = data.data;
 
     if (data.isCompleted) {
+      final isFull = isFullScreen(context);
       return Scaffold(
         floatingActionButton: _buildFloatButton(),
-        bottomNavigationBar: _buildButtonControl(),
+        bottomNavigationBar: isFull ? null : _buildButtonControl(),
         body: CustomScrollView(
           controller: controllerScroll,
           slivers: <Widget>[
             /// app bar
-            SliverAppBar(
-              floating: true,
-              pinned: false,
-              iconTheme: IconThemeData(color: AppStyles.dartIcon),
-              backgroundColor: Colors.white,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(AppIcons.search,
-                      size: 20, color: AppStyles.dartIcon),
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'search');
-                  },
-                ),
-                IconButton(
-                    icon: Icon(Icons.home, color: AppStyles.dartIcon),
+            if (isFull == false)
+              SliverAppBar(
+                floating: true,
+                pinned: false,
+                iconTheme: IconThemeData(color: AppStyles.dartIcon),
+                backgroundColor: Colors.white,
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(AppIcons.search,
+                        size: 20, color: AppStyles.dartIcon),
                     onPressed: () {
-                      Navigator.popUntil(context, ModalRoute.withName('home'));
-                    }),
-                FavoriteButton(
-                  color: AppStyles.dartIcon,
-                ),
-                OptionMenuProduct(
-                  onCopy: () {
-                    ProductUtility.instance
-                        .onCheckAndCopy(context, detail.productId);
-                  },
-                  onDownload: () {
-                    if (data.isCompleted) {
-                      _onAksBeforeDownload();
-                    } else {
-                      AppSnackBar.showFlushbar(
-                          context, 'Đang tải dữ liệu. Thử lại sau');
-                    }
-                  },
-                  onShare: () {
-                    if (data.isCompleted) {
-                      ProductUtility.instance.onCheckAndShare(context, detail);
-                    } else {
-                      AppSnackBar.showFlushbar(
-                          context, 'Đang tải dữ liệu. Thử lại sau');
-                    }
-                  },
-                ),
-              ],
-            ),
+                      Navigator.pushNamed(context, 'search');
+                    },
+                  ),
+                  IconButton(
+                      icon: Icon(Icons.home, color: AppStyles.dartIcon),
+                      onPressed: () {
+                        Navigator.popUntil(
+                            context, ModalRoute.withName('home'));
+                      }),
+                  FavoriteButton(
+                    color: AppStyles.dartIcon,
+                  ),
+                  OptionMenuProduct(
+                    onCopy: () {
+                      ProductUtility.instance
+                          .onCheckAndCopy(context, detail.productId);
+                    },
+                    onDownload: () {
+                      if (data.isCompleted) {
+                        _onAksBeforeDownload();
+                      } else {
+                        AppSnackBar.showFlushbar(
+                            context, 'Đang tải dữ liệu. Thử lại sau');
+                      }
+                    },
+                    onShare: () {
+                      if (data.isCompleted) {
+                        ProductUtility.instance
+                            .onCheckAndShare(context, detail);
+                      } else {
+                        AppSnackBar.showFlushbar(
+                            context, 'Đang tải dữ liệu. Thử lại sau');
+                      }
+                    },
+                  ),
+                ],
+              ),
 
             /// page view image
             SliverToBoxAdapter(
               child: Container(
-                height: MediaQuery.of(context).size.height / 2 + 80,
+                height: isFull ?  MediaQuery.of(context).size.height : 350,
                 child: PreviewImageProduct(
-                  detail.carousel,
+                  detail?.carousel,
                   controller: controllerPage,
+                  showFullButton: false,
                   tapExpanded: () {
                     Navigator.pushNamed(context, 'product/detail/fancy-image',
                         arguments: {
@@ -151,7 +160,9 @@ class _ProductDetailViewState extends State<ProductDetailView>
                           'data': data.data
                         });
                   },
+                  videos: detail.videos,
                   initIndex: 0,
+                  productID: detail.productId,
                 ),
               ),
             ),
@@ -485,60 +496,82 @@ class _ProductDetailViewState extends State<ProductDetailView>
       color: Colors.white,
       child: Container(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                favorite
-                    ? ButtonIconText(
-                        'Xoá',
-                        Icons.favorite,
-                        onPressed: () {
-                          Provider.of<FavoriteProvider>(context, listen: false)
-                              .removeProduct(detail.productId);
-                        },
-                      )
-                    : ButtonIconText(
-                        'Thích',
-                        Icons.favorite_border,
-                        onPressed: () {
-                          Provider.of<FavoriteProvider>(context, listen: false)
-                              .addNewProduct(context, detail.toProduct(),
-                                  count: 1);
-                        },
-                      ),
-                ButtonIconText(
-                  'Tải hình',
-                  Icons.cloud_download,
-                  onPressed: () {
-                    if (detail != null) {
-                      ProductUtility.instance
-                          .onDownLoad(context, detail.productId);
-                    } else {
-                      AppSnackBar.showFlushbar(
-                          context, 'Đang tải dữ liệu. Thử lại sau');
-                    }
-                  },
+                if (favorite)
+                  Expanded(
+                    child: ButtonIconText(
+                      'Xoá',
+                      Icons.favorite,
+                      onPressed: () {
+                        Provider.of<FavoriteProvider>(context, listen: false)
+                            .removeProduct(detail.productId);
+                      },
+                    ),
+                  )
+                else
+                  Expanded(
+                    child: ButtonIconText(
+                      'Thích',
+                      Icons.favorite_border,
+                      onPressed: () {
+                        Provider.of<FavoriteProvider>(context, listen: false)
+                            .addNewProduct(context, detail.toProduct(),
+                                count: 1);
+                      },
+                    ),
+                  ),
+                if (isNullOrEmpty(detail.videos) == false)
+                  Expanded(
+                    child: ButtonIconText(
+                      'Tải video',
+                      Icons.video_library,
+                      onPressed: () => ANNDownload.instance.onDownLoadVideoProduct(
+                          context, detail.productId),
+                    ),
+                  ),
+                Expanded(
+                  child: ButtonIconText(
+                    'Tải hình',
+                    MaterialCommunityIcons.image_multiple,
+                    onPressed: () {
+                      if (detail != null) {
+                        ANNDownload.instance
+                            .onDownLoadImagesProduct(context, detail.productId);
+                      } else {
+                        AppSnackBar.showFlushbar(
+                            context, 'Đang tải dữ liệu. Thử lại sau');
+                      }
+                    },
+                  ),
                 ),
-                ButtonIconText(
-                  'Đăng bài',
-                  Icons.share,
-                  onPressed: () {
-                    if (detail != null) {
-                      ProductUtility.instance.onCheckAndShare(context, detail);
-                    } else {
-                      AppSnackBar.showFlushbar(
-                          context, 'Đang tải dữ liệu. Thử lại sau');
-                    }
-                  },
+                Expanded(
+                  child: ButtonIconText(
+                    'Đăng bài',
+                    Icons.share,
+                    onPressed: () {
+                      if (detail != null) {
+                        ProductUtility.instance
+                            .onCheckAndShare(context, detail);
+                      } else {
+                        AppSnackBar.showFlushbar(
+                            context, 'Đang tải dữ liệu. Thử lại sau');
+                      }
+                    },
+                  ),
                 ),
-                ButtonIconText(
-                  'Copy',
-                  Icons.content_copy,
-                  onPressed: () => ProductUtility.instance
-                      .onCheckAndCopy(context, detail.productId),
+                Expanded(
+                  child: ButtonIconText(
+                    'Copy',
+                    Icons.content_copy,
+                    onPressed: () => ProductUtility.instance
+                        .onCheckAndCopy(context, detail.productId),
+                  ),
                 ),
               ],
             ),
@@ -575,7 +608,8 @@ class _ProductDetailViewState extends State<ProductDetailView>
           highlight: ButtonData(
             'Lưu',
             onPressed: () {
-              ProductUtility.instance.onDownLoad(context, detail.productId);
+              ANNDownload.instance
+                  .onDownLoadImagesProduct(context, detail.productId);
             },
           ),
         )
@@ -590,7 +624,11 @@ class _ProductDetailViewState extends State<ProductDetailView>
     return ButtonGradient(
       onTap: () {
         Navigator.pushNamed(context, 'product/detail/select-size-color',
-            arguments: {'index': controllerPage.page.round(), 'data': detail});
+            arguments: {
+              'index':
+                  controllerPage.page.round() - (detail.videos?.length ?? 0),
+              'data': detail
+            });
       },
       child: RichText(
         text: TextSpan(

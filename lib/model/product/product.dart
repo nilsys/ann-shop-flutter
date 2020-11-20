@@ -1,4 +1,5 @@
 import 'package:ann_shop_flutter/model/account/ac.dart';
+import 'package:flutube/src/models/my_video.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ping9/ping9.dart';
@@ -20,6 +21,7 @@ class Product {
   double retailPrice;
 
   List<String> images;
+  List<MyVideo> videos;
 
   Product({this.productId});
 
@@ -110,7 +112,14 @@ class Product {
     regularPrice = json['regularPrice'];
     oldPrice = json['oldPrice'];
     retailPrice = json['retailPrice'];
+    if (json['videos'] != null) {
+      videos = [];
+      json['videos'].forEach((v) {
+        videos.add(MyVideo.fromJson(v));
+      });
+    }
   }
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -126,6 +135,9 @@ class Product {
     data['regularPrice'] = this.regularPrice;
     data['oldPrice'] = this.oldPrice;
     data['retailPrice'] = this.retailPrice;
+    if (videos != null) {
+      data['videos'] = videos.map((value) => value.toJson()).toList();
+    }
     return data;
   }
 }

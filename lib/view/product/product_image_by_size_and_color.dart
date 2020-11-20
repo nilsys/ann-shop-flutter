@@ -86,6 +86,7 @@ class _ProductImageBySizeAndColorState
                 detail.carousel,
                 controller: controller,
                 initIndex: _indexImage,
+                productID: detail?.productId,
               ),
             ),
             Expanded(

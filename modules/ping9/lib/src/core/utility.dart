@@ -7,6 +7,9 @@ final double defaultPadding = 15;
 const int itemPerPage = 20;
 
 class Utility {
+  static const String l_i_n_e =
+      "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+
   static String formatPrice(dynamic number) {
     final oCcy = new NumberFormat("#,###", "en_US");
     if (number is String) {
@@ -54,7 +57,10 @@ bool isNullOrEmpty(object) {
   return false;
 }
 
-
+bool isFullScreen(BuildContext context) {
+  final size = MediaQuery.of(context).size;
+  return size.height < size.width;
+}
 
 void printTrack(Object object, {int frames = 1}) {
   final output = "${Trace.current().frames[frames].location} | $object";

@@ -17,9 +17,7 @@ import 'package:ping9/ping9.dart';
 import 'package:provider/provider.dart';
 import 'package:quiver/strings.dart';
 
-
-class  Routes {
-
+class Routes {
   // region navigate page
   static RootPageProvider _getProvider(BuildContext context) {
     return Provider.of<RootPageProvider>(context, listen: false);
@@ -35,7 +33,7 @@ class  Routes {
         break;
       case ANNPage.search:
         final searchProvider =
-        Provider.of<SearchProvider>(context, listen: false);
+            Provider.of<SearchProvider>(context, listen: false);
 
         searchProvider.setOpenKeyBoard(true);
         provider.navigate(RootPageNavigationBar.search);
@@ -43,7 +41,7 @@ class  Routes {
       case ANNPage.notification:
         if (!isEmpty(notificationType)) {
           final notificationProvider =
-          Provider.of<InAppProvider>(context, listen: false);
+              Provider.of<InAppProvider>(context, listen: false);
 
           notificationProvider.currentCategory = notificationType;
         }
@@ -208,13 +206,14 @@ class  Routes {
       Provider.of<ProductProvider>(context, listen: false)
           .getBySlug(detail.slug)
           .completed = detail;
+      slug = detail.slug;
     } else {
       if (product != null) {
         Provider.of<SeenProvider>(context, listen: false)
             .addNewProduct(product);
         slug = product.slug;
       }
-      await Navigator.pushNamed(context, 'product/detail', arguments: slug);
     }
+    await Navigator.pushNamed(context, 'product/detail', arguments: slug);
   }
 }

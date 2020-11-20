@@ -44,6 +44,7 @@ class CategoryProductProvider extends ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
+      printTrack(e);
       categories[code].error = 'Exception: ' + e.toString();
       notifyListeners();
     }

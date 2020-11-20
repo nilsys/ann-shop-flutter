@@ -215,13 +215,13 @@ class ListProductRepository {
   cacheProduct(String _keyCache, List<Product> products) {
     var myJsonString =
         jsonEncode(products.map((value) => value.toJson()).toList());
-    StorageManager.instance
+    UserDefaults.instance
         .setObject(_prefixCategoryKey + _keyCache, myJsonString);
   }
 
   Future<List<Product>> loadByCache(String _keyCache) async {
     try {
-      String body = await StorageManager.instance
+      String body = await UserDefaults.instance
           .getObjectByKey(_prefixCategoryKey + _keyCache);
 
       if (isNullOrEmpty(body) == false) {

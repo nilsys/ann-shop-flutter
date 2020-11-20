@@ -57,4 +57,11 @@ class PermissionController extends ANNController {
       ..setMessage(permission)
       ..show(context);
   }
+
+  Future<bool> checkAndRequestStorageMedia(BuildContext context) async {
+    final permissionGroup =
+        Platform.isAndroid ? Permission.storage : Permission.photos;
+    return await PermissionController.instance
+        .checkAndRequestPermission(context, permissionGroup);
+  }
 }

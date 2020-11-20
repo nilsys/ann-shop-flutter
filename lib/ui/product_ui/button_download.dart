@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:ann_shop_flutter/core/core.dart';
+import 'package:ann_shop_flutter/provider/utility/gallery_saver_helper.dart';
+import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
@@ -10,7 +10,6 @@ import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ButtonDownload extends StatefulWidget {
@@ -71,21 +70,14 @@ class _ButtonDownloadState extends State<ButtonDownload> {
       return;
     }
     try {
-      final permissionGroup =
-          Platform.isAndroid ? Permission.storage : Permission.photos;
       final bool permission = await PermissionController.instance
-          .checkAndRequestPermission(context, permissionGroup);
+          .checkAndRequestStorageMedia(context);
       if (permission == false) return;
 
       setState(() {
         loading = loadState.loading;
       });
-      final file = await DefaultCacheManager()
-          .getSingleFile(AppImage.imageDomain + widget.imageName)
-          .timeout(const Duration(minutes: 5));
-      final Uint8List bytes = file.readAsBytesSync();
-      await ImageGallerySaver.saveImage(bytes)
-          .timeout(const Duration(seconds: 5));
+      await GallerySaverHelper.instance.saveImage(widget.imageName);
       if (widget.cache == false) {
         AppSnackBar.showHighlightTopMessage(
             context, 'Lưu hình ảnh thành công.');
@@ -108,3 +100,37 @@ class _ButtonDownloadState extends State<ButtonDownload> {
 }
 
 enum loadState { none, loading, success }
+
+class ButtonDownLoadVideo extends StatelessWidget {
+  ButtonDownLoadVideo(this.videoUrl, {this.productID});
+
+  final String videoUrl;
+  final int productID;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 10,
+      top: 15,
+      child: Stack(alignment: Alignment.center, children: [
+        Container(
+          height: 35,
+          width: 40,
+          decoration: BoxDecoration(
+            color: Colors.green,
+            shape: BoxShape.circle,
+          ),
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.file_download,
+            size: 20,
+            color: Colors.white,
+          ),
+          onPressed: () =>
+              ANNDownload.instance.onDownLoadVideoProduct(context, productID),
+        ),
+      ]),
+    );
+  }
+}

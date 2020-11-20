@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/src/controllers/ann_controller.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_logging.dart';
@@ -36,7 +37,25 @@ class ViewController extends ANNController {
     }
   }
 
-  Future<void> downloadImage(BuildContext context, List<String> images) async {
-    ANNDownload.instance.downloadImages(context, images);
+  /// http://backend.xuongann.com/api/flutter/product/1/videos
+  Future<List<MyVideo>> getViewMoreVideo(int id) async {
+    try {
+      final url = 'flutter/post/$id/videos';
+      final response = await AppHttp.get(
+        url,
+      ).timeout(const Duration(seconds: 15));
+
+      if (response.statusCode == HttpStatus.ok) {
+        var message = jsonDecode(response.body);
+        final List<MyVideo> _data = [];
+        message.forEach((v) {
+          _data.add(MyVideo.fromJson(v));
+        });
+        return _data;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return null;
   }
 }

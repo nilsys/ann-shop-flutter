@@ -1,24 +1,28 @@
+import 'package:flutube/src/models/my_video.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:quiver/strings.dart';
 import 'package:sprintf/sprintf.dart';
 
 class ViewModel {
+  int id;
   String title;
   String content;
   DateTime createDate;
   String postContent;
   List<String> images;
-  String videoUrl;
+  List<MyVideo> videos;
 
   ViewModel.formJson(Map<String, dynamic> json) {
+    this.id = json['id'];
     this.title = json['title'] ?? '';
     this.content = json['content'] ?? '';
 
-    // todo: mock to test video
-    this.videoUrl = "https://ssd-asia.com/files/media/video/ar_intro.mp4";
-    // this.videoUrl = json['video_url'] ?? '';
-
-    this.createDate = DateTime.parse(json['createdDate']) ?? DateTime.now();
+    if (json['videos'] != null) {
+      videos = [];
+      json['videos'].forEach((v) {
+        videos.add(MyVideo.fromJson(v));
+      });
+    }
 
     if (!isEmpty(this.content)) {
       this.images = _imageFilter(this.content);

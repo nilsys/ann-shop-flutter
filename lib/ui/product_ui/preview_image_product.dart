@@ -1,109 +1,160 @@
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/src/widgets/common/gesture_zoom_box.dart';
 import 'package:ann_shop_flutter/ui/product_ui/button_download.dart';
+import 'package:ann_shop_flutter/view/product/product_video.dart';
 import 'package:flutter/material.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 
 class PreviewImageProduct extends StatefulWidget {
   PreviewImageProduct(this.carousel,
-      {this.initIndex = 0, this.controller, this.tapExpanded});
+      {this.initIndex = 0,
+      this.controller,
+      this.tapExpanded,
+      this.videos,
+      this.showFullButton = true,
+      this.productID});
 
   final List<ProductCarousel> carousel;
-  final initIndex;
+  final int initIndex;
   final PageController controller;
-  final tapExpanded;
+  final VoidCallback tapExpanded;
+  final List<MyVideo> videos;
+  final bool showFullButton;
+  final int productID;
 
   @override
   _PreviewImageProductState createState() => _PreviewImageProductState();
 }
 
 class _PreviewImageProductState extends State<PreviewImageProduct> {
-  List<ProductCarousel> carousel;
   PageController controller;
-  VoidCallback tapExpanded;
 
   @override
   void initState() {
-
     super.initState();
-    _indexImage = widget.initIndex;
-    carousel = widget.carousel;
-    tapExpanded = widget.tapExpanded;
+    _currentIndex = widget.initIndex < 0 ? 0 : widget.initIndex;
     controller =
-        widget.controller ?? new PageController(initialPage: indexImage);
+        widget.controller ?? new PageController(initialPage: _currentIndex);
     thumbnailController =
-        ScrollController(initialScrollOffset: getOffsetByIndex(_indexImage));
+        ScrollController(initialScrollOffset: getOffsetByIndex(_currentIndex));
+  }
+
+  int get countVideo {
+    return widget.videos?.length ?? 0;
+  }
+
+  int get maxCountPage {
+    return (widget.carousel?.length ?? 0) + countVideo;
+  }
+
+  int indexImagePageAt(int index) {
+    return index - countVideo;
   }
 
   @override
   Widget build(BuildContext context) {
+    final isFull = isFullScreen(context);
     return Column(
       children: <Widget>[
         Expanded(
-          flex: 1,
-          child: InkWell(
-            onTap: tapExpanded,
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                PageView.builder(
-                    itemCount: carousel.length,
-                    controller: controller,
-                    onPageChanged: (index) {
-                      indexImage = index;
-                    },
-                    itemBuilder: (context, index) {
-                      return Container(
-                        alignment: Alignment.center,
-                        child: GestureZoomBox(
-                          child: AppImage(
-                            AppImage.imageDomain +
-                                (tapExpanded != null
-                                    ? carousel[index].feature
-                                    : carousel[index].origin),
-                            fit: BoxFit.contain,
-                          ),
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              PageView.builder(
+                itemCount: maxCountPage,
+                controller: controller,
+                onPageChanged: (index) {
+                  currentIndex = index;
+                },
+                itemBuilder: (context, index) {
+                  if (index < countVideo) {
+                    return _buildVideo(index);
+                  }
+                  return InkWell(
+                    onTap:
+                        currentIndex < countVideo ? null : widget.tapExpanded,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: GestureZoomBox(
+                        child: AppImage(
+                          AppImage.imageDomain +
+                              (widget.tapExpanded != null
+                                  ? widget.carousel[index - countVideo].feature
+                                  : widget.carousel[index - countVideo].origin),
+                          fit: BoxFit.contain,
                         ),
-                      );
-                    }),
-                tapExpanded == null
-                    ? Positioned(
-                        right: 15,
-                        top: 15,
-                        child: ButtonClose(onPressed: () {
-                          Navigator.pop(context, indexImage);
-                        }),
-                      )
-                    : Positioned(
-                        right: 10,
-                        top: 10,
-                        child: Icon(
+                      ),
+                    ),
+                  );
+                },
+              ),
+              widget.tapExpanded == null
+                  ? Positioned(
+                      right: 15,
+                      top: 15,
+                      child: ButtonClose(onPressed: () {
+                        if (isFull) {
+                          OrientationUtility.setPortrait();
+                        } else {
+                          Navigator.pop(context, currentIndex);
+                        }
+                      }),
+                    )
+                  : Positioned(
+                      right: 10,
+                      top: 15,
+                      child: IconButton(
+                        icon: Icon(
                           Icons.zoom_out_map,
                           color: Theme.of(context).primaryColor,
                         ),
+                        onPressed: widget.tapExpanded,
                       ),
+                    ),
+              if (currentIndex < countVideo)
+                if (widget.productID != null)
+                  ButtonDownLoadVideo(
+                    widget.videos[currentIndex].url,
+                    productID: widget.productID,
+                  )
+                else
+                  SizedBox()
+              else
                 ButtonDownload(
-                  imageName: carousel[indexImage].origin,
+                  imageName: widget.carousel[currentIndex - countVideo].origin,
                 ),
-              ],
-            ),
+            ],
           ),
         ),
-        SizedBox(height: 10),
-        _buildImageSelect(carousel)
+        if (isFull == false) ...[
+          SizedBox(height: 10),
+          _buildImageSelect(),
+          SizedBox(height: MediaQuery.of(context).padding.bottom,)
+        ],
       ],
     );
   }
 
-  int _indexImage = 0;
+  Widget _buildVideo(int index) {
+    final MyVideo video = widget.videos[index];
+    return ProductVideo(
+      video,
+      index,
+      key: Key("ProductVideo-$index-${video.url}"),
+      showFullButton: widget.showFullButton,
+    );
+  }
 
-  int get indexImage => _indexImage;
+  int _currentIndex = 0;
 
-  set indexImage(int indexImage) {
+  int get currentIndex => _currentIndex;
+
+  set currentIndex(int indexImage) {
     thumbnailController.animateTo(getOffsetByIndex(indexImage),
         duration: Duration(milliseconds: 500), curve: Curves.linear);
     setState(() {
-      _indexImage = indexImage;
+      _currentIndex = indexImage;
     });
   }
 
@@ -117,30 +168,32 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
 
   ScrollController thumbnailController;
 
-  Widget _buildImageSelect(List<ProductCarousel> images) {
+  Widget _buildImageSelect() {
+    List<ProductCarousel> images = widget.carousel;
+    List<MyVideo> videos = widget.videos;
+
     return Container(
       height: 70,
-      padding: EdgeInsets.symmetric(vertical: 5),
       child: ListView.builder(
+        padding: EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 5),
         controller: thumbnailController,
         physics: ClampingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        itemCount: images.length + 2,
+        itemCount: maxCountPage,
         itemBuilder: (context, index) {
-          if (index == (images.length + 1) || index == 0) {
-            return SizedBox(
-              width: defaultPadding,
-            );
+          if (index < countVideo) {
+            return _videoButton(videos[index], index: index);
           } else {
-            return _imageButton(images[index - 1].thumbnail, index: index - 1);
+            return _imageButton(images[index - countVideo].thumbnail,
+                index: index);
           }
         },
       ),
     );
   }
 
-  Widget _imageButton(String url, {index = 0}) {
-    bool isSelect = indexImage == index;
+  Widget _imageButton(String url, {int index}) {
+    bool isSelect = currentIndex == index;
     return Container(
       width: 55,
       decoration: BoxDecoration(
@@ -172,6 +225,34 @@ class _PreviewImageProductState extends State<PreviewImageProduct> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _videoButton(MyVideo video, {int index}) {
+    bool isSelect = currentIndex == index;
+    return Container(
+      width: 55,
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        border: isSelect
+            ? new Border.all(
+                color: Theme.of(context).primaryColor,
+                width: 1.5,
+                style: BorderStyle.solid,
+              )
+            : null,
+        borderRadius: BorderRadius.all(
+          Radius.circular(7),
+        ),
+      ),
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      child: InkWell(
+        onTap: () {
+          controller.animateToPage(index,
+              duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+        },
+        child: Icon(MaterialCommunityIcons.video),
       ),
     );
   }

@@ -21,7 +21,7 @@ class FavoriteProvider with ChangeNotifier {
     try {
       /// shopping
       final response =
-          await StorageManager.instance.getObjectByKey(_keyLocaleFavorite);
+          await UserDefaults.instance.getObjectByKey(_keyLocaleFavorite);
       if (isNullOrEmpty(response)) {
         products = [];
       } else {
@@ -37,7 +37,7 @@ class FavoriteProvider with ChangeNotifier {
   saveShoppingList() {
     var myJsonString =
         jsonEncode(products.map((value) => value.toJson()).toList());
-    StorageManager.instance.setObject(_keyLocaleFavorite, myJsonString);
+    UserDefaults.instance.setObject(_keyLocaleFavorite, myJsonString);
   }
 
   addNewProduct(context, Product item, {int count = 1}) {

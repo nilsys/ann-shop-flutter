@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
@@ -123,11 +124,15 @@ class ProductUtility {
       showLoading(context, message: 'Đang tải...');
       final images = await ProductRepository.instance
           .loadProductAdvertisementImage(product.productId);
+      List<MyVideo> videos =
+          await ProductRepository.instance.loadProductVideo(product.productId);
+
       hideLoading(context);
       if (isNullOrEmpty(images) == false) {
         await Navigator.pushNamed(context, 'product/detail/share-social',
             arguments: {
               'images': images,
+              'videos': videos,
               'title': product.name,
               'message': message
             });
@@ -139,42 +144,6 @@ class ProductUtility {
       AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
           duration: const Duration(seconds: 1));
       return;
-    }
-  }
-
-  /// save to gallery
-  Future<bool> onDownLoad(BuildContext context, int productId) async {
-    if (AC.instance.canDownloadProduct == false) {
-      AppSnackBar.askLogin(context);
-      return false;
-    }
-    try {
-      final images = await ProductRepository.instance
-          .loadProductAdvertisementImage(productId);
-      if (isNullOrEmpty(images)) {
-        AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
-            duration: const Duration(seconds: 1));
-      } else {
-        final permissionGroup =
-            Platform.isAndroid ? Permission.storage : Permission.photos;
-        final permission = await PermissionController.instance
-            .checkAndRequestPermission(context, permissionGroup);
-        if (permission) {
-          final result =
-              await Provider.of<DownloadImageProvider>(context, listen: false)
-                  .downloadImages(images);
-          if (result == false) {
-            AppSnackBar.showFlushbar(
-                context, 'Đang tải sản phẩm, vui lòng đợi trong giây lát.');
-          }
-        }
-      }
-      return true;
-    } catch (e) {
-      print(e);
-      AppSnackBar.showFlushbar(context, 'Tải hình thất bại',
-          duration: const Duration(seconds: 1));
-      return false;
     }
   }
 }

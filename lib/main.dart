@@ -19,13 +19,21 @@ import 'package:ann_shop_flutter/theme/app_theme.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ping9/ping9.dart';
 import 'package:provider/provider.dart';
 
 import 'service/app_onesignal.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
       .copyWith(statusBarIconBrightness: Brightness.light));
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  await UserDefaults.instance.init();
+  AppOneSignal.instance.initOneSignal();
 
   runApp(MyApp());
 }
@@ -76,14 +84,4 @@ class _MyAppState extends State<MyApp> {
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(
       analytics: AppAnalytics.instance.firebase,
       nameExtractor: Routes.getNameExtractor);
-
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    AppOneSignal.instance.initOneSignal(context);
-  }
 }

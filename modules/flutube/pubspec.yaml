@@ -11,10 +11,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  ping9:
+    path: ../ping9
   http: ^0.12.2
   cached_network_image: ^2.3.1
+#  wakelock: ^0.1.4+2
+  youtube_player_flutter: ^7.0.0+7
+#  youtube_player_iframe: ^1.1.0
 #  video_player: ">=0.7.0 <0.11.0"
-  chewie: ^0.9.10
+#  chewie: ^0.9.10
 #  screen: 0.0.5
 #  youtube_player_flutter: ^7.0.0+7
 
