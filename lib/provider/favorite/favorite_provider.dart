@@ -6,7 +6,6 @@ import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
-import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteProvider with ChangeNotifier {

@@ -1,7 +1,7 @@
 import 'package:ann_shop_flutter/model/account/ac.dart';
-import 'package:flutube/src/models/my_video.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/provider/product/product_repository.dart';

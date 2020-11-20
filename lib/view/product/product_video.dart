@@ -1,7 +1,5 @@
-import 'package:flutube/src/models/my_video.dart';
 import 'package:flutter/material.dart';
 import 'package:flutube/flutube.dart';
-import 'package:ping9/ping9.dart';
 
 class ProductVideo extends StatelessWidget {
   const ProductVideo(this.video, this.index, {Key key, this.showFullButton = true}) : super(key: key);

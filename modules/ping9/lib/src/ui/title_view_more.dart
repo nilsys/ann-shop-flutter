@@ -27,7 +27,7 @@ class TitleViewMore extends StatelessWidget {
                     title,
                     style: Theme.of(context)
                         .textTheme
-                        .title,
+                        .headline6,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

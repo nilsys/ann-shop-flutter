@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';

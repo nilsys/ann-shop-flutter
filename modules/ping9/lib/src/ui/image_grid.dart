@@ -56,10 +56,6 @@ class ImageGrid extends StatelessWidget {
     return Container(width: 3, color: Colors.white);
   }
 
-  Widget _buildImage1(List<String> images) {
-    return _image(images[0]);
-  }
-
   Widget _buildImage2(List<String> images) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,

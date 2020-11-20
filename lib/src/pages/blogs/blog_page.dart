@@ -1,5 +1,3 @@
-import 'package:ann_shop_flutter/src/pages/blogs/blog_category_bar.dart';
-import 'package:ann_shop_flutter/src/pages/blogs/blog_category_popup_menu.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/utility/blog_category.dart';

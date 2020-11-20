@@ -1,8 +1,6 @@
 import 'package:ann_shop_flutter/core/app_icons.dart';
-import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
-import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';

@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/src/controllers/ann_controller.dart';
-import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_logging.dart';
 import 'package:ann_shop_flutter/src/models/views/view_model.dart';
-import 'package:flutter/material.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 
 class ViewController extends ANNController {

@@ -51,7 +51,7 @@ class ProductBlock extends StatelessWidget {
               'Mã: ' + product.sku,
               style: Theme.of(context)
                   .textTheme
-                  .subhead
+                  .subtitle1
                   .merge(TextStyle(color: Colors.grey)),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

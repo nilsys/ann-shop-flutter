@@ -15,7 +15,7 @@ Future<void> showLoading(BuildContext context,
   if (_progressDialog == null) {
     _progressDialog = _ProgressDialog(bgRoundedColor: bgRoundedColor);
     _dialogMessage = message;
-    await _progressDialog.show(context);
+    return _progressDialog.show(context);
   }
 }
 

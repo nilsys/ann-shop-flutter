@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:ann_shop_flutter/view/scan_barcode/qr_scan_focus.dart';
-import 'package:ann_shop_flutter/view/scan_barcode/qr_scanner_overlay_shape.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
@@ -232,7 +231,7 @@ class _ScanViewState extends State<ScanView>
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.subtitle.merge(
+        style: Theme.of(context).textTheme.subtitle2.merge(
               TextStyle(color: Colors.white),
             ),
       ),

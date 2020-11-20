@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product_favorite.dart';
 import 'package:ann_shop_flutter/provider/favorite/favorite_provider.dart';
@@ -78,7 +77,7 @@ class ProductFavoriteItem extends StatelessWidget {
                                 "Sỉ: ${data.product.regularDisplay}",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .body2
+                                    .bodyText1
                                     .merge(data.product.regularDisplayStyle),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

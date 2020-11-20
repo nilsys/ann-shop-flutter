@@ -42,7 +42,7 @@ class ProductRelatedItem extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     product.name,
-                    style: Theme.of(context).textTheme.subtitle,
+                    style: Theme.of(context).textTheme.subtitle2,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -53,7 +53,7 @@ class ProductRelatedItem extends StatelessWidget {
                     'Mã: ' + product.sku,
                     style: Theme.of(context)
                         .textTheme
-                        .subhead
+                        .subtitle1
                         .merge(TextStyle(color: Colors.grey)),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

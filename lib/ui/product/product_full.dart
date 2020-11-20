@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ping9/ping9.dart';
@@ -104,7 +102,7 @@ class _ProductFullState extends State<ProductFull> {
             'Giá sỉ: ${widget.product.regularDisplay}',
             style: Theme.of(context)
                 .textTheme
-                .body2
+                .bodyText1
                 .merge(widget.product.regularDisplayStyle),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

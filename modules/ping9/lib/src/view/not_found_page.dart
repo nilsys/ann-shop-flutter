@@ -18,7 +18,7 @@ class NotFoundPage extends StatelessWidget {
           children: <Widget>[
             Text(
               '404',
-              style: Theme.of(context).textTheme.display2,
+              style: Theme.of(context).textTheme.headline3,
             ),
             Text(
               'OOPS! TRANG KHÔNG TỒN TẠI',

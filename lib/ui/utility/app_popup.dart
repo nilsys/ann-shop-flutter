@@ -1,6 +1,4 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-
 import 'package:flutter/material.dart';
 
 class AppPopup {

@@ -1,9 +1,7 @@
 import 'dart:math';
-
 import 'package:ann_shop_flutter/ui/inapp/media_item.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/utility/cover_provider.dart';
-import 'package:ann_shop_flutter/ui/inapp/blog_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

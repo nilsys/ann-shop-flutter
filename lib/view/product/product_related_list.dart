@@ -1,8 +1,6 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product_related.dart';
 import 'package:ann_shop_flutter/provider/load_more/load_more_product_relate_repository.dart';
-
 import 'package:ann_shop_flutter/ui/product/product_related_item.dart';
 import 'package:ann_shop_flutter/view/utility/custom_load_more_indicator_horizontal.dart';
 import 'package:flutter/material.dart';

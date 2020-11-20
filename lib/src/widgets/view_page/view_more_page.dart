@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:ann_shop_flutter/model/account/ac.dart';
-import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/download_background.dart';

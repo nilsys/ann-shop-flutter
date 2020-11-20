@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:ann_shop_flutter/provider/utility/gallery_saver_helper.dart';
 import 'package:ann_shop_flutter/src/controllers/utils/ann_download.dart';
 import 'package:ping9/ping9.dart';
@@ -9,8 +7,6 @@ import 'package:ann_shop_flutter/src/controllers/common/permission_controller.da
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/ui/utility/ask_login.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class ButtonDownload extends StatefulWidget {
   const ButtonDownload({this.imageName, this.cache = false});

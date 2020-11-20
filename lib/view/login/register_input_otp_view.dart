@@ -1,16 +1,12 @@
 import 'package:ann_shop_flutter/core/app_input_formatter.dart';
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
 import 'package:ann_shop_flutter/provider/utility/app_response.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
 import 'package:avatar_glow/avatar_glow.dart';
-
-import 'package:ping9/ping9.dart';
-import 'package:ping9/ping9.dart' as Ping9;
-
-import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:ping9/ping9.dart';
+import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 
 class RegisterInputOtpView extends StatefulWidget {
   @override
@@ -20,7 +16,6 @@ class RegisterInputOtpView extends StatefulWidget {
 class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
   final _timeout = 10;
   final _formKey = GlobalKey<FormState>();
-  bool _autoValidate = false;
 
   @override
   void initState() {
@@ -71,7 +66,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
       body: DismissKeyBoard(
         child: Form(
           key: _formKey,
-          autovalidate: _autoValidate,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Container(
             padding: EdgeInsets.all(defaultPadding),
             child: ListView(
@@ -105,7 +100,7 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: countDown <= 0
-                      ? Ping9.TextButton(
+                      ? MyTextButton(
                           'Gửi lại mã OTP',
                           onPressed: () {
                             _onResentOTP();
@@ -185,10 +180,6 @@ class _RegisterInputOtpViewState extends State<RegisterInputOtpView> {
         countDown = 0;
       });
       _onValidateOTP();
-    } else {
-      setState(() {
-        _autoValidate = true;
-      });
     }
   }
 

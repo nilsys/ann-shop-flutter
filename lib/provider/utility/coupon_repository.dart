@@ -1,15 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/utility/coupon.dart';
 import 'package:ann_shop_flutter/model/utility/promotion.dart';
-import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-import 'package:path/path.dart';
 
 class CouponRepository {
   factory CouponRepository() => instance;
@@ -17,45 +10,6 @@ class CouponRepository {
   CouponRepository._internal();
 
   static final CouponRepository instance = CouponRepository._internal();
-
-  Future<bool> uploadRetailerDetail(
-      {String base64Image, File picture, String compare}) async {
-    try {
-      final myHeader = {
-        "Content-Type": "application/json",
-        "Authorization": "Token ${AppHttp.tokenApi}"
-      };
-
-      final Map<String, String> mapData = {};
-      final stream =
-          http.ByteStream(DelegatingStream.typed(picture.openRead()));
-      final length = await picture.length();
-      final url = '${AppHttp.domain}flutter/upload/app-review-evidence';
-      final uri = Uri.parse(url);
-      // create multipart request
-      final MultipartRequest request = http.MultipartRequest(
-        "POST",
-        uri,
-      );
-      // multipart that takes file
-      final MultipartFile multipartFile = http.MultipartFile(
-          'image', stream, length,
-          filename: basename(picture.path));
-      // add file to multipart
-      request.fields.addAll(mapData);
-      request.headers.addAll(myHeader);
-      request.files.add(multipartFile);
-      // send
-//      final response = await request.send();
-      final response = await AppHttp.post(url,
-          body: jsonEncode({'imageBase64': base64Image}));
-
-      return response.statusCode == HttpStatus.ok;
-    } catch (e) {
-      print(e);
-    }
-    return false;
-  }
 
   /// http://backend.xuongann.com/api/flutter/
   Future<List<Coupon>> loadMyCoupon() async {

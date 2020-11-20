@@ -6,7 +6,6 @@ import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
 import 'package:ann_shop_flutter/src/route/route.dart';
 import 'package:ann_shop_flutter/src/models/ann_page.dart';
 
-
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:ann_shop_flutter/view/account/choose_city_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,6 @@ class UpdateInformation extends StatefulWidget {
 class _UpdateInformationState extends State<UpdateInformation> {
   final _formKey = GlobalKey<FormState>();
 
-  bool _autoValidate = false;
   Account account;
   TextEditingController _controllerBirthDate;
   TextEditingController _controllerCity;
@@ -74,7 +72,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
     super.dispose();
   }
 
-
   final double contentPadding = 12;
 
   @override
@@ -106,7 +103,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
             padding: EdgeInsets.symmetric(horizontal: defaultPadding),
             child: Form(
               key: _formKey,
-              autovalidate: _autoValidate,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: ListView(
                 children: <Widget>[
                   const SizedBox(height: 50),
@@ -239,7 +236,8 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         const SizedBox(
                           width: 50,
                         ),
-                        Text('Nữ', style: Theme.of(context).textTheme.headline4),
+                        Text('Nữ',
+                            style: Theme.of(context).textTheme.headline4),
                         Checkbox(
                           value: account.gender == 'F',
                           onChanged: (value) {
@@ -255,7 +253,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       ],
                     ),
                   ),
-                  if (_autoValidate && isNullOrEmpty(account.gender))
+                  if (isNullOrEmpty(account.gender))
                     Container(
                       padding: EdgeInsets.only(
                           bottom: contentPadding + 10, left: contentPadding),
@@ -337,10 +335,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
     if (form.validate() && isNullOrEmpty(account.gender) == false) {
       form.save();
       onFinish();
-    } else {
-      setState(() {
-        _autoValidate = true;
-      });
     }
   }
 

@@ -1,5 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:ping9/ping9.dart';
 

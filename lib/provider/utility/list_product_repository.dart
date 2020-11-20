@@ -12,7 +12,7 @@ class ListProductRepository {
 
   factory ListProductRepository() => instance;
 
-  ListProductRepository._internal() {}
+  ListProductRepository._internal();
 
   String getFilterParams(AppFilter filter) {
     var params = '';

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';

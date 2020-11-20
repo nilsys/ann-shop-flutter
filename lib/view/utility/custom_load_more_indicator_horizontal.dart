@@ -1,9 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:ping9/ping9.dart';
-import 'package:quiver/strings.dart';
 
 class CustomLoadMoreIndicatorHorizontal extends StatelessWidget {
   final LoadingMoreBase listSourceRepository;
@@ -71,7 +69,9 @@ class CustomLoadMoreIndicatorHorizontal extends StatelessWidget {
         }
         break;
       case IndicatorStatus.noMoreLoad:
-        widget = SizedBox(width: 15,);
+        widget = SizedBox(
+          width: 15,
+        );
         break;
       case IndicatorStatus.empty:
         widget = Container();
@@ -88,8 +88,7 @@ class CustomLoadMoreIndicatorHorizontal extends StatelessWidget {
     return widget;
   }
 
-  Widget _setBackGround(bool full, Widget widget, double height,
-      {BuildContext context}) {
+  Widget _setBackGround(bool full, Widget widget, double height) {
     return Container(
       child: widget,
       color: Colors.transparent,

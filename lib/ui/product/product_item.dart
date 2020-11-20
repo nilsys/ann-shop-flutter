@@ -56,7 +56,7 @@ class ProductItem extends StatelessWidget {
                 'Mã: ' + product.sku,
                 style: Theme.of(context)
                     .textTheme
-                    .subhead
+                    .subtitle1
                     .merge(TextStyle(color: Colors.grey)),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -68,7 +68,7 @@ class ProductItem extends StatelessWidget {
                 'Sỉ: ${product.regularDisplay}',
                 style: Theme.of(context)
                     .textTheme
-                    .body2
+                    .bodyText1
                     .merge(product.regularDisplayStyle),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/src/widgets/alert_dialog/alert_forgot_password.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
@@ -10,7 +9,6 @@ import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:ping9/ping9.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   ForgotPasswordView(this.phone);
@@ -22,16 +20,12 @@ class ForgotPasswordView extends StatefulWidget {
 }
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
-  //region Parameters
   final _formKey = GlobalKey<FormState>();
   final _formatDatePicker = 'd  M  yyyy';
 
   String birthDay;
   TextEditingController _controllerBirthDate;
   String password;
-
-  bool _autoValidate = false;
-  //endregion
 
   @override
   void initState() {
@@ -87,10 +81,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     if (form.validate()) {
       form.save();
       _onForgotPassword();
-    } else {
-      setState(() {
-        _autoValidate = true;
-      });
     }
   }
 
@@ -141,7 +131,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       body: DismissKeyBoard(
         child: Form(
           key: _formKey,
-          autovalidate: _autoValidate,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: defaultPadding),
             child: ListView(

@@ -1,5 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
-
 import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/account/account_register_state.dart';
 import 'package:ann_shop_flutter/provider/utility/account_repository.dart';
@@ -21,7 +19,6 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
   final _formKey = GlobalKey<FormState>();
   FocusNode _passwordFocus;
   FocusNode _confirmPasswordFocus;
-  bool _autoValidate = false;
 
   @override
   void initState() {
@@ -63,7 +60,7 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
         body: DismissKeyBoard(
           child: Form(
             key: _formKey,
-            autovalidate: _autoValidate,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: defaultPadding),
               child: ListView(
@@ -156,10 +153,6 @@ class _RegisterInputPasswordViewState extends State<RegisterInputPasswordView> {
       } else {
         onSubmit();
       }
-    } else {
-      setState(() {
-        _autoValidate = true;
-      });
     }
   }
 

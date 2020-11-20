@@ -1,4 +1,3 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/product.dart';
 import 'package:ann_shop_flutter/src/route/route.dart';
@@ -68,7 +67,7 @@ class ProductTitle extends StatelessWidget {
                       textAlign: TextAlign.left,
                       style: Theme.of(context)
                           .textTheme
-                          .subhead
+                          .subtitle1
                           .merge(TextStyle(color: Colors.grey)),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -81,7 +80,7 @@ class ProductTitle extends StatelessWidget {
                             'Sỉ: ${product.regularDisplay}',
                             style: Theme.of(context)
                                 .textTheme
-                                .body2
+                                .bodyText1
                                 .merge(product.regularDisplayStyle),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

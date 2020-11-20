@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ann_shop_flutter/model/account/ac.dart';
-import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/provider/product/product_repository.dart';
 import 'package:ann_shop_flutter/provider/utility/download_image_provider.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
@@ -10,6 +9,7 @@ import 'package:ann_shop_flutter/src/controllers/views/view_controller.dart';
 import 'package:ann_shop_flutter/ui/utility/app_snackbar.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutube/flutube.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ping9/ping9.dart';
 import 'package:provider/provider.dart';

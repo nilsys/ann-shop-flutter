@@ -90,7 +90,7 @@ class _PromotionItemState extends State<PromotionItem> {
                 style: Theme.of(context).textTheme.bodyText2),
             TextSpan(
                 text: widget.data.code,
-                style: Theme.of(context).textTheme.subtitle),
+                style: Theme.of(context).textTheme.subtitle2),
             TextSpan(
                 text:
                     ' \"${widget.data.name}\". Hạn sử dụng đến ngày ${Utility.fixFormatDate(widget.data.endDate)}',

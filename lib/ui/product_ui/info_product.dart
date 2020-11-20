@@ -1,11 +1,8 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ann_shop_flutter/provider/product/product_utility.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/product/category.dart';
 import 'package:ann_shop_flutter/model/product/product_detail.dart';
 import 'package:ann_shop_flutter/model/product/product_filter.dart';
-import 'package:ann_shop_flutter/provider/product/product_repository.dart';
-
 import 'package:ann_shop_flutter/view/list_product/list_product.dart';
 import 'package:flutter/material.dart';
 

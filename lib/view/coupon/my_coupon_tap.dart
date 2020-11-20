@@ -1,10 +1,6 @@
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/provider/utility/coupon_provider.dart';
 import 'package:ann_shop_flutter/ui/coupon/coupon_item.dart';
-
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

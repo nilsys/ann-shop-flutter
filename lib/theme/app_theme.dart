@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 final TextStyle _title = TextStyle(
@@ -24,18 +23,16 @@ final ThemeData primaryTheme = ThemeData(
       color: Colors.white,
     ),
     textTheme: TextTheme(
-      title: _title.merge(
-        TextStyle(
-          color: Colors.white,
-        ),
+      headline6: _title.merge(
+        TextStyle(color: Colors.white),
       ),
     ),
   ),
   textTheme: TextTheme(
-      title: _title,
-      display1: const TextStyle(
+      headline6: _title,
+      headline4: const TextStyle(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black87),
-      display2: const TextStyle(
+      headline3: const TextStyle(
           fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black87)),
   iconTheme: IconThemeData(
     color: Colors.grey[800],

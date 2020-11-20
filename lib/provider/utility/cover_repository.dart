@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:ann_shop_flutter/core/core.dart';
 import 'package:ping9/ping9.dart';
-import 'package:ann_shop_flutter/model/account/ac.dart';
 import 'package:ann_shop_flutter/model/utility/cover.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 
 class CoverRepository {
   static final CoverRepository instance = CoverRepository._internal();

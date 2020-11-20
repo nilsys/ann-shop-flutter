@@ -82,7 +82,7 @@ class InAppItem extends StatelessWidget {
                               Text(
                                 Utility.fixFormatDate(item.createdDate),
                                 textAlign: TextAlign.start,
-                                style: Theme.of(context).textTheme.subtitle,
+                                style: Theme.of(context).textTheme.subtitle2,
                               ),
                             ],
                           )

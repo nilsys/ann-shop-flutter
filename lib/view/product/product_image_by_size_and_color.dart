@@ -157,7 +157,7 @@ class _ProductImageBySizeAndColorState
   Widget _buildTitle(name) {
     return Text(
       name,
-      style: Theme.of(context).textTheme.subtitle,
+      style: Theme.of(context).textTheme.subtitle2,
     );
   }
 

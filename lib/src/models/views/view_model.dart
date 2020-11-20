@@ -1,4 +1,4 @@
-import 'package:flutube/src/models/my_video.dart';
+import 'package:flutube/flutube.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:quiver/strings.dart';
 import 'package:sprintf/sprintf.dart';

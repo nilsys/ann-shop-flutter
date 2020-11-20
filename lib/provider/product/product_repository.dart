@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutube/src/models/my_video.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_controller.dart';
 import 'package:ann_shop_flutter/model/copy_setting/copy_setting.dart';

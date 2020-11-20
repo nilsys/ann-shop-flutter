@@ -97,28 +97,28 @@ class _RootPageState extends State<RootPage>
         type: btNavBarType,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            label: 'Trang chủ',
             icon: _buildIcon(AppIcons.home_outline, size: 20),
             activeIcon: _buildIcon(AppIcons.home, size: 20),
-            title: Text('Trang chủ'),
           ),
           BottomNavigationBarItem(
+            label: 'Danh mục',
             icon: _buildIcon(AppIcons.th_large_outline, size: 18),
             activeIcon: _buildIcon(AppIcons.th_large_1, size: 20),
-            title: Text('Danh mục'),
           ),
           BottomNavigationBarItem(
+            label: 'Tìm kiếm',
             icon: _buildIcon(AppIcons.search, size: 20),
-            title: Text('Tìm kiếm'),
           ),
           BottomNavigationBarItem(
+            label: 'Thông báo',
             icon: _buildIcon(Icons.notifications_none),
             activeIcon: _buildIcon(Icons.notifications),
-            title: Text('Thông báo'),
           ),
           BottomNavigationBarItem(
+            label: 'Cá nhân',
             icon: _buildIcon(Icons.perm_identity),
             activeIcon: _buildIcon(Icons.person),
-            title: Text('Cá nhân'),
           ),
         ],
         currentIndex: rootPageProvider.selectedPage,

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math';
 import 'package:ann_shop_flutter/core/app_icons.dart';
 import 'package:ann_shop_flutter/model/account/ac.dart';
-import 'package:flutube/src/models/my_video.dart';
 import 'package:ann_shop_flutter/provider/utility/gallery_saver_helper.dart';
 import 'package:ann_shop_flutter/src/controllers/common/permission_controller.dart';
 import 'package:ann_shop_flutter/ui/utility/app_popup.dart';
@@ -14,6 +13,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutube/flutube.dart';
 import 'package:ping9/ping9.dart';
 import 'package:share/share.dart';
 

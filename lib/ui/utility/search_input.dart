@@ -54,7 +54,7 @@ class _SearchInputState extends State<SearchInput> {
               fillColor: Colors.transparent,
               hintStyle: Theme.of(context)
                   .textTheme
-                  .body1
+                  .bodyText2
                   .merge(TextStyle(fontStyle: FontStyle.italic)),
               hintText: 'Tên sản phẩm, Mã sản phẩm...'),
           onSubmitted: (text) {
